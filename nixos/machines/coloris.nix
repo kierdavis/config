@@ -13,7 +13,6 @@ in
     ../common
     ../extras/boot-efi.nix
     ../extras/desktop
-    ../extras/boinc.nix
     sambaClient
   ];
 
@@ -50,11 +49,6 @@ in
   # Additional filesystems (ZFS).
   fileSystems."/home" = {
     device = "coloris_lin_home/home";
-    fsType = "zfs";
-    options = ["noatime" "nodiratime"];
-  };
-  fileSystems."/var/data" = {
-    device = "coloris_lin_home/data";
     fsType = "zfs";
     options = ["noatime" "nodiratime"];
   };
