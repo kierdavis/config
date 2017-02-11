@@ -1,0 +1,126 @@
+diff --git a/nixos/modules/hardware/ckb.nix b/nixos/modules/hardware/ckb.nix
+new file mode 100644
+index 0000000000..8429572a88
+--- /dev/null
++++ b/nixos/modules/hardware/ckb.nix
+@@ -0,0 +1,40 @@
++{ config, lib, pkgs, ... }:
++
++with lib;
++
++let
++  cfg = config.hardware.ckb;
++
++in
++  {
++    options.hardware.ckb = {
++      enable = mkEnableOption "the Corsair keyboard/mouse driver";
++
++      package = mkOption {
++        type = types.package;
++        default = pkgs.ckb;
++        defaultText = "pkgs.ckb";
++        description = ''
++          The package implementing the Corsair keyboard/mouse driver.
++        '';
++      };
++    };
++
++    config = mkIf cfg.enable {
++      environment.systemPackages = [ cfg.package ];
++
++      systemd.services.ckb = {
++        description = "Corsair Keyboard Daemon";
++        wantedBy = ["multi-user.target"];
++        script = "${cfg.package}/bin/ckb-daemon";
++        serviceConfig = {
++          Restart = "always";
++          StandardOutput = "syslog";
++        };
++      };
++    };
++
++    meta = {
++      maintainers = with lib.maintainers; [ kierdavis ];
++    };
++  }
+diff --git a/pkgs/tools/misc/ckb/ckb-animations-location.patch b/pkgs/tools/misc/ckb/ckb-animations-location.patch
+new file mode 100644
+index 0000000000..07dcfab86b
+--- /dev/null
++++ b/pkgs/tools/misc/ckb/ckb-animations-location.patch
+@@ -0,0 +1,12 @@
++diff --git a/src/ckb/animscript.cpp b/src/ckb/animscript.cpp
++index d0b7f46..d7a3459 100644
++--- a/src/ckb/animscript.cpp
+++++ b/src/ckb/animscript.cpp
++@@ -30,7 +30,7 @@ QString AnimScript::path(){
++ #ifdef __APPLE__
++     return QDir(QApplication::applicationDirPath() + "/../Resources").absoluteFilePath("ckb-animations");
++ #else
++-    return QDir(QApplication::applicationDirPath()).absoluteFilePath("ckb-animations");
+++    return QDir(QApplication::applicationDirPath() + "/../libexec").absoluteFilePath("ckb-animations");
++ #endif
++ }
+diff --git a/pkgs/tools/misc/ckb/default.nix b/pkgs/tools/misc/ckb/default.nix
+new file mode 100644
+index 0000000000..f2dc5150bb
+--- /dev/null
++++ b/pkgs/tools/misc/ckb/default.nix
+@@ -0,0 +1,43 @@
++{ stdenv, fetchFromGitHub, libudev, pkgconfig, qtbase, qmakeHook, zlib }:
++
++stdenv.mkDerivation rec {
++  version = "0.2.6";
++  name = "ckb-${version}";
++
++  src = fetchFromGitHub {
++    owner = "ccMSC";
++    repo = "ckb";
++    rev = "v${version}";
++    sha256 = "04h50qdzsbi77mj62jghr52i35vxvmhnvsb7pdfdq95ryry8bnwm";
++  };
++
++  buildInputs = [
++    libudev
++    qtbase
++    zlib
++  ];
++
++  nativeBuildInputs = [
++    pkgconfig
++    qmakeHook
++  ];
++
++  patches = [
++    ./ckb-animations-location.patch
++  ];
++
++  doCheck = false;
++
++  installPhase = ''
++    install -D --mode 0755 --target-directory $out/bin bin/ckb-daemon bin/ckb
++    install -D --mode 0755 --target-directory $out/libexec/ckb-animations bin/ckb-animations/*
++  '';
++
++  meta = with stdenv.lib; {
++    description = "Driver and configuration tool for Corsair keyboards and mice";
++    homepage = https://github.com/ccMSC/ckb;
++    license = licenses.gpl2;
++    platforms = platforms.linux;
++    maintainers = with maintainers; [ kierdavis ];
++  };
++}
+diff --git a/pkgs/top-level/all-packages.nix b/pkgs/top-level/all-packages.nix
+index 679d803799..3a5143a74d 100644
+--- a/pkgs/top-level/all-packages.nix
++++ b/pkgs/top-level/all-packages.nix
+@@ -1267,6 +1267,8 @@ in
+ 
+   cloud-utils = callPackage ../tools/misc/cloud-utils { };
+ 
++  ckb = qt5.callPackage ../tools/misc/ckb { };
++
+   compass = callPackage ../development/tools/compass { };
+ 
+   convmv = callPackage ../tools/misc/convmv { };

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+iface="$BLOCK_INSTANCE"
+
+if [ "$(cat /sys/class/net/$iface/operstate)" = "down" ]; then
+  echo "eth: down"
+  echo "E: down"
+  echo '#FF0000'
+else
+  echo "eth: up"
+  echo "E: up"
+  echo '#00FF00'
+fi

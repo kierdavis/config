@@ -1,0 +1,19 @@
+#!/bin/sh
+
+data=$(nvidia-smi --format=csv,noheader,nounits --query-gpu=memory.used,memory.total | sed 's/ //g')
+mem_used=$(echo "$data" | cut -d ',' -f 1)
+mem_total=$(echo "$data" | cut -d ',' -f 2)
+
+mem_perc=$(echo "$mem_used*100/$mem_total" | bc)
+
+if [ $mem_perc -ge 90 ]; then
+  color='#FF0000'
+elif [ $mem_perc -ge 50 ]; then
+  color='#FFA500'
+else
+  color='#FFFF00'
+fi
+
+echo "vram: $mem_perc%"
+echo "V: $mem_perc"
+echo $color

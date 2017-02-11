@@ -1,0 +1,5 @@
+#!/bin/sh
+
+date '+%a %Y-%m-%d %H:%M'
+date '+%Y-%m-%d %H:%M'
+echo '#FFFFFF'

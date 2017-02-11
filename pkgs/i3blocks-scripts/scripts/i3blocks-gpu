@@ -1,0 +1,17 @@
+#!/bin/sh
+
+data=$(nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,pstate | sed 's/ //g')
+temp=$(echo "$data" | cut -d ',' -f 1)
+pstate=$(echo "$data" | cut -d ',' -f 2)
+
+if [ $temp -ge 65 ]; then
+  color='#FF0000'
+elif [ $temp -ge 40 ]; then
+  color='#FFA500'
+else
+  color='#FFFF00'
+fi
+
+echo "gpu: $temp°C $pstate"
+echo "G: $temp°C $pstate"
+echo $color

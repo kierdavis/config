@@ -1,0 +1,13 @@
+{ config, lib, pkgs, ... }:
+
+{
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+  hardware.enableAllFirmware = true;
+
+  # Plymouth splash screen.
+  boot.plymouth.enable = false;
+
+  # Microcode updates
+  hardware.cpu.intel.updateMicrocode = config.machine.cpu.intel;
+}

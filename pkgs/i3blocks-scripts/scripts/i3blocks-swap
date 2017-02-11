@@ -1,0 +1,18 @@
+#!/bin/sh
+
+total=$(grep SwapTotal /proc/meminfo | tr -dc '[:digit:]')
+avail=$(grep SwapFree /proc/meminfo | tr -dc '[:digit:]')
+
+used_perc=$(echo "(($total-$avail)*100)/$total" | bc)
+
+if [ $used_perc -ge 90 ]; then
+  color='#FF0000'
+elif [ $used_perc -ge 50 ]; then
+  color='#FFA500'
+else
+  color='#FFFF00'
+fi
+
+echo "swap: $used_perc%"
+echo "S: $used_perc%"
+echo $color

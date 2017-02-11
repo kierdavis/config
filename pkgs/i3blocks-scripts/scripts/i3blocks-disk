@@ -1,0 +1,8 @@
+#!/bin/sh
+
+path="$BLOCK_INSTANCE"
+used=$(df $path --human-readable --output=used | tail -1 | tr -d ' ')
+
+echo "$path: $used"
+echo "$path: $used"
+echo '#FFFFFF'

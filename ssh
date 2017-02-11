@@ -1,0 +1,22 @@
+Host sr-gerrit
+    HostName git.studentrobotics.org
+    Port 29418
+    User kdavis
+    IdentityFile /home/kier/.ssh/id_rsa
+
+Host uglogin
+    HostName uglogin.ecs.soton.ac.uk
+    User kad2g15
+    PasswordAuthentication yes
+
+Host nightshade
+    HostName 82.9.123.20
+    Port 9090
+    User kier
+    IdentityFile /home/kier/.ssh/id_rsa
+
+Host nocturn
+    HostName 82.9.123.20
+    Port 9093
+    User kier
+    IdentityFile /home/kier/.ssh/id_rsa

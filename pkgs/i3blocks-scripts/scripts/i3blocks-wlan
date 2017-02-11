@@ -1,0 +1,13 @@
+#!/bin/sh
+
+iface="$BLOCK_INSTANCE"
+
+if [ "$(cat /sys/class/net/$iface/operstate)" = "down" ]; then
+  echo "wlan: down"
+  echo "W: down"
+  echo '#FF0000'
+else
+  echo "wlan: up"
+  echo "W: up"
+  echo '#00FF00'
+fi

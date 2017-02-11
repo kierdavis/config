@@ -1,0 +1,17 @@
+#!/bin/sh
+
+temp_file="/sys/class/thermal/$BLOCK_INSTANCE/temp"
+milli_temp=$(cat "$temp_file")
+temp=$(echo "$milli_temp/1000" | bc)
+
+if [ "$temp" -ge 65 ]; then
+  color='#FF0000'
+elif [ "$temp" -ge 40 ]; then
+  color='#FFA500'
+else
+  color='#FFFF00'
+fi
+
+echo "cpu: $temp°C"
+echo "C: $temp°C"
+echo $color

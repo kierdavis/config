@@ -1,0 +1,8 @@
+[user]
+	email = kierdavis@gmail.com
+	name = Kier Davis
+	signingkey = E9EFA7E77400759DA6ADB9E08139C5FCEDA73ABF
+[commit]
+	gpgSign = true
+[gpg]
+	program = /run/current-system/sw/bin/gpg2

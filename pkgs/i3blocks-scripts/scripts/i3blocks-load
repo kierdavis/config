@@ -1,0 +1,16 @@
+#!/bin/sh
+
+load=$(cut -d ' ' -f 1 /proc/loadavg)
+load_floor=$(echo $load | cut -d '.' -f 1)
+
+if [ $load_floor -ge 4 ]; then
+  color='#FF0000'
+elif [ $load_floor -ge 2 ]; then
+  color='#FFA500'
+else
+  color='#FFFF00'
+fi
+
+echo "load: $load"
+echo "L: $load"
+echo $color
