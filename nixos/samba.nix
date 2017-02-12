@@ -25,6 +25,10 @@ rec {
       comment = "Archive";
       writeable = true;
     };
+    misc = {
+      comment = "Miscellaneous";
+      writeable = true;
+    };
  };
 
   server = { config, lib, pkgs, ... }: {
