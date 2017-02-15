@@ -9,7 +9,7 @@ fi
 nixpkgs="/etc/nixos/nixpkgs"
 patches="/home/kier/config/nixos/patches"
 upstream_repo="https://github.com/NixOS/nixpkgs-channels"
-upstream_branch="f66d7823ece6fa4bf99e56fa4b4cb0ab16522839" # "upstream/nixos-unstable"
+upstream_branch="4450327c062a41f7df2f6756057df4ebb6548011" # "upstream/nixos-unstable"
 patched_branch="kier"
 
 mkdir -p $patches
