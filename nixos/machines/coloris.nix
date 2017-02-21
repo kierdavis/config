@@ -46,6 +46,8 @@ in
 
   hardware.ckb.enable = true;
 
+  services.xserver.xrandrHeads = ["DP-4" "HDMI-0"];
+
   # Additional filesystems (ZFS).
   fileSystems."/home" = {
     device = "coloris_lin_home/home";
