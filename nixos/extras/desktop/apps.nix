@@ -18,13 +18,13 @@ in {
     gnome3.eog
     i3blocks
     i3blocks-scripts
-    kde4.quasselClientWithoutKDE
     ledger
     lock
     multimc
     networkmanagerapplet
     pavucontrol
     python27Packages.youtube-dl
+    quasselClient
     screenshot
     skype
     steam
