@@ -11,4 +11,5 @@ in {
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true; # Might be necessary for some Steam games.
   hardware.pulseaudio.configFile = pulseConfig;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
 }
