@@ -18,7 +18,7 @@ let
       portNumber = 4242;
     };
 
-    systemd.services.quassel.after = [ "postgresql.service" ];
+    systemd.services.quassel.after = [ "network.target" "network-online.target" "postgresql.service" ];
   };
 
   transmission = { config, lib, pkgs, ... }: {
@@ -39,6 +39,7 @@ let
     };
 
     systemd.services.transmission.serviceConfig.ExecStartPre = lib.mkForce "";
+    systemd.services.quassel.after = [ "network.target" "network-online.target" ];
   };
 
 in
