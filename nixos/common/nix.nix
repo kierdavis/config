@@ -42,4 +42,12 @@ in {
     useDefaultShell = true;
     openssh.authorizedKeys.keys = [ secrets.keyPairs.nixbuildSSH.public ];
   };
+
+  nix.binaryCaches = [ "file:///mnt/nocturn/nix-cache" ];
+  nix.trustedBinaryCaches = [ "file:///mnt/nocturn/nix-cache" ];
+  nix.binaryCachePublicKeys = [ secrets.keyPairs.nixCache.public ];
+  environment.etc."nix/nix-cache.sec" = {
+    mode = "0444";
+    text = secrets.keyPairs.nixCache.private;
+  };
 }
