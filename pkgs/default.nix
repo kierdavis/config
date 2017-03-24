@@ -7,6 +7,7 @@ pkgs: pkgs // {
   lock = pkgs.callPackage ./lock { };
   mountext = pkgs.callPackage ./mountext { };
   passchars = pkgs.callPackage ./passchars { pythonPackages = pkgs.python27Packages; };
+  publish = pkgs.callPackage ./publish { };
   screenshot = pkgs.callPackage ./screenshot { eog = pkgs.gnome3.eog; };
   umountext = pkgs.callPackage ./umountext { };
 }

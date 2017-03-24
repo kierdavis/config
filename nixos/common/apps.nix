@@ -32,6 +32,7 @@ in {
     passchars
     pbzip2
     pigz
+    publish
     pv
     umountext
     unzip
