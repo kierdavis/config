@@ -6,7 +6,7 @@ log=/tmp/nix-build.log
 cache=/mnt/nocturn/nix-cache
 secret_key=/etc/nix/nix-cache.sec
 
-nix-build $config/nixos -A coloris.system -A ouroboros.system -A nocturn.system | tee $log
+nix-build --no-out-link $config/nixos -A coloris.system -A ouroboros.system -A nocturn.system | tee $log
 
 paths=$(tail -3 $log)
 
