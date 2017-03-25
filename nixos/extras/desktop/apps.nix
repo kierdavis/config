@@ -18,6 +18,7 @@ in {
     gnome3.eog
     i3blocks
     i3blocks-scripts
+    i3lock
     ledger
     lock
     multimc
