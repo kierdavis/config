@@ -72,6 +72,8 @@ rec {
           "noauto"                         # don't mount at boot
           "x-systemd.automount"            # mount automatically when accessed
           "x-systemd.idle-timeout=10min"   # unmount automatically when not used for 10 minutes
+          "noatime"                        # don't keep access times up to date - makes navigation much more responsive
+          "nodiratime"
         ];
       }) selectedShares;
     };
