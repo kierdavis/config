@@ -122,7 +122,7 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume alsa_output.usb-C-Media_
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.iec958-stereo -5%
 bindsym XF86AudioMute exec pactl set-sink-mute alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.iec958-stereo toggle
 
-bindsym $mod+l exec /home/kier/bin/lock
+bindsym $mod+l exec i3lock
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
