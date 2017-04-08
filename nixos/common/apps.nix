@@ -27,6 +27,7 @@ in {
     file
     git
     gnupg
+    manpages
     mountext
     pass
     passchars
