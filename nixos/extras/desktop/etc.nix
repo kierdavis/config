@@ -12,10 +12,6 @@
     interval=10
     instance=/home
 
-    [disk]
-    interval=10
-    instance=/var/data
-
     [eth]
     interval=10
     instance=${config.machine.i3blocks.ethInterface}
