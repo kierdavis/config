@@ -19,9 +19,7 @@ in {
     i3blocks
     i3blocks-scripts
     i3lock
-    ledger
     lock
-    multimc
     networkmanagerapplet
     pavucontrol
     python27Packages.youtube-dl
