@@ -11,6 +11,10 @@
     22    # SSH
   ];
 
+  # Allow the 'gre' (Generic Routing Encapsulation) IP protocol.
+  # The Windows PPTP VPN client uses this; if it is run in a VM, its traffic will still need to go through this firewall.
+  #networking.firewall.extraCommands = "ip46tables -A nixos-fw -p gre -j nixos-fw-accept";
+
   # Bluetooth
   hardware.bluetooth.enable = config.machine.bluetooth;
 
