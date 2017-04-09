@@ -7,9 +7,6 @@
   # Firewall
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
-  networking.firewall.allowedTCPPorts = [
-    22    # SSH
-  ];
 
   # Allow the 'gre' (Generic Routing Encapsulation) IP protocol.
   # The Windows PPTP VPN client uses this; if it is run in a VM, its traffic will still need to go through this firewall.
