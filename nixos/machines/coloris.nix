@@ -48,11 +48,15 @@ in
 
   services.xserver.xrandrHeads = ["DP-4" "HDMI-0"];
 
-  # Additional filesystems (ZFS).
+  # Additional filesystems (LVM).
   fileSystems."/home" = {
-    device = "coloris_lin_home/home";
-    fsType = "zfs";
+    device = "/dev/disk/by-uuid/7ea83533-f78b-4deb-94ed-6bef5dbfa8e4";
+    fsType = "ext4";
     options = ["noatime" "nodiratime"];
+  };
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/c522b9a8-b534-428c-9e4e-6d297ed9dba4";
+    fsType = "ext4";
   };
 
   environment.systemPackages = [
