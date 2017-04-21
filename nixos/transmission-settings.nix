@@ -64,15 +64,15 @@
   seed-queue-size = 10;
 
   ### RPC ###
-  rpc-authentication-required = false;
-  #rpc-bind-address = "";
+  rpc-authentication-required = true;
+  rpc-bind-address = "0.0.0.0";
   rpc-enabled = true;
-  #rpc-password
+  rpc-password = (import ./secrets.nix).transmissionWebPassword;
   rpc-port = 9091;
   #rpc-url
-  #rpc-username
+  rpc-username = "kier";
   rpc-whitelist = "127.0.0.1,192.168.*.*";  # comma separated
-  rpc-whitelist-enabled = true;
+  rpc-whitelist-enabled = false;
 
   ### SCHEDULING ###
   alt-speed-time-enabled = false;
