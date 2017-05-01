@@ -50,9 +50,4 @@ in
     fsType = "zfs";
     options = ["noatime" "nodiratime"];
   };
-  fileSystems."/var/data" = {
-    device = "ouroboros_lin_home/data";
-    fsType = "zfs";
-    options = ["noatime" "nodiratime"];
-  };
 }
