@@ -12,6 +12,7 @@ in
   imports = [
     ../common
     ../extras/boot-efi.nix
+    ../extras/boinc.nix
     ../extras/desktop
     sambaClient
   ];
