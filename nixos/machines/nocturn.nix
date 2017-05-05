@@ -42,6 +42,19 @@ let
     systemd.services.quassel.after = [ "network.target" "network-online.target" ];
   };
 
+  http = { config, lib, pkgs, ... }: {
+    services.httpd = {
+      enable = true;
+      adminAddr = "kierdavis@gmail.com";
+      documentRoot = "/srv/http";
+      listen = [ { ip = "*"; port = 80; } ];
+    };
+
+    networking.firewall.allowedTCPPorts = [ 80 ];
+
+    users.users.kier.extraGroups = [ "wwwrun" ];
+  };
+
 in
 
 { config, lib, pkgs, ... }:
@@ -55,6 +68,7 @@ in
     postgresql
     quassel
     transmission
+    http
   ];
 
   machine = {
