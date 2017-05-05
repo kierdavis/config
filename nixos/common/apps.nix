@@ -46,4 +46,5 @@ in {
   ];
 
   environment.variables.PKGS = "/etc/nixos/nixpkgs/pkgs/top-level/all-packages.nix";
+  environment.variables.MY_GPG_KEY = "E9EFA7E77400759DA6ADB9E08139C5FCEDA73ABF";
 }
