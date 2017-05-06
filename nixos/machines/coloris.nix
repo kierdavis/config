@@ -1,12 +1,14 @@
+{ config, lib, pkgs, ... }:
+
 let
+  localPkgs = import ../../pkgs pkgs;
+
   samba = import ../samba.nix;
   sambaClient = samba.client {
     host = "192.168.1.24";
     port = 445;
   };
 in
-
-{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -61,7 +63,8 @@ in
   };
 
   environment.systemPackages = [
-    pkgs.google-musicmanager
-    pkgs.keybase
+    localPkgs.boincgpuctl
+    localPkgs.google-musicmanager
+    localPkgs.keybase
   ];
 }

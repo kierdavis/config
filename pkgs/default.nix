@@ -1,5 +1,6 @@
 pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
+  boincgpuctl = pkgs.callPackage ./boincgpuctl { };
   ecs-rdp = pkgs.callPackage ./ecs-rdp { };
   ecs-rdp-tunnel = pkgs.callPackage ./ecs-rdp-tunnel { };
   ftb-launcher = pkgs.callPackage ./ftb-launcher { };

@@ -124,6 +124,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute alsa_output.usb-C-Media_Electroni
 
 bindsym $mod+l exec i3lock
 
+bindsym $mod+g exec /run/current-system/sw/bin/boincgpuctl toggle
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
   # These bindings trigger as soon as you enter the resize mode
