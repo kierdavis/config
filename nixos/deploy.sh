@@ -7,6 +7,11 @@ for arg in $*; do
   attrs="$attrs -A $arg"
 done
 
+if [ -z "$attrs" ]; then
+  echo "no attributes supplied (try '$0 all')"
+  exit 2
+fi
+
 config=/home/kier/config
 log=/tmp/nix-build.log
 cache=/mnt/nocturn/nix-cache
