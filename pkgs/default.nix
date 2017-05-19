@@ -1,8 +1,9 @@
 pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
   boincgpuctl = pkgs.callPackage ./boincgpuctl { };
-  ecs-rdp = pkgs.callPackage ./ecs-rdp { };
-  ecs-rdp-tunnel = pkgs.callPackage ./ecs-rdp-tunnel { };
+  ecs-mount = pkgs.callPackage ./ecs-mount { };
+  ecs-rdp-roo = pkgs.callPackage ./ecs-rdp-roo { };
+  ecs-umount = pkgs.callPackage ./ecs-umount { };
   ftb-launcher = pkgs.callPackage ./ftb-launcher { };
   i3blocks-scripts = pkgs.callPackage ./i3blocks-scripts { nvidia_x11 = pkgs.linuxPackages.nvidia_x11; };
   lock = pkgs.callPackage ./lock { };

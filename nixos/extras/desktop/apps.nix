@@ -11,8 +11,7 @@ in {
     beets
     chromium
     dmenu
-    ecs-rdp
-    ecs-rdp-tunnel
+    ecs-rdp-roo
     evince
     gimp
     gnome3.eog

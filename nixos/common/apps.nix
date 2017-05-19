@@ -24,6 +24,8 @@ in {
 
   environment.systemPackages = with localPkgs; [
     bc
+    ecs-mount
+    ecs-umount
     file
     git
     gnupg
