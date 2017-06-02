@@ -17,7 +17,7 @@ log=/tmp/nix-build.log
 cache=/mnt/nocturn/nix-cache
 secret_key=/etc/nix/nix-cache.sec
 
-nix-build --no-out-link $config/nixos $attrs | tee $log
+nix-build -Q --no-out-link $config/nixos $attrs | tee $log
 
 paths=$(tail $log | grep '^/nix/store')
 
