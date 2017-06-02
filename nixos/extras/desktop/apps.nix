@@ -25,6 +25,7 @@ in {
     quasselClient
     screenshot
     skype
+    spotify
     steam
     sublime3
     terminator
