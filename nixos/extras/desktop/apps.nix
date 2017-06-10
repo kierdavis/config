@@ -13,14 +13,17 @@ in {
     dmenu
     ecs-rdp-roo
     evince
+    geda
     gimp
     gnome3.eog
     i3blocks
     i3blocks-scripts
     i3lock
     lock
+    logisim
     networkmanagerapplet
     pavucontrol
+    pcb
     python27Packages.youtube-dl
     quasselClient
     screenshot
