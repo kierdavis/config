@@ -34,6 +34,4 @@ in {
     terminator
     vlc
   ];
-
-  environment.variables.LEDGER_FILE = "/mnt/nocturn/documents/accounts/top.journal";
 }
