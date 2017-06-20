@@ -50,4 +50,9 @@ in {
     mode = "0444";
     text = secrets.keyPairs.nixCache.private;
   };
+
+  nix.gc = {
+    automatic = true;
+    dates = "03:00";
+  };
 }
