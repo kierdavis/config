@@ -53,6 +53,7 @@ in {
 
   nix.gc = {
     automatic = true;
-    dates = "03:00";
+    dates = "19:00";
+    options = "--delete-older-than 14d";
   };
 }
