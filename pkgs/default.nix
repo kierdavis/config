@@ -9,6 +9,7 @@ pkgs: pkgs // {
   lock = pkgs.callPackage ./lock { };
   mountext = pkgs.callPackage ./mountext { };
   passchars = pkgs.callPackage ./passchars { pythonPackages = pkgs.python27Packages; };
+  pysolfc = pkgs.callPackage ./pysolfc { };
   publish = pkgs.callPackage ./publish { };
   redstore = pkgs.callPackage ./redstore { };
   screenshot = pkgs.callPackage ./screenshot { eog = pkgs.gnome3.eog; };
