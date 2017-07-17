@@ -5,7 +5,7 @@ Host sr-gerrit
     IdentityFile /home/kier/.ssh/id_rsa
 
 Host nocturn
-    HostName 82.9.123.20
+    HostName soton
     Port 9093
     User kier
     IdentityFile /home/kier/.ssh/id_rsa
