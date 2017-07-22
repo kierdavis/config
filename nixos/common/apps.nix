@@ -24,6 +24,7 @@ in {
 
   environment.systemPackages = with localPkgs; [
     bc
+    cache
     ecs-mount
     ecs-umount
     file

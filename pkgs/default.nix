@@ -1,6 +1,7 @@
 pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
   boincgpuctl = pkgs.callPackage ./boincgpuctl { };
+  cache = pkgs.callPackage ./cache { };
   ecs-mount = pkgs.callPackage ./ecs-mount { };
   ecs-rdp-roo = pkgs.callPackage ./ecs-rdp-roo { };
   ecs-umount = pkgs.callPackage ./ecs-umount { };
