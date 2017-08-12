@@ -55,6 +55,22 @@ let
     users.users.kier.extraGroups = [ "wwwrun" ];
   };
 
+  hydra = { config, lib, pkgs, ... }: {
+    services.hydra = {
+      enable = true;
+      dbi = "dbi:Pg:dbname=hydra;user=hydra;";
+      extraEnv = {
+        HYDRA_DATA = "/srv/hydra";
+      };
+      listenHost = "*";
+      port = 3000;
+      hydraURL = "http://soton:9094/";
+      notificationSender = "hydra@nocturn";
+    };
+
+    networking.firewall.allowedTCPPorts = [ 3000 ];
+  };
+
 in
 
 { config, lib, pkgs, ... }:
@@ -69,6 +85,7 @@ in
     quassel
     transmission
     http
+    hydra
   ];
 
   machine = {

@@ -50,4 +50,10 @@ in {
     mode = "0444";
     text = secrets.keyPairs.nixCache.private;
   };
+
+  nix.gc = {
+    automatic = true;
+    dates = "19:00";
+    options = "--delete-older-than 14d";
+  };
 }

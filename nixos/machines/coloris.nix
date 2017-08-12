@@ -5,8 +5,8 @@ let
 
   samba = import ../samba.nix;
   sambaClient = samba.client {
-    host = "192.168.1.24";
-    port = 445;
+    host = "soton";
+    port = 9092;
   };
 in
 

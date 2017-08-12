@@ -18,5 +18,6 @@
   # /etc/hosts
   networking.extraHosts = ''
     176.9.121.81 beagle2
+    81.106.244.140 soton
   '';
 }

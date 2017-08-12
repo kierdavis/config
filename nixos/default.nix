@@ -20,10 +20,7 @@ in
       }).system;
     };
 
-    texlive = nixpkgs.texlive.combined.scheme-full;
-
     all = {
       inherit (machines) coloris ouroboros nocturn;
-      inherit texlive;
     };
   }
