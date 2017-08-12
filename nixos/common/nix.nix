@@ -43,9 +43,9 @@ in {
     openssh.authorizedKeys.keys = [ secrets.keyPairs.nixbuildSSH.public ];
   };
 
-  nix.binaryCaches = [ "https://cache.nixos.org/" "file:///mnt/nocturn/nix-cache" ];
-  nix.trustedBinaryCaches = [ "file:///mnt/nocturn/nix-cache" ];
-  nix.binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" secrets.keyPairs.nixCache.public ];
+#  nix.binaryCaches = [ "https://cache.nixos.org/" "file:///mnt/nocturn/nix-cache" ];
+#  nix.trustedBinaryCaches = [ "file:///mnt/nocturn/nix-cache" ];
+#  nix.binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" secrets.keyPairs.nixCache.public ];
   environment.etc."nix/nix-cache.sec" = {
     mode = "0444";
     text = secrets.keyPairs.nixCache.private;
