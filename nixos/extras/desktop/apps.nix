@@ -24,7 +24,6 @@ in {
     pavucontrol
     pcb
     pysolfc
-    python27Packages.youtube-dl
     quasselClient
     screenshot
     skype

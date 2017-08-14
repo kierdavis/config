@@ -39,6 +39,7 @@ in {
     pigz
     publish
     pv
+    python27Packages.youtube-dl
     umountext
     unzip
     wget
