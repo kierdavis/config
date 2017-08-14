@@ -8,7 +8,6 @@ in {
   virtualisation.virtualbox.host.enable = config.machine.vboxHost;
 
   environment.systemPackages = with localPkgs; [
-    beets
     chromium
     dmenu
     ecs-rdp-roo
