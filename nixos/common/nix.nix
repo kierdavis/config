@@ -7,11 +7,6 @@ in {
   nix.maxJobs = config.machine.cpu.cores;
   nix.buildCores = config.machine.cpu.cores;
 
-  nix.nixPath = lib.mkForce [
-    "nixpkgs=/etc/nixos/nixpkgs"
-    "nixos-config=/etc/nixos/configuration.nix"
-  ];
-
   nixpkgs.config.allowUnfree = true;
 
   # Shared signing key.

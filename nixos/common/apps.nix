@@ -50,6 +50,6 @@ in {
     (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
   ];
 
-  environment.variables.PKGS = "/etc/nixos/nixpkgs/pkgs/top-level/all-packages.nix";
+  environment.variables.PKGS = "/nix/var/nix/profiles/per-user/root/channels/nixos/pkgs/top-level/all-packages.nix";
   environment.variables.MY_GPG_KEY = "E9EFA7E77400759DA6ADB9E08139C5FCEDA73ABF";
 }
