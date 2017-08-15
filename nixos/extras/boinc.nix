@@ -3,6 +3,8 @@
 let
   boincDir = "/var/lib/boinc";
 in {
+  imports = [ ../lib/boinc-fhs.nix ];
+
   fileSystems.boinc = {
     mountPoint = boincDir;
     device = "/dev/hdd/boinc";
@@ -10,7 +12,7 @@ in {
     options = ["noatime" "nodiratime"];
   };
 
-  services.boinc = {
+  services.boinc-fhs = {
     enable = true;
     dataDir = boincDir;
     allowRemoteGuiRpc = true;
