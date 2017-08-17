@@ -31,6 +31,7 @@ in {
     file
     git
     gnupg
+    htop
     manpages
     mountext
     pass
