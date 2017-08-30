@@ -48,6 +48,7 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
 
   hardware.ckb.enable = true;
+  hardware.ckb.package = pkgs.libsForQt5.callPackage ../lib/ckb-next.nix {};
 
   services.xserver.xrandrHeads = ["DP-4" "HDMI-0"];
 
