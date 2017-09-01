@@ -4,7 +4,7 @@ let
   secrets = import ../secrets.nix;
 
 in {
-  nix.maxJobs = config.machine.cpu.cores;
+  nix.buildCores = config.machine.cpu.cores;
 
   nixpkgs.config.allowUnfree = true;
 
