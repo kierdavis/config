@@ -34,6 +34,7 @@ in {
     htop
     manpages
     mountext
+    nmap
     pass
     passchars
     pbzip2
