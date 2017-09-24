@@ -20,6 +20,7 @@ in {
     i3lock
     lock
     logisim
+    multimc
     networkmanagerapplet
     pavucontrol
     pcb
