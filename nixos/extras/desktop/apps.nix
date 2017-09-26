@@ -12,6 +12,7 @@ in {
     dmenu
     ecs-rdp-roo
     evince
+    ftb-launcher
     geda
     gimp
     gnome3.eog
