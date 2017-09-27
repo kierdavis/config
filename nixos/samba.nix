@@ -29,10 +29,6 @@ rec {
       comment = "Miscellaneous";
       writeable = true;
     };
-    nix-cache = {
-      comment = "Nix binary cache";
-      writeable = true;
-    };
  };
 
   server = { config, lib, pkgs, ... }: {
