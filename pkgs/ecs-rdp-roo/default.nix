@@ -1,3 +1,7 @@
+# SUPERSEDED BY https://remotedesktop.soton.ac.uk/
+
+
+
 { stdenv, writeScriptBin, freerdp }:
 
 writeScriptBin "ecs-rdp-roo" ''
