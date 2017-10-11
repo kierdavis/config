@@ -6,6 +6,8 @@ let
       enable = true;
       dataDir = "/srv/postgresql";
     };
+
+    networking.firewall.allowedTCPPorts = [ 5432 ];
   };
 
   quassel = { config, lib, pkgs, ... }: {
