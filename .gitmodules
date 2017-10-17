@@ -1,0 +1,4 @@
+[submodule "pkgs/home-manager"]
+	path = pkgs/home-manager
+	url = https://github.com/rycee/home-manager
+	branch = release-17.09
