@@ -22,4 +22,5 @@ in {
     dates = "Mon 19:00";
     options = "--delete-older-than 14d";
   };
+  systemd.timers.nix-gc.timerConfig.Persistent = true;
 }
