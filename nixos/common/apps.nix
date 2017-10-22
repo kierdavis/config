@@ -25,8 +25,6 @@ in {
   environment.systemPackages = with localPkgs; [
     bc
     beets
-    ecs-mount
-    ecs-umount
     file
     git
     gnupg
@@ -41,6 +39,8 @@ in {
     publish
     pv
     python27Packages.youtube-dl
+    soton-mount
+    soton-umount
     umountext
     unzip
     wget
