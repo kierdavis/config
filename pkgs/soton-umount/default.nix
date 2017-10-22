@@ -2,5 +2,7 @@
 
 writeScriptBin "soton-umount" ''
   #!${stdenv.shell}
-  sudo umount /mnt/soton
+  mountpoint=/mnt/soton
+  sudo umount $mountpoint
+  sudo rmdir $mountpoint
 ''
