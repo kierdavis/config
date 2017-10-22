@@ -2,6 +2,7 @@
 
 writeScriptBin "soton-mount" ''
   #!${stdenv.shell}
+  set -o errexit -o pipefail -o nounset
   uid=$(id --user kier)
   gid=$(id --group kier)
   mountpoint=/mnt/soton
