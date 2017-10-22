@@ -10,7 +10,6 @@ in {
   environment.systemPackages = with localPkgs; [
     chromium
     dmenu
-    ecs-rdp-roo
     evince
     ftb-launcher
     geda
@@ -29,6 +28,7 @@ in {
     quasselClient
     screenshot
     skype
+    soton-rdp
     spotify
     steam
     sublime3

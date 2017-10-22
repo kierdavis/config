@@ -2,7 +2,6 @@ pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
   boincgpuctl = pkgs.callPackage ./boincgpuctl { };
   ecs-mount = pkgs.callPackage ./ecs-mount { };
-  ecs-rdp-roo = pkgs.callPackage ./ecs-rdp-roo { };
   ecs-umount = pkgs.callPackage ./ecs-umount { };
   ftb-launcher = pkgs.callPackage ./ftb-launcher { };
   gds2svg = pkgs.callPackage ./gds2svg { };
@@ -15,5 +14,6 @@ pkgs: pkgs // {
   publish = pkgs.callPackage ./publish { };
   redstore = pkgs.callPackage ./redstore { };
   screenshot = pkgs.callPackage ./screenshot { eog = pkgs.gnome3.eog; };
+  soton-rdp = pkgs.callPackage ./soton-rdp { };
   umountext = pkgs.callPackage ./umountext { };
 }
