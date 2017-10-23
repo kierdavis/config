@@ -29,7 +29,7 @@ in {
     screenshot
     skype
     soton-rdp
-    spotify
+    #spotify
     steam
     sublime3
     terminator
