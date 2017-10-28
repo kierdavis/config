@@ -45,7 +45,7 @@ in
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
-  powerManagement.cpuFreqGovernor = "powersave";
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   hardware.ckb.enable = true;
   hardware.ckb.package = pkgs.libsForQt5.callPackage ../lib/ckb-next.nix {};
