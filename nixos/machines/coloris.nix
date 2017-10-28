@@ -50,7 +50,7 @@ in
   hardware.ckb.enable = true;
   hardware.ckb.package = pkgs.libsForQt5.callPackage ../lib/ckb-next.nix {};
 
-  services.xserver.xrandrHeads = ["HDMI-0" "DP-0"];
+  services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
 
   # Additional filesystems (LVM).
   fileSystems."/home" = {
