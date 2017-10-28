@@ -42,6 +42,7 @@ in {
     soton-mount
     soton-umount
     umountext
+    usbutils  # lsusb
     unzip
     wget
     zip
