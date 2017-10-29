@@ -6,17 +6,12 @@ let
   cfg = config.services.boinc-fhs;
   allowRemoteGuiRpcFlag = optionalString cfg.allowRemoteGuiRpc "--allow_remote_gui_rpc";
 
-  # A package providing the boinc_client that will actually be executed.
-  execPkg = if cfg.useFHSEnv then
-    pkgs.buildFHSUserEnv {
-      name = "boinc_client";
-      targetPkgs = p: [ cfg.package ]
-                   ++ optional cfg.virtualbox.enable cfg.virtualbox.package;
-      multiPkgs  = p: optional cfg.gpu.enable cfg.gpu.package
-                   ++ optional cfg.gpu.nvidia.enable cfg.gpu.nvidia.package;
-      runScript = "/bin/boinc";
-    }
-  else cfg.package;
+  fhsEnv = pkgs.buildFHSUserEnv {
+    name = "boinc-fhs-env";
+    targetPkgs = _: [ cfg.package ] ++ cfg.extraEnvPackages;
+    runScript = "/bin/boinc_client";
+  };
+  fhsEnvExecutable = "${fhsEnv}/bin/${fhsEnv.name}";
 
 in
   {
@@ -62,82 +57,35 @@ in
         '';
       };
 
-      useFHSEnv = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
+      extraEnvPackages = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        example = "[ pkgs.virtualbox ]";
         description = ''
-          If set to true, run the BOINC software inside an FHS-compatible
-          environment. This allows BOINC project apps to find libraries that
-          wouldn't be otherwise found, due to apps using hardcoded paths for
-          these libraries.
+          Additional packages to make available in the environment in which
+          BOINC will run. Common choices are:
+          <itemizedlist>
+            <listitem>
+              <varname>pkgs.virtualbox</varname>:
+              The VirtualBox virtual machine framework. Required by some BOINC
+              projects, such as ATLAS@home.
+            </listitem>
+            <listitem>
+              <varname>pkgs.ocl-icd</varname>:
+              OpenCL infrastructure library. Required by BOINC projects that use
+              OpenCL, in addition to a device-specific OpenCL driver.
+            </listitem>
+            <listitem>
+              <varname>pkgs.linuxPackages.nvidia_x11</varname>:
+              Provides CUDA libraries. Required by BOINC projects that use
+              CUDA. Note that this requires an NVIDIA graphics device to be
+              present on the system.
 
-          If BOINC tasks appear to be failing with the message "Computation
-          Error", try enabling this option.
-        '';
-      };
-
-      virtualbox.enable = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
-        description = ''
-          If set to true, make Virtualbox available to BOINC project apps that
-          require it, such as ATLAS@Home. This only works if useFHSEnv is
-          enabled.
-        '';
-      };
-
-      virtualbox.package = mkOption {
-        type = types.package;
-        default = pkgs.virtualbox;
-        defaultText = "pkgs.virtualbox";
-        description = ''
-          Which Virtualbox package to use.
-        '';
-      };
-
-      gpu.enable = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
-        description = ''
-          If set to true, make OpenCL libraries available to BOINC project apps
-          that can use them, such as GPUGRID and Moo! Wrapper. This only works
-          if useFHSEnv.
-
-          Note that for support for NVIDIA GPUs to work, you may also need to
-          set <varname>gpu.nvidia.enable</varname> to true in order to make
-          CUDA libraries available as well.
-        '';
-      };
-
-      gpu.package = mkOption {
-        type = types.package;
-        default = pkgs.ocl-icd;
-        defaultText = "pkgs.ocl-icd";
-        description = ''
-          Which ocl-icd package to use.
-        '';
-      };
-
-      gpu.nvidia.enable = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
-        description = ''
-          If set to true, make the NVIDIA CUDA libraries available to BOINC
-          project apps that can use them, such as GPUGRID and Moo! Wrapper.
-          This only works if useFHSEnv is enabled.
-        '';
-      };
-
-      gpu.nvidia.package = mkOption {
-        type = types.package;
-        default = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; };
-        defaultText = "pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; }";
-        description = ''
-          Which nvidia_x11 package to use.
+              Additionally, provides OpenCL drivers for NVIDIA GPUs.
+              <varname>pkgs.ocl-icd</varname> is needed in addition to this
+              package when using its OpenCL functionality.
+            </listitem>
+          </itemizedlist>
         '';
       };
     };
@@ -161,7 +109,7 @@ in
           chown boinc ${cfg.dataDir}
         '';
         script = ''
-          ${execPkg}/bin/boinc_client --dir ${cfg.dataDir} --redirectio ${allowRemoteGuiRpcFlag}
+          ${fhsEnvExecutable} --dir ${cfg.dataDir} --redirectio ${allowRemoteGuiRpcFlag}
         '';
         serviceConfig = {
           PermissionsStartOnly = true; # preStart must be run as root

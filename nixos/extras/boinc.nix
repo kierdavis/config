@@ -16,9 +16,10 @@ in {
     enable = true;
     dataDir = boincDir;
     allowRemoteGuiRpc = true;
-    useFHSEnv = true;
-    virtualbox.enable = true;
-    gpu.enable = true;
-    gpu.nvidia.enable = true;
+    extraEnvPackages = [
+      pkgs.virtualbox
+      pkgs.ocl-icd
+      (pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; })
+    ];
   };
 }
