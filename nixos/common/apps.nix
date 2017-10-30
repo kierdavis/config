@@ -29,6 +29,7 @@ in {
     git
     gnupg
     htop
+    ledger
     manpages
     mountext
     nmap
