@@ -16,7 +16,11 @@ in {
   users.users.kier = {
     createHome = true;
     description = "Kier Davis";
-    extraGroups = ["wheel" "networkmanager"];
+    extraGroups = [
+      "dialout"         # Permission to use USB serial devices (e.g. /dev/ttyACM0)
+      "networkmanager"  # Permission to control NetworkManager
+      "wheel"           # Permission to use 'sudo'
+    ];
     hashedPassword = secrets.hashedUserPasswords.kier;
     home = "/home/kier";
     isNormalUser = true;
