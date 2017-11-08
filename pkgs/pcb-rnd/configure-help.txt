@@ -1,0 +1,292 @@
+./configure: configure pcb-rnd.
+
+Usage: ./configure [options]
+
+options are:
+ --prefix=path              change installation prefix from /usr to path
+ --debug                    build full debug version (-g -O0, extra asserts)
+ --symbols                  include symbols (add -g, but no -O0 or extra asserts)
+ --coord=32|64              set coordinate integer type's width in bits
+ --dot_pcb_pcb=path         .pcb-rnd config path under $HOME/
+ --workaround-gtk-ctrl      enable GTK control key query workaround
+ --all=plugin               enable all working plugins for dynamic load
+ --all=buildin              enable all working plugins for static link
+ --all=disable              disable all plugins (compile core only)
+ --force-all=plugin         enable even broken plugins for dynamic load
+ --force-all=buildin        enable even broken plugins for static link
+ --disable-xrender          do not use xrender for lesstif
+ --disable-xinerama         do not use xinerama for lesstif
+ --disable-gd               do not use gd (many exporters need it)
+ --disable-gd-gif           no gif support in the png pcb_exporter
+ --disable-gd-png           no png support in the png pcb_exporter
+ --disable-gd-jpg           no jpeg support in the png pcb_exporter
+ --enable-bison             enable generating language files
+ --disable-bison            disable generating language files
+ --enable-dmalloc           compile with lib dmalloc
+ --disable-dmalloc          compile without lib dmalloc
+ --disable-lib_compat_help  do not compile #compatibility helper functions
+ --buildin-lib_compat_help  static link #compatibility helper functions into the executable
+ --plugin-lib_compat_help   #compatibility helper functions is a dynamic loadable plugin
+ --disable-lib_gensexpr     do not compile #s-expression library
+ --buildin-lib_gensexpr     static link #s-expression library into the executable
+ --plugin-lib_gensexpr      #s-expression library is a dynamic loadable plugin
+ --disable-lib_gtk_common   do not compile all-hid_gtk common code
+ --buildin-lib_gtk_common   static link all-hid_gtk common code into the executable
+ --plugin-lib_gtk_common    all-hid_gtk common code is a dynamic loadable plugin
+ --disable-lib_gtk_config   do not compile hid_gtk preferences dialog
+ --buildin-lib_gtk_config   static link hid_gtk preferences dialog into the executable
+ --plugin-lib_gtk_config    hid_gtk preferences dialog is a dynamic loadable plugin
+ --disable-lib_gtk_hid      do not compile hid_gtk generic part
+ --buildin-lib_gtk_hid      static link hid_gtk generic part into the executable
+ --plugin-lib_gtk_hid       hid_gtk generic part is a dynamic loadable plugin
+ --disable-lib_hid_common   do not compile all-hid common code
+ --buildin-lib_hid_common   static link all-hid common code into the executable
+ --plugin-lib_hid_common    all-hid common code is a dynamic loadable plugin
+ --disable-lib_legacy_func  do not compile legacy functions
+ --buildin-lib_legacy_func  static link legacy functions into the executable
+ --plugin-lib_legacy_func   legacy functions is a dynamic loadable plugin
+ --disable-lib_netmap       do not compile map nets and objects
+ --buildin-lib_netmap       static link map nets and objects into the executable
+ --plugin-lib_netmap        map nets and objects is a dynamic loadable plugin
+ --disable-lib_padstack_hashdo not compile abstract and hash 'padstacks'
+ --buildin-lib_padstack_hashstatic link abstract and hash 'padstacks' into the executable
+ --plugin-lib_padstack_hash abstract and hash 'padstacks' is a dynamic loadable plugin
+ --disable-lib_polyhelp     do not compile polygon helpers
+ --buildin-lib_polyhelp     static link polygon helpers into the executable
+ --plugin-lib_polyhelp      polygon helpers is a dynamic loadable plugin
+ --disable-acompnet         do not compile net auto-completion
+ --buildin-acompnet         static link net auto-completion into the executable
+ --plugin-acompnet          net auto-completion is a dynamic loadable plugin
+ --disable-autocrop         do not compile crop board to fit objects
+ --buildin-autocrop         static link crop board to fit objects into the executable
+ --plugin-autocrop          crop board to fit objects is a dynamic loadable plugin
+ --disable-autoplace        do not compile auto place components
+ --buildin-autoplace        static link auto place components into the executable
+ --plugin-autoplace         auto place components is a dynamic loadable plugin
+ --disable-autoroute        do not compile the original autorouter
+ --buildin-autoroute        static link the original autorouter into the executable
+ --plugin-autoroute         the original autorouter is a dynamic loadable plugin
+ --disable-boardflip        do not compile flip board objects
+ --buildin-boardflip        static link flip board objects into the executable
+ --plugin-boardflip         flip board objects is a dynamic loadable plugin
+ --disable-diag             do not compile diagnostic acts. for devs
+ --buildin-diag             static link diagnostic acts. for devs into the executable
+ --plugin-diag              diagnostic acts. for devs is a dynamic loadable plugin
+ --disable-dialogs          do not compile HID-independent GUI dialogs
+ --buildin-dialogs          static link HID-independent GUI dialogs into the executable
+ --plugin-dialogs           HID-independent GUI dialogs is a dynamic loadable plugin
+ --disable-distaligntext    do not compile distribute and align text
+ --buildin-distaligntext    static link distribute and align text into the executable
+ --plugin-distaligntext     distribute and align text is a dynamic loadable plugin
+ --disable-distalign        do not compile distribute and align objs
+ --buildin-distalign        static link distribute and align objs into the executable
+ --plugin-distalign         distribute and align objs is a dynamic loadable plugin
+ --disable-djopt            do not compile djopt board optimization
+ --buildin-djopt            static link djopt board optimization into the executable
+ --plugin-djopt             djopt board optimization is a dynamic loadable plugin
+ --disable-draw_csect       do not compile draw cross-section (layers)
+ --buildin-draw_csect       static link draw cross-section (layers) into the executable
+ --plugin-draw_csect        draw cross-section (layers) is a dynamic loadable plugin
+ --disable-draw_fab         do not compile fab layer in some exports
+ --buildin-draw_fab         static link fab layer in some exports into the executable
+ --plugin-draw_fab          fab layer in some exports is a dynamic loadable plugin
+ --disable-draw_fontsel     do not compile font selection GUI
+ --buildin-draw_fontsel     static link font selection GUI into the executable
+ --plugin-draw_fontsel      font selection GUI is a dynamic loadable plugin
+ --disable-fontmode         do not compile font editor
+ --buildin-fontmode         static link font editor into the executable
+ --plugin-fontmode          font editor is a dynamic loadable plugin
+ --disable-gpmi             do not compile GPMI scripting
+ --buildin-gpmi             static link GPMI scripting into the executable
+ --plugin-gpmi              GPMI scripting is a dynamic loadable plugin
+ --disable-jostle           do not compile push lines out of the way
+ --buildin-jostle           static link push lines out of the way into the executable
+ --plugin-jostle            push lines out of the way is a dynamic loadable plugin
+ --disable-loghid           do not compile diagnostics: log HID calls
+ --buildin-loghid           static link diagnostics: log HID calls into the executable
+ --plugin-loghid            diagnostics: log HID calls is a dynamic loadable plugin
+ --disable-millpath         do not compile calculate toolpath for milling
+ --buildin-millpath         static link calculate toolpath for milling into the executable
+ --plugin-millpath          calculate toolpath for milling is a dynamic loadable plugin
+ --disable-mincut           do not compile minimal cut shorts
+ --buildin-mincut           static link minimal cut shorts into the executable
+ --plugin-mincut            minimal cut shorts is a dynamic loadable plugin
+ --disable-oldactions       do not compile old/obsolete actions
+ --buildin-oldactions       static link old/obsolete actions into the executable
+ --plugin-oldactions        old/obsolete actions is a dynamic loadable plugin
+ --disable-polycombine      do not compile combine selected polygons
+ --buildin-polycombine      static link combine selected polygons into the executable
+ --plugin-polycombine       combine selected polygons is a dynamic loadable plugin
+ --disable-polystitch       do not compile stitch polygon at cursor
+ --buildin-polystitch       static link stitch polygon at cursor into the executable
+ --plugin-polystitch        stitch polygon at cursor is a dynamic loadable plugin
+ --disable-propedit         do not compile object property editor
+ --buildin-propedit         static link object property editor into the executable
+ --plugin-propedit          object property editor is a dynamic loadable plugin
+ --disable-puller           do not compile puller
+ --buildin-puller           static link puller into the executable
+ --plugin-puller            puller is a dynamic loadable plugin
+ --disable-query            do not compile query language
+ --buildin-query            static link query language into the executable
+ --plugin-query             query language is a dynamic loadable plugin
+ --disable-renumber         do not compile renumber action
+ --buildin-renumber         static link renumber action into the executable
+ --plugin-renumber          renumber action is a dynamic loadable plugin
+ --disable-report           do not compile report actions
+ --buildin-report           static link report actions into the executable
+ --plugin-report            report actions is a dynamic loadable plugin
+ --disable-rubberband_orig  do not compile the original rubberband
+ --buildin-rubberband_orig  static link the original rubberband into the executable
+ --plugin-rubberband_orig   the original rubberband is a dynamic loadable plugin
+ --disable-shand_cmd        do not compile command shorthands
+ --buildin-shand_cmd        static link command shorthands into the executable
+ --plugin-shand_cmd         command shorthands is a dynamic loadable plugin
+ --disable-smartdisperse    do not compile netlist based dispenser
+ --buildin-smartdisperse    static link netlist based dispenser into the executable
+ --plugin-smartdisperse     netlist based dispenser is a dynamic loadable plugin
+ --disable-stroke           do not compile libstroke gestures
+ --buildin-stroke           static link libstroke gestures into the executable
+ --plugin-stroke            libstroke gestures is a dynamic loadable plugin
+ --disable-teardrops        do not compile draw teardrops on pins
+ --buildin-teardrops        static link draw teardrops on pins into the executable
+ --plugin-teardrops         draw teardrops on pins is a dynamic loadable plugin
+ --disable-vendordrill      do not compile vendor drill mapping
+ --buildin-vendordrill      static link vendor drill mapping into the executable
+ --plugin-vendordrill       vendor drill mapping is a dynamic loadable plugin
+ --disable-fp_board         do not compile footprint library from boards
+ --buildin-fp_board         static link footprint library from boards into the executable
+ --plugin-fp_board          footprint library from boards is a dynamic loadable plugin
+ --disable-fp_fs            do not compile filesystem footprints
+ --buildin-fp_fs            static link filesystem footprints into the executable
+ --plugin-fp_fs             filesystem footprints is a dynamic loadable plugin
+ --disable-fp_wget          do not compile web footprints
+ --buildin-fp_wget          static link web footprints into the executable
+ --plugin-fp_wget           web footprints is a dynamic loadable plugin
+ --disable-import_dsn       do not compile specctra .dsn importer
+ --buildin-import_dsn       static link specctra .dsn importer into the executable
+ --plugin-import_dsn        specctra .dsn importer is a dynamic loadable plugin
+ --disable-import_edif      do not compile import edif
+ --buildin-import_edif      static link import edif into the executable
+ --plugin-import_edif       import edif is a dynamic loadable plugin
+ --disable-import_hpgl      do not compile import HP-GL plot files
+ --buildin-import_hpgl      static link import HP-GL plot files into the executable
+ --plugin-import_hpgl       import HP-GL plot files is a dynamic loadable plugin
+ --disable-import_ltspice   do not compile import ltspice .net+.asc
+ --buildin-import_ltspice   static link import ltspice .net+.asc into the executable
+ --plugin-import_ltspice    import ltspice .net+.asc is a dynamic loadable plugin
+ --disable-import_mentor_schdo not compile import mentor graphics sch
+ --buildin-import_mentor_schstatic link import mentor graphics sch into the executable
+ --plugin-import_mentor_sch import mentor graphics sch is a dynamic loadable plugin
+ --disable-import_mucs      do not compile import mucs routing
+ --buildin-import_mucs      static link import mucs routing into the executable
+ --plugin-import_mucs       import mucs routing is a dynamic loadable plugin
+ --disable-import_netlist   do not compile import netlist
+ --buildin-import_netlist   static link import netlist into the executable
+ --plugin-import_netlist    import netlist is a dynamic loadable plugin
+ --disable-import_sch       do not compile import sch
+ --buildin-import_sch       static link import sch into the executable
+ --plugin-import_sch        import sch is a dynamic loadable plugin
+ --disable-import_tinycad   do not compile import tinycad .net
+ --buildin-import_tinycad   static link import tinycad .net into the executable
+ --plugin-import_tinycad    import tinycad .net is a dynamic loadable plugin
+ --disable-io_tedax         do not compile tEDAx (Trivial EDA eXchange)
+ --buildin-io_tedax         static link tEDAx (Trivial EDA eXchange) into the executable
+ --plugin-io_tedax          tEDAx (Trivial EDA eXchange) is a dynamic loadable plugin
+ --disable-export_bboard    do not compile breadboard pcb_exporter
+ --buildin-export_bboard    static link breadboard pcb_exporter into the executable
+ --plugin-export_bboard     breadboard pcb_exporter is a dynamic loadable plugin
+ --disable-export_bom       do not compile bom pcb_exporter
+ --buildin-export_bom       static link bom pcb_exporter into the executable
+ --plugin-export_bom        bom pcb_exporter is a dynamic loadable plugin
+ --disable-export_dsn       do not compile specctra .dsn pcb_exporter
+ --buildin-export_dsn       static link specctra .dsn pcb_exporter into the executable
+ --plugin-export_dsn        specctra .dsn pcb_exporter is a dynamic loadable plugin
+ --disable-export_dxf       do not compile DXF pcb_exporter
+ --buildin-export_dxf       static link DXF pcb_exporter into the executable
+ --plugin-export_dxf        DXF pcb_exporter is a dynamic loadable plugin
+ --disable-export_fidocadj  do not compile FidoCadJ .fcd pcb_exporter
+ --buildin-export_fidocadj  static link FidoCadJ .fcd pcb_exporter into the executable
+ --plugin-export_fidocadj   FidoCadJ .fcd pcb_exporter is a dynamic loadable plugin
+ --disable-export_gcode     do not compile gcode pcb_exporter
+ --buildin-export_gcode     static link gcode pcb_exporter into the executable
+ --plugin-export_gcode      gcode pcb_exporter is a dynamic loadable plugin
+ --disable-export_gerber    do not compile Gerber pcb_exporter
+ --buildin-export_gerber    static link Gerber pcb_exporter into the executable
+ --plugin-export_gerber     Gerber pcb_exporter is a dynamic loadable plugin
+ --disable-export_ipcd356   do not compile IPC-D-356 Netlist pcb_exporter
+ --buildin-export_ipcd356   static link IPC-D-356 Netlist pcb_exporter into the executable
+ --plugin-export_ipcd356    IPC-D-356 Netlist pcb_exporter is a dynamic loadable plugin
+ --disable-export_lpr       do not compile lpr pcb_exporter (printer)
+ --buildin-export_lpr       static link lpr pcb_exporter (printer) into the executable
+ --plugin-export_lpr        lpr pcb_exporter (printer) is a dynamic loadable plugin
+ --disable-export_nelma     do not compile nelma pcb_exporter
+ --buildin-export_nelma     static link nelma pcb_exporter into the executable
+ --plugin-export_nelma      nelma pcb_exporter is a dynamic loadable plugin
+ --disable-export_openscad  do not compile openscad pcb_exporter
+ --buildin-export_openscad  static link openscad pcb_exporter into the executable
+ --plugin-export_openscad   openscad pcb_exporter is a dynamic loadable plugin
+ --disable-export_png       do not compile png/gif/jpg pcb_exporter
+ --buildin-export_png       static link png/gif/jpg pcb_exporter into the executable
+ --plugin-export_png        png/gif/jpg pcb_exporter is a dynamic loadable plugin
+ --disable-export_ps        do not compile postscript pcb_exporter
+ --buildin-export_ps        static link postscript pcb_exporter into the executable
+ --plugin-export_ps         postscript pcb_exporter is a dynamic loadable plugin
+ --disable-export_stat      do not compile export board statistics
+ --buildin-export_stat      static link export board statistics into the executable
+ --plugin-export_stat       export board statistics is a dynamic loadable plugin
+ --disable-export_svg       do not compile SVG pcb_exporter
+ --buildin-export_svg       static link SVG pcb_exporter into the executable
+ --plugin-export_svg        SVG pcb_exporter is a dynamic loadable plugin
+ --disable-export_test      do not compile dummy test pcb_exporter
+ --buildin-export_test      static link dummy test pcb_exporter into the executable
+ --plugin-export_test       dummy test pcb_exporter is a dynamic loadable plugin
+ --disable-export_xy        do not compile xy (centroid) pcb_exporter
+ --buildin-export_xy        static link xy (centroid) pcb_exporter into the executable
+ --plugin-export_xy         xy (centroid) pcb_exporter is a dynamic loadable plugin
+ --disable-io_autotrax      do not compile autotrax (freeware PCB CAD)
+ --buildin-io_autotrax      static link autotrax (freeware PCB CAD) into the executable
+ --plugin-io_autotrax       autotrax (freeware PCB CAD) is a dynamic loadable plugin
+ --disable-io_eagle         do not compile Eagle's xml format
+ --buildin-io_eagle         static link Eagle's xml format into the executable
+ --plugin-io_eagle          Eagle's xml format is a dynamic loadable plugin
+ --disable-io_hyp           do not compile hyperlynx .hyp loader
+ --buildin-io_hyp           static link hyperlynx .hyp loader into the executable
+ --plugin-io_hyp            hyperlynx .hyp loader is a dynamic loadable plugin
+ --disable-io_kicad_legacy  do not compile Kicad's legacy format
+ --buildin-io_kicad_legacy  static link Kicad's legacy format into the executable
+ --plugin-io_kicad_legacy   Kicad's legacy format is a dynamic loadable plugin
+ --disable-io_kicad         do not compile Kicad's s-expr format
+ --buildin-io_kicad         static link Kicad's s-expr format into the executable
+ --plugin-io_kicad          Kicad's s-expr format is a dynamic loadable plugin
+ --disable-io_lihata        do not compile lihata board format
+ --buildin-io_lihata        static link lihata board format into the executable
+ --plugin-io_lihata         lihata board format is a dynamic loadable plugin
+ --disable-io_mentor_cell   do not compile Mentor Graphics cell footprints
+ --buildin-io_mentor_cell   static link Mentor Graphics cell footprints into the executable
+ --plugin-io_mentor_cell    Mentor Graphics cell footprints is a dynamic loadable plugin
+ --disable-io_pcb           do not compile the original pcb format
+ --buildin-io_pcb           static link the original pcb format into the executable
+ --plugin-io_pcb            the original pcb format is a dynamic loadable plugin
+ --disable-hid_batch        do not compile batch process (no-gui HID)
+ --buildin-hid_batch        static link batch process (no-gui HID) into the executable
+ --plugin-hid_batch         batch process (no-gui HID) is a dynamic loadable plugin
+ --disable-hid_gtk2_gdk     do not compile GTK2 GUI, software render
+ --buildin-hid_gtk2_gdk     static link GTK2 GUI, software render into the executable
+ --plugin-hid_gtk2_gdk      GTK2 GUI, software render is a dynamic loadable plugin
+ --disable-hid_gtk2_gl      do not compile GTK2 GUI, opengl render
+ --buildin-hid_gtk2_gl      static link GTK2 GUI, opengl render into the executable
+ --plugin-hid_gtk2_gl       GTK2 GUI, opengl render is a dynamic loadable plugin
+ --disable-hid_gtk3_cairo   do not compile GTK3 GUI, cairo render
+ --buildin-hid_gtk3_cairo   static link GTK3 GUI, cairo render into the executable
+ --plugin-hid_gtk3_cairo    GTK3 GUI, cairo render is a dynamic loadable plugin
+ --disable-hid_lesstif      do not compile the lesstif gui
+ --buildin-hid_lesstif      static link the lesstif gui into the executable
+ --plugin-hid_lesstif       the lesstif gui is a dynamic loadable plugin
+ --disable-hid_remote       do not compile remote HID server
+ --buildin-hid_remote       static link remote HID server into the executable
+ --plugin-hid_remote        remote HID server is a dynamic loadable plugin
+ --disable-hid_srv_ws       do not compile websocket server HID
+ --buildin-hid_srv_ws       static link websocket server HID into the executable
+ --plugin-hid_srv_ws        websocket server HID is a dynamic loadable plugin
+
+Some of the --disable options will make ./configure to skip detection of the given feature and mark them "not found".
