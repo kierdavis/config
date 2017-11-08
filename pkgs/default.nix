@@ -8,6 +8,7 @@ pkgs: pkgs // {
   lock = pkgs.callPackage ./lock { };
   mountext = pkgs.callPackage ./mountext { };
   passchars = pkgs.callPackage ./passchars { pythonPackages = pkgs.python27Packages; };
+  pcb-rnd = pkgs.callPackage ./pcb-rnd { };
   pysolfc = pkgs.callPackage ./pysolfc { };
   publish = pkgs.callPackage ./publish { };
   redstore = pkgs.callPackage ./redstore { };
