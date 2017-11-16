@@ -5,7 +5,7 @@ let
 
 in {
   # VirtualBox
-  virtualisation.virtualbox.host.enable = config.machine.vboxHost;
+  virtualisation.virtualbox.host.enable = true;
 
   environment.systemPackages = with localPkgs; [
     chromium

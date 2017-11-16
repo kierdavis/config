@@ -14,11 +14,6 @@ with lib;
       description = ''The value of "networking.hostId", necessary for ZFS.'';
     };
 
-    machine.vboxHost = mkOption {
-      type = types.bool;
-      description = ''Whether to enable VirtualBox host tools.'';
-    };
-
     machine.wifi = mkOption {
       type = types.bool;
       description = ''Whether to enable wireless networking.'';
