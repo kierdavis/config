@@ -22,7 +22,6 @@ in
   machine = {
     name = "coloris";
     hostId = "db4d501a";
-    vboxHost = true;
     wifi = true;
     bluetooth = true;
 

@@ -19,7 +19,6 @@ in
   machine = {
     name = "ouroboros";
     hostId = "8e8cad01";
-    vboxHost = true;
     wifi = true;
     bluetooth = true;
 

@@ -91,7 +91,6 @@ in
   machine = {
     name = "nocturn";
     hostId = "ee9e88c0";
-    vboxHost = false;
     wifi = false;
     bluetooth = false;
 
