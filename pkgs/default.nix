@@ -1,6 +1,7 @@
 pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
   boincgpuctl = pkgs.callPackage ./boincgpuctl { };
+  freesweep = pkgs.callPackage_i686 ./freesweep { };
   ftb-launcher = pkgs.callPackage ./ftb-launcher { };
   gds2svg = pkgs.callPackage ./gds2svg { };
   home-manager = pkgs.callPackage ./home-manager { };
