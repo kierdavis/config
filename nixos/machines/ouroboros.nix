@@ -1,12 +1,14 @@
+{ config, lib, pkgs, ... }:
+
 let
+  localPkgs = import ../../pkgs pkgs;
+
   samba = import ../samba.nix;
   sambaClient = samba.client {
     host = "soton";
     port = 9092;
   };
 in
-
-{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -49,4 +51,8 @@ in
     fsType = "zfs";
     options = ["noatime" "nodiratime"];
   };
+
+  environment.systemPackages = [
+    localPkgs.keybase
+  ];
 }
