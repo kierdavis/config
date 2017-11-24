@@ -1,7 +1,7 @@
 [user]
 	email = kierdavis@gmail.com
 	name = Kier Davis
-	signingkey = E9EFA7E77400759DA6ADB9E08139C5FCEDA73ABF
+	signingkey = 66378DA35FF9F0FA
 [commit]
 	gpgSign = true
 [gpg]
