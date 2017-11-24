@@ -53,6 +53,11 @@ in {
     (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
   ];
 
-  environment.variables.PKGS = "/nix/var/nix/profiles/per-user/root/channels/nixos/pkgs/top-level/all-packages.nix";
-  environment.variables.MY_GPG_KEY = "E9EFA7E77400759DA6ADB9E08139C5FCEDA73ABF";
+  environment.variables = {
+    PKGS = "/nix/var/nix/profiles/per-user/root/channels/nixos/pkgs/top-level/all-packages.nix";
+
+    GPG_MASTER_KEY = "8139C5FCEDA73ABF";
+    GPG_ENCRYPTION_KEY = "DFDCA524B0742D62";
+    GPG_GIT_SIGNING_KEY = "66378DA35FF9F0FA";
+  };
 }
