@@ -29,6 +29,7 @@ in {
     git
     gnupg
     htop
+    keybase
     ledger
     manpages
     mountext

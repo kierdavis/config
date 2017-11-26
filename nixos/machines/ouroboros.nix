@@ -51,8 +51,4 @@ in
     fsType = "zfs";
     options = ["noatime" "nodiratime"];
   };
-
-  environment.systemPackages = [
-    localPkgs.keybase
-  ];
 }
