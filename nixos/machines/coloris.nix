@@ -68,6 +68,5 @@ in
   environment.systemPackages = [
     localPkgs.boincgpuctl
     localPkgs.google-musicmanager
-    localPkgs.keybase
   ];
 }
