@@ -69,10 +69,6 @@ in stdenv.mkDerivation rec {
   name = "pcb-rnd-${version}";
   version = "svn-r${rev}";
 
-  patches = [
-    ./fix-sphash-printf-warnings.patch
-  ];
-
   configureFlags = [ "--all=disable" ] ++ enabledFeatureConfigureFlags;
 
   nativeBuildInputs = [ pkgconfig ];
