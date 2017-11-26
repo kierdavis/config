@@ -60,16 +60,14 @@ let
 
   enabledFeatureBuildInputs = concatMap featureBuildInputs (attrValues enabledFeatures);
 
-in stdenv.mkDerivation rec {
-  name = "pcb-rnd-${version}";
-  version = "svn-r${svnRevision}";
-  svnRevision = "12693";
+  src = import ./source.nix { inherit stdenv fetchsvn; };
 
-  src = fetchsvn {
-    url = "svn://repo.hu/pcb-rnd/trunk";
-    rev = svnRevision;
-    sha256 = "0cmy048s807axy89y202b1cwbl1434cdjls7mjnazjflb1wg3zfb";
-  };
+in stdenv.mkDerivation rec {
+  inherit src;
+  inherit (src) rev;
+
+  name = "pcb-rnd-${version}";
+  version = "svn-r${rev}";
 
   patches = [
     ./fix-sphash-printf-warnings.patch
