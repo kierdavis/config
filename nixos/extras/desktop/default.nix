@@ -9,4 +9,7 @@
   ];
 
   networking.networkmanager.enable = true;
+
+  # Plymouth splash screen during boot.
+  boot.plymouth.enable = true;
 }
