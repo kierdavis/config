@@ -19,16 +19,12 @@ in {
     dmenu
     evince
     ftb-launcher
-    freesweep
     geda
     gimp
     gnome3.eog
     i3blocks
     i3blocks-scripts
     i3lock
-    lock
-    logisim
-    multimc
     networkmanagerapplet
     pavucontrol
     pcb
