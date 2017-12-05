@@ -20,6 +20,7 @@ in {
       "dialout"         # Permission to use USB serial devices (e.g. /dev/ttyACM0)
       "networkmanager"  # Permission to control NetworkManager
       "wheel"           # Permission to use 'sudo'
+      "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
     hashedPassword = secrets.hashedUserPasswords.kier;
     home = "/home/kier";

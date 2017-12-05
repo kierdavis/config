@@ -18,6 +18,4 @@
 
   # SSH X11 forwarding
   services.openssh.forwardX11 = true;
-
-  users.users.kier.extraGroups = ["video"];
 }
