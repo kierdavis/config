@@ -14,4 +14,9 @@
     passwordAuthentication = true;
     permitRootLogin = "without-password";
   };
+
+  # Docker daemon
+  virtualisation.docker = {
+    enable = true;
+  };
 }
