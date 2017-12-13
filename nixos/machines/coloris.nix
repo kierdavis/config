@@ -67,7 +67,6 @@ in
 
   environment.systemPackages = [
     localPkgs.boincgpuctl
-    localPkgs.boincmgr
     localPkgs.google-musicmanager
   ];
 }
