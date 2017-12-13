@@ -15,6 +15,7 @@ in {
   };
 
   environment.systemPackages = with localPkgs; [
+    boincmgr
     chromium
     dmenu
     evince
