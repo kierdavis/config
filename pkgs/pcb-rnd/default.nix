@@ -1,16 +1,5 @@
 let
   allFeatures = rec {
-    lib_hid_common = {
-      name = "lib_hid_common";
-    };
-    lib_gtk_hid = {
-      # For some reason this feature is broken in isolation.
-      # When used as a dependency of hid_gtk2_gdk, however,
-      # there are no problems.
-      name = "lib_gtk_hid";
-      buildInputs = { gtk2, ... }: [ gtk2.dev ];
-      deps = [ lib_hid_common ];
-    };
     fp_fs = {
       name = "fp_fs";
     };
@@ -23,7 +12,6 @@ let
     hid_gtk2_gdk = {
       name = "hid_gtk2_gdk";
       buildInputs = { gtk2, ... }: [ gtk2.dev ];
-      deps = [ lib_gtk_hid ];
     };
   };
 
