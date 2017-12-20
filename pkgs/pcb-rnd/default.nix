@@ -6,6 +6,9 @@ let
     hid_gtk2_gdk = {
       buildInputs = { gtk2, ... }: [ gtk2.dev ];
     };
+    #hid_gtk2_gl = {
+    #  buildInputs = { gtk2, gtkglext, ... }: [ gtk2.dev gtkglext ];
+    #};
   };
 
   defaultFeatures = fs: {
