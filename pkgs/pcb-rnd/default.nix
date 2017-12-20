@@ -1,16 +1,9 @@
 let
   allFeatures = {
-    fp_fs = {
-      name = "fp_fs";
-    };
-    io_lihata = {
-      name = "io_lihata";
-    };
-    io_pcb = {
-      name = "io_pcb";
-    };
+    fp_fs = {};
+    io_lihata = {};
+    io_pcb = {};
     hid_gtk2_gdk = {
-      name = "hid_gtk2_gdk";
       buildInputs = { gtk2, ... }: [ gtk2.dev ];
     };
   };
@@ -39,7 +32,8 @@ let
   # 'features' is the parameter provided to the derivation,
   # a function that takes the set of all features and returns
   # a subset.
-  enabledFeatures = features allFeatures;
+  allFeaturesWithNames = mapAttrs (name: feature: feature // { inherit name; }) allFeatures;
+  enabledFeatures = features allFeaturesWithNames;
   enabledFeatureConfigureFlags = concatMap
     (f: [ "--buildin-${f.name}" ])
     (attrValues enabledFeatures);
