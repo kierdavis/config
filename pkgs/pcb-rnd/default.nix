@@ -1,5 +1,5 @@
 let
-  allFeatures = rec {
+  allFeatures = {
     fp_fs = {
       name = "fp_fs";
     };
@@ -40,16 +40,12 @@ let
   # a function that takes the set of all features and returns
   # a subset.
   enabledFeatures = features allFeatures;
-
-  featureConfigureFlags = f: concatMap featureConfigureFlags (if f ? deps then f.deps else [])
-    ++ [ "--buildin-${f.name}" ];
-
-  enabledFeatureConfigureFlags = concatMap featureConfigureFlags (attrValues enabledFeatures);
-
-  featureBuildInputs = f: concatMap featureBuildInputs (if f ? deps then f.deps else [])
-    ++ (if f ? buildInputs then f.buildInputs args else []);
-
-  enabledFeatureBuildInputs = concatMap featureBuildInputs (attrValues enabledFeatures);
+  enabledFeatureConfigureFlags = concatMap
+    (f: [ "--buildin-${f.name}" ])
+    (attrValues enabledFeatures);
+  enabledFeatureBuildInputs = concatMap
+    (f: if f ? buildInputs then f.buildInputs args else [])
+    (attrValues enabledFeatures);
 
   src = import ./source.nix { inherit stdenv fetchsvn; };
 
