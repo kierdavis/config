@@ -33,8 +33,8 @@
   };
   "src_3rd/sphash" = fetchsvn {
     url = "svn://repo.hu/sphash/trunk";
-    rev = "60";
-    sha256 = "1r4kxb6xyn32yrs3c1xn4xv9y1rf6mjxhz3nf3zd3q3prfc305ki";
+    rev = "61";
+    sha256 = "19fvwlyl2m83bkdskmb4gp5bdhz603ya9vqc06pczbbn5r8jilwx";
     ignoreExternals = true;
   };
   "src_3rd/genregex" = fetchsvn {
@@ -45,14 +45,14 @@
   };
   "src_3rd/liblhtpers" = fetchsvn {
     url = "svn://repo.hu/lihata/trunk/src/liblhtpers";
-    rev = "1219";
+    rev = "1222";
     sha256 = "1m49y5s91fgq21inmdd8g07gxsiwnjsvw7cl31b63d1rhgyfavh8";
     ignoreExternals = true;
   };
   "src_3rd/liblihata" = fetchsvn {
     url = "svn://repo.hu/lihata/trunk/src/liblihata";
-    rev = "1219";
-    sha256 = "1vip7fd6a745k5m8a5qdc5pfq2xsvxg1cg5238ry03njqb8n1vdm";
+    rev = "1222";
+    sha256 = "11y3zkqmzlhjcwn68kzryy2xgcc3j5ycxswcnd4fq8cx27lvdjvi";
     ignoreExternals = true;
   };
   "src_3rd/genvector" = fetchsvn {
@@ -75,14 +75,14 @@
   };
   "scconfig/src" = fetchsvn {
     url = "svn://repo.hu/scconfig/trunk/src";
-    rev = "1179";
-    sha256 = "1j4c0k3vhrdmvr2akdzj0mnyzxa3wiqcaicqs6ibzfhz0pz1zyd8";
+    rev = "1217";
+    sha256 = "0rhc8ng3icmgdb775y84hai73lxl5y4vfd32p2mv25waspcsx6xf";
     ignoreExternals = true;
   };
   "." = fetchsvn {
     url = "svn://repo.hu/pcb-rnd/trunk";
-    rev = "13035";
-    sha256 = "14h7r4zkh2dqkxl3krn4pw70w77phqjjh12czgny6gzb62yhd0jj";
+    rev = "13570";
+    sha256 = "0rq5x94m6bampq7wcradnhq9m97ff2icjvg85577dq8ha90f8s4c";
     ignoreExternals = true;
   };
 }
