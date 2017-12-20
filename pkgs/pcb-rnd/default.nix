@@ -11,6 +11,9 @@ let
       buildInputs = { gtk2, ... }: [ gtk2.dev ];
       deps = [ lib_hid_common ];
     };
+    fp_fs = {
+      name = "fp_fs";
+    };
     io_lihata = {
       name = "io_lihata";
     };
@@ -25,7 +28,7 @@ let
   };
 
   defaultFeatures = fs: {
-    inherit (fs) io_lihata io_pcb hid_gtk2_gdk;
+    inherit (fs) fp_fs io_lihata io_pcb hid_gtk2_gdk;
   };
 in
 
