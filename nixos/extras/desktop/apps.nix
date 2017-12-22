@@ -17,6 +17,7 @@ in {
   environment.systemPackages = with localPkgs; [
     boincmgr
     chromium
+    discord
     dmenu
     evince
     geda
