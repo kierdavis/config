@@ -28,7 +28,6 @@ in {
     networkmanagerapplet
     pavucontrol
     pcb
-    pcb-rnd
     pysolfc
     quasselClient
     screenshot
