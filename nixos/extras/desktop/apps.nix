@@ -26,6 +26,7 @@ in {
     i3blocks
     i3blocks-scripts
     i3lock
+    kicad
     networkmanagerapplet
     pavucontrol
     pcb
