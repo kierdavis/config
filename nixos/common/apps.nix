@@ -33,6 +33,7 @@ in {
     ledger
     manpages
     mountext
+    nix-repl
     nmap
     pass
     passchars
