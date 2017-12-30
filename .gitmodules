@@ -2,3 +2,6 @@
 	path = pkgs/home-manager
 	url = https://github.com/rycee/home-manager
 	branch = release-17.09
+[submodule "secret"]
+	path = secret
+	url = ../config-secret
