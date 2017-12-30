@@ -32,6 +32,8 @@ ExecStart=/usr/bin/docker run --name=$containername $dockerflags $imagename
 ExecStop=/usr/bin/docker stop $containername
 ExecStopPost=/usr/bin/docker rm --force $containername
 Restart=on-abnormal
+[Install]
+WantedBy=default.target
 EOF2
 systemctl --user daemon-reload
 systemctl --user start $servicename
