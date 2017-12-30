@@ -3,9 +3,3 @@ Host sr-gerrit
     Port 29418
     User kdavis
     IdentityFile /home/kier/.ssh/id_rsa
-
-Host nocturn
-    HostName soton
-    Port 9093
-    User kier
-    IdentityFile /home/kier/.ssh/id_rsa
