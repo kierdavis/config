@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  secrets = import ../secrets.nix;
+  secrets = import ../../secret;
 
 in {
   nix.buildCores = config.machine.cpu.cores;
@@ -10,11 +10,11 @@ in {
 
   # Shared signing key.
   environment.etc."nix/signing-key.pub" = {
-    text = secrets.keyPairs.nixSigning.public;
+    text = secrets.nix-signing-key.pub;
   };
   environment.etc."nix/signing-key.sec" = {
     mode = "0400";
-    text = secrets.keyPairs.nixSigning.private;
+    text = secrets.nix-signing-key.priv;
   };
 
   nix.gc = {
