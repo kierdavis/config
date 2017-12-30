@@ -34,11 +34,7 @@ let
   image = pkgs.dockerTools.buildImage {
     name = "campanella-vpnserver";
     tag = "latest";
-    fromImage = pkgs.dockerTools.pullImage {
-      imageName = "busybox";
-      imageTag = "1.27.2";
-      sha256 = "1w53ia9hdry6im4pcdqmjqsp5zawgjfdp5f5x7kvqivcpbpjbw99";
-    };
+    fromImage = import ../busybox.nix { inherit pkgs; };
     contents = pkgs.runCommand "campanella-vpnserver-contents" {} ''
       mkdir -p $out/tmp
     '';
