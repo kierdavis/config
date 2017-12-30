@@ -74,6 +74,10 @@ let
     networking.firewall.allowedTCPPorts = [ 3000 ];
   };
 
+  pki-ca = { config, lib, pkgs, ... }: {
+    environment.systemPackages = [ pkgs.easyrsa ];
+  };
+
 in
 
 { config, lib, pkgs, ... }:
@@ -89,6 +93,7 @@ in
     transmission
     http
     hydra
+    pki-ca
   ];
 
   machine = {
