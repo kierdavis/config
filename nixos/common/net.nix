@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   networking.hostName = config.machine.name;
@@ -19,6 +19,10 @@
   networking.extraHosts = ''
     176.9.121.81 beagle2
     86.5.103.14 soton
+    ${lib.concatStringsSep "\n"
+      (lib.mapAttrsToList
+        (name: addr: "${addr} ${name}")
+        (import ../../campanella/vpn-hosts.nix))}
   '';
 
   # VPN
