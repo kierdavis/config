@@ -1,7 +1,17 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  pkgs = import <nixpkgs> {};
+  lib = pkgs.lib;
+
+  hosts = import ../../vpn-hosts.nix;
+
+  clientConfigScriptSegment = name: addr: ''echo "ifconfig-push ${addr} 255.255.0.0" > $out/${name}'';
+  clientConfigScript = lib.concatStringsSep "\n" (lib.mapAttrsToList clientConfigScriptSegment hosts);
+  clientConfigDir = pkgs.runCommand "client-config" {} ''
+    #!${pkgs.stdenv.shell}
+    mkdir -p $out
+    ${clientConfigScript}
+  '';
 
   serverConfTemplate = ./vpnserver.conf;
   serverConf = pkgs.runCommand "server.conf" {
@@ -10,7 +20,7 @@ let
     serverKey  = ../../../secret/pki/campanella-vpnserver.key;
     dhParams   = ../../../secret/pki/dh.pem;
     vpnHmacKey = ../../../secret/vpn-hmac.key;
-    clientConfigDir = ./client-config;
+    inherit clientConfigDir;
   } "substituteAll ${serverConfTemplate} $out";
 
   runScript = pkgs.writeScript "campanella-vpnserver-run" ''
