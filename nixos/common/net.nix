@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   networking.hostName = config.machine.name;
@@ -20,4 +20,20 @@
     176.9.121.81 beagle2
     86.5.103.14 soton
   '';
+
+  # VPN
+  services.openvpn.servers.campanella =
+    let
+      clientConfTemplate = ./vpnclient.conf;
+      clientConf = pkgs.runCommand "client.conf" {
+        caCert     = ../../secret/pki/ca.crt;
+        clientCert = config.machine.vpn.clientCert;
+        clientKey  = config.machine.vpn.clientKey;
+        vpnHmacKey = ../../secret/vpn-hmac.key;
+      } "substituteAll ${clientConfTemplate} $out";
+    in
+      {
+        config = "config '${clientConf}'";
+        autoStart = true;
+      };
 }

@@ -43,6 +43,11 @@ in
       ethInterface = "enp4s0";
       wlanInterface = "wlp3s0";
     };
+
+    vpn = {
+      clientCert = ../../secret/pki/ouroboros.crt;
+      clientKey = ../../secret/pki/ouroboros.key;
+    };
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" ];
