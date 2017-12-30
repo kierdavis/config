@@ -71,5 +71,17 @@ with lib;
       example = "wlp3s0";
       description = ''Name of the WiFi network interface.'';
     };
+
+    machine.vpn.clientCert = mkOption {
+      type = types.path;
+      example = "/path/to/ouroboros.crt";
+      description = ''Pathname of PKI client certificate for the campanella VPN.'';
+    };
+
+    machine.vpn.clientKey = mkOption {
+      type = types.path;
+      example = "/path/to/ouroboros.key";
+      description = ''Pathname of PKI client private key for the campanella VPM.'';
+    };
   };
 }
