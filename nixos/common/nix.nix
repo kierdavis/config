@@ -1,20 +1,17 @@
 { config, lib, pkgs, ... }:
 
-let
-  secrets = import ../../secret;
-
-in {
+{
   nix.buildCores = config.machine.cpu.cores;
 
   nixpkgs.config.allowUnfree = true;
 
   # Shared signing key.
   environment.etc."nix/signing-key.pub" = {
-    text = secrets.nix-signing-key.pub;
+    source = ../../secret/nix-signing-key.pub;
   };
   environment.etc."nix/signing-key.sec" = {
     mode = "0400";
-    text = secrets.nix-signing-key.priv;
+    text = builtins.readFile ../../secret/nix-signing-key.priv;
   };
 
   nix.gc = {

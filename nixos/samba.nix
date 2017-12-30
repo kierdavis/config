@@ -1,9 +1,9 @@
 let
-  secrets = import ../secret;
+  passwords = import ../secret/passwords.nix;
 
   credentials = {
     user = "kier";
-    pass = secrets.samba.password;
+    pass = passwords.samba;
   };
 in
 

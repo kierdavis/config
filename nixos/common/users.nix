@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  secrets = import ../../secret;
+  passwords = import ../../secret/passwords.nix;
 
 in {
   # Force live user info to match what's declared in this file.
@@ -9,7 +9,7 @@ in {
 
   users.users.root = {
     # TODO: remove this
-    hashedPassword = secrets.user-passwords.root;
+    hashedPassword = passwords.user.root;
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
   };
 
@@ -23,7 +23,7 @@ in {
       "wheel"           # Permission to use 'sudo'
       "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
-    hashedPassword = secrets.user-passwords.kier;
+    hashedPassword = passwords.user.kier;
     home = "/home/kier";
     isNormalUser = true;
     name = "kier";

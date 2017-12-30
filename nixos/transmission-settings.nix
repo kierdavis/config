@@ -67,7 +67,7 @@
   rpc-authentication-required = true;
   rpc-bind-address = "0.0.0.0";
   rpc-enabled = true;
-  rpc-password = (import ../secret).transmission.web-password;
+  rpc-password = (import ../secret/passwords.nix).transmissionWeb;
   rpc-port = 9091;
   #rpc-url
   rpc-username = "kier";
