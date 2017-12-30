@@ -1,3 +1,6 @@
+# Ouroboros is an Asus gaming laptop from 2013.
+# It is named after (a transliteration of) the song "ウロボロス" by "death's dynamic shroud.wmv".
+
 { config, lib, pkgs, ... }:
 
 let
