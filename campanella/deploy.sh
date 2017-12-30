@@ -6,8 +6,10 @@ name=$1
 dir=$PWD/containers/$name
 remote=beagle2
 
+echo "***** Building image"
 image=$(nix-build --no-out-link $dir/dockerimage.nix)
-#pv $image | ssh $remote 'docker load'
+echo "***** Uploading image to beagle2"
+pv $image | ssh $remote 'docker load'
 
 imagename=campanella-$name
 containername=campanella-$name-c
@@ -17,6 +19,7 @@ servicename=campanella-$name.service
 servicefile=$servicedir/$servicename
 dockerflags=$(cat $dir/dockerflags.txt)
 
+echo "***** Restarting service"
 ssh $remote bash << EOF1
 systemctl --user stop $servicename || true
 mkdir -p $servicedir
