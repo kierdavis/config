@@ -1,3 +1,6 @@
+# Coloris is my workstation / gaming PC, built in 2016.
+# It is named after the album "Coloris" by "she".
+
 { config, lib, pkgs, ... }:
 
 let

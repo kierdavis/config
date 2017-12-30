@@ -1,3 +1,6 @@
+# Nocturn is a laptop posing a server hosting network shares and other services.
+# It is named after the album "Nocturn" by "Tonebox".
+
 let
   samba = import ../samba.nix;
 
