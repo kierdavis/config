@@ -76,6 +76,7 @@ let
 
   pki-ca = { config, lib, pkgs, ... }: {
     environment.systemPackages = [ pkgs.easyrsa ];
+    environment.variables.EASYRSA = "/srv/easyrsa";
   };
 
 in
