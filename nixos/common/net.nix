@@ -28,7 +28,7 @@
   # VPN
   services.openvpn.servers.campanella =
     let
-      clientConfTemplate = ./vpnclient.conf;
+      clientConfTemplate = ../../campanella/vpnclient.conf;
       clientConf = pkgs.runCommand "client.conf" {
         caCert     = ../../secret/pki/ca.crt;
         clientCert = config.machine.vpn.clientCert;
