@@ -93,7 +93,6 @@ in
     quassel
     transmission
     http
-    hydra
     pki-ca
   ];
 
