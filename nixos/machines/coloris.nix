@@ -8,8 +8,8 @@ let
 
   samba = import ../samba.nix;
   sambaClient = samba.client {
-    host = "soton";
-    port = 9092;
+    host = "nocturn";
+    port = 445;
   };
 in
 
