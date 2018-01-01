@@ -30,6 +30,8 @@
     let
       clientConfTemplate = ../../campanella/vpnclient.conf;
       clientConf = pkgs.runCommand "client.conf" {
+        remoteHost = "beagle2";
+        remotePort = 1194;
         caCert     = ../../secret/pki/ca.crt;
         clientCert = config.machine.vpn.clientCert;
         clientKey  = config.machine.vpn.clientKey;
