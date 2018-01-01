@@ -3,6 +3,8 @@
 let
   lib = pkgs.lib;
 
+  openvpn = pkgs.callPackage ./openvpn-2.3.nix {};
+
   hosts = import ../../vpn-hosts.nix;
 
   clientConfigScriptSegment = name: addr: ''echo "ifconfig-push ${addr} 255.255.0.0" > $out/${name}'';
@@ -28,7 +30,7 @@ let
     set -o errexit -o pipefail -o nounset
 
     # Start the OpenVPN server.
-    ${pkgs.openvpn}/bin/openvpn --config ${serverConf}
+    ${openvpn}/bin/openvpn --config ${serverConf}
   '';
 
   image = pkgs.dockerTools.buildImage {
