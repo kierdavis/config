@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  nix.useSandbox = true;
   nix.buildCores = config.machine.cpu.cores;
 
   nixpkgs.config.allowUnfree = true;
