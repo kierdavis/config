@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, iproute, lzo, openssl, pam, systemd, pkgconfig
+{ stdenv, fetchurl, iproute, lzo, openssl, pam, pkgconfig
 , pkcs11Support ? false, pkcs11helper ? null,
 }:
 
@@ -17,11 +17,10 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ lzo openssl ]
-                  ++ optionals stdenv.isLinux [ pam systemd iproute ]
+                  ++ optionals stdenv.isLinux [ pam iproute ]
                   ++ optional pkcs11Support pkcs11helper;
 
   configureFlags = optionals stdenv.isLinux [
-    "--enable-systemd"
     "--enable-iproute2"
     "IPROUTE=${iproute}/sbin/ip" ]
     ++ optional pkcs11Support "--enable-pkcs11"
