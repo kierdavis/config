@@ -4,4 +4,6 @@
   coloris = "10.99.1.1";
   ouroboros = "10.99.1.2";
   nocturn = "10.99.1.3";
+
+  campanella-nfsserver = "10.99.2.1";
 }
