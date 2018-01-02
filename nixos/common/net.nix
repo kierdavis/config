@@ -16,14 +16,7 @@
   hardware.bluetooth.enable = config.machine.bluetooth;
 
   # /etc/hosts
-  networking.extraHosts = ''
-    176.9.121.81 beagle2
-    86.5.103.14 soton
-    ${lib.concatStringsSep "\n"
-      (lib.mapAttrsToList
-        (name: addr: "${addr} ${name}")
-        (import ../../campanella/vpn-hosts.nix))}
-  '';
+  networking.extraHosts = (import ../../hosts.nix { inherit pkgs; }).fileContents;
 
   # VPN
   services.openvpn.servers.campanella =
