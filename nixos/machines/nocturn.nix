@@ -156,32 +156,12 @@ in
       remotefile=backup/nocturn/$date/$name
       recipient=8139C5FCEDA73ABF
 
-      ${pkgs.nullmailer}/bin/sendmail << EOF
-      From: backup@nocturn
-      To: admin@nocturn
-      Subject: Backup starting
-
-      Backup of nocturn to Backblaze B2 beginning. A "backup successful" email should follow this shortly.
-      EOF
-
       ${pkgs.gnutar}/bin/tar --create --to-stdout /home /srv /shares/{documents,misc,music} \
           --exclude /shares/misc/vm \
         | ${pkgs.pbzip2}/bin/pbzip2 --stdout \
         | ${pkgs.gnupg}/bin/gpg --encrypt --recipient=$recipient --compress-algo=none \
           --output=$localfile --batch
       ${pkgs.backblaze-b2}/bin/backblaze-b2 upload_file KierBackup $localfile $remotefile
-
-      size=$(${pkgs.coreutils}/bin/du -hs $localfile)
-      ${pkgs.nullmailer}/bin/sendmail << EOF
-      From: backup@nocturn
-      To: admin@nocturn
-      Subject: Backup successful
-
-      Backup of nocturn to Backblaze B2 successful.
-
-      B2 path: KierBackup:$remotefile
-      Size: $size
-      EOF
 
       ${pkgs.coreutils}/bin/rm --force $localfile
     '';
