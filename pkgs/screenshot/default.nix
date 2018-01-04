@@ -3,9 +3,10 @@
 writeScriptBin "screenshot" ''
   #!${stdenv.shell}
   set -eu
-  mkdir -p /home/kier/screenshots
+  dir=/tmp/screenshots
+  mkdir -p "$dir"
   now=`date +'%Y-%m-%d_%H:%M:%S'`
-  filename="/home/kier/screenshots/$now.png"
+  filename="dir/$now.png"
   ${imagemagick}/bin/import "$filename"
   ${eog}/bin/eog "$filename" &
 ''
