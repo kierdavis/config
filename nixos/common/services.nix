@@ -22,4 +22,18 @@
       enable = true;
     };
   };
+
+  # Mail relay
+  services.nullmailer = {
+    enable = true;
+    setSendmail = true;
+    config = {
+      me = config.machine.name;
+      adminaddr = "me@kierdavis.com";  # All mail to localhost is redirected to this address.
+      defaultdomain = "";
+      remotes = ''
+        aspmx.l.google.com smtp port=25 starttls
+      '';
+    };
+  };
 }
