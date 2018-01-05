@@ -44,6 +44,11 @@ in
       ethInterface = "enp4s0";
       wlanInterface = "wlp3s0";
     };
+
+    vpn = {
+      clientCert = ../../secret/pki/coloris.crt;
+      clientKey = ../../secret/pki/coloris.key;
+    };
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
