@@ -18,9 +18,14 @@ in
         configuration = machines/nocturn.nix;
         system = "x86_64-linux";
       }).system;
+
+      saelli = (nixos {
+        configuration = machines/saelli.nix;
+        system = "x86_64-linux";
+      }).system;
     };
 
     all = {
-      inherit (machines) coloris ouroboros nocturn;
+      inherit (machines) coloris ouroboros nocturn saelli;
     };
   }
