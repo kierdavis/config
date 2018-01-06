@@ -79,6 +79,13 @@ with lib;
       description = ''Name of the WiFi network interface.'';
     };
 
+    machine.i3blocks.batteries = mkOption {
+      type = types.listOf types.string;
+      default = [];
+      example = ''[ "BAT0" "BAT1" ]'';
+      description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
+    };
+
     machine.vpn.clientCert = mkOption {
       type = types.path;
       example = "/path/to/ouroboros.crt";

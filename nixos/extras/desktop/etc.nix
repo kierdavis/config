@@ -1,6 +1,13 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  batteryConfig = lib.concatMapStrings (name: ''
+    [bat]
+    interval=5
+    instance=${name}
+  '') config.machine.i3blocks.batteries;
+
+in {
   environment.etc."i3blocks.conf".text = ''
     command=/run/current-system/sw/bin/i3blocks-$BLOCK_NAME
 
@@ -35,6 +42,8 @@
 
     [gpu]
     interval=5
+
+    ${batteryConfig}
 
     [load]
     interval=5
