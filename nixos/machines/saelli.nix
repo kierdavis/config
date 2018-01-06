@@ -33,8 +33,8 @@ in
     };
 
     fsdevices = {
-      root = "/dev/disk/by-uuid/87d22f40-ba26-4b0f-af49-1d08c93522c9";
-      efi = "/dev/disk/by-uuid/C2E6-87F4";
+      root = "/dev/disk/by-uuid/41a55911-8a7e-45f3-8a55-116b9abb4f6e";
+      efi = "/dev/disk/by-uuid/5036-1CC7";
       swap = "/dev/disk/by-uuid/d9939f0d-3e6c-439e-a308-e1b40a254b9f";
     };
 
@@ -55,7 +55,7 @@ in
 
   # Additional filesystems (LVM).
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/85409f8f-ee42-476c-b68f-edab6b025f3a";
+    device = "/dev/disk/by-uuid/9cba21a0-ced6-4511-bfd2-5e576d02915a";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
