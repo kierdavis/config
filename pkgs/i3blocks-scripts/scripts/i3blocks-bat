@@ -1,0 +1,32 @@
+#!/bin/sh
+
+dir=/sys/class/power_supply/$BLOCK_INSTANCE
+display_name=$(echo $BLOCK_INSTANCE | tr '[A-Z]' '[a-z]')
+
+status=$(cat $dir/status)
+energy_now=$(cat $dir/energy_now)
+energy_full=$(cat $dir/energy_full)
+
+percent=$(echo "($energy_now*100)/$energy_full" | bc)
+
+if [ "$percent" -ge 70 ]; then
+  color='#00FF00' # green
+elif [ "$percent" -ge 30 ]; then
+  color='#FFFF00' # yellow
+elif [ "$percent" -ge 15 ]; then
+  color='#FFA500' # orange
+else
+  color='#FF0000' # red
+fi
+
+if [ "$status" = "Charging" ]; then
+  suffix=" ↑"
+elif [ "$status" = "Discharging" ]; then
+  suffix=" ↓"
+else
+  suffix=""
+fi
+
+echo "$display_name: $percent%$suffix"
+echo "B: $percent%$suffix"
+echo "$color"
