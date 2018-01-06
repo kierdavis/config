@@ -2,6 +2,7 @@
 
 let
   boincDir = "/var/lib/boinc";
+  nvidia_x11 = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; };
 in {
   imports = [ ../lib/boinc-fhs.nix ];
 
@@ -19,7 +20,6 @@ in {
     extraEnvPackages = [
       pkgs.virtualbox
       pkgs.ocl-icd
-      (pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; })
-    ];
+    ] ++ lib.optional config.machine.gpu.nvidia nvidia_x11;
   };
 }

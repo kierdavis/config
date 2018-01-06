@@ -34,6 +34,13 @@ with lib;
       description = ''Whether the machine has an Intel CPU, and so should enable Intel microcode updates.'';
     };
 
+    machine.gpu.nvidia = mkOption {
+      type = types.bool;
+      default = false;
+      example = true;
+      description = ''Whether the machine has an NVIDIA graphics card, and so should enable the corresponding graphics driver.'';
+    };
+
     machine.fsdevices.root = mkOption {
       type = types.string;
       description = ''Device in /dev holding the root filesystem.'';
