@@ -32,6 +32,10 @@ in
       intel = true;
     };
 
+    gpu = {
+      nvidia = true;
+    };
+
     fsdevices = {
       root = "/dev/disk/by-uuid/97678c8a-538a-4034-b725-72ced3f0759d";
       efi = "/dev/disk/by-uuid/DBAA-F84C";

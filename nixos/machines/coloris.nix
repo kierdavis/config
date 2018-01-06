@@ -33,6 +33,10 @@ in
       intel = true;
     };
 
+    gpu = {
+      nvidia = true;
+    };
+
     fsdevices = {
       root = "/dev/disk/by-uuid/059315e0-e130-475c-9d84-45e4ef750a6b";
       efi = "/dev/disk/by-uuid/6F09-65AE";
