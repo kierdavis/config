@@ -18,6 +18,7 @@ in
     ../common
     ../extras/boot-efi.nix
     ../extras/desktop
+    ../extras/low-power.nix
     sambaClient
   ];
 
@@ -25,7 +26,7 @@ in
     name = "saelli";
     hostId = "7628944b";
     wifi = true;
-    bluetooth = true;
+    bluetooth = false;
 
     cpu = {
       cores = 4;
