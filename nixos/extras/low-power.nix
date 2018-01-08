@@ -32,6 +32,13 @@
   services.udev.extraRules = ''
     # PCI runtime power management.
     ACTION=="add", SUBSYSTEM=="pci", ATTR(power/control)="auto"
+
+    # USB autosuspend blacklist
+    # ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1234", ATTR{idProduct}=="5678", GOTO="power_usb_rules_end"
+
+    # Enable USB autosuspend by default for all other devices.
+    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+    LABEL="power_usb_rules_end"
   '';
 
   # TODO: check bluetooth, btusb unloaded
