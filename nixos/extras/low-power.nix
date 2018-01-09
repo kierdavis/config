@@ -1,4 +1,5 @@
 # https://wiki.archlinux.org/index.php/Power_management#Power_saving
+# http://www.thinkwiki.org/wiki/How_to_reduce_power_consumption
 
 { config, pkgs, lib, ... }:
 
@@ -41,5 +42,19 @@
     LABEL="power_usb_rules_end"
   '';
 
+  services.xserver.displayManager.sessionCommands = ''
+    # Turn off display after 5 minutes of idling.
+    xset +dpms
+    xset dpms 0 0 300
+  '';
+
+  services.xserver.deviceSection = ''
+    # Disable DRI (Intel GPU graphics acceleration).
+    #Option "NoDRI"
+  '';
+
   # TODO: check bluetooth, btusb unloaded
+
+  # Install powertop
+  environment.systemPackages = with pkgs; [ powertop ];
 }
