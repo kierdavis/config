@@ -120,9 +120,6 @@ bindsym $mod+Shift+r restart
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 bindsym $mod+Print exec /run/current-system/sw/bin/screenshot
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.iec958-stereo +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.iec958-stereo -5%
-bindsym XF86AudioMute exec pactl set-sink-mute alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.iec958-stereo toggle
 
 bindsym $mod+l exec i3lock
 
