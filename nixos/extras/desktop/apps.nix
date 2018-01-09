@@ -14,6 +14,9 @@ in {
     longitude = "-1.39";
   };
 
+  # Backlight control
+  programs.light.enable = true;
+
   environment.systemPackages = with localPkgs; [
     boincmgr
     chromium
