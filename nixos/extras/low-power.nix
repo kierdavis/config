@@ -49,8 +49,8 @@
   '';
 
   services.xserver.deviceSection = ''
-    # Disable DRI (Intel GPU graphics acceleration).
-    #Option "NoDRI"
+    # Disable DRI (graphics acceleration).
+    Option "NoDRI"
   '';
 
   # TODO: check bluetooth, btusb unloaded
