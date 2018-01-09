@@ -1,6 +1,14 @@
 { config, lib, pkgs, ... }:
 
 let
+  nvidiaGpuConfig = if config.machine.gpu.nvidia then ''
+    [vram]
+    interval=5
+
+    [gpu]
+    interval=5
+  '' else "";
+
   batteryConfig = lib.concatMapStrings (name: ''
     [bat]
     interval=5
@@ -33,15 +41,11 @@ in {
     [swap]
     interval=5
 
-    [vram]
-    interval=5
-
     [cpu]
     interval=5
     instance=${config.machine.i3blocks.cpuThermalZone}
 
-    [gpu]
-    interval=5
+    ${nvidiaGpuConfig}
 
     ${batteryConfig}
 
