@@ -69,6 +69,10 @@ rec {
           "x-systemd.automount"            # mount automatically when accessed
           "x-systemd.idle-timeout=10min"   # unmount automatically when not used for 10 minutes
           "actimeo=60"                     # amount of time (seconds) that file metadata is cached on the client before re-requesting it from the server
+          "uid=kier"                       # make all files appear to be owned by me
+          "forceuid"
+          "gid=users"
+          "forcegid"
         ];
       }) selectedShares;
     };
