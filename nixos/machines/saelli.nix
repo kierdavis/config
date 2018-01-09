@@ -19,6 +19,7 @@ in
     ../extras/boot-efi.nix
     ../extras/desktop
     ../extras/low-power.nix
+    ../extras/clickpad.nix
     sambaClient
   ];
 
