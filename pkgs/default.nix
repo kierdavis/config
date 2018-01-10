@@ -2,6 +2,7 @@ pkgs: pkgs // {
   archiveman = pkgs.callPackage ./archiveman { };
   boincgpuctl = pkgs.callPackage ./boincgpuctl { };
   boincmgr = pkgs.callPackage ./boincmgr { inherit (pkgs.xorg) xauth; };
+  circleci = pkgs.callPackage ./circleci { };
   freesweep = pkgs.callPackage_i686 ./freesweep { };
   ftb-launcher = pkgs.callPackage ./ftb-launcher { };
   gds2svg = pkgs.callPackage ./gds2svg { };
