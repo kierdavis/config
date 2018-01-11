@@ -25,6 +25,7 @@ in {
   environment.systemPackages = with localPkgs; [
     bc
     beets
+    circleci
     file
     git
     gnupg
