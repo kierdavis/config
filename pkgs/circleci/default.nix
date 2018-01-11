@@ -5,7 +5,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://circle-downloads.s3.amazonaws.com/releases/build_agent_wrapper/circleci";
-    sha256 = "1mhy6iqadcfncwpfna9k5hsrka07i03v6ipv32vmbkbbb9y8zvnq";
+    sha256 = "12q0ymnzzz4pi79zy3wblbrxkd0dg2s84z6ysm4mvqs6hhs7m6qh";
     executable = true;
   };
 
