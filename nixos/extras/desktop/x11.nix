@@ -15,6 +15,9 @@
 
   fonts.fontconfig.enable = true;
   fonts.fontconfig.dpi = 84;
+  fonts.fonts = with pkgs; [
+    orbitron # Robosoc logo (Orbitron Medium)
+  ];
 
   # SSH X11 forwarding
   services.openssh.forwardX11 = true;
