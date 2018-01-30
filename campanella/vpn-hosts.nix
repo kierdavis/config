@@ -5,6 +5,7 @@
   ouroboros = "10.99.1.2";
   nocturn = "10.99.1.3";
   saelli = "10.99.1.4";
+  campanella2 = "10.99.1.5";
 
   campanella-nfsserver = "10.99.2.1";
 }
