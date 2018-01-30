@@ -5,8 +5,8 @@
 
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     ../common
+    ../extras/linode.nix
     ../extras/headless.nix
   ];
 
