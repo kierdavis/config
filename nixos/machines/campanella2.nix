@@ -22,8 +22,8 @@
     };
 
     fsdevices = {
-      root = "/dev/disk/by-uuid/819cb8e9-a122-4aa3-8248-d5132f5ae5fb";
-      swap = "/dev/disk/by-uuid/0679e6a0-a6b5-457b-b599-7eb929642413";
+      root = "/dev/sda";
+      swap = "/dev/sdb";
     };
 
     vpn = {
