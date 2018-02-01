@@ -32,7 +32,7 @@
 
   campanella-vpn.server = {
     enable = true;
-    certFile = ../../secret/pki/campanella2.crt;
-    keyFile = ../../secret/pki/campanella2.key;
+    certFile = ../../secret/pki/campanella2-server.crt;
+    keyFile = ../../secret/pki/campanella2-server.key;
   };
 }
