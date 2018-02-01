@@ -8,6 +8,6 @@ let
     remotePort = 1194;
     caCert     = ../../../secret/pki/ca.crt;
     vpnHmacKey = ../../../secret/vpn-hmac.key;
-  } "substituteAll ${clientConfTemplate} $out";
+  } "substituteAll ${template} $out";
 
 in config
