@@ -47,11 +47,6 @@ in
       ethInterface = "enp4s0";
       wlanInterface = "wlp3s0";
     };
-
-    vpn = {
-      clientCert = ../../secret/pki/ouroboros.crt;
-      clientKey = ../../secret/pki/ouroboros.key;
-    };
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" ];
@@ -62,5 +57,11 @@ in
     device = "ouroboros_lin_home/home";
     fsType = "zfs";
     options = ["noatime" "nodiratime"];
+  };
+
+  campanella-vpn.client = {
+    enable = true;
+    certFile = ../../secret/pki/ouroboros.crt;
+    keyFile = ../../secret/pki/ouroboros.key;
   };
 }

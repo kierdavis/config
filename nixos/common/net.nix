@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = [
+    ../vpn
+  ];
+
   networking.hostName = config.machine.name;
   networking.hostId = config.machine.hostId;  # Necessary for ZFS. This is just a random 32-bit integer.
 
@@ -16,23 +20,5 @@
   hardware.bluetooth.enable = config.machine.bluetooth;
 
   # /etc/hosts
-  networking.extraHosts = (import ../../hosts.nix { inherit pkgs; }).fileContents;
-
-  # VPN
-  services.openvpn.servers.campanella =
-    let
-      clientConfTemplate = ../../campanella/vpnclient.conf;
-      clientConf = pkgs.runCommand "client.conf" {
-        remoteHost = "beagle2";
-        remotePort = 1194;
-        caCert     = ../../secret/pki/ca.crt;
-        clientCert = config.machine.vpn.clientCert;
-        clientKey  = config.machine.vpn.clientKey;
-        vpnHmacKey = ../../secret/vpn-hmac.key;
-      } "substituteAll ${clientConfTemplate} $out";
-    in
-      {
-        config = "config '${clientConf}'";
-        autoStart = true;
-      };
+  networking.extraHosts = (import ../hosts.nix { inherit pkgs; }).fileContents;
 }
