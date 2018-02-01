@@ -85,17 +85,5 @@ with lib;
       example = ''[ "BAT0" "BAT1" ]'';
       description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
     };
-
-    machine.vpn.clientCert = mkOption {
-      type = types.path;
-      example = "/path/to/ouroboros.crt";
-      description = ''Pathname of PKI client certificate for the campanella VPN.'';
-    };
-
-    machine.vpn.clientKey = mkOption {
-      type = types.path;
-      example = "/path/to/ouroboros.key";
-      description = ''Pathname of PKI client private key for the campanella VPM.'';
-    };
   };
 }

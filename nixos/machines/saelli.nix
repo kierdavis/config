@@ -46,11 +46,6 @@ in
       wlanInterface = "wlp3s0";
       batteries = [ "BAT0" "BAT1" ];
     };
-
-    vpn = {
-      clientCert = ../../secret/pki/saelli.crt;
-      clientKey = ../../secret/pki/saelli.key;
-    };
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
@@ -61,5 +56,11 @@ in
     device = "/dev/disk/by-uuid/9cba21a0-ced6-4511-bfd2-5e576d02915a";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
+  };
+
+  campanella-vpn.client = {
+    enable = true;
+    certFile = ../../secret/pki/saelli.crt;
+    keyFile = ../../secret/pki/saelli.key;
   };
 }

@@ -25,13 +25,14 @@
       root = "/dev/sda";
       swap = "/dev/sdb";
     };
-
-    vpn = {
-      clientCert = ../../secret/pki/campanella2.crt;
-      clientKey = ../../secret/pki/campanella2.key;
-    };
   };
 
   boot.initrd.availableKernelModules = [ "ata_piix" "virtio_pci" "floppy" "sd_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";
+
+  campanella-vpn.server = {
+    enable = true;
+    certFile = ../../secret/pki/campanella2.crt;
+    keyFile = ../../secret/pki/campanella2.key;
+  };
 }

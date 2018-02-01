@@ -112,11 +112,6 @@ in
       grub = "/dev/disk/by-id/wwn-0x50014ee6006f9b4d";
       swap = "/dev/disk/by-uuid/e907b34a-06ff-481b-9bcd-a428fa973db0";
     };
-
-    vpn = {
-      clientCert = ../../secret/pki/nocturn.crt;
-      clientKey = ../../secret/pki/nocturn.key;
-    };
   };
 
   boot.initrd.availableKernelModules = [ "ata_generic" "uhci_hcd" "ehci_pci" "ahci" "sd_mod" ];
@@ -169,5 +164,11 @@ in
     serviceConfig = {
       Type = "oneshot";
     };
+  };
+
+  campanella-vpn.client = {
+    enable = true;
+    certFile = ../../secret/pki/nocturn.crt;
+    keyFile = ../../secret/pki/nocturn.key;
   };
 }
