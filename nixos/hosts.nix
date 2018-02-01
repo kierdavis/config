@@ -10,7 +10,7 @@ in rec {
   hosts = vpnHosts // {
     beagle2 = "176.9.121.81";
     campanella2 = "80.85.84.13";
-    soton = "86.5.103.14";
+    soton = "86.12.193.231";
   };
 
   fileContents = lib.concatStrings (lib.mapAttrsToList stringifyHost hosts);
