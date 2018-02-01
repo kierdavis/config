@@ -31,4 +31,6 @@ in {
     config = "config '${vpnConfig}'";
     autoStart = true;
   };
+
+  config.networking.firewall.allowedUDPPorts = [ 1194 ];
 }
