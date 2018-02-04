@@ -36,4 +36,14 @@
       '';
     };
   };
+
+  # syncthing
+  services.syncthing = {
+    enable = true;
+    dataDir = "/home/kier/.syncthing";
+    openDefaultPorts = true;
+    systemService = true;
+    user = "kier";
+    group = config.users.users.kier.group;
+  };
 }
