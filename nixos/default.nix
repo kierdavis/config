@@ -23,9 +23,14 @@ in
         configuration = machines/saelli.nix;
         system = "x86_64-linux";
       }).system;
+
+      campanella2 = (nixos {
+        configuration = machines/campanella2.nix;
+        system = "x86_64-linux";
+      }).system;
     };
 
     all = {
-      inherit (machines) coloris ouroboros nocturn saelli;
+      inherit (machines) coloris ouroboros nocturn saelli campanella2;
     };
   }
