@@ -27,7 +27,6 @@ in
     name = "saelli";
     hostId = "7628944b";
     wifi = true;
-    bluetooth = false;
 
     cpu = {
       cores = 4;

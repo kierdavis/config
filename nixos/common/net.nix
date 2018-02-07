@@ -17,7 +17,8 @@
   #networking.firewall.extraCommands = "ip46tables -A nixos-fw -p gre -j nixos-fw-accept";
 
   # Bluetooth
-  hardware.bluetooth.enable = config.machine.bluetooth;
+  # bluetoothctl doesn't seem to work properly on any of my machines...
+  hardware.bluetooth.enable = false;
 
   # /etc/hosts
   networking.extraHosts = (import ../hosts.nix { inherit pkgs; }).fileContents;

@@ -25,7 +25,6 @@ in
     name = "ouroboros";
     hostId = "8e8cad01";
     wifi = true;
-    bluetooth = true;
 
     cpu = {
       cores = 4;
