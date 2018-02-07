@@ -23,7 +23,6 @@ in
 
   machine = {
     name = "ouroboros";
-    hostId = "8e8cad01";
     wifi = true;
 
     cpu = {
@@ -47,6 +46,8 @@ in
       wlanInterface = "wlp3s0";
     };
   };
+
+  networking.hostId = "8e8cad01";
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";

@@ -6,7 +6,6 @@
   ];
 
   networking.hostName = config.machine.name;
-  networking.hostId = config.machine.hostId;  # Necessary for ZFS. This is just a random 32-bit integer.
 
   # Firewall
   networking.firewall.enable = true;

@@ -9,11 +9,6 @@ with lib;
       description = ''The machine's hostname.'';
     };
 
-    machine.hostId = mkOption {
-      type = types.string;
-      description = ''The value of "networking.hostId", necessary for ZFS.'';
-    };
-
     machine.wifi = mkOption {
       type = types.bool;
       description = ''Whether to enable wireless networking.'';

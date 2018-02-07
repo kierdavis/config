@@ -12,7 +12,6 @@
 
   machine = {
     name = "campanella2";
-    hostId = "0e6e63bc";
     wifi = false;
 
     cpu = {
@@ -25,6 +24,8 @@
       swap = "/dev/sdb";
     };
   };
+
+  networking.hostId = "0e6e63bc";
 
   boot.initrd.availableKernelModules = [ "ata_piix" "virtio_pci" "floppy" "sd_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";

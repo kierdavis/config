@@ -25,7 +25,6 @@ in
 
   machine = {
     name = "saelli";
-    hostId = "7628944b";
     wifi = true;
 
     cpu = {
@@ -46,6 +45,8 @@ in
       batteries = [ "BAT0" "BAT1" ];
     };
   };
+
+  networking.hostId = "7628944b";
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   powerManagement.cpuFreqGovernor = "powersave";
