@@ -98,7 +98,6 @@ in
 
   machine = {
     name = "nocturn";
-    hostId = "ee9e88c0";
     wifi = false;
 
     cpu = {
@@ -112,6 +111,8 @@ in
       swap = "/dev/disk/by-uuid/e907b34a-06ff-481b-9bcd-a428fa973db0";
     };
   };
+
+  networking.hostId = "ee9e88c0";
 
   boot.initrd.availableKernelModules = [ "ata_generic" "uhci_hcd" "ehci_pci" "ahci" "sd_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";

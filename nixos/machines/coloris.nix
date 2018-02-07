@@ -24,7 +24,6 @@ in
 
   machine = {
     name = "coloris";
-    hostId = "db4d501a";
     wifi = true;
 
     cpu = {
@@ -48,6 +47,8 @@ in
       wlanInterface = "wlp3s0";
     };
   };
+
+  networking.hostId = "db4d501a";
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";
