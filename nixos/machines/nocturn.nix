@@ -100,7 +100,6 @@ in
     name = "nocturn";
     hostId = "ee9e88c0";
     wifi = false;
-    bluetooth = false;
 
     cpu = {
       cores = 2;

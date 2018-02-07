@@ -19,11 +19,6 @@ with lib;
       description = ''Whether to enable wireless networking.'';
     };
 
-    machine.bluetooth = mkOption {
-      type = types.bool;
-      description = ''Whether to enable Bluetooth.'';
-    };
-
     machine.cpu.cores = mkOption {
       type = types.int;
       description = ''Number of processor cores (specifically, max number of Nix jobs to run in parallel).'';

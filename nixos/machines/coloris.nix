@@ -26,7 +26,6 @@ in
     name = "coloris";
     hostId = "db4d501a";
     wifi = true;
-    bluetooth = true;
 
     cpu = {
       cores = 4;

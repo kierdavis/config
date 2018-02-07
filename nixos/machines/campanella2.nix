@@ -14,7 +14,6 @@
     name = "campanella2";
     hostId = "0e6e63bc";
     wifi = false;
-    bluetooth = false;
 
     cpu = {
       cores = 1;
