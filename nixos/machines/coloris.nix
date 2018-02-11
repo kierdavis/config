@@ -83,7 +83,7 @@ in
 
   campanella-vpn.client = {
     enable = true;
-    certFile = ../../secret/pki/coloris.crt;
-    keyFile = ../../secret/pki/coloris.key;
+    certFile = ../../secret/vpn/certs/coloris.crt;
+    keyFile = "/etc/coloris.key";
   };
 }

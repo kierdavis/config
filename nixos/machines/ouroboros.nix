@@ -61,7 +61,7 @@ in
 
   campanella-vpn.client = {
     enable = true;
-    certFile = ../../secret/pki/ouroboros.crt;
-    keyFile = ../../secret/pki/ouroboros.key;
+    certFile = ../../secret/vpn/certs/ouroboros.crt;
+    keyFile = "/etc/ouroboros.key";
   };
 }

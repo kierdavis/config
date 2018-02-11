@@ -6,8 +6,8 @@ let
     inherit clientCert clientKey;
     remoteHost = "campanella2";
     remotePort = 1194;
-    caCert     = ../../../secret/pki/ca.crt;
-    vpnHmacKey = ../../../secret/vpn-hmac.key;
+    caCert     = ../../../secret/vpn/certs/ca.crt;
+    vpnHmacKey = ../../../secret/vpn/ta.key;
   } "substituteAll ${template} $out";
 
 in config

@@ -14,9 +14,9 @@ let
   template = ./config.template;
   config = runCommand "vpnserver.conf" {
     inherit clientConfigDir serverCert serverKey;
-    caCert     = ../../../secret/pki/ca.crt;
-    dhParams   = ../../../secret/pki/dh.pem;
-    vpnHmacKey = ../../../secret/vpn-hmac.key;
+    caCert     = ../../../secret/vpn/certs/ca.crt;
+    dhParams   = ../../../secret/vpn/dh.pem;
+    vpnHmacKey = ../../../secret/vpn/ta.key;
   } "substituteAll ${template} $out";
 
 in config

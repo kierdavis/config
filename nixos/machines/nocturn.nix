@@ -168,7 +168,7 @@ in
 
   campanella-vpn.client = {
     enable = true;
-    certFile = ../../secret/pki/nocturn.crt;
-    keyFile = ../../secret/pki/nocturn.key;
+    certFile = ../../secret/vpn/certs/nocturn.crt;
+    keyFile = "/etc/nocturn.key";
   };
 }
