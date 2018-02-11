@@ -21,6 +21,7 @@ with lib;
 
     machine.cpu.intel = mkOption {
       type = types.bool;
+      default = false;
       description = ''Whether the machine has an Intel CPU, and so should enable Intel microcode updates.'';
     };
 
@@ -49,6 +50,16 @@ with lib;
     machine.fsdevices.swap = mkOption {
       type = types.string;
       description = ''Device in /dev holding the swap partition.'';
+    };
+
+    machine.fsdevices.boot = mkOption {
+      type = types.string;
+      description = ''Device in /dev holding the boot filesystem (Raspberry Pi only).'';
+    };
+
+    machine.fsdevices.tmp = mkOption {
+      type = types.string;
+      description = ''Device in /dev holding the tmp filesystem (Raspberry Pi only).'';
     };
 
     machine.i3blocks.cpuThermalZone = mkOption {
