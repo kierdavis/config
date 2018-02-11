@@ -60,7 +60,7 @@ in
 
   campanella-vpn.client = {
     enable = true;
-    certFile = ../../secret/pki/saelli.crt;
-    keyFile = ../../secret/pki/saelli.key;
+    certFile = ../../secret/vpn/certs/saelli.crt;
+    keyFile = "/etc/saelli.key";
   };
 }
