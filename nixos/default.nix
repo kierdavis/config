@@ -28,6 +28,11 @@ in
         configuration = machines/campanella2.nix;
         system = "x86_64-linux";
       }).system;
+
+      solanin = (nixos {
+        configuration = machines/solanin.nix;
+        system = "armv7l-linux";
+      }).system;
     };
 
     all = {
