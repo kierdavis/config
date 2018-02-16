@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  localPkgs = import ../../../pkgs pkgs;
+  localPkgs = import ../../pkgs pkgs;
 
   boincDir = "/var/lib/boinc";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; };

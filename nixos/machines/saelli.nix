@@ -16,7 +16,7 @@ in
 {
   imports = [
     ../common
-    ../extras/boot-efi.nix
+    ../extras/platform/efi.nix
     ../extras/desktop
     ../extras/low-power.nix
     ../extras/clickpad.nix

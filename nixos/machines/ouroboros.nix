@@ -16,7 +16,7 @@ in
 {
   imports = [
     ../common
-    ../extras/boot-efi.nix
+    ../extras/platform/efi.nix
     ../extras/desktop
     ../extras/devel.nix
     sambaClient

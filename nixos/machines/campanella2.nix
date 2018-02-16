@@ -6,7 +6,7 @@
 {
   imports = [
     ../common
-    ../extras/linode.nix
+    ../extras/platform/linode.nix
     ../extras/headless.nix
   ];
 
