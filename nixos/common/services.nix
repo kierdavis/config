@@ -15,14 +15,6 @@
     permitRootLogin = "without-password";
   };
 
-  # Docker daemon
-  virtualisation.docker = {
-    enable = true;
-    autoPrune = {
-      enable = true;
-    };
-  };
-
   # Mail relay
   services.nullmailer = {
     enable = true;
