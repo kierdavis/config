@@ -18,26 +18,20 @@ in {
   programs.light.enable = true;
 
   environment.systemPackages = with localPkgs; [
-    boincmgr
     chromium
-    discord
     dmenu
     evince
-    geda
     gimp
     gnome3.eog
     i3blocks
     i3blocks-scripts
     i3lock
-    kicad
     networkmanagerapplet
     pavucontrol
-    pcb
-    pysolfc
     quasselClient
     screenshot
     soton-rdp
-    spotify
+#    spotify
     sublime3
     terminator
     vlc
