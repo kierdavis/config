@@ -23,37 +23,43 @@ in {
   services.nixosManual.enable = true;
 
   environment.systemPackages = with localPkgs; [
+    # Utilities
     bc
-    beets
-    circleci
     file
     git
-    gnupg
-    htop
-    keybase
-    ledger
     manpages
     mountext
     nix-repl
-    nmap
-    pass
-    passchars
     pbzip2
     pigz
     publish
     pv
-    python27Packages.youtube-dl
     soton-mount
     soton-umount
     umountext
-    usbutils  # lsusb
     unzip
     wget
     zip
-
     (mkWake "coloris" "34:97:f6:34:19:3f")
     (mkWake "nocturn" "00:26:b9:bf:1f:52")
     (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
+
+    # System diagnostics
+    htop
+    nmap
+    pciutils  # lspci
+    usbutils  # lsusb
+
+    # Security
+    gnupg
+    keybase
+    pass
+    passchars
+
+    # Other (probably don't need to be in base build)
+    beets
+    circleci
+    python27Packages.youtube-dl
   ];
 
   environment.variables = {
