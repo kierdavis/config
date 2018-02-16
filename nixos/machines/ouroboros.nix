@@ -18,6 +18,7 @@ in
     ../common
     ../extras/boot-efi.nix
     ../extras/desktop
+    ../extras/devel.nix
     sambaClient
   ];
 

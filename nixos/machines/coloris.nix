@@ -19,6 +19,7 @@ in
     ../extras/boot-efi.nix
     ../extras/boinc.nix
     ../extras/desktop
+    ../extras/devel.nix
     sambaClient
   ];
 

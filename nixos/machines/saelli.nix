@@ -20,6 +20,7 @@ in
     ../extras/desktop
     ../extras/low-power.nix
     ../extras/clickpad.nix
+    ../extras/devel.nix
     sambaClient
   ];
 

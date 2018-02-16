@@ -58,7 +58,6 @@ in {
 
     # Other (probably don't need to be in base build)
     beets
-    circleci
     python27Packages.youtube-dl
   ];
 
