@@ -86,7 +86,7 @@ in
 {
   imports = [
     ../common
-    ../extras/boot-grub.nix
+    ../extras/platform/grub.nix
     ../extras/headless.nix
     samba.server
     postgresql

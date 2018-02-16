@@ -6,8 +6,8 @@
 {
   imports = [
     ../common
+    ../extras/platform/raspberry-pi-2.nix
     ../extras/headless.nix
-    ../extras/raspberry-pi-2.nix
   ];
 
   machine = {
