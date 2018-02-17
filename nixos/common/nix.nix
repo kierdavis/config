@@ -21,4 +21,10 @@
     options = "--delete-older-than 14d";
   };
   systemd.timers.nix-gc.timerConfig.Persistent = true;
+
+  nixpkgs.overlays = [
+    (self: super: {
+      jemalloc = super.callPackage ../lib/jemalloc.nix {};
+    })
+  ];
 }
