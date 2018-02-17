@@ -23,6 +23,7 @@
   systemd.timers.nix-gc.timerConfig.Persistent = true;
 
   nixpkgs.overlays = [
+    (import ../../pkgs/overlay.nix)
     (self: super: {
       jemalloc = super.callPackage ../lib/jemalloc.nix {};
     })

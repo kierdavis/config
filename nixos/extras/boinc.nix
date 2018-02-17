@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  localPkgs = import ../../pkgs pkgs;
-
   boincDir = "/var/lib/boinc";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; };
 in {
@@ -25,5 +23,5 @@ in {
     ] ++ lib.optional config.machine.gpu.nvidia nvidia_x11;
   };
 
-  environment.systemPackages = [ localPkgs.boincmgr ];
+  environment.systemPackages = [ pkgs.boincmgr ];
 }

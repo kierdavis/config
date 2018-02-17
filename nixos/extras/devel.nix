@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  localPkgs = import ../../pkgs pkgs;
-
-in {
+{
   # Docker daemon
   virtualisation.docker = {
     enable = true;
@@ -12,7 +9,7 @@ in {
     };
   };
 
-  environment.systemPackages = with localPkgs; [
+  environment.systemPackages = with pkgs; [
     # Software
     circleci
     python2

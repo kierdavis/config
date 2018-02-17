@@ -1,11 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  localPkgs = import ../../pkgs pkgs;
-
-  mkWake = name: mac: localPkgs.writeScriptBin "wake-${name}" ''
-    #!${localPkgs.stdenv.shell}
-    ${localPkgs.wakelan}/bin/wakelan ${mac}
+  mkWake = name: mac: pkgs.writeScriptBin "wake-${name}" ''
+    #!${pkgs.stdenv.shell}
+    ${pkgs.wakelan}/bin/wakelan ${mac}
   '';
 
 in {
@@ -22,7 +20,7 @@ in {
   # NixOS manual
   services.nixosManual.enable = true;
 
-  environment.systemPackages = with localPkgs; [
+  environment.systemPackages = with pkgs; [
     # Utilities
     bc
     file
