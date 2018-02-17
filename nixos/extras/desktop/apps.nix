@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  localPkgs = import ../../../pkgs pkgs;
-
-in {
+{
   # VirtualBox
   virtualisation.virtualbox.host.enable = true;
 
@@ -17,7 +14,7 @@ in {
   # Backlight control
   programs.light.enable = true;
 
-  environment.systemPackages = with localPkgs; [
+  environment.systemPackages = with pkgs; [
     chromium
     dmenu
     evince

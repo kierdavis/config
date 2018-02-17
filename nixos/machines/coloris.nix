@@ -4,8 +4,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  localPkgs = import ../../pkgs pkgs;
-
   samba = import ../samba.nix;
   sambaClient = samba.client {
     host = "nocturn";
@@ -78,8 +76,8 @@ in
   systemd.services.docker.after = [ "var-lib-docker.mount" ];
 
   environment.systemPackages = [
-    localPkgs.boincgpuctl
-    localPkgs.google-musicmanager
+    pkgs.boincgpuctl
+    pkgs.google-musicmanager
   ];
 
   campanella-vpn.client = {

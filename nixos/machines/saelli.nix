@@ -4,8 +4,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  localPkgs = import ../../pkgs pkgs;
-
   samba = import ../samba.nix;
   sambaClient = samba.client {
     host = "nocturn";
