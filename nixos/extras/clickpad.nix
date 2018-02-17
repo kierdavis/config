@@ -36,7 +36,7 @@
     palmMinWidth = 5;
     palmMinZ = 40;
 
-    minSpeed = "0.5";
+    minSpeed = "0.2";
     maxSpeed = "1.5";
   };
 }
