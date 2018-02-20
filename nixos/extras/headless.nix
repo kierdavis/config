@@ -23,4 +23,13 @@
 
   # Being headless, we don't need a GRUB splash image.
   boot.loader.grub.splashImage = null;
+
+  # Disable optional features of some packages to reduce dependency on graphics libraries.
+  nixpkgs.overlays = [
+    (self: super: {
+      beets = super.beets.override {
+        enableKeyfinder = false; # pulls in mesa-noglu
+      };
+    })
+  ];
 }
