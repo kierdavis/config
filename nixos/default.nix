@@ -32,4 +32,9 @@ in
       configuration = machines/solanin.nix;
       system = "armv7l-linux";
     }).system;
+
+    geogaddi = nixos {
+      configuration = machines/geogaddi.nix;
+      system = "x86_64-linux";
+    };
   }
