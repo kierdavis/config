@@ -1,15 +1,13 @@
 { config, lib, pkgs, ... }:
 
 {
-  fileSystems."/" = {
+  fileSystems."/" = lib.mkIf (!config.boot.isContainer) {
     device = config.machine.fsdevices.root;
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
 
-  swapDevices =
-    [ { device = config.machine.fsdevices.swap; }
-    ];
+  swapDevices = lib.mkIf (!config.boot.isContainer) [ { device = config.machine.fsdevices.swap; } ];
 
   # mount a tmpfs on /tmp
   boot.tmpOnTmpfs = true;
