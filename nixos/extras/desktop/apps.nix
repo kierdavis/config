@@ -28,7 +28,7 @@
     quasselClient
     screenshot
     soton-rdp
-#    spotify
+    spotify
     sublime3
     terminator
     vlc
