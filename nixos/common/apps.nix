@@ -30,6 +30,7 @@ in {
     nix-repl
     pbzip2
     pigz
+    psmisc  # provides killall
     publish
     pv
     soton-mount
