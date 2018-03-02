@@ -9,7 +9,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "http://ftb.cursecdn.com/FTB2/launcher/FTB_Launcher.jar";
-    sha256 = "10ga4jgyfsj5dy4rj2rla0fpnfpnxv8r3bmxpqpwn7fsry4il79v";
+    sha256 = "0pyh83hhni97ryvz6yy8lyiagjrlx67cwr780s2bja92rxc1sqpj";
   };
 
   phases = "installPhase";
