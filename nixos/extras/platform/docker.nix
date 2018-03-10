@@ -80,17 +80,17 @@ let
   '';
 
 in {
-  system.build.docker = {
+  config.system.build.docker = {
     inherit image deployScript;
   };
 
-  boot.isContainer = true;
+  config.boot.isContainer = true;
 
   # Falls over when started, and not really necessary
   # anyway since we're isolated from the outside world.
-  networking.firewall.enable = lib.mkForce false;
+  config.networking.firewall.enable = lib.mkForce false;
 
-  fileSystems."/home" = {
+  config.fileSystems."/home" = {
     device = "/nonvolatile/home";
     options = [ "bind" ];
   };
