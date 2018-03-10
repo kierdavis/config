@@ -17,6 +17,8 @@
     cpu = {
       cores = 8;
     };
+
+    sshHostKey = ../../secret/geogaddi-ssh-host-key.priv;
   };
 
   networking.hostId = "62b585a5";
