@@ -94,4 +94,19 @@ in {
     device = "/nonvolatile/home";
     options = [ "bind" ];
   };
+
+  # Disable automatic generation of SSH host keys, and add our own ones.
+  # This needed because /etc does not persist between reboots.
+  config.services.openssh.hostKeys = [];
+  options.machine.sshHostKey = with lib; mkOption {
+    type = types.path;
+    description = ''Path to the SSH server host key.'';
+  };
+  config.environment.etc."ssh/ssh_host_key" = {
+    source = config.machine.sshHostKey;
+    mode = "0400";
+  };
+  config.services.openssh.extraConfig = ''
+    HostKey /etc/ssh/ssh_host_key
+  '';
 }
