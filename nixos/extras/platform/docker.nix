@@ -25,6 +25,8 @@ let
     # Give openvpn permission to configure network interfaces.
     "--cap-add=NET_ADMIN"
     "--device=/dev/net/tun"
+    # Give certain processes (e.g. ping) permission to use raw sockets.
+    "--cap-add=NET_RAW"
     # Required to stop systemd hanging on startup.
     "--volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     # Mount non-volatile data store.
