@@ -1,13 +1,28 @@
 # Geogaddi is a docker container hosting network shares and other services.
 # It is named after the album "Geogaddi" by "Boards of Canada".
 
-{ config, lib, pkgs, ... }:
+let
+  nfsServer = { config, lib, pkgs, ... }: {
+    fileSystems."/net/geogaddi" = {
+      device = "/nonvolatile/shares";
+      options = [ "bind" ];
+    };
+    services.nfs.server = {
+      enable = true;
+      createMountPoints = true;
+      exports = ''
+        /net/geogaddi 10.99.0.0/16(ro,all_squash,anonuid=1001,anongid=100)
+      '';
+    };
+    machine.mountGeogaddiShares = false; # Don't start the NFS client.
+  };
 
-{
+in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/docker.nix
     ../extras/headless.nix
+    nfsServer
   ];
 
   machine = {
