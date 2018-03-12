@@ -86,5 +86,12 @@ with lib;
       example = ''[ "BAT0" "BAT1" ]'';
       description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
     };
+
+    machine.mountGeogaddiShares = mkOption {
+      type = types.bool;
+      default = true;
+      example = false;
+      description = ''Whether or not to mount the remote filesystem /net/geogaddi.'';
+    };
   };
 }
