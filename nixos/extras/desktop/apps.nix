@@ -28,6 +28,7 @@
     quasselClient
     screenshot
     signal-desktop
+    skype
     soton-rdp
     spotify
     sublime3
