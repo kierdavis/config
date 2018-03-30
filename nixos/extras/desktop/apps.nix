@@ -27,6 +27,7 @@
     pavucontrol
     quasselClient
     screenshot
+    signal-desktop
     soton-rdp
     spotify
     sublime3
