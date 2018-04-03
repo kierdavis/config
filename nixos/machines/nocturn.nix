@@ -134,38 +134,6 @@ in
     fsType = "ext4";
   };
 
-  # Automatic backups.
-  fileSystems."/mnt/backup-tmp" = {
-    device = "/dev/disk/by-uuid/80932810-41b1-4c7f-827c-b273d4303b38";
-    fsType = "ext4";
-  };
-  systemd.services.backup = {
-    description = "Automatic backup";
-    requires = [ "local-fs.target" "network.target" ];
-    script = ''
-      #!${pkgs.stdenv.shell}
-      set -o errexit -o pipefail -o nounset
-      date=$(${pkgs.coreutils}/bin/date +%Y%m%d)
-      name=nocturn-$date.tar.bz2.gpg
-      localfile=/mnt/backup-tmp/$name
-      remotefile=backup/nocturn/$date/$name
-      recipient=8139C5FCEDA73ABF
-
-      ${pkgs.gnutar}/bin/tar --create --to-stdout /home /srv /shares/{documents,misc,music} \
-          --exclude /shares/misc/vm \
-        | ${pkgs.pbzip2}/bin/pbzip2 --stdout \
-        | ${pkgs.gnupg}/bin/gpg --encrypt --recipient=$recipient --compress-algo=none \
-          --output=$localfile --batch
-      ${pkgs.backblaze-b2}/bin/backblaze-b2 upload_file KierBackup $localfile $remotefile
-
-      ${pkgs.coreutils}/bin/rm --force $localfile
-    '';
-    startAt = "Thu 04:00";
-    serviceConfig = {
-      Type = "oneshot";
-    };
-  };
-
   campanella-vpn.client = {
     enable = true;
     certFile = ../../secret/vpn/certs/nocturn.crt;
