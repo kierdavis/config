@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-#  fileSystems."/net/campanella" = {
-#    device = "campanella-nfsserver:/";
+#  fileSystems."/net/geogaddi" = lib.mkIf config.machine.mountGeogaddiShares {
+#    device = "geogaddi:/net/geogaddi";
 #    fsType = "nfs";
 #    options = [
 #      "vers=4"      # NFS version 4.
