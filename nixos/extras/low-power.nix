@@ -35,7 +35,10 @@
     ACTION=="add", SUBSYSTEM=="pci", ATTR(power/control)="auto"
 
     # USB autosuspend blacklist
-    # ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1234", ATTR{idProduct}=="5678", GOTO="power_usb_rules_end"
+    # Tecknet wireless mouse
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="062a", ATTR{idProduct}=="5918", GOTO="power_usb_rules_end"
+    # Corsair Strafe keyboard
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b15", GOTO="power_usb_rules_end"
 
     # Enable USB autosuspend by default for all other devices.
     ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"

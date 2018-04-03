@@ -172,7 +172,7 @@ mode $APPMODE {
   bindsym e exec sublime, mode default
   bindsym $mod+e exec sublime --new-window, mode default
   bindsym i exec quasselclient, mode default
-  bindsym s exec chromium --profile-directory=Default --app-id=bikioccmkafdpakkkcpdbppfkghcmihk, mode default
+  bindsym s exec signal-desktop, mode default
   bindsym m exec terminator, mode default
   bindsym v exec pavucontrol, mode default
   bindsym q mode default
