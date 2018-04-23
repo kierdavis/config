@@ -33,6 +33,7 @@
     spotify
     sublime3
     terminator
+    tor-browser-bundle
     vlc
   ];
 }
