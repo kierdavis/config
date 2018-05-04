@@ -11,9 +11,12 @@
     source = ../../secret/nix-signing-key.pub;
   };
   environment.etc."nix/signing-key.sec" = {
-    mode = "0400";
-    text = builtins.readFile ../../secret/nix-signing-key.priv;
+    source = ../../secret/nix-signing-key.priv;
   };
+  nix.binaryCachePublicKeys = [
+    (builtins.readFile ../../secret/nix-signing-key.pub)
+  ];
+  environment.variables.NIX_SECRET_KEY_FILE = "/etc/nix/signing-key.sec";
 
   nix.gc = {
     automatic = true;
