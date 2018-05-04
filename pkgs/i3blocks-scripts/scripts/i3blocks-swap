@@ -1,4 +1,5 @@
 #!/bin/sh
+set -o errexit -o pipefail -o nounset
 
 total=$(grep SwapTotal /proc/meminfo | tr -dc '[:digit:]')
 avail=$(grep SwapFree /proc/meminfo | tr -dc '[:digit:]')

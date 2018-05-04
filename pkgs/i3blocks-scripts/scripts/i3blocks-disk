@@ -1,4 +1,5 @@
 #!/bin/sh
+set -o errexit -o pipefail -o nounset
 
 path="$BLOCK_INSTANCE"
 used=$(df $path --human-readable --output=used | tail -1 | tr -d ' ')

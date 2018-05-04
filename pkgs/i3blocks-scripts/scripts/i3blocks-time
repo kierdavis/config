@@ -1,4 +1,5 @@
 #!/bin/sh
+set -o errexit -o pipefail -o nounset
 
 date '+%a %Y-%m-%d %H:%M'
 date '+%Y-%m-%d %H:%M'
