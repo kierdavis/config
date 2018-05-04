@@ -62,6 +62,4 @@ in
     certFile = ../../secret/vpn/certs/saelli.crt;
     keyFile = "/etc/saelli.key";
   };
-
-  hardware.ckb.enable = true;
 }
