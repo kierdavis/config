@@ -1,4 +1,5 @@
 #!/bin/sh
+set -o errexit -o pipefail -o nounset
 
 data=$(nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,pstate | sed 's/ //g')
 temp=$(echo "$data" | cut -d ',' -f 1)

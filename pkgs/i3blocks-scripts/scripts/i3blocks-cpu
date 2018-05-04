@@ -1,4 +1,5 @@
 #!/bin/sh
+set -o errexit -o pipefail -o nounset
 
 temp_file="/sys/class/thermal/$BLOCK_INSTANCE/temp"
 milli_temp=$(cat "$temp_file")
