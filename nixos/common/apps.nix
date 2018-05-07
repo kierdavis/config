@@ -54,10 +54,6 @@ in {
     keybase
     pass
     passchars
-
-    # Other (probably don't need to be in base build)
-    beets
-    python27Packages.youtube-dl
   ];
 
   environment.variables = {
