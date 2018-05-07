@@ -8,7 +8,7 @@ writeScriptBin "boincmgr" ''
   #!${stdenv.shell}
   set -eu
 
-  ${docker}/bin/docker build -t boincmgr ${dockerfileDir}
+  img_id=$(${docker}/bin/docker build --quiet ${dockerfileDir})
 
   XSOCK=/tmp/.X11-unix
   XAUTH=/tmp/.docker-auth
@@ -19,14 +19,14 @@ writeScriptBin "boincmgr" ''
 
   ${docker}/bin/docker run \
     ''${DOCKER_FLAGS:-} \
+    --rm \
     --net=host \
     --env DISPLAY \
     --env XAUTHORITY=$XAUTH \
     --volume $XSOCK:$XSOCK:rw \
     --volume $XAUTH:$XAUTH:ro \
     --volume $manager_dir:/root:rw \
-    boincmgr \
-    /usr/bin/boincmgr \
+    $img_id \
     --namehost 0.0.0.0 \
     --password "$(cat /var/lib/boinc/gui_rpc_auth.cfg)"
 ''
