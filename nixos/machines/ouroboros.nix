@@ -3,21 +3,12 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  samba = import ../samba.nix;
-  sambaClient = samba.client {
-    host = "nocturn";
-    port = 445;
-  };
-in
-
 {
   imports = [
     ../common
     ../extras/platform/efi.nix
     ../extras/desktop
     ../extras/devel.nix
-    sambaClient
   ];
 
   machine = {
