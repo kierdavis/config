@@ -10,6 +10,7 @@
     ../extras/boinc.nix
     ../extras/desktop
     ../extras/devel.nix
+    ../extras/netfs/gyroscope.nix
   ];
 
   machine = {

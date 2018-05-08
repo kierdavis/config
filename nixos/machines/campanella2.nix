@@ -8,6 +8,7 @@
     ../common
     ../extras/platform/linode.nix
     ../extras/headless.nix
+    ../extras/netfs/gyroscope.nix
   ];
 
   machine = {
