@@ -11,6 +11,7 @@
     ../extras/low-power.nix
     ../extras/clickpad.nix
     ../extras/devel.nix
+    ../extras/netfs/gyroscope.nix
   ];
 
   machine = {

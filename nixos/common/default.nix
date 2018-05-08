@@ -5,7 +5,6 @@
     ./fs.nix
     ./locale.nix
     ./net.nix
-    ./netfs.nix
     ./nix.nix
     ./options.nix
     ./print.nix
