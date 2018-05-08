@@ -72,4 +72,9 @@ in
     device = "/dev/disk/by-label/torrents0";
     fsType = "ext4";
   };
+
+  boot.initrd.preLVMCommands = ''
+    echo "Sleeping for a few seconds to wait for the hard disk to spin up..."
+    sleep 4
+  '';
 }
