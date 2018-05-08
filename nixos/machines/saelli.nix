@@ -3,14 +3,6 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  samba = import ../samba.nix;
-  sambaClient = samba.client {
-    host = "nocturn";
-    port = 445;
-  };
-in
-
 {
   imports = [
     ../common
@@ -19,7 +11,7 @@ in
     ../extras/low-power.nix
     ../extras/clickpad.nix
     ../extras/devel.nix
-    sambaClient
+    ../extras/netfs/gyroscope.nix
   ];
 
   machine = {
