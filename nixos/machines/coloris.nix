@@ -57,10 +57,6 @@
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
-  fileSystems."/data" = {
-    device = "/dev/disk/by-uuid/c522b9a8-b534-428c-9e4e-6d297ed9dba4";
-    fsType = "ext4";
-  };
   fileSystems."/var/lib/docker" = {
     device = "/dev/disk/by-uuid/842e7d6c-cc65-4719-89b4-3968b8bfb30d";
     fsType = "ext4";
