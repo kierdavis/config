@@ -14,7 +14,7 @@
   blocklist-enabled = false;
 
   ### FILES AND LOCATIONS ###
-  #download-dir = "/var/lib/transmission/downloads";
+  #download-dir = "/net/gyroscope/torrents";
   #incomplete-dir
   incomplete-dir-enabled = false;
   preallocation = 1;  # 0 = Off, 1 = Fast, 2 = Full
@@ -64,15 +64,15 @@
   seed-queue-size = 10;
 
   ### RPC ###
-  rpc-authentication-required = true;
+  rpc-authentication-required = false;
   rpc-bind-address = "0.0.0.0";
   rpc-enabled = true;
   rpc-password = (import ../secret/passwords.nix).transmissionWeb;
   rpc-port = 9091;
   #rpc-url
   rpc-username = "kier";
-  rpc-whitelist = "127.0.0.1,192.168.*.*";  # comma separated
-  rpc-whitelist-enabled = false;
+  rpc-whitelist = "127.0.0.1,10.99.*.*";  # comma separated
+  rpc-whitelist-enabled = true;
 
   ### SCHEDULING ###
   alt-speed-time-enabled = false;
