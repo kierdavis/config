@@ -2,8 +2,6 @@
 # It is named after the album "Nocturn" by "Tonebox".
 
 let
-  samba = import ../samba.nix;
-
   postgresql = { config, lib, pkgs, ... }: {
     services.postgresql = {
       enable = true;
@@ -88,7 +86,6 @@ in
     ../common
     ../extras/platform/grub.nix
     ../extras/headless.nix
-    samba.server
     postgresql
     quassel
     transmission

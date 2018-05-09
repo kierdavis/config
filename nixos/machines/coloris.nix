@@ -3,14 +3,6 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  samba = import ../samba.nix;
-  sambaClient = samba.client {
-    host = "nocturn";
-    port = 445;
-  };
-in
-
 {
   imports = [
     ../common
@@ -18,7 +10,7 @@ in
     ../extras/boinc.nix
     ../extras/desktop
     ../extras/devel.nix
-    sambaClient
+    ../extras/netfs/gyroscope.nix
   ];
 
   machine = {
@@ -64,10 +56,6 @@ in
     device = "/dev/disk/by-uuid/7ea83533-f78b-4deb-94ed-6bef5dbfa8e4";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
-  };
-  fileSystems."/data" = {
-    device = "/dev/disk/by-uuid/c522b9a8-b534-428c-9e4e-6d297ed9dba4";
-    fsType = "ext4";
   };
   fileSystems."/var/lib/docker" = {
     device = "/dev/disk/by-uuid/842e7d6c-cc65-4719-89b4-3968b8bfb30d";
