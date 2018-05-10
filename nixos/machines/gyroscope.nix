@@ -7,6 +7,9 @@ let
       enable = true;
       createMountPoints = true;
       exports = ''
+        /net/gyroscope/archive 10.99.0.0/16(ro,all_squash,anonuid=1000,anongid=100)
+        /net/gyroscope/misc-large 10.99.0.0/16(rw,all_squash,anonuid=1000,anongid=100)
+        /net/gyroscope/music 10.99.0.0/16(rw,all_squash,anonuid=1000,anongid=100)
         /net/gyroscope/torrents 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70) # UID and GID for 'transmission'
       '';
     };
@@ -66,6 +69,18 @@ in
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/home0";
+    fsType = "ext4";
+  };
+  fileSystems."/net/gyroscope/archive" = {
+    device = "/dev/disk/by-label/archive0";
+    fsType = "ext4";
+  };
+  fileSystems."/net/gyroscope/misc-large" = {
+    device = "/dev/disk/by-label/misc_large0";
+    fsType = "ext4";
+  };
+  fileSystems."/net/gyroscope/music" = {
+    device = "/dev/disk/by-label/music0";
     fsType = "ext4";
   };
   fileSystems."/net/gyroscope/torrents" = {
