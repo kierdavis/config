@@ -1,5 +1,12 @@
 { config, lib, pkgs, ... }:
 
+let
+  chromium-river = pkgs.writeScriptBin "chromium-river" ''
+    #!${pkgs.stdenv.shell}
+    ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
+  '';
+in
+
 {
   # VirtualBox
   virtualisation.virtualbox.host.enable = true;
@@ -16,6 +23,7 @@
 
   environment.systemPackages = with pkgs; [
     chromium
+    chromium-river
     dmenu
     evince
     gimp
