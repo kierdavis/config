@@ -24,4 +24,9 @@
 
   # /etc/hosts
   networking.extraHosts = (import ../hosts.nix { inherit pkgs; }).fileContents;
+
+  # When forwarding a port from a host to a container using systemd-nspawn, this setting is
+  # required in order to make the port accessible from other machine's on the host's network.
+  # https://docs.docker.com/v17.09/engine/userguide/networking/default_network/container-communication/#communicating-to-the-outside-world
+  boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
 }

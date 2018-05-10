@@ -17,12 +17,34 @@ let
   };
 
   transmissionClient = { config, lib, pkgs, ... }: {
-    services.transmission = {
-      enable = true;
-      port = 9091; # web interface
-      settings = import ../transmission-settings.nix // {
-        download-dir = "/net/gyroscope/torrents";
+    containers.torrent = {
+      config = {
+        services.transmission = {
+          enable = true;
+          port = 9091; # web interface
+          settings = import ../transmission-settings.nix // {
+            download-dir = "/downloads";
+          };
+        };
+        networking.firewall.allowedTCPPorts = [ 9091 ];
       };
+      bindMounts = {
+        "/downloads" = {
+          hostPath = "/net/gyroscope/torrents";
+          isReadOnly = false;
+        };
+        "/var/lib/transmission" = {
+          hostPath = "/srv/transmission";
+          isReadOnly = false;
+        };
+      };
+      forwardPorts = [
+        { hostPort = 9091; containerPort = 9091; protocol = "tcp"; }
+      ];
+      privateNetwork = true;
+      hostAddress = "10.66.2.1";
+      localAddress = "10.66.2.2";
+      autoStart = true;
     };
     users.users.kier.extraGroups = [ "transmission" ];
     networking.firewall.allowedTCPPorts = [ 9091 51413 ];

@@ -64,7 +64,7 @@
   seed-queue-size = 10;
 
   ### RPC ###
-  rpc-authentication-required = false;
+  rpc-authentication-required = true;
   rpc-bind-address = "0.0.0.0";
   rpc-enabled = true;
   rpc-password = (import ../secret/passwords.nix).transmissionWeb;
@@ -72,7 +72,7 @@
   #rpc-url
   rpc-username = "kier";
   rpc-whitelist = "127.0.0.1,10.99.*.*";  # comma separated
-  rpc-whitelist-enabled = true;
+  rpc-whitelist-enabled = false;
 
   ### SCHEDULING ###
   alt-speed-time-enabled = false;
