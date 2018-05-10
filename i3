@@ -168,7 +168,7 @@ set $APPMODE "Web Editor Irc Signal Music Volume_control | cancel(Q)"
 bindsym $mod+q mode $APPMODE
 mode $APPMODE {
   bindsym w exec chromium, mode default
-  bindsym $mod+w exec chromium --incognito, mode default
+  bindsym $mod+w exec chromium-river, mode default
   bindsym e exec sublime, mode default
   bindsym $mod+e exec sublime --new-window, mode default
   bindsym i exec quasselclient, mode default
