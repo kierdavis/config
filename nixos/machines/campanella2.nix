@@ -31,6 +31,11 @@
   boot.initrd.availableKernelModules = [ "ata_piix" "virtio_pci" "floppy" "sd_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";
 
+  fileSystems."/home" = {
+    device = "/dev/sdc";
+    fsType = "ext4";
+  };
+
   campanella-vpn.server = {
     enable = true;
     certFile = ../../secret/vpn/certs/campanella2.crt;
