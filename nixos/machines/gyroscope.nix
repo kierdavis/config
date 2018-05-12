@@ -41,6 +41,19 @@ let
           { address = "10.99.0.0"; prefixLength = 16; via = "10.66.2.1"; }
         ];
         networking.firewall.allowedTCPPorts = [ 9091 ];
+        networking.firewall.extraCommands = ''
+          # Reset the OUTPUT chain (delete all rules and set policy to accept packets by default).
+          ip46tables -F OUTPUT
+          ip46tables -P OUTPUT ACCEPT
+          # Allow traffic to NordVPN's entry point.
+          iptables -A OUTPUT --protocol tcp --destination ${nordvpn.host} --dport ${toString nordvpn.port} -j ACCEPT
+          # Allow traffic destinated for one of gyroscope's LANs.
+          iptables -A OUTPUT --destination 10.66.2.0/24 -j ACCEPT
+          iptables -A OUTPUT --destination 192.168.1.0/24 -j ACCEPT
+          iptables -A OUTPUT --destination 10.99.0.0/16 -j ACCEPT
+          # Disallow all other traffic through eth0.
+          ip46tables -A OUTPUT --out-interface eth0 -j REJECT
+        '';
       };
       bindMounts = {
         "/downloads" = {
