@@ -16,9 +16,14 @@ let
     networking.firewall.allowedTCPPorts = [ 2049 ];
   };
 
-  transmissionClient = { config, lib, pkgs, ... }: {
+  transmissionClient = { config, lib, pkgs, ... }:
+    let nordvpn = import ../../secret/nordvpn { inherit pkgs; }; in {
     containers.torrent = {
       config = {
+        services.openvpn.servers.nordvpn = {
+          config = nordvpn.config;
+          autoStart = true;
+        };
         services.transmission = {
           enable = true;
           port = 9091; # web interface
@@ -26,6 +31,15 @@ let
             download-dir = "/downloads";
           };
         };
+        environment.etc."resolv.conf".text = ''
+          # NordVPN name servers
+          nameserver 103.86.96.100
+          nameserver 103.86.99.100
+        '';
+        networking.interfaces.eth0.ipv4.routes = [
+          { address = "192.168.1.0"; prefixLength = 24; via = "10.66.2.1"; }
+          { address = "10.99.0.0"; prefixLength = 16; via = "10.66.2.1"; }
+        ];
         networking.firewall.allowedTCPPorts = [ 9091 ];
       };
       bindMounts = {
@@ -42,9 +56,15 @@ let
         { hostPort = 9091; containerPort = 9091; protocol = "tcp"; }
       ];
       privateNetwork = true;
+      enableTun = true;
       hostAddress = "10.66.2.1";
       localAddress = "10.66.2.2";
       autoStart = true;
+    };
+    networking.nat = {
+      enable = true;
+      internalInterfaces = ["ve-torrent"];
+      externalInterface = "eth0";
     };
     users.users.kier.extraGroups = [ "transmission" ];
     networking.firewall.allowedTCPPorts = [ 9091 51413 ];
