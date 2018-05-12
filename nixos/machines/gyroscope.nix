@@ -67,8 +67,7 @@ let
       externalInterface = "eth0";
     };
     users.users.kier.extraGroups = [ "transmission" ];
-    networking.firewall.allowedTCPPorts = [ 9091 51413 ];
-    networking.firewall.allowedUDPPorts = [ 6771 51413 ];
+    networking.firewall.allowedTCPPorts = [ 9091 ];
   };
 in
 
