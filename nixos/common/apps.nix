@@ -35,6 +35,7 @@ in {
     pv
     soton-mount
     soton-umount
+    sshfs
     umountext
     unzip
     wget
