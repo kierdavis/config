@@ -2,7 +2,15 @@
 # It is named after the album "Gyroscope" by "Boards of Canada".
 
 let
-  nfsServer = { config, lib, pkgs, ... }: {
+  nfsServer = { config, lib, pkgs, ... }: let
+    mountUnits = [
+      "net-gyroscope-archive.mount"
+      "net-gyroscope-misc\\x2dlarge.mount"
+      "net-gyroscope-music.mount"
+      "net-gyroscope-torrents.mount"
+      "net-gyroscope-video.mount"
+    ];
+  in {
     services.nfs.server = {
       enable = true;
       createMountPoints = true;
@@ -11,13 +19,21 @@ let
         /net/gyroscope/misc-large 10.99.0.0/16(rw,all_squash,anonuid=1000,anongid=100)
         /net/gyroscope/music 10.99.0.0/16(rw,all_squash,anonuid=1000,anongid=100)
         /net/gyroscope/torrents 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70) # UID and GID for 'transmission'
+        /net/gyroscope/video 10.99.0.0/16(rw,all_squash,anonuid=1000,anongid=100)
       '';
+    };
+    systemd.services = {
+      nfs-server.requires = mountUnits;
+      nfs-server.after = mountUnits;
+      nfs-mountd.requires = mountUnits;
+      nfs-mountd.after = mountUnits;
     };
     networking.firewall.allowedTCPPorts = [ 2049 ];
   };
 
-  transmissionClient = { config, lib, pkgs, ... }:
-    let nordvpn = import ../../secret/nordvpn { inherit pkgs; }; in {
+  transmissionClient = { config, lib, pkgs, ... }: let
+    nordvpn = import ../../secret/nordvpn { inherit pkgs; };
+  in {
     containers.torrent = {
       config = {
         services.openvpn.servers.nordvpn = {
@@ -73,6 +89,10 @@ let
       hostAddress = "10.66.2.1";
       localAddress = "10.66.2.2";
       autoStart = true;
+    };
+    systemd.services."container@torrent" = {
+      requires = [ "net-gyroscope-torrents.mount" ];
+      after = [ "net-gyroscope-torrents.mount" ];
     };
     networking.nat = {
       enable = true;
@@ -139,6 +159,10 @@ in
   };
   fileSystems."/net/gyroscope/torrents" = {
     device = "/dev/disk/by-label/torrents0";
+    fsType = "ext4";
+  };
+  fileSystems."/net/gyroscope/video" = {
+    device = "/dev/disk/by-label/video0";
     fsType = "ext4";
   };
 
