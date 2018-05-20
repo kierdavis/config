@@ -3,9 +3,9 @@
   alt-speed-enabled = false;
   #alt-speed-up  # in kB/s, default = 50
   #alt-speed-down  # in kB/s, default = 50
-  speed-limit-down = 2000;  # in kB/s, default = 100
+  speed-limit-down = 5000;  # in kB/s, default = 100
   speed-limit-down-enabled = true;
-  speed-limit-up = 2000;  # in kB/s, default = 100
+  speed-limit-up = 5000;  # in kB/s, default = 100
   speed-limit-up-enabled = true;
   #upload-slots-per-torrent  # default = 14
 
