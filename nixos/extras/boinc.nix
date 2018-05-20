@@ -8,7 +8,7 @@ in {
 
   fileSystems.boinc = {
     mountPoint = boincDir;
-    device = "/dev/hdd/boinc";
+    device = "/dev/disk/by-label/boinc0";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
