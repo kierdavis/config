@@ -99,6 +99,13 @@ let
       internalInterfaces = ["ve-torrent"];
       externalInterface = "eth0";
     };
+    users.extraGroups.transmission.gid = config.ids.gids.transmission;
+    users.extraUsers.transmission = {
+      group = "transmission";
+      uid = config.ids.uids.transmission;
+      description = "Transmission BitTorrent user";
+      home = "/srv/transmission";
+    };
     users.users.kier.extraGroups = [ "transmission" ];
     networking.firewall.allowedTCPPorts = [ 9091 ];
   };
