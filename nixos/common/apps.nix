@@ -6,6 +6,17 @@ let
     ${pkgs.wakelan}/bin/wakelan ${mac}
   '';
 
+  duplicity-wrapped = pkgs.writeScriptBin "duplicity" ''
+    #!${pkgs.stdenv.shell}
+    ${pkgs.duplicity}/bin/duplicity \
+      --verbosity info \
+      --encrypt-key $GPG_MASTER_KEY \
+      --sign-key $GPG_BACKUP_SIGNING_KEY \
+      --archive-dir /var/lib/duplicity \
+      --tempdir /tmp \
+      "$@"
+  '';
+
 in {
   # sudo
   security.sudo.enable = true;
@@ -23,6 +34,7 @@ in {
   environment.systemPackages = with pkgs; [
     # Utilities
     bc
+    duplicity-wrapped
     file
     git
     manpages
