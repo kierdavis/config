@@ -48,6 +48,7 @@ in {
 
     # System diagnostics
     htop
+    lsof
     nmap
     pciutils  # lspci
     usbutils  # lsusb
