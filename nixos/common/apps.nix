@@ -44,6 +44,7 @@ in {
     psmisc  # provides killall
     publish
     pv
+    screen
     soton-mount
     soton-umount
     sshfs
