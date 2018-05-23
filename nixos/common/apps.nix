@@ -8,7 +8,7 @@ let
 
   duplicity-wrapped = pkgs.writeScriptBin "duplicity" ''
     #!${pkgs.stdenv.shell}
-    ${pkgs.duplicity}/bin/duplicity \
+    exec ${pkgs.duplicity}/bin/duplicity \
       --verbosity info \
       --encrypt-key $GPG_MASTER_KEY \
       --sign-key $GPG_BACKUP_SIGNING_KEY \
