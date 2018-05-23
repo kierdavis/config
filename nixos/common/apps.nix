@@ -12,7 +12,6 @@ let
       --verbosity info \
       --encrypt-key $GPG_MASTER_KEY \
       --sign-key $GPG_BACKUP_SIGNING_KEY \
-      --archive-dir /var/lib/duplicity \
       --tempdir /tmp \
       "$@"
   '';

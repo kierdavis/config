@@ -172,14 +172,6 @@ in
     device = "/dev/disk/by-label/video0";
     fsType = "ext4";
   };
-  fileSystems."/var/lib/duplicity/archive" = {
-    device = "/dev/disk/by-label/dup_archive0";
-    fsType = "ext4";
-  };
-  fileSystems."/var/lib/duplicity/tmp" = {
-    device = "/dev/disk/by-label/dup_tmp0";
-    fsType = "ext4";
-  };
 
   boot.initrd.preLVMCommands = ''
     echo "Sleeping for a few seconds to wait for the hard disk to spin up..."
