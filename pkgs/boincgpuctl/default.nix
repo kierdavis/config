@@ -1,7 +1,7 @@
 { stdenv, writeShellScriptBin, boinc }:
 
 writeShellScriptBin "boincgpuctl" ''
-#!/bin/sh
+#!${stdenv.shell}
 
 cd /var/lib/boinc
 
