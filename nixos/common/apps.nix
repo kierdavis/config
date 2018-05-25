@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  mkWake = name: mac: pkgs.writeScriptBin "wake-${name}" ''
+  mkWake = name: mac: pkgs.writeShellScriptBin "wake-${name}" ''
     #!${pkgs.stdenv.shell}
     ${pkgs.wakelan}/bin/wakelan ${mac}
   '';

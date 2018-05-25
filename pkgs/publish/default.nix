@@ -1,6 +1,6 @@
-{ stdenv, writeScriptBin, openssh }:
+{ stdenv, writeShellScriptBin, openssh }:
 
-writeScriptBin "publish" ''
+writeShellScriptBin "publish" ''
   #!${stdenv.shell}
   set -eu
   src="$1"

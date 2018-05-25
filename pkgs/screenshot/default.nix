@@ -1,6 +1,6 @@
-{ stdenv, writeScriptBin, imagemagick, eog }:
+{ stdenv, writeShellScriptBin, imagemagick, eog }:
 
-writeScriptBin "screenshot" ''
+writeShellScriptBin "screenshot" ''
   #!${stdenv.shell}
   set -eu
   dir=/tmp/screenshots

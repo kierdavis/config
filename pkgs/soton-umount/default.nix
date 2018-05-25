@@ -1,6 +1,6 @@
-{ stdenv, writeScriptBin }:
+{ stdenv, writeShellScriptBin }:
 
-writeScriptBin "soton-umount" ''
+writeShellScriptBin "soton-umount" ''
   #!${stdenv.shell}
   set -o errexit -o pipefail -o nounset
   mountpoint=/mnt/soton

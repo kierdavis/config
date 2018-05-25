@@ -1,10 +1,10 @@
-{ stdenv, docker, writeScriptBin, xauth }:
+{ stdenv, docker, writeShellScriptBin, xauth }:
 
 let
   dockerfileDir = ./dockerfiles;
 in
 
-writeScriptBin "boincmgr" ''
+writeShellScriptBin "boincmgr" ''
   #!${stdenv.shell}
   set -eu
 
