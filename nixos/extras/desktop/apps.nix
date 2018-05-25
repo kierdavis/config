@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  chromium-river = pkgs.writeScriptBin "chromium-river" ''
+  chromium-river = pkgs.writeShellScriptBin "chromium-river" ''
     #!${pkgs.stdenv.shell}
     ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
   '';
