@@ -39,6 +39,8 @@
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="062a", ATTR{idProduct}=="5918", GOTO="power_usb_rules_end"
     # Corsair Strafe keyboard
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b15", GOTO="power_usb_rules_end"
+    # Moto G5 phone
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", ATTR{idProduct}=="2e82", GOTO="power_usb_rules_end"
 
     # Enable USB autosuspend by default for all other devices.
     ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
