@@ -35,6 +35,10 @@
     device = "/dev/sdc";
     fsType = "ext4";
   };
+  fileSystems."/srv" = {
+    device = "/dev/sde";
+    fsType = "ext4";
+  };
 
   campanella-vpn.server = {
     enable = true;
