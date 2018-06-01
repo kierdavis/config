@@ -1,6 +1,6 @@
-{ stdenv, writeScriptBin, i3lock }:
+{ stdenv, writeShellScriptBin, i3lock }:
 
-writeScriptBin "lock" ''
+writeShellScriptBin "lock" ''
   #!${stdenv.shell}
   bg=/home/kier/.background-image
   flags=""

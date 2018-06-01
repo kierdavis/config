@@ -1,6 +1,6 @@
-{ stdenv, writeScriptBin, cryptsetup }:
+{ stdenv, writeShellScriptBin, cryptsetup }:
 
-writeScriptBin "umountext" ''
+writeShellScriptBin "umountext" ''
   #!${stdenv.shell}
   set -eu
   sudo umount /dev/mapper/ext
