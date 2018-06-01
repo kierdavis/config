@@ -1,6 +1,6 @@
-{ stdenv, cifs-utils, writeScriptBin }:
+{ stdenv, cifs-utils, writeShellScriptBin }:
 
-writeScriptBin "soton-mount" ''
+writeShellScriptBin "soton-mount" ''
   #!${stdenv.shell}
   set -o errexit -o pipefail -o nounset
   uid=$(id --user kier)
