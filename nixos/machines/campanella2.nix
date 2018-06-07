@@ -45,4 +45,9 @@
     certFile = ../../secret/vpn/certs/campanella2.crt;
     keyFile = "/etc/campanella2.key";
   };
+
+  services.postgresql = {
+    enable = true;
+    dataDir = "/srv/postgresql";
+  };
 }
