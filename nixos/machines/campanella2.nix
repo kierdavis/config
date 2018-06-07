@@ -59,7 +59,24 @@
   systemd.services.quassel.requires = [ "postgresql.service" ];
   systemd.services.quassel.after = [ "postgresql.service" ];
 
+  services.nginx = {
+    enable = true;
+    virtualHosts = (import ../../secret/campanella2-vhosts.nix) // {
+      default = {
+        default = true;
+        root = "/srv/http/default/www";
+      };
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [
+    80 # http
+    443 # https
     4242 # quassel
   ];
+
+  users.users.nginx = {
+    useDefaultShell = true;
+    openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
+  };
 }
