@@ -1,1 +1,0 @@
---volume=/home/kier/campanella-nfs-data:/export --cap-add=net_admin --cap-add=sys_admin --device=/dev/net/tun
