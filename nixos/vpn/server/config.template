@@ -331,4 +331,4 @@ verb 3
 #plugin openvpn-down-root.so
 
 # Enable a management server, accessible through the VPN.
-management tunnel 9000
+#management tunnel 9000
