@@ -13,11 +13,6 @@ in
       system = "x86_64-linux";
     }).system;
 
-    nocturn = (nixos {
-      configuration = machines/nocturn.nix;
-      system = "x86_64-linux";
-    }).system;
-
     saelli = (nixos {
       configuration = machines/saelli.nix;
       system = "x86_64-linux";

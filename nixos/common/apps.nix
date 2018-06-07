@@ -43,7 +43,6 @@ in {
     wget
     zip
     (mkWake "coloris" "34:97:f6:34:19:3f")
-    (mkWake "nocturn" "00:26:b9:bf:1f:52")
     (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
 
     # System diagnostics
