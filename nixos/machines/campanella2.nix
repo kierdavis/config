@@ -50,4 +50,16 @@
     enable = true;
     dataDir = "/srv/postgresql";
   };
+
+  services.quassel = {
+    enable = true;
+    dataDir = "/srv/quassel";
+    interfaces = [ "0.0.0.0" ];
+  };
+  systemd.services.quassel.requires = [ "postgresql.service" ];
+  systemd.services.quassel.after = [ "postgresql.service" ];
+
+  networking.firewall.allowedTCPPorts = [
+    4242 # quassel
+  ];
 }
