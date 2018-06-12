@@ -49,6 +49,9 @@
   services.postgresql = {
     enable = true;
     dataDir = "/srv/postgresql";
+    extraConfig = ''
+      listen_addresses = '127.0.0.1, 10.99.0.1'
+    '';
   };
 
   services.quassel = {
@@ -73,6 +76,7 @@
     80 # http
     443 # https
     4242 # quassel
+    5432 # postgresql
   ];
 
   users.users.nginx = {
