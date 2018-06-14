@@ -19,5 +19,10 @@
     geda
     kicad
     pcb
+
+    # Other
+    keybase
   ];
+
+  services.keybase.enable = true;
 }
