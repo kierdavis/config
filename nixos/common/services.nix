@@ -38,6 +38,4 @@
     user = "kier";
     group = config.users.users.kier.group;
   };
-
-  services.keybase.enable = true;
 }

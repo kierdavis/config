@@ -54,7 +54,6 @@ in {
 
     # Security
     gnupg
-    keybase
     pass
     passchars
   ];
