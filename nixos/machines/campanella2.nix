@@ -52,6 +52,9 @@
     extraConfig = ''
       listen_addresses = '127.0.0.1, 10.99.0.1'
     '';
+    authentication = ''
+      host all all 10.99.0.0/16 md5
+    '';
   };
 
   services.quassel = {
