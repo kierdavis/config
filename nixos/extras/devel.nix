@@ -20,6 +20,10 @@
     kicad
     pcb
 
+    # 3D modelling/printing
+    freecad
+    repetier-host
+
     # Other
     keybase
   ];
