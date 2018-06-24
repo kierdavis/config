@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     runHook preBuild
 
     frontend=$NIX_BUILD_TOP/repetier-host
-    set_baudrate=$NIX_BUILD_TOP/repetier-set-baudrate
+    set_baudrate=$NIX_BUILD_TOP/SetBaudrate
     instdir=$out/lib/repetier-host
 
     echo "#!${stdenv.shell}" > $frontend
@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
     install -D -m 0755 $frontend $out/bin/repetier-host
-    install -D -m 0755 $set_baudrate $out/bin/repetier-set-baudrate
+    install -D -m 0755 $set_baudrate $instdir/SetBaudrate
     for file in *.{application,dll,exe,exe.config,exe.manifest}; do
       install -D -m 0644 $file $instdir/$file
     done
