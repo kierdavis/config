@@ -17,7 +17,6 @@
 
     # Hardware
     geda
-    kicad
     pcb
 
     # 3D modelling/printing
