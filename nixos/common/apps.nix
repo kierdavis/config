@@ -28,7 +28,6 @@ in {
     git
     manpages
     mountext
-    nix-repl
     pbzip2
     pigz
     psmisc  # provides killall
