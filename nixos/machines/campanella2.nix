@@ -19,11 +19,6 @@
       cores = 1;
       intel = true;
     };
-
-    fsdevices = {
-      root = "/dev/sda";
-      swap = "/dev/sdb";
-    };
   };
 
   networking.hostId = "0e6e63bc";
@@ -31,6 +26,11 @@
   boot.initrd.availableKernelModules = [ "ata_piix" "virtio_pci" "floppy" "sd_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";
 
+  fileSystems."/" = {
+    device = "/dev/sda";
+    fsType = "ext4";
+    options = ["noatime" "nodiratime"];
+  };
   fileSystems."/home" = {
     device = "/dev/sdc";
     fsType = "ext4";
@@ -39,6 +39,7 @@
     device = "/dev/sde";
     fsType = "ext4";
   };
+  swapDevices = [ { device = "/dev/sdb"; } ];
 
   campanella-vpn.server = {
     enable = true;

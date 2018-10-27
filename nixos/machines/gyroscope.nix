@@ -1,3 +1,5 @@
+# OUT OF DATE!
+
 # Gyroscope is a Raspberry Pi hosting network shares and other services.
 # It is named after the album "Gyroscope" by "Boards of Canada".
 

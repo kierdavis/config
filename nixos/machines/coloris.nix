@@ -26,12 +26,6 @@
       nvidia = true;
     };
 
-    fsdevices = {
-      root = "/dev/disk/by-uuid/059315e0-e130-475c-9d84-45e4ef750a6b";
-      efi = "/dev/disk/by-uuid/6F09-65AE";
-      swap = "/dev/disk/by-uuid/afd2e652-b34e-4543-95c3-e2fc5df22201";
-    };
-
     i3blocks = {
       cpuThermalZone = "thermal_zone2";
       ethInterface = "enp4s0";
@@ -52,6 +46,11 @@
   services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
 
   # Additional filesystems (LVM).
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/059315e0-e130-475c-9d84-45e4ef750a6b";
+    fsType = "ext4";
+    options = ["noatime" "nodiratime"];
+  };
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/7ea83533-f78b-4deb-94ed-6bef5dbfa8e4";
     fsType = "ext4";
@@ -61,6 +60,8 @@
     device = "/dev/disk/by-uuid/842e7d6c-cc65-4719-89b4-3968b8bfb30d";
     fsType = "ext4";
   };
+  swapDevices = [ { device = "/dev/disk/by-uuid/afd2e652-b34e-4543-95c3-e2fc5df22201"; } ];
+  fileSystems.efi.device = "/dev/disk/by-uuid/6F09-65AE";
   systemd.services.docker.after = [ "var-lib-docker.mount" ];
 
   environment.systemPackages = [

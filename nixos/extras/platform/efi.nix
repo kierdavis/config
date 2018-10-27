@@ -7,8 +7,9 @@
 
   fileSystems.efi = {
     mountPoint = config.boot.loader.efi.efiSysMountPoint;
-    device = config.machine.fsdevices.efi;
     fsType = "vfat";
     options = ["noatime" "nodiratime"];
   };
+
+  # fileSystems.efi.device = ...;
 }
