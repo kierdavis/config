@@ -23,11 +23,6 @@ in
       system = "x86_64-linux";
     }).system;
 
-    solanin = (nixos {
-      configuration = machines/solanin.nix;
-      system = "armv7l-linux";
-    }).system;
-
     gyroscope = (nixos {
       configuration = machines/gyroscope.nix;
       system = "aarch64-linux";
