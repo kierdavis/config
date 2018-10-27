@@ -21,7 +21,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = "Mon 19:00";
+    dates = "Sat 03:00";
     options = "--delete-older-than 14d";
   };
   systemd.timers.nix-gc.timerConfig.Persistent = true;
