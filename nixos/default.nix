@@ -27,4 +27,9 @@ in
       configuration = machines/gyroscope.nix;
       system = "aarch64-linux";
     }).system;
+
+    inshowha = (nixos {
+     configuration = machines/inshowha.nix;
+     system = "x86_64-linux";
+    }).system;
   }
