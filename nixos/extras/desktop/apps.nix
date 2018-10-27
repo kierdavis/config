@@ -5,6 +5,11 @@ let
     #!${pkgs.stdenv.shell}
     ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
   '';
+
+  pkgs-latest = import (fetchTarball https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz) {
+    inherit (config.nixpkgs) config;
+  };
+  skype-latest = pkgs-latest.skype;
 in
 
 {
@@ -36,7 +41,7 @@ in
     quasselClient
     screenshot
     signal-desktop
-    skype
+    skype-latest
     soton-rdp
     spotify
     sublime3
