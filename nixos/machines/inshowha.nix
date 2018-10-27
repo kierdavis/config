@@ -20,7 +20,7 @@
 
   # Filesystems.
   fileSystems."/" = {
-    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
+    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-part2";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
