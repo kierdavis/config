@@ -96,6 +96,9 @@ in { config, lib, pkgs, ... }: {
     fsType = "ext4";
   };
   swapDevices = [ { device = "/dev/sdb"; } ];
+  # Not enough RAM for a tmpfs
+  boot.tmpOnTmpfs = lib.mkForce false;
+  boot.cleanTmpDir = true;
 
   # Make sure to generate a new ID using:
   #   head -c4 /dev/urandom | od -A none -t x4
