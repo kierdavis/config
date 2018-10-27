@@ -23,12 +23,6 @@
       intel = true;
     };
 
-    fsdevices = {
-      root = "/dev/disk/by-uuid/41a55911-8a7e-45f3-8a55-116b9abb4f6e";
-      efi = "/dev/disk/by-uuid/5036-1CC7";
-      swap = "/dev/disk/by-uuid/d9939f0d-3e6c-439e-a308-e1b40a254b9f";
-    };
-
     i3blocks = {
       cpuThermalZone = "thermal_zone0";
       ethInterface = "enp4s25";
@@ -43,11 +37,18 @@
   powerManagement.cpuFreqGovernor = "powersave";
 
   # Additional filesystems (LVM).
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/41a55911-8a7e-45f3-8a55-116b9abb4f6e";
+    fsType = "ext4";
+    options = ["noatime" "nodiratime"];
+  };
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/9cba21a0-ced6-4511-bfd2-5e576d02915a";
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
+  swapDevices = [ { device = "/dev/disk/by-uuid/d9939f0d-3e6c-439e-a308-e1b40a254b9f"; } ];
+  fileSystems.efi.device = "/dev/disk/by-uuid/5036-1CC7";
 
   campanella-vpn.client = {
     enable = true;

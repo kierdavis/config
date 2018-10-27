@@ -32,36 +32,6 @@ with lib;
       description = ''Whether the machine has an NVIDIA graphics card, and so should enable the corresponding graphics driver.'';
     };
 
-    machine.fsdevices.root = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the root filesystem.'';
-    };
-
-    machine.fsdevices.efi = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the EFI system filesystem.'';
-    };
-
-    machine.fsdevices.grub = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the disk (not partition!) on which the GRUB bootloader is installed.'';
-    };
-
-    machine.fsdevices.swap = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the swap partition.'';
-    };
-
-    machine.fsdevices.boot = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the boot filesystem (Raspberry Pi only).'';
-    };
-
-    machine.fsdevices.tmp = mkOption {
-      type = types.string;
-      description = ''Device in /dev holding the tmp filesystem (Raspberry Pi only).'';
-    };
-
     machine.i3blocks.cpuThermalZone = mkOption {
       type = types.string;
       example = "thermal_zone2";
