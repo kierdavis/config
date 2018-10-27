@@ -13,19 +13,17 @@
     ../extras/netfs/gyroscope.nix
   ];
 
+  # High-level configuration used by nixos/common/*.nix.
   machine = {
     name = "coloris";
     wifi = true;
-
     cpu = {
       cores = 4;
       intel = true;
     };
-
     gpu = {
       nvidia = true;
     };
-
     i3blocks = {
       cpuThermalZone = "thermal_zone2";
       ethInterface = "enp4s0";
@@ -33,19 +31,7 @@
     };
   };
 
-  networking.hostId = "db4d501a";
-
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
-  powerManagement.cpuFreqGovernor = "ondemand";
-
-  hardware.ckb.enable = true;
-
-  # https://github.com/mattanger/ckb-next#linux
-  boot.kernelParams = [ "usbhid.quirks=0x1B1C:0x1B15:0x20000408,0x1B1C:0x1B2F:0x20000408" ];
-
-  services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
-
-  # Additional filesystems (LVM).
+  # Filesystems.
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/059315e0-e130-475c-9d84-45e4ef750a6b";
     fsType = "ext4";
@@ -72,14 +58,33 @@
   systemd.services.docker.after = [ "var-lib-docker.mount" ];
   systemd.services.docker.requires = [ "var-lib-docker.mount" ];
 
-  environment.systemPackages = [
-    pkgs.boincgpuctl
-    pkgs.google-musicmanager
-  ];
+  # Make sure to generate a new ID using:
+  #   head -c4 /dev/urandom | od -A none -t x4
+  # if this config is used as a reference for a new host!
+  networking.hostId = "db4d501a";
 
+  # From nixos-generate-config.
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
+  powerManagement.cpuFreqGovernor = "ondemand";
+
+  # VPN client config.
   campanella-vpn.client = {
     enable = true;
     certFile = ../../secret/vpn/certs/coloris.crt;
     keyFile = "/etc/coloris.key";
   };
+
+  # Keyboard/mouse driver.
+  hardware.ckb.enable = true;
+  # https://github.com/mattanger/ckb-next#linux
+  boot.kernelParams = [ "usbhid.quirks=0x1B1C:0x1B15:0x20000408,0x1B1C:0x1B2F:0x20000408" ];
+
+  # Monitor layout.
+  services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
+
+  # Other stuff to install.
+  environment.systemPackages = [
+    pkgs.boincgpuctl
+    pkgs.google-musicmanager
+  ];
 }
