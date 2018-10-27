@@ -67,7 +67,10 @@
   };
   swapDevices = [ { device = "/dev/disk/by-uuid/afd2e652-b34e-4543-95c3-e2fc5df22201"; } ];
   fileSystems.efi.device = "/dev/disk/by-uuid/6F09-65AE";
+  systemd.services.boinc.after = [ "var-lib-boinc.mount" ];
+  systemd.services.boinc.requires = [ "var-lib-boinc.mount" ];
   systemd.services.docker.after = [ "var-lib-docker.mount" ];
+  systemd.services.docker.requires = [ "var-lib-docker.mount" ];
 
   environment.systemPackages = [
     pkgs.boincgpuctl
