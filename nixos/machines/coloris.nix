@@ -84,7 +84,6 @@
 
   # Other stuff to install.
   environment.systemPackages = [
-    pkgs.boincgpuctl
     pkgs.google-musicmanager
   ];
 }
