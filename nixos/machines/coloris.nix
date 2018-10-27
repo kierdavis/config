@@ -56,6 +56,11 @@
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
+  fileSystems.boinc = {
+    mountPoint = config.services.boinc.dataDir;
+    device = "/dev/disk/by-uuid/f25c297c-46ff-45c6-96f0-d645931b3a67";
+    fsType = "ext4";
+  };
   fileSystems."/var/lib/docker" = {
     device = "/dev/disk/by-uuid/842e7d6c-cc65-4719-89b4-3968b8bfb30d";
     fsType = "ext4";
