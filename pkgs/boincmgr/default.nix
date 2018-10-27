@@ -5,7 +5,6 @@ let
 in
 
 writeShellScriptBin "boincmgr" ''
-  #!${stdenv.shell}
   set -eu
 
   img_id=$(${docker}/bin/docker build --quiet ${dockerfileDir})
