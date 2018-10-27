@@ -4,8 +4,6 @@ let
   boincDir = "/var/lib/boinc";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; };
 in {
-  imports = [ ../lib/boinc-fhs.nix ];
-
   fileSystems.boinc = {
     mountPoint = boincDir;
     device = "/dev/disk/by-label/boinc0";
@@ -13,7 +11,7 @@ in {
     options = ["noatime" "nodiratime"];
   };
 
-  services.boinc-fhs = {
+  services.boinc = {
     enable = true;
     dataDir = boincDir;
     allowRemoteGuiRpc = true;
