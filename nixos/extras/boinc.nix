@@ -13,5 +13,8 @@ in {
     ] ++ lib.optional config.machine.gpu.nvidia nvidia_x11;
   };
 
-  environment.systemPackages = [ pkgs.boincmgr ];
+  environment.systemPackages = [
+    pkgs.boincgpuctl
+    pkgs.boincmgr
+  ];
 }
