@@ -29,7 +29,7 @@ let
     networking.firewall.allowedTCPPorts = [ 4242 ];
   };
 
-  http-client = { config, lib, pkgs, ... }: {
+  http-server = { config, lib, pkgs, ... }: {
     services.nginx = {
       enable = true;
       virtualHosts = (import ../../secret/campanella2-vhosts.nix) // {
@@ -54,7 +54,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/netfs/gyroscope.nix
     postgresql-server
     irc-client
-    http-client
+    http-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
