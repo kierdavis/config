@@ -48,6 +48,17 @@ let
     };
   };
 
+  wiki-server = { config, lib, pkgs, ... }: {
+    services.gollum = {
+      enable = true;
+      address = "10.99.0.1";
+      stateDir = "/srv/gollum";
+    };
+    systemd.services.gollum.after = [ "srv.mount" ];
+    systemd.services.gollum.requires = [ "srv.mount" ];
+    networking.firewall.allowedTCPPorts = [ 4567 ];
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -57,6 +68,7 @@ in { config, lib, pkgs, ... }: {
     postgresql-server
     irc-client
     http-server
+    wiki-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
