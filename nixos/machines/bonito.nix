@@ -1,4 +1,13 @@
-{ config, lib, pkgs, ... }: {
+let
+  print-server = { config, lib, pkgs, ... }: {
+    services.printing = {
+      enable = true;
+      drivers = [ pkgs.samsung-unified-linux-driver_4_01_17 ];
+    };
+    networking.firewall.allowedTCPPorts = [ 631 ];
+  };
+
+in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/proxmox-ct.nix
