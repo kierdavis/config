@@ -1,8 +1,17 @@
-{ config, lib, pkgs, ... }: {
+let
+  print-server = { config, lib, pkgs, ... }: {
+    services.printing = {
+      enable = true;
+      drivers = with pkgs; [ gutenprint samsung-unified-linux-driver_4_01_17 ];
+    };
+  };
+
+in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
+    print-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
