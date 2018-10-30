@@ -5,6 +5,7 @@ let
       drivers = [ pkgs.samsung-unified-linux-driver_4_01_17 ];
     };
     networking.firewall.allowedTCPPorts = [ 631 ];
+    environment.variables.CUPS_SERVER = lib.mkForce ""; # override common/print.nix
   };
 
 in { config, lib, pkgs, ... }: {
