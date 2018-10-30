@@ -21,9 +21,9 @@
   networking.hostId = "00e60dbb";
 
   # VPN client config.
-  #campanella-vpn.client = {
-  #  enable = true;
-  #  certFile = ../../secret/vpn/certs/bonito.crt;
-  #  keyFile = "/etc/bonito.key";
-  #};
+  campanella-vpn.client = {
+    enable = true;
+    certFile = ../../secret/vpn/certs/bonito.crt;
+    keyFile = "/etc/bonito.key";
+  };
 }
