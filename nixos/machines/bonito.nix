@@ -12,6 +12,7 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
+    print-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
