@@ -28,8 +28,8 @@ in
       system = "aarch64-linux";
     }).system;
 
-    inshowha = (nixos {
-     configuration = machines/inshowha.nix;
+    bonito = (nixos {
+     configuration = machines/bonito.nix;
      system = "x86_64-linux";
     }).system;
   }
