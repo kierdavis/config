@@ -12,7 +12,6 @@
   environment.systemPackages = with pkgs; [
     # Software
     circleci
-    python2
     python3
 
     # Hardware
