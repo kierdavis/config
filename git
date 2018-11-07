@@ -5,4 +5,4 @@
 [commit]
 	gpgSign = true
 [gpg]
-	program = /run/current-system/sw/bin/gpg2
+	program = gpg
