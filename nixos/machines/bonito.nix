@@ -8,12 +8,22 @@ let
     environment.variables.CUPS_SERVER = lib.mkForce ""; # override common/print.nix
   };
 
+  wiki-server = { config, lib, pkgs, ... }: {
+    services.gollum = {
+      enable = true;
+      address = "10.99.1.3";
+      stateDir = "/srv/gollum";
+    };
+    networking.firewall.allowedTCPPorts = [ 4567 ];
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
     print-server
+    wiki-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
