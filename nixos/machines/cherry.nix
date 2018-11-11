@@ -34,6 +34,8 @@ let
       };
     };
     networking.firewall.allowedTCPPorts = [ 9091 ];
+    systemd.services.transmission.after = [ "openvpn-nordvpn.service" ];
+    systemd.services.transmission.requires = [ "openvpn-nordvpn.service" ];
   };
 
 in { config, lib, pkgs, ... }: {
