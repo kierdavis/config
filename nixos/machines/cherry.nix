@@ -54,5 +54,5 @@ in { config, lib, pkgs, ... }: {
     enable = true;
     certFile = ../../secret/vpn/certs/cherry.crt;
     keyFile = "/etc/cherry.key";
-  }
+  };
 }
