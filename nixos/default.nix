@@ -32,4 +32,9 @@ in
      configuration = machines/bonito.nix;
      system = "x86_64-linux";
     }).system;
+
+    cherry = (nixos {
+      configuration = machines/cherry.nix;
+      system = "x86_64-linux";
+    }).system;
   }
