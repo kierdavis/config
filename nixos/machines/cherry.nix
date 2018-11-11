@@ -50,9 +50,9 @@ in { config, lib, pkgs, ... }: {
   networking.hostId = "2689139e";
 
   # VPN client config.
-  #campanella-vpn.client = {
-  #  enable = true;
-  #  certFile = ../../secret/vpn/certs/cherry.crt;
-  #  keyFile = "/etc/cherry.key";
-  #};
+  campanella-vpn.client = {
+    enable = true;
+    certFile = ../../secret/vpn/certs/cherry.crt;
+    keyFile = "/etc/cherry.key";
+  }
 }
