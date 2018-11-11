@@ -5,4 +5,5 @@
   saelli = "10.99.1.4";
   # shadowshow = "10.99.1.5";
   gyroscope = "10.99.1.6";
+  cherry = "10.99.1.7";
 }
