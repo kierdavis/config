@@ -30,7 +30,7 @@ let
       port = 9091; # web interface
       home = "/srv/transmission";
       settings = import ../transmission-settings.nix // {
-        download-dir = "/srv/transmission/downloads";
+        download-dir = "/downloads";
       };
     };
     networking.firewall.allowedTCPPorts = [ 9091 ];
