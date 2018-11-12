@@ -1,27 +1,33 @@
 let
   nordvpn-client = { config, lib, pkgs, ... }:
-    let nordvpn = import ../../secret/nordvpn { inherit pkgs; }; in {
+    let
+      nordvpn = import ../../secret/nordvpn { inherit pkgs; };
+      campanella2 = (import ../hosts.nix { inherit pkgs; }).hosts.campanella2;
+    in {
       services.openvpn.servers.nordvpn = {
         config = nordvpn.config;
         autoStart = true;
       };
-      environment.etc."resolv.conf".text = ''
+      environment.etc."resolvconf.conf".text = ''
         # NordVPN name servers
-        nameserver 103.86.96.100
-        nameserver 103.86.99.100
+        name_servers="103.86.96.100 103.86.99.100"
       '';
+      networking.interfaces.eth0.ipv4.routes = [
+        { address = campanella2; prefixLength = 32; via = "192.168.1.1"; }
+        { address = nordvpn.host; prefixLength = 32; via = "192.168.1.1"; }
+      ];
       networking.firewall.extraCommands = ''
         # Reset the OUTPUT chain (delete all rules)
         iptables -F OUTPUT
         iptables -P OUTPUT ACCEPT
-        # Allow traffic to VPN entry point
-        iptables -A OUTPUT --protocol tcp --destination ${nordvpn.host} --dport ${toString nordvpn.port} -j ACCEPT
+        # Allow traffic to VPN entry points
+        iptables -A OUTPUT --destination ${campanella2} -j ACCEPT
+        iptables -A OUTPUT --destination ${nordvpn.host} -j ACCEPT
         # Allow traffic to LAN
         iptables -A OUTPUT --destination 192.168.1.0/24 -j ACCEPT
         # Disallow all other traffic through eth0.
-        #iptables -A OUTPUT --out-interface eth0 -j REJECT
+        iptables -A OUTPUT --out-interface eth0 -j REJECT
       '';
-      systemd.services.openvpn-campanella-client.after = [ "openvpn-nordvpn.service" ];
     };
 
   torrent-client = { config, lib, pkgs, ... }: {
