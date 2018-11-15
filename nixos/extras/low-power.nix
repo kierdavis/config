@@ -15,7 +15,7 @@
 
   boot.blacklistedKernelModules = [
     # Webcam.
-    "uvcvideo"
+    #"uvcvideo"
   ];
 
   boot.kernel.sysctl = {
