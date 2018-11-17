@@ -44,7 +44,6 @@ in {
     (mkWake "coloris" "34:97:f6:34:19:3f")
     (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
     (mkWake "shadowshow" "d8:9d:67:64:86:cf")
-    (mkWake "shadowshow-ilo" "d8:9d:67:66:02:32")
 
     # System diagnostics
     htop
