@@ -22,6 +22,7 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
+    ../extras/netfs/cherry.nix
     print-server
     wiki-server
   ];
