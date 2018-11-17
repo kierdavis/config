@@ -32,7 +32,7 @@ in { config, lib, pkgs, ... }: {
     name = "bonito";
     wifi = false;
     cpu = {
-      cores = 4;
+      cores = 16;
       intel = true;
     };
   };
