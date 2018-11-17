@@ -53,7 +53,7 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/linode.nix
     ../extras/headless.nix
-    ../extras/netfs/gyroscope.nix
+    ../extras/netfs/cherry.nix
     postgresql-server
     irc-client
     http-server

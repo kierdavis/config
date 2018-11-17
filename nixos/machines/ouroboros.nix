@@ -9,7 +9,7 @@
     ../extras/platform/efi.nix
     ../extras/desktop
     ../extras/devel.nix
-    ../extras/netfs/gyroscope.nix
+    ../extras/netfs/cherry.nix
   ];
 
   # High-level configuration used by nixos/common/*.nix.
