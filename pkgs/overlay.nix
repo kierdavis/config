@@ -1,4 +1,5 @@
 self: super: {
+  admesh = super.callPackage ./admesh { };
   archiveman = super.callPackage ./archiveman { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
   boincmgr = super.callPackage ./boincmgr { inherit (self.xorg) xauth; };
