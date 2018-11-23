@@ -1,0 +1,10 @@
+diff --git a/configure b/configure
+index d47bb69..2741116 100755
+--- a/configure
++++ b/configure
+@@ -9,4 +9,4 @@
+ # script itself.  It also sets up CFLAGS without the default optimizer
+ # flag (-O2).
+ 
+-( CFLAGS="-g"; export CFLAGS; cd scripts ; ./configure $* )
++( CFLAGS="${CFLAGS:--g}"; export CFLAGS; cd scripts ; ./configure $* )
