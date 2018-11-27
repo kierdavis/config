@@ -10,6 +10,7 @@ self: super: {
   home-manager = super.callPackage ./home-manager { };
   i3blocks-scripts = super.callPackage ./i3blocks-scripts { inherit (self.linuxPackages) nvidia_x11; };
   lock = super.callPackage ./lock { };
+  magic = super.callPackage ./magic { };
   mountext = super.callPackage ./mountext { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
