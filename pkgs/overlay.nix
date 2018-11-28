@@ -7,6 +7,7 @@ self: super: {
   freesweep = super.callPackage_i686 ./freesweep { };
   ftb-launcher = super.callPackage ./ftb-launcher { };
   gds2svg = super.callPackage ./gds2svg { };
+  hartmaster = super.callPackage ./hartmaster { };
   home-manager = super.callPackage ./home-manager { };
   i3blocks-scripts = super.callPackage ./i3blocks-scripts { inherit (self.linuxPackages) nvidia_x11; };
   lock = super.callPackage ./lock { };
