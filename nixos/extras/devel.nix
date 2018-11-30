@@ -24,6 +24,7 @@
 
     # Other
     keybase
+    x2goclient
   ];
 
   services.keybase.enable = true;
