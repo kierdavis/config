@@ -31,6 +31,7 @@ let
     };
 
   torrent-client = { config, lib, pkgs, ... }: {
+    users.users.kier.extraGroups = [ "transmission" ];
     services.transmission = {
       enable = true;
       port = 9091; # web interface
