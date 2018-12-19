@@ -15,6 +15,8 @@ let
       stateDir = "/srv/gollum";
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
+    systemd.services.gollum.after = [ "openvpn-campanella-client.service" ];
+    systemd.services.gollum.requires = [ "openvpn-campanella-client.service" ];
   };
 
 in { config, lib, pkgs, ... }: {
