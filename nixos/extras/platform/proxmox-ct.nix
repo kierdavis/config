@@ -13,12 +13,19 @@
   # Fix "unable to make '/' private mount: Permission denied"
   nix.useSandbox = lib.mkForce false;
 
-  # Fix /dev/net/tun being unavailable.
-  # https://vroomtech.io/enable-tuntap-in-a-proxmox-lxc-container/
+  # Fix device nodes being unavailable.
   boot.postBootCommands = ''
+    # /dev/net/tun
+    # https://vroomtech.io/enable-tuntap-in-a-proxmox-lxc-container/
     if [ ! -c /dev/net/tun ]; then
       mkdir -p /dev/net
       mknod -m 666 /dev/net/tun c 10 200
+    fi
+
+    # /dev/fuse
+    # https://forum.proxmox.com/threads/kernel-module-fuse-for-lxc.24855/
+    if [ ! -c /dev/fuse ]; then
+      mknod -m 666 /dev/fuse c 10 229
     fi
   '';
 }
