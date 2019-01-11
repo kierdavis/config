@@ -24,7 +24,7 @@ let
     services.mstream = {
       enable = true;
       musicDir = "/data/music/library";
-      database = "/srv/mstream/mstream.db";
+      dataDir = "/srv/mstream";
     };
     networking.firewall.allowedTCPPorts = [ 3000 ];
   };

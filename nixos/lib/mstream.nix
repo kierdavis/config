@@ -18,29 +18,41 @@ in {
       '';
     };
 
-    database = mkOption {
+    dataDir = mkOption {
       type = types.path;
-      default = "/var/lib/mstream/mstream.db";
+      default = "/var/lib/mstream";
       description = ''
-        The location of the mstream database.
+        The location of the server data directory (including the music metadata database).
       '';
     };
   };
 
   config = mkIf cfg.enable {
+    users.users.mstream = {
+      createHome = false;
+      description = "mStream music streaming server";
+      home = cfg.dataDir;
+      isSystemUser = true;
+    };
+
     systemd.services.mstream = {
       description = "mStream music streaming server";
       after = [ "network.target" "local-fs.target" ];
       wantedBy = [ "multi-user.target" ];
       preStart = ''
-        mkdir -p ${cfg.musicDir}
-        mkdir -p $(dirname ${cfg.database})
+        for dir in ${cfg.musicDir} ${cfg.dataDir}; do
+          if [ ! -d $dir ]; then
+            mkdir -p $dir
+            chown mstream $dir
+          fi
+       done
       '';
       script = ''
-        ${pkg}/bin/mstream --musicdir ${cfg.musicDir} --database ${cfg.database}
+        ${pkg}/bin/mstream --musicdir ${cfg.musicDir} --database ${cfg.dataDir}/mstream.db
       '';
       serviceConfig = {
         PermissionsStartOnly = true;
+        User = "mstream";
       };
     };
   };
