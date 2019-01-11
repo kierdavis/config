@@ -13,6 +13,7 @@ self: super: {
   lock = super.callPackage ./lock { };
   magic = super.callPackage ./magic { };
   mountext = super.callPackage ./mountext { };
+  mstream = super.callPackage ./mstream { nodejs = self."nodejs-6_x"; };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   pysolfc = super.callPackage ./pysolfc { };

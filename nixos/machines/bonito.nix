@@ -19,6 +19,16 @@ let
     systemd.services.gollum.requires = [ "openvpn-campanella-client.service" ];
   };
 
+  music-server = { config, lib, pkgs, ... }: {
+    imports = [ ../lib/mstream.nix ];
+    services.mstream = {
+      enable = true;
+      musicDir = "/data/music/library";
+      database = "/srv/mstream/mstream.db";
+    };
+    networking.firewall.allowedTCPPorts = [ 3000 ];
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -27,6 +37,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/netfs/cherry.nix
     print-server
     wiki-server
+    music-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
