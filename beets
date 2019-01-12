@@ -1,7 +1,7 @@
 # order same as in docs (http://beets.readthedocs.io/en/v1.4.1/reference/config.html)
-library: /mnt/nocturn/music/beets/database.db
-directory: /mnt/nocturn/music/library
-plugins: convert edit embedart fetchart play replaygain
+library: /srv/beets/database.db
+directory: /data/music/library
+plugins: convert edit embedart fetchart replaygain
 asciify_paths: no # explicit done in path formats instead
 import:
   write: yes
@@ -13,7 +13,7 @@ import:
   quiet_fallback: skip
   none_rec_action: ask
   timid: yes
-  log: /mnt/nocturn/music/beets/import.log
+  log: /srv/beets/import.log
   default_action: apply
   languages: [en]
   detail: yes
@@ -34,7 +34,8 @@ edit:
 
 ## fetchart plugin
 fetchart:
-  auto: no
+  auto: yes
+  cautious: yes
 
 ## play plugin
 play:

@@ -27,6 +27,7 @@ let
       dataDir = "/srv/mstream";
     };
     networking.firewall.allowedTCPPorts = [ 3000 ];
+    environment.systemPackages = with pkgs; [ beets ];
   };
 
 in { config, lib, pkgs, ... }: {
