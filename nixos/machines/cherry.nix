@@ -43,6 +43,21 @@ let
     networking.firewall.allowedTCPPorts = [ 9091 ];
     systemd.services.transmission.after = [ "openvpn-nordvpn.service" ];
     systemd.services.transmission.requires = [ "openvpn-nordvpn.service" ];
+
+    systemd.services.sync-torrent-files = {
+      description = "Sync torrent files from transmission data directory to archive directory";
+      script = ''
+        dest=/srv/transmission/torrent-archive
+        ${pkgs.rsync}/bin/rsync -av /srv/transmission/.config/transmission-daemon/torrents/ $dest/
+        chmod 0755 $dest
+        chmod 0644 $dest/*.torrent
+      '';
+      serviceConfig = {
+        PermissionsStartOnly = true;
+        User = "transmission";
+      };
+      startAt = "daily";
+    };
   };
 
   nfs-server = { config, lib, pkgs, ... }: {
@@ -50,6 +65,7 @@ let
       enable = true;
       exports = ''
         /downloads 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70)
+        /srv/transmission/torrent-archive 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70)
       '';
     };
     networking.firewall.allowedTCPPorts = [ 2049 ];
