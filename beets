@@ -17,7 +17,7 @@ import:
   default_action: apply
   languages: [en]
   detail: yes
-  group_albums: yes
+  group_albums: no
   autotag: yes
   duplicate_action: ask
 musicbrainz:
