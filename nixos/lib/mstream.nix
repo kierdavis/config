@@ -35,6 +35,10 @@ in {
       isSystemUser = true;
     };
 
+    users.groups.mstream = {
+      members = [ "mstream" "kier" ];
+    };
+
     systemd.services.mstream = {
       description = "mStream music streaming server";
       after = [ "network.target" "local-fs.target" ];
@@ -43,7 +47,7 @@ in {
         for dir in ${cfg.musicDir} ${cfg.dataDir}/{image-cache,save/db,save/logs}; do
           if [ ! -d $dir ]; then
             mkdir -p $dir
-            chown mstream $dir
+            chown mstream:mstream $dir
           fi
        done
       '';
