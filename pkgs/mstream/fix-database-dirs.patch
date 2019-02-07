@@ -1,0 +1,23 @@
+diff --git a/modules/defaults.js b/modules/defaults.js
+index b1e28ec..b775b9a 100644
+--- a/modules/defaults.js
++++ b/modules/defaults.js
+@@ -10,15 +10,15 @@ exports.setup = function (program) {
+   }
+   // Album Art Directory
+   if (!program.storage.albumArtDirectory) {
+-    program.storage.albumArtDirectory = path.join(__dirname, '../image-cache');
++    program.storage.albumArtDirectory = './image-cache';
+   }
+   // DB Directory
+   if (!program.storage.dbDirectory) {
+-    program.storage.dbDirectory = path.join(__dirname, '../save/db');
++    program.storage.dbDirectory = './save/db';
+   }
+   // Logs Directory
+   if (!program.storage.logsDirectory) {
+-    program.storage.logsDirectory = path.join(__dirname, '../save/logs');
++    program.storage.logsDirectory = './save/logs';
+   }
+   // Webapp
+   if (!program.webAppDirectory) {
