@@ -54,8 +54,6 @@ in { config, lib, pkgs, ... }: {
     ../extras/platform/linode.nix
     ../extras/headless.nix
     ../extras/netfs/cherry.nix
-    postgresql-server
-    irc-client
     http-server
   ];
 
