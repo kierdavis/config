@@ -35,24 +35,29 @@ in {
       isSystemUser = true;
     };
 
+    users.groups.mstream = {
+      members = [ "mstream" "kier" ];
+    };
+
     systemd.services.mstream = {
       description = "mStream music streaming server";
       after = [ "network.target" "local-fs.target" ];
       wantedBy = [ "multi-user.target" ];
       preStart = ''
-        for dir in ${cfg.musicDir} ${cfg.dataDir}; do
+        for dir in ${cfg.musicDir} ${cfg.dataDir}/{image-cache,save/db,save/logs}; do
           if [ ! -d $dir ]; then
             mkdir -p $dir
-            chown mstream $dir
+            chown mstream:mstream $dir
           fi
        done
       '';
       script = ''
-        ${pkg}/bin/mstream --musicdir ${cfg.musicDir} --database ${cfg.dataDir}/mstream.db
+        ${pkg}/bin/mstream --musicdir ${cfg.musicDir}
       '';
       serviceConfig = {
         PermissionsStartOnly = true;
         User = "mstream";
+        WorkingDirectory = cfg.dataDir;
       };
     };
   };
