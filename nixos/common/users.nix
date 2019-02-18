@@ -29,4 +29,10 @@ in {
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
     useDefaultShell = true;
   };
+
+  # Allow access to USB devices without requiring root permissions
+  services.udev.extraRules = ''
+    # SR V4 power board
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="1bda", ATTRS{idProduct}=="0010", GROUP="dialout", MODE="0666"
+  '';
 }
