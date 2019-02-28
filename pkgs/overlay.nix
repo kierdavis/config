@@ -20,6 +20,7 @@ self: super: {
   publish = super.callPackage ./publish { };
   redstore = super.callPackage ./redstore { };
   repetier-host = super.callPackage ./repetier-host { };
+  riscv-gnu-toolchain = super.callPackage ./riscv/riscv-gnu-toolchain.nix { };
   screenshot = super.callPackage ./screenshot { inherit (self.gnome3) eog; };
   soton-mount = super.callPackage ./soton-mount { };
   soton-rdp = super.callPackage ./soton-rdp { };
