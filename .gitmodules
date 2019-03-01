@@ -5,6 +5,3 @@
 [submodule "secret"]
 	path = secret
 	url = ../config-secret
-[submodule "pkgs/riscv"]
-	path = pkgs/riscv
-	url = git@github.com:kierdavis/riscv.nix.git
