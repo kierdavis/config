@@ -9,7 +9,7 @@ let
     owner  = "riscv";
     repo   = "riscv-gnu-toolchain";
     rev    = "bb41926cb5a62e6cbe4b659ded6ff52c70b2baf1";
-    sha256 = "1j9y3ai42xzzph9rm116sxfzhdlrjrk4z0v4yrk197j72isqyxb0";
+    sha256 = "0bifrmgjijdgcahyc57ld1mcjsy0zh3b2srs3ch6d351i40h34rj";
     fetchSubmodules = true;
   };
 
