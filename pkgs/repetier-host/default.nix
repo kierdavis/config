@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   name = "repetier-host-${version}";
-  version = "2.1.2";
+  version = "2.1.3";
 
   src = fetchurl {
-    url = "http://download.repetier.com/files/host/linux/repetierHostLinux_2_1_2.tgz";
-    sha256 = "14w4k4q2k9j3k9qajlm2rhfa5yxf5ih465gl5csg22qd5frzlrp8";
+    url = "http://download.repetier.com/files/host/linux/repetierHostLinux_2_1_3.tgz";
+    sha256 = "1wrf9yr3r57j0lb1lc36rm5n86nzyr7wqlkzix5d746c0m36chfy";
   };
 
   buildPhase = ''
