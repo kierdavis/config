@@ -21,4 +21,6 @@
 
   # SSH X11 forwarding
   services.openssh.forwardX11 = true;
+
+  environment.systemPackages = [ pkgs.gnome3.dconf ];
 }
