@@ -25,6 +25,10 @@ let
       enable = true;
       musicDir = "/data/music/library";
       dataDir = "/srv/mstream";
+      lastfm = {
+        username = "kierdavis";
+        password = (import ../../secret/passwords.nix).lastfm;
+      };
     };
     networking.firewall.allowedTCPPorts = [ 3000 ];
     environment.systemPackages = with pkgs; [ beets ];

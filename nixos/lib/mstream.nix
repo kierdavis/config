@@ -6,6 +6,16 @@ let
   cfg = config.services.mstream;
   pkg = pkgs.mstream;
 
+  lastfmFlags = if cfg.lastfm.username != null && cfg.lastfm.password != null
+    then [ "--luser" cfg.lastfm.username "--lpass" cfg.lastfm.password ]
+    else [];
+
+  command = escapeShellArgs ([
+    "${pkg}/bin/mstream"
+    "--musicdir"
+    cfg.musicDir
+  ] ++ lastfmFlags);
+
 in {
   options.services.mstream = {
     enable = mkEnableOption "mstream";
@@ -23,6 +33,22 @@ in {
       default = "/var/lib/mstream";
       description = ''
         The location of the server data directory (including the music metadata database).
+      '';
+    };
+
+    lastfm.username = mkOption {
+      type = types.string;
+      default = null;
+      description = ''
+        Last.fm username.
+      '';
+    };
+
+    lastfm.password = mkOption {
+      type = types.string;
+      default = null;
+      description = ''
+        Last.fm password. This will be passed on the command line and so will be visible to all other users on the system! This needs to be fixed upstream.
       '';
     };
   };
@@ -51,9 +77,7 @@ in {
           fi
        done
       '';
-      script = ''
-        ${pkg}/bin/mstream --musicdir ${cfg.musicDir}
-      '';
+      script = "exec ${command}";
       serviceConfig = {
         PermissionsStartOnly = true;
         User = "mstream";
