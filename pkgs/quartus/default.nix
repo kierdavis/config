@@ -1,3 +1,8 @@
+# To avoid permission errors when trying to use the USB Blaster JTAG cable, add the following
+# to the udev rules (services.udev.extraRules on NixOS):
+#
+#   SUBSYSTEM=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0666"
+
 { buildFHSUserEnv
 , fetchurl
 , stdenv
