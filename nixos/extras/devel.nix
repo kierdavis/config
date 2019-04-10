@@ -17,6 +17,7 @@
     # Hardware
     geda
     pcb
+    quartus
 
     # 3D modelling/printing
     freecad
