@@ -18,7 +18,7 @@ self: super: {
   pcb-rnd = super.callPackage ./pcb-rnd { };
   pysolfc = super.callPackage ./pysolfc { };
   publish = super.callPackage ./publish { };
-  quartus = super.callPackage_i686 ./quartus { };
+  quartus = super.callPackage ./quartus { };
   redstore = super.callPackage ./redstore { };
   repetier-host = super.callPackage ./repetier-host { };
   riscv-gnu-toolchain = super.callPackage ./riscv-gnu-toolchain/default.nix { };
