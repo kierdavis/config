@@ -101,8 +101,8 @@ let
     };
     quartusWrapper = buildFHSUserEnv {
       name = "${name}-wrapper";
-      targetPkgs = pkgs: with pkgs; [
-        quartusWrapperContents
+      targetPkgs = _: [ quartusWrapperContents ];
+      multiPkgs = pkgs: with pkgs; [
         fontconfig
         freetype
         libpng12
