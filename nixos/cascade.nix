@@ -1,6 +1,7 @@
 {
   port = 9045;
   addrs = {
+    cascade = "fca5:cade:1::";
     campanella2 = {
       public = "80.85.84.13";
       vpn = "fca5:cade:1::1:1";
