@@ -112,6 +112,7 @@ in { config, lib, pkgs, ... }: {
         allowedIPs = [
           "${cascade.addrs.altusanima.vpn}/128"
           "${cascade.addrs.altusanima.vlan}/112"
+          "${cascade.addrs.altusanima.sslom}/112"
         ];
         publicKey = cascade.keys.altusanima;
       }

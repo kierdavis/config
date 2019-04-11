@@ -8,6 +8,13 @@
     altusanima = {
       vpn = "fca5:cade:1::1:2";
       vlan = "fca5:cade:1::2:1";
+      sslom = "fca5:cade:1::3:1";
+    };
+    shadowshow_lom = {
+      sslom = "fca5:cade:1::3:2";
+    };
+    bonito = {
+      vlan = "fca5:cade:1::2:4";
     };
   };
   keys = {
