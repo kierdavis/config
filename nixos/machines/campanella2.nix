@@ -104,12 +104,15 @@ in { config, lib, pkgs, ... }: {
     keyFile = "/etc/campanella2.key";
   };
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.addrs.campanella2}/96" ];
+    ips = [ "${cascade.addrs.campanella2.vpn}/96" ];
     listenPort = cascade.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
     peers = [
       {
-        allowedIPs = [ "${cascade.addrs.altusanima}/112" ];
+        allowedIPs = [
+          "${cascade.addrs.altusanima.vpn}/128"
+          "${cascade.addrs.altusanima.vlan}/112"
+        ];
         publicKey = cascade.keys.altusanima;
       }
     ];
