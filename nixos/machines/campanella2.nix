@@ -104,7 +104,7 @@ in { config, lib, pkgs, ... }: {
     keyFile = "/etc/campanella2.key";
   };
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.addrs.campanella2.vpn}/96" ];
+    ips = [ "${cascade.addrs.campanella2.vpn}/112" ];
     listenPort = cascade.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
     peers = [
