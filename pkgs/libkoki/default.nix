@@ -27,9 +27,9 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ doxygen pkgconfig scons ];
   buildInputs = [ glib libyaml opencv ];
   postPatch = ''
-    # Fix the create-pkg-config script.
+    # Fix the shell interpreter in the create-pkg-config script (/bin/bash doesn't exist on NixOS).
     patchShebangs .
-    # Don't build the examples, since have extra dependencies and they don't get installed anyway.
+    # Don't build the examples, since they have extra dependencies and they don't get installed anyway.
     mv examples/SConscript examples/SConscript.disabled
   '';
   preBuild = ''
