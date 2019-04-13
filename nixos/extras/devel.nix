@@ -29,4 +29,6 @@
   ];
 
   services.keybase.enable = true;
+
+  documentation.dev.enable = lib.mkOverride 500 true;
 }
