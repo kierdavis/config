@@ -1,0 +1,15 @@
+diff --git a/SConstruct b/SConstruct
+index d181223..1625b6e 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -13,6 +13,10 @@ def dest( fname ):
+ 
+ env = Environment( CPPPATH = "#include",
+                    CCFLAGS = "-O3 -g -std=gnu99 -Werror",
++                   ENV = {
++                     "PATH": os.environ.get("PATH", ""),
++                     "PKG_CONFIG_PATH": os.environ.get("PKG_CONFIG_PATH", ""),
++                   },
+                    tools = [ "default", "doxygen" ],
+                    toolpath = "." )
+ 
