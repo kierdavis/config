@@ -48,6 +48,8 @@ let
     };
   };
 
+  cascade = import ../cascade.nix;
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -101,4 +103,20 @@ in { config, lib, pkgs, ... }: {
     certFile = ../../secret/vpn/certs/campanella2.crt;
     keyFile = "/etc/campanella2.key";
   };
+  networking.wireguard.interfaces.wg0 = {
+    ips = [ "${cascade.addrs.campanella2.vpn}/112" ];
+    listenPort = cascade.port;
+    privateKeyFile = "/etc/cascade.wg-priv-key";
+    peers = [
+      {
+        allowedIPs = [
+          "${cascade.addrs.altusanima.vpn}/128"
+          "${cascade.addrs.altusanima.vlan}/112"
+          "${cascade.addrs.altusanima.sslom}/112"
+        ];
+        publicKey = cascade.keys.altusanima;
+      }
+    ];
+  };
+  networking.firewall.allowedUDPPorts = [ cascade.port ];
 }
