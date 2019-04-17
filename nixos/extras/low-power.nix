@@ -13,11 +13,6 @@
     options iwldvm force_cam=0
   '';
 
-  boot.blacklistedKernelModules = [
-    # Webcam.
-    #"uvcvideo"
-  ];
-
   boot.kernel.sysctl = {
     # Disable NMI watchdog (generates lots of interrupts, mainly a debugging feature).
     "kernel.nmi_watchdog" = 0;

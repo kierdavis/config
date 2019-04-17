@@ -2,7 +2,6 @@
 
 let
   mkWake = name: mac: pkgs.writeShellScriptBin "wake-${name}" ''
-    #!${pkgs.stdenv.shell}
     ${pkgs.wakelan}/bin/wakelan ${mac}
   '';
 
@@ -17,8 +16,17 @@ in {
   # bash completion
   programs.bash.enableCompletion = true;
 
-  # NixOS manual
-  services.nixosManual.enable = true;
+  # documentation
+  documentation = {
+    enable = true;
+    nixos.enable = true;
+    dev.enable = false;
+
+    # Types of documentation
+    man.enable = true;
+    info.enable = true;
+    doc.enable = false; # anything that doesn't fall into the above two categories
+  };
 
   environment.systemPackages = with pkgs; [
     # Utilities
