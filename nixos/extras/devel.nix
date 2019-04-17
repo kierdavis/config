@@ -22,6 +22,7 @@
     # 3D modelling/printing
     freecad
     repetier-host
+    slic3r-prusa3d
 
     # Other
     keybase
