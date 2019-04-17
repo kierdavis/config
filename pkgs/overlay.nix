@@ -23,6 +23,7 @@ self: super: {
   repetier-host = super.callPackage ./repetier-host { };
   riscv-gnu-toolchain = super.callPackage ./riscv-gnu-toolchain/default.nix { };
   screenshot = super.callPackage ./screenshot { inherit (self.gnome3) eog; };
+  slic3r_1_3 = super.callPackage ./slic3r_1_3 { };
   soton-mount = super.callPackage ./soton-mount { };
   soton-rdp = super.callPackage ./soton-rdp { };
   soton-umount = super.callPackage ./soton-umount { };
