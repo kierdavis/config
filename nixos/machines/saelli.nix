@@ -59,6 +59,4 @@
     certFile = ../../secret/vpn/certs/saelli.crt;
     keyFile = "/etc/saelli.key";
   };
-
-  environment.systemPackages = with pkgs; [ zoom-us ];
 }

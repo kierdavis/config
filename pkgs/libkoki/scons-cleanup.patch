@@ -1,0 +1,94 @@
+diff --git a/SConstruct b/SConstruct
+index 719c15d..d181223 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -1,7 +1,7 @@
+ import os
+ 
+ # Install prefix:
+-DESTDIR = os.getenv( "DESTDIR", default = "" )
++DESTDIR = os.getenv( "DESTDIR", default = "/usr" )
+ 
+ # things that the install target should install
+ install = []
+@@ -9,8 +9,7 @@ install = []
+ def dest( fname ):
+     "Prefix the given filename with DESTDIR"
+ 
+-    return "{0}{1}".format( os.getenv( "DESTDIR", default = "" ),
+-                            fname )
++    return "{0}{1}".format( DESTDIR, fname )
+ 
+ env = Environment( CPPPATH = "#include",
+                    CCFLAGS = "-O3 -g -std=gnu99 -Werror",
+@@ -24,12 +23,12 @@ lk_env = env.Clone()
+ lk_env.Append( LIBS = "koki", LIBPATH = "#lib" )
+ 
+ # Our pkg-config stuff
+-pkg_builder = Builder( action = "./create-pkg-config $SOURCE $TARGET".format( dest("") ) )
++pkg_builder = Builder( action = "./create-pkg-config $SOURCE $TARGET {}".format( dest("") ) )
+ env.Append( BUILDERS = { "PkgConfig": pkg_builder } )
+ 
+ pkg = env.PkgConfig( "libkoki.pc", "libkoki.pc.in" )
+ 
+-install += [ env.Install( dir = dest( "/usr/lib/pkgconfig" ),
++install += [ env.Install( dir = dest( "/lib/pkgconfig" ),
+                           source = pkg ) ]
+ 
+ Export("env lk_env dest install")
+diff --git a/create-pkg-config b/create-pkg-config
+index 6fe3555..63fa0bf 100755
+--- a/create-pkg-config
++++ b/create-pkg-config
+@@ -2,9 +2,10 @@
+ 
+ SRC=$1
+ TARGET=$2
++PREFIX=$3
+ 
+ cat > ${TARGET} <<EOF
+-prefix=/usr
++prefix=${PREFIX}
+ exec_prefix=\${prefix}
+ includedir=\${prefix}/include
+ libdir=\${exec_prefix}/lib
+diff --git a/docs/SConscript b/docs/SConscript
+index d16513b..1d30815 100644
+--- a/docs/SConscript
++++ b/docs/SConscript
+@@ -1,3 +1,7 @@
+-Import("env")
++Import("env install dest")
+ 
+ env.Doxygen( "Doxyfile" )
++
++for subdir in [ "html", "latex" ]:
++  install += [ env.Install( dir = dest( "/share/doc/koki" ),
++                            source = subdir ) ]
+diff --git a/include/SConscript b/include/SConscript
+index 674691d..9fa6df7 100644
+--- a/include/SConscript
++++ b/include/SConscript
+@@ -2,5 +2,5 @@ Import("env install dest")
+ 
+ h_files = Glob( "*.h" )
+ 
+-install += [ env.Install( dir = dest( "/usr/include/koki" ),
++install += [ env.Install( dir = dest( "/include/koki" ),
+                           source = h_files ) ]
+diff --git a/src/SConscript b/src/SConscript
+index 436324c..e6f6376 100644
+--- a/src/SConscript
++++ b/src/SConscript
+@@ -4,9 +4,9 @@ c_files = Glob( "*.c" )
+ 
+ lib = env.SharedLibrary( "#lib/libkoki", c_files )
+ 
+-install += [ env.Install( dir = dest( "/usr/lib" ),
++install += [ env.Install( dir = dest( "/lib" ),
+                           source = lib ) ]
+ 
+ # Also install the library with a version
+-install += [ env.InstallAs( target = dest( "/usr/lib/libkoki.so.0.0" ),
++install += [ env.InstallAs( target = dest( "/lib/libkoki.so.0.0" ),
+                             source = lib ) ]
