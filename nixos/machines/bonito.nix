@@ -82,8 +82,8 @@ in { config, lib, pkgs, ... }: {
   # cascade network
   networking.vlans.eth0_vlan11 = { interface = "eth0"; id = 11; };
   networking.interfaces.eth0_vlan11.ipv6 = {
-    addresses = [ { address = cascade.addrs.bonito.vlan; prefixLength = 112; } ];
-    routes = [ { address = cascade.addrs.cascade; prefixLength = 96; via = cascade.addrs.altusanima.vlan; } ];
+    addresses = [ { address = cascade.hosts.bonito.addrs.vlan; prefixLength = 112; } ];
+    routes = [ { address = cascade.addr; prefixLength = 96; via = cascade.hosts.altusanima.addrs.vlan; } ];
   };
-  networking.nameservers = [ cascade.addrs.altusanima.vlan ];
+  networking.nameservers = [ cascade.hosts.altusanima.addrs.vlan ];
 }

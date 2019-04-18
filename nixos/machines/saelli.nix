@@ -1,7 +1,10 @@
 # Saelli is a Thinkpad T440s, bought second-hand in 2018.
 # It is named after the song "Saelli" by "Corpo-Mente".
 
-{ config, lib, pkgs, ... }:
+let
+  cascade = import ../cascade.nix;
+
+in { config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -59,4 +62,14 @@
     certFile = ../../secret/vpn/certs/saelli.crt;
     keyFile = "/etc/saelli.key";
   };
+  networking.wireguard.interfaces.wg0 = {
+    ips = [ "${cascade.hosts.saelli.addrs.vpn}/112" ];
+    listenPort = cascade.vpnPort;
+    privateKeyFile = "/etc/cascade.wg-priv-key";
+    peers = [
+      cascade.hosts.altusanima.vpnPeerInfo
+      cascade.hosts.campanella2.vpnPeerInfo
+    ];
+  };
+  networking.firewall.allowedUDPPorts = [ cascade.vpnPort ];
 }
