@@ -26,6 +26,8 @@ in
   # Backlight control
   programs.light.enable = true;
 
+  # Other programs
+  programs.chromium.enable = true;
   environment.systemPackages = with pkgs; [
     chromium
     chromium-river
