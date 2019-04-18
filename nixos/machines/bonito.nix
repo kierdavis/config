@@ -43,6 +43,8 @@ let
     environment.systemPackages = with pkgs; [ beets ];
   };
 
+  cascade = import ../cascade.nix;
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -76,4 +78,12 @@ in { config, lib, pkgs, ... }: {
     certFile = ../../secret/vpn/certs/bonito.crt;
     keyFile = "/etc/bonito.key";
   };
+
+  # cascade network
+  networking.vlans.eth0_vlan11 = { interface = "eth0"; id = 11; };
+  networking.interfaces.eth0_vlan11.ipv6 = {
+    addresses = [ { address = cascade.addrs.bonito.vlan; prefixLength = 112; } ];
+    routes = [ { address = cascade.addrs.cascade; prefixLength = 96; via = cascade.addrs.altusanima.vlan; } ];
+  };
+  networking.nameservers = [ cascade.addrs.altusanima.vlan ];
 }
