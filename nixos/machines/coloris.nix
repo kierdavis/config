@@ -75,7 +75,7 @@
   };
 
   # Keyboard/mouse driver.
-  hardware.ckb.enable = true;
+  hardware.ckb-next.enable = true;
   # https://github.com/mattanger/ckb-next#linux
   boot.kernelParams = [ "usbhid.quirks=0x1B1C:0x1B15:0x20000408,0x1B1C:0x1B2F:0x20000408" ];
 
