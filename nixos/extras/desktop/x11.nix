@@ -9,9 +9,7 @@
   # Allow support for Direct Rendering for 32-bit applications e.g. Wine
   hardware.opengl.driSupport32Bit = true;
 
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.networkmanagerapplet}/bin/nm-applet &
-  '';
+  programs.nm-applet.enable = true;
 
   fonts.fontconfig.enable = true;
   fonts.fontconfig.dpi = 84;
