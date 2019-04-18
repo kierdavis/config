@@ -8,6 +8,15 @@ let
     environment.variables.CUPS_SERVER = lib.mkForce ""; # override common/print.nix
   };
 
+  http-server = { config, lib, pkgs, ... }: {
+    services.nginx = {
+      enable = true;
+      virtualHosts = {
+      };
+    };
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
+  };
+
   wiki-server = { config, lib, pkgs, ... }: {
     services.gollum = {
       enable = true;
@@ -41,6 +50,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/headless.nix
     ../extras/netfs/cherry.nix
     print-server
+    http-server
     wiki-server
     music-server
   ];
