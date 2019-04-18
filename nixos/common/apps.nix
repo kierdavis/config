@@ -10,9 +10,6 @@ in {
   security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false;
 
-  # tmux
-  programs.tmux.enable = true;
-
   # bash completion
   programs.bash.enableCompletion = true;
 
@@ -28,6 +25,9 @@ in {
     doc.enable = false; # anything that doesn't fall into the above two categories
   };
 
+  # other programs
+  programs.less.enable = true;
+  programs.tmux.enable = true;
   environment.systemPackages = with pkgs; [
     # Utilities
     bc

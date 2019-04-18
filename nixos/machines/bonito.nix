@@ -8,6 +8,15 @@ let
     environment.variables.CUPS_SERVER = lib.mkForce ""; # override common/print.nix
   };
 
+  http-server = { config, lib, pkgs, ... }: {
+    services.nginx = {
+      enable = true;
+      virtualHosts = {
+      };
+    };
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
+  };
+
   wiki-server = { config, lib, pkgs, ... }: {
     services.gollum = {
       enable = true;
@@ -34,6 +43,8 @@ let
     environment.systemPackages = with pkgs; [ beets ];
   };
 
+  cascade = import ../cascade.nix;
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -41,6 +52,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/headless.nix
     ../extras/netfs/cherry.nix
     print-server
+    http-server
     wiki-server
     music-server
   ];
@@ -66,4 +78,12 @@ in { config, lib, pkgs, ... }: {
     certFile = ../../secret/vpn/certs/bonito.crt;
     keyFile = "/etc/bonito.key";
   };
+
+  # cascade network
+  networking.vlans.eth0_vlan11 = { interface = "eth0"; id = 11; };
+  networking.interfaces.eth0_vlan11.ipv6 = {
+    addresses = [ { address = cascade.hosts.bonito.addrs.vlan; prefixLength = 112; } ];
+    routes = [ { address = cascade.addr; prefixLength = 96; via = cascade.hosts.altusanima.addrs.vlan; } ];
+  };
+  networking.nameservers = [ cascade.hosts.altusanima.addrs.vlan ];
 }
