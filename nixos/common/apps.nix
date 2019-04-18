@@ -49,8 +49,8 @@ in {
     unzip
     wget
     zip
+    (mkWake "altusanima" "b8:ac:6f:99:63:c4")
     (mkWake "coloris" "34:97:f6:34:19:3f")
-    (mkWake "htpc" "d4:3d:7e:ef:5c:e5")
     (mkWake "shadowshow" "d8:9d:67:64:86:cf")
 
     # System diagnostics
