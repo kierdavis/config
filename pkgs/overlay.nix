@@ -12,6 +12,7 @@ self: super: {
   libkoki = super.callPackage ./libkoki { };
   lock = super.callPackage ./lock { };
   magic = super.callPackage ./magic { };
+  modd = super.callPackage ./modd { };
   mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
