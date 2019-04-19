@@ -12,6 +12,7 @@
   environment.systemPackages = with pkgs; [
     # Software
     circleci
+    modd
     python3
 
     # Hardware
