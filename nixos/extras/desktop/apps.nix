@@ -43,7 +43,6 @@ in
     quasselClient
     screenshot
     signal-desktop
-    soton-rdp
     spotify
     sublime3
     terminator

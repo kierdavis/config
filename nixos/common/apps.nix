@@ -42,8 +42,6 @@ in {
     publish
     pv
     screen
-    soton-mount
-    soton-umount
     sshfs
     umountext
     unzip
