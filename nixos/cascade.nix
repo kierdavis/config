@@ -17,6 +17,14 @@ rec {
     "coloris.h.cascade" = "${ipPrefix}::3:2";
 
     "public.campanella2.h.cascade" = "80.85.84.13";
+    "public.beagle2.h.cascade" = "176.9.121.81";
+
+    "c2vpn.campanella2.h.cascade" = "10.99.0.1";
+    "c2vpn.coloris.h.cascade" = "10.99.1.1";
+    "c2vpn.ouroboros.h.cascade" = "10.99.1.2";
+    "c2vpn.bonito.h.cascade" = "10.99.1.3";
+    "c2vpn.saelli.h.cascade" = "10.99.1.4";
+    "c2vpn.cherry.h.cascade" = "10.99.1.7";
   };
   vpn.port = 9045;
   vpn.peers = let
