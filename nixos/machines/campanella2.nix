@@ -2,6 +2,8 @@
 # It is named after the band "Wednesday Campanella".
 
 let
+  cascade = import ../cascade.nix;
+
   http-server = { config, lib, pkgs, ... }: {
     services.nginx = {
       enable = true;
@@ -46,7 +48,33 @@ let
     networking.firewall.allowedTCPPorts = [ 80 443 ];
   };
 
-  cascade = import ../cascade.nix;
+  dns-server = { config, lib, pkgs, ... }: {
+    services.unbound = {
+      enable = true;
+      interfaces = [
+        "127.0.0.1"
+        "10.99.0.1"
+        cascade.addrs."campanella2.h.cascade"
+      ];
+      allowedAccess = [
+        "127.0.0.0/24"
+        "10.99.0.0/16"
+        "${cascade.ipPrefix}::/96"
+      ];
+      forwardAddresses = cascade.upstreamNameservers;
+      extraConfig = let
+        mkRecord = name: addr: let
+          isIPv6 = lib.strings.hasInfix ":" addr;
+          recordType = if isIPv6 then "AAAA" else "A";
+        in ''local-data: "${name}. IN ${recordType} ${addr}"'';
+      in ''
+        local-zone: "cascade." static
+        ${lib.concatStringsSep "\n" (lib.mapAttrsToList mkRecord cascade.addrs)}
+      '';
+    };
+    networking.firewall.allowedTCPPorts = [ 53 ];
+    networking.firewall.allowedUDPPorts = [ 53 ];
+  };
 
 in { config, lib, pkgs, ... }: {
   imports = [
@@ -55,6 +83,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/headless.nix
     ../extras/netfs/cherry.nix
     http-server
+    dns-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
