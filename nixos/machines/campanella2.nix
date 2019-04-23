@@ -102,13 +102,10 @@ in { config, lib, pkgs, ... }: {
     keyFile = "/etc/campanella2.key";
   };
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.hosts.campanella2.addrs.vpn}/112" ];
-    listenPort = cascade.vpnPort;
+    ips = [ "${cascade.addrs."campanella2.h.cascade"}/112" ];
+    listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
-    peers = [
-      cascade.hosts.altusanima.vpnPeerInfo
-      cascade.hosts.saelli.vpnPeerInfo
-    ];
+    peers = with cascade.vpn.peers; [ altusanima saelli ];
   };
-  networking.firewall.allowedUDPPorts = [ cascade.vpnPort ];
+  networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
 }
