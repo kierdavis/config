@@ -43,4 +43,8 @@ rec {
       allowedIPs = [ "${addrs."saelli.h.cascade"}/128" ];
     };
   };
+  upstreamNameservers = [
+    "8.8.8.8"
+    "8.8.4.4"
+  ];
 }

@@ -7,6 +7,10 @@
 
   networking.hostName = config.machine.name;
 
+  networking.nameservers = let
+    cascade = import ../cascade.nix;
+  in [ cascade.addrs."campanella2.h.cascade" ] ++ cascade.upstreamNameservers;
+
   # Firewall
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
