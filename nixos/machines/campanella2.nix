@@ -33,11 +33,36 @@ let
     services.nginx = {
       enable = true;
       virtualHosts = (import ../../secret/campanella2-vhosts.nix) // {
+        "gendershake.dev.eleanor.cool" = {
+          enableACME = true;
+          forceSSL = true;
+          root = "/srv/http/gendershake.dev.eleanor.cool";
+          extraConfig = ''
+            index index.php;
+          '';
+          locations."~* \.php$".extraConfig = ''
+            fastcgi_pass unix:/var/run/phpfpm.default.sock;
+            include ${pkgs.nginx}/conf/fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+          '';
+        };
         default = {
           default = true;
           root = "/srv/http/default/www";
         };
       };
+    };
+    services.phpfpm.pools.default = {
+      listen = "/var/run/phpfpm.default.sock";
+      extraConfig = ''
+        listen.owner = nginx
+        listen.group = nginx
+        user = nginx
+        group = nginx
+        pm = ondemand
+        pm.max_children = 8
+      '';
     };
     systemd.services.nginx.after = [ "srv.mount" ];
     systemd.services.nginx.requires = [ "srv.mount" ];
