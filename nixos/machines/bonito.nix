@@ -17,6 +17,17 @@ let
     networking.firewall.allowedTCPPorts = [ 80 443 ];
   };
 
+  mysql-server = { config, lib, pkgs, ... }: {
+    services.mysql = {
+      enable = true;
+      dataDir = "/srv/mysql";
+      package = pkgs.mysql;
+      bind = "10.99.1.3";
+      port = 3306;
+    };
+    networking.firewall.allowedTCPPorts = [ 3306 ];
+  };
+
   wiki-server = { config, lib, pkgs, ... }: {
     services.gollum = {
       enable = true;
@@ -53,6 +64,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/netfs/cherry.nix
     print-server
     http-server
+    mysql-server
     wiki-server
     music-server
   ];
