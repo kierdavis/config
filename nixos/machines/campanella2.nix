@@ -2,33 +2,6 @@
 # It is named after the band "Wednesday Campanella".
 
 let
-  postgresql-server = { config, lib, pkgs, ... }: {
-    services.postgresql = {
-      enable = true;
-      dataDir = "/srv/postgresql";
-      extraConfig = ''
-        listen_addresses = '127.0.0.1, 10.99.0.1'
-      '';
-      authentication = ''
-        host all all 10.99.0.0/16 md5
-      '';
-    };
-    systemd.services.postgresql.after = [ "srv.mount" ];
-    systemd.services.postgresql.requires = [ "srv.mount" ];
-    networking.firewall.allowedTCPPorts = [ 5432 ];
-  };
-
-  irc-client = { config, lib, pkgs, ... }: {
-    services.quassel = {
-      enable = true;
-      dataDir = "/srv/quassel";
-      interfaces = [ "0.0.0.0" ];
-    };
-    systemd.services.quassel.after = [ "postgresql.service" "srv.mount" ];
-    systemd.services.quassel.requires = [ "postgresql.service" "srv.mount" ];
-    networking.firewall.allowedTCPPorts = [ 4242 ];
-  };
-
   http-server = { config, lib, pkgs, ... }: {
     services.nginx = {
       enable = true;
