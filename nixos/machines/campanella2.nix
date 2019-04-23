@@ -71,10 +71,6 @@ let
     systemd.services.nginx.after = [ "srv.mount" ];
     systemd.services.nginx.requires = [ "srv.mount" ];
     networking.firewall.allowedTCPPorts = [ 80 443 ];
-    users.users.nginx = {
-      useDefaultShell = true;
-      openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
-    };
   };
 
   cascade = import ../cascade.nix;
