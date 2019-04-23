@@ -32,6 +32,10 @@ let
   http-server = { config, lib, pkgs, ... }: {
     services.nginx = {
       enable = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
       virtualHosts = (import ../../secret/campanella2-vhosts.nix) // {
         "gendershake.dev.eleanor.cool" = {
           enableACME = true;
