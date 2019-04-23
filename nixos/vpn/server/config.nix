@@ -1,10 +1,13 @@
 { lib, runCommand, serverCert, serverKey, stdenv }:
 
 let
-  hosts = import ../hosts.nix;
+  hostnames = [ "coloris" "ouroboros" "bonito" "saelli" "cherry" ];
+  cascade = import ../../cascade.nix;
 
-  clientConfigScriptSegment = name: addr: ''echo "ifconfig-push ${addr} 255.255.0.0" > $out/${name}'';
-  clientConfigScript = lib.concatStringsSep "\n" (lib.mapAttrsToList clientConfigScriptSegment hosts);
+  clientConfigScriptSegment = hostname:
+    let addr = cascade.addrs."c2vpn.${hostname}.h.cascade";
+    in ''echo "ifconfig-push ${addr} 255.255.0.0" > $out/${hostname}'';
+  clientConfigScript = lib.concatStringsSep "\n" (map clientConfigScriptSegment hostnames);
   clientConfigDir = runCommand "client-config" {} ''
     #!${stdenv.shell}
     mkdir -p $out
