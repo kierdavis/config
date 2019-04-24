@@ -66,7 +66,7 @@ in { config, lib, pkgs, ... }:
     ips = [ "${cascade.addrs."saelli.h.cascade"}/112" ];
     listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
-    peers = with cascade.vpn.peers; [ altusanima campanella2 ];
+    peers = with cascade.vpn.peers; [ altusanima campanella2 motog5 ];
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
 }
