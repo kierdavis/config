@@ -35,7 +35,7 @@ rec {
   in {
     campanella2 = mkPeer {
       publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
-      allowedIPs = [ "${addrs."campanella2.h.cascade"}/112" ];
+      allowedIPs = [ "${addrs."campanella2.h.cascade"}/96" ];
       endpoint = mkEndpoint addrs."public.campanella2.h.cascade";
     };
     altusanima = mkPeer {
