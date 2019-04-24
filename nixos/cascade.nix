@@ -35,7 +35,7 @@ rec {
   in {
     campanella2 = mkPeer {
       publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
-      allowedIPs = [ "${addrs."campanella2.h.cascade"}/112" ];
+      allowedIPs = [ "${addrs."campanella2.h.cascade"}/96" ];
       endpoint = mkEndpoint addrs."public.campanella2.h.cascade";
     };
     altusanima = mkPeer {
@@ -49,6 +49,10 @@ rec {
     saelli = mkPeer {
       publicKey = "Kk29EQEXWlCJxMB14brjEz4/UOixlXPp6Smq7Ti8jQ0=";
       allowedIPs = [ "${addrs."saelli.h.cascade"}/128" ];
+    };
+    motog5 = mkPeer {
+      publicKey = "ah856MqtJfCOeg4y7xl1jxcyioGC2cojVBeU047wwVU=";
+      allowedIPs = [ "${addrs."motog5.h.cascade"}/128" ];
     };
   };
   upstreamNameservers = [
