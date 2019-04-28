@@ -52,6 +52,7 @@ in {
     (mkWake "shadowshow" "d8:9d:67:64:86:cf")
 
     # System diagnostics
+    dnsutils  # dig
     htop
     lsof
     nmap
