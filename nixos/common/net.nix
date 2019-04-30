@@ -9,7 +9,7 @@
 
   networking.nameservers = let
     cascade = import ../cascade.nix;
-  in [ cascade.addrs."campanella2.h.cascade" ] ++ cascade.upstreamNameservers;
+  in [ cascade.addrs."public.campanella2.h.cascade" ] ++ cascade.upstreamNameservers;
 
   # Firewall
   networking.firewall.enable = true;
