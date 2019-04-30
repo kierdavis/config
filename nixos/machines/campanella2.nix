@@ -51,16 +51,8 @@ let
   dns-server = { config, lib, pkgs, ... }: {
     services.unbound = {
       enable = true;
-      interfaces = [
-        "127.0.0.1"
-        "10.99.0.1"
-        cascade.addrs."campanella2.h.cascade"
-      ];
-      allowedAccess = [
-        "127.0.0.0/24"
-        "10.99.0.0/16"
-        "${cascade.ipPrefix}::/96"
-      ];
+      interfaces = [ "0.0.0.0" ];
+      allowedAccess = [ "0.0.0.0/0" ];
       forwardAddresses = cascade.upstreamNameservers;
       extraConfig = let
         mkRecord = name: addr: let
