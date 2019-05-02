@@ -9,6 +9,7 @@ self: super: {
   hartmaster = super.callPackage ./hartmaster { };
   home-manager = super.callPackage ./home-manager { };
   i3blocks-scripts = super.callPackage ./i3blocks-scripts { inherit (self.linuxPackages) nvidia_x11; };
+  klayout = super.libsForQt5.callPackage ./klayout { };
   libkoki = super.callPackage ./libkoki { };
   lock = super.callPackage ./lock { };
   magic = super.callPackage ./magic { };
