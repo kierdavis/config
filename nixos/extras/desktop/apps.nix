@@ -5,11 +5,6 @@ let
     #!${pkgs.stdenv.shell}
     ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
   '';
-
-  pkgs-latest = import (fetchTarball https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz) {
-    inherit (config.nixpkgs) config;
-  };
-  skype-latest = pkgs-latest.skype;
 in
 
 {
@@ -38,9 +33,7 @@ in
     i3blocks
     i3blocks-scripts
     i3lock
-    networkmanagerapplet
     pavucontrol
-    quasselClient
     screenshot
     signal-desktop
     spotify
