@@ -81,9 +81,4 @@
 
   # Monitor layout.
   services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
-
-  # Other stuff to install.
-  environment.systemPackages = [
-    pkgs.google-musicmanager
-  ];
 }
