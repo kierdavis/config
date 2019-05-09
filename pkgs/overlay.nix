@@ -1,7 +1,6 @@
 self: super: {
   admesh = super.callPackage ./admesh { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
-  boincmgr = super.callPackage ./boincmgr { inherit (self.xorg) xauth; };
   circleci = super.callPackage ./circleci { };
   freesweep = super.callPackage_i686 ./freesweep { };
   ftb-launcher = super.callPackage ./ftb-launcher { };
