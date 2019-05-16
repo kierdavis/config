@@ -51,8 +51,8 @@ let
   dns-server = { config, lib, pkgs, ... }: {
     services.unbound = {
       enable = true;
-      interfaces = [ "0.0.0.0" ];
-      allowedAccess = [ "0.0.0.0/0" ];
+      interfaces = [ "0.0.0.0" "::" ];
+      allowedAccess = [ "0.0.0.0/0" "::/0" ];
       forwardAddresses = cascade.upstreamNameservers;
       extraConfig = let
         mkRecord = name: addr: let

@@ -16,8 +16,10 @@ rec {
     "vlan-gw.altusanima.h.cascade" = "${ipPrefix}::3:1";
     "coloris.h.cascade" = "${ipPrefix}::3:2";
 
-    "public.campanella2.h.cascade" = "80.85.84.13";
-    "public.beagle2.h.cascade" = "176.9.121.81";
+    "public4.campanella2.h.cascade" = "80.85.84.13";
+    "public6.campanella2.h.cascade" = "2a01:7e00::f03c:91ff:fe77:738c";
+    "public4.beagle2.h.cascade" = "176.9.121.81";
+    "public6.beagle2.h.cascade" = "2a01:4f8:151:8047::2";
 
     "c2vpn.campanella2.h.cascade" = "10.99.0.1";
     "c2vpn.coloris.h.cascade" = "10.99.1.1";
@@ -36,7 +38,7 @@ rec {
     campanella2 = mkPeer {
       publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
       allowedIPs = [ "${addrs."campanella2.h.cascade"}/96" ];
-      endpoint = mkEndpoint addrs."public.campanella2.h.cascade";
+      endpoint = mkEndpoint addrs."public4.campanella2.h.cascade";
     };
     altusanima = mkPeer {
       publicKey = "jbol9385zdX7Ctfd3iz1LM3pHbT/zB1YvRg6gMx/zV8=";
