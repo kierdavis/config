@@ -82,6 +82,7 @@ in { config, lib, pkgs, ... }: {
   machine = {
     name = "campanella2";
     wifi = false;
+    ipv6-internet = true;
     cpu = {
       cores = 1;
       intel = true;

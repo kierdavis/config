@@ -16,6 +16,7 @@
   machine = {
     name = "ouroboros";
     wifi = true;
+    ipv6-internet = false;
     cpu = {
       cores = 4;
       intel = true;

@@ -17,6 +17,7 @@
   machine = {
     name = "coloris";
     wifi = true;
+    ipv6-internet = false;
     cpu = {
       cores = 4;
       intel = true;
