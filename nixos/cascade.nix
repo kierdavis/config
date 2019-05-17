@@ -6,14 +6,14 @@ rec {
     "saelli.h.cascade" = "${ipPrefix}::1:3";
     "motog5.h.cascade" = "${ipPrefix}::1:4";
 
-    "lan-gw.altusanima.h.cascade" = "${ipPrefix}::2:1";
+    "lan.altusanima.h.cascade" = "${ipPrefix}::2:1";
     "lom.altusanima.h.cascade" = "${ipPrefix}::2:2";
     "shadowshow.h.cascade" = "${ipPrefix}::2:3";
     "lom.shadowshow.h.cascade" = "${ipPrefix}::2:4";
     "bonito.h.cascade" = "${ipPrefix}::2:5";
     "cherry.h.cascade" = "${ipPrefix}::2:6";
 
-    "vlan-gw.altusanima.h.cascade" = "${ipPrefix}::3:1";
+    "vlan.altusanima.h.cascade" = "${ipPrefix}::3:1";
     "coloris.h.cascade" = "${ipPrefix}::3:2";
 
     "public4.campanella2.h.cascade" = "80.85.84.13";
@@ -27,6 +27,9 @@ rec {
     "c2vpn.bonito.h.cascade" = "10.99.1.3";
     "c2vpn.saelli.h.cascade" = "10.99.1.4";
     "c2vpn.cherry.h.cascade" = "10.99.1.7";
+
+    "lan4.altusanima.h.cascade" = "192.168.2.1";
+    "lan4.bonito.h.cascade" = "192.168.2.2";
   };
   vpn.port = 9045;
   vpn.peers = let
