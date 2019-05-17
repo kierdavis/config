@@ -74,7 +74,7 @@ in { config, lib, pkgs, ... }: {
     name = "bonito";
     wifi = false;
     cpu = {
-      cores = 32;
+      cores = 24;
       intel = true;
     };
   };

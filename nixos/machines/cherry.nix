@@ -86,7 +86,7 @@ in { config, lib, pkgs, ... }: {
     name = "cherry";
     wifi = false;
     cpu = {
-      cores = 32;
+      cores = 24;
       intel = true;
     };
   };
