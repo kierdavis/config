@@ -14,6 +14,13 @@ with lib;
       description = ''Whether to enable wireless networking.'';
     };
 
+    machine.ipv6-internet = mkOption {
+      type = types.bool;
+      default = true;
+      example = false;
+      description = ''Whether the machine has access to the Internet over IPv6 as well as IPv4.'';
+    };
+
     machine.cpu.cores = mkOption {
       type = types.int;
       description = ''Number of processor cores (specifically, max number of Nix jobs to run in parallel).'';

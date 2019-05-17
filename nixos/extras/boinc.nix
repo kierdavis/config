@@ -15,6 +15,5 @@ in {
 
   environment.systemPackages = [
     pkgs.boincgpuctl
-    pkgs.boincmgr
   ];
 }

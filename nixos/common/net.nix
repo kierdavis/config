@@ -9,7 +9,9 @@
 
   networking.nameservers = let
     cascade = import ../cascade.nix;
-  in [ cascade.addrs."public.campanella2.h.cascade" ] ++ cascade.upstreamNameservers;
+    campanella2-iface = if config.machine.ipv6-internet then "public6" else "public4";
+    campanella2-addr = cascade.addrs."${campanella2-iface}.campanella2.h.cascade";
+  in [ campanella2-addr ] ++ cascade.upstreamNameservers;
 
   # Firewall
   networking.firewall.enable = true;

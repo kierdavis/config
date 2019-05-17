@@ -17,6 +17,7 @@
   machine = {
     name = "coloris";
     wifi = true;
+    ipv6-internet = false;
     cpu = {
       cores = 4;
       intel = true;
@@ -82,8 +83,13 @@
   # Monitor layout.
   services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
 
-  # Other stuff to install.
-  environment.systemPackages = [
-    pkgs.google-musicmanager
-  ];
+  # Fix keyboard layout.
+  # Since https://gitlab.freedesktop.org/xorg/driver/xf86-input-evdev/commit/192fdb06905f0f190e3a0e258919676934e6633c
+  # my keyboard has a US layout on startup instead of a UK one (as is already specified by services.xserver.layout).
+  # Updating the keyboard layout with setxkbmap is a workaround, but it doesn't fix the underlying problem, which
+  # is probably related to interaction between ckb-next (the driver), xf86-input-evdev (X11's input module) and
+  # /dev/input/* (kernel input event stuff).
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap ${config.services.xserver.layout}
+  '';
 }
