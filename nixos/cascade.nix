@@ -10,6 +10,10 @@ in rec {
       campanella2 = "80.85.84.13";
       beagle2 = "176.9.121.81";
     };
+    w4 = { # woodside road LAN
+      gateway = "192.168.1.1";
+      altusanima = "192.168.1.30";
+    };
     cv = { # cascade VPN
       campanella2 = "fca5:cade:1::1:1";
       altusanima = "fca5:cade:1::1:2";
