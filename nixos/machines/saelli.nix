@@ -64,7 +64,7 @@ in { config, lib, pkgs, ... }:
     keyFile = "/etc/saelli.key";
   };
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.addrs."saelli.h.cascade"}/112" ];
+    ips = [ "${cascade.addrs.cv.saelli}/112" ];
     listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
     peers = with cascade.vpn.peers; [ altusanima campanella2 motog5 ];

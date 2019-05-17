@@ -88,15 +88,15 @@ in { config, lib, pkgs, ... }: {
   networking.useDHCP = false;
   networking.interfaces.eth0 = {
     useDHCP = false;
-    ipv4.addresses = [ { address = cascade.addrs."lan4.bonito.h.cascade"; prefixLength = 24; } ];
-    ipv6.addresses = [ { address = cascade.addrs."bonito.h.cascade"; prefixLength = 112; } ];
+    ipv4.addresses = [ { address = cascade.addrs.cl4.bonito; prefixLength = 24; } ];
+    ipv6.addresses = [ { address = cascade.addrs.cl.bonito; prefixLength = 112; } ];
   };
   networking.defaultGateway = {
-    address = cascade.addrs."lan4.altusanima.h.cascade";
+    address = cascade.addrs.cl4.altusanima;
     interface = "eth0";
   };
   networking.defaultGateway6 = {
-    address = cascade.addrs."lan.altusanima.h.cascade";
+    address = cascade.addrs.cl.altusanima;
     interface = "eth0";
   };
 

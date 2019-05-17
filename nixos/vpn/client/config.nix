@@ -2,11 +2,11 @@
 
 let
   template = ./config.template;
-  campanella2-iface = if ipv6-internet then "public6" else "public4";
-  campanella2-addr = (import ../../cascade.nix).addrs."${campanella2-iface}.campanella2.h.cascade";
+  cascade = import ../../cascade.nix;
+  pubSeg = if config.machine.ipv6-internet then cascade.addrs.pub else cascade.addrs.pub4;
   config = runCommand "client.conf" {
     inherit clientCert clientKey;
-    remoteHost = campanella2-addr;
+    remoteHost = pubSeg.campanella2;
     remotePort = 1194;
     caCert     = ../../../secret/vpn/certs/ca.crt;
     vpnHmacKey = ../../../secret/vpn/ta.key;
