@@ -55,13 +55,13 @@ let
       allowedAccess = [ "0.0.0.0/0" "::/0" ];
       forwardAddresses = cascade.upstreamNameservers;
       extraConfig = let
-        mkRecord = name: addr: let
-          isIPv6 = lib.strings.hasInfix ":" addr;
+        mkRecord = entry: let
+          isIPv6 = lib.strings.hasInfix ":" entry.addr;
           recordType = if isIPv6 then "AAAA" else "A";
-        in ''local-data: "${name}. IN ${recordType} ${addr}"'';
+        in ''local-data: "${entry.name}. IN ${recordType} ${entry.addr}"'';
       in ''
         local-zone: "cascade." static
-        ${lib.concatStringsSep "\n" (lib.mapAttrsToList mkRecord cascade.addrs)}
+        ${lib.concatStringsSep "\n" (map mkRecord cascade.domainNames)}
       '';
     };
     networking.firewall.allowedTCPPorts = [ 53 ];
@@ -124,7 +124,7 @@ in { config, lib, pkgs, ... }: {
     keyFile = "/etc/campanella2.key";
   };
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.addrs."campanella2.h.cascade"}/112" ];
+    ips = [ "${cascade.addrs.cv.campanella2}/112" ];
     listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
     peers = with cascade.vpn.peers; [ altusanima motog5 saelli ];
