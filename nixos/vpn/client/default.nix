@@ -7,6 +7,7 @@ let
 
   vpnConfig = import ./config.nix {
     inherit (pkgs) runCommand;
+    inherit (config.machine) ipv6-internet;
     clientCert = modConfig.certFile;
     clientKey = modConfig.keyFile;
   };

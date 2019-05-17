@@ -21,6 +21,7 @@ in { config, lib, pkgs, ... }:
   machine = {
     name = "saelli";
     wifi = true;
+    ipv6-internet = false;
     cpu = {
       cores = 4;
       intel = true;

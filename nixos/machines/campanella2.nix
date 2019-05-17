@@ -51,8 +51,8 @@ let
   dns-server = { config, lib, pkgs, ... }: {
     services.unbound = {
       enable = true;
-      interfaces = [ "0.0.0.0" ];
-      allowedAccess = [ "0.0.0.0/0" ];
+      interfaces = [ "0.0.0.0" "::" ];
+      allowedAccess = [ "0.0.0.0/0" "::/0" ];
       forwardAddresses = cascade.upstreamNameservers;
       extraConfig = let
         mkRecord = name: addr: let
@@ -82,6 +82,7 @@ in { config, lib, pkgs, ... }: {
   machine = {
     name = "campanella2";
     wifi = false;
+    ipv6-internet = true;
     cpu = {
       cores = 1;
       intel = true;

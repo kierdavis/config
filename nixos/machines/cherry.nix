@@ -2,7 +2,7 @@ let
   nordvpn-client = { config, lib, pkgs, ... }:
     let
       nordvpn = import ../../secret/nordvpn { inherit pkgs; };
-      campanella2 = (import ../cascade.nix).addrs."public.campanella2.h.cascade";
+      campanella2 = (import ../cascade.nix).addrs."public4.campanella2.h.cascade";
     in {
       services.openvpn.servers.nordvpn = {
         config = nordvpn.config;
