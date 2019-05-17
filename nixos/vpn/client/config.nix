@@ -3,7 +3,7 @@
 let
   template = ./config.template;
   cascade = import ../../cascade.nix;
-  pubSeg = if config.machine.ipv6-internet then cascade.addrs.pub else cascade.addrs.pub4;
+  pubSeg = if ipv6-internet then cascade.addrs.pub else cascade.addrs.pub4;
   config = runCommand "client.conf" {
     inherit clientCert clientKey;
     remoteHost = pubSeg.campanella2;
