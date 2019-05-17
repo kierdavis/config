@@ -85,6 +85,21 @@ in { config, lib, pkgs, ... }: {
   # if this config is used as a reference for a new host!
   networking.hostId = "00e60dbb";
 
+  networking.useDHCP = false;
+  networking.interfaces.eth0 = {
+    useDHCP = false;
+    ipv4.addresses = [ { address = cascade.addrs."lan4.bonito.h.cascade"; prefixLength = 24; } ];
+    ipv6.addresses = [ { address = cascade.addrs."bonito.h.cascade"; prefixLength = 112; } ];
+  };
+  networking.defaultGateway = {
+    address = cascade.addrs."lan4.altusanima.h.cascade";
+    interface = "eth0";
+  };
+  networking.defaultGateway6 = {
+    address = cascade.addrs."lan.altusanima.h.cascade";
+    interface = "eth0";
+  };
+
   # VPN client config.
   campanella-vpn.client = {
     enable = true;
