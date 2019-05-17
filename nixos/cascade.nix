@@ -1,7 +1,6 @@
 let
   lib = import <nixpkgs/lib>;
 in rec {
-  ipPrefix = "fca5:cade:1";
   addrs = {
     pub = { # public
       campanella2 = "2a01:7e00::f03c:91ff:fe77:738c";
@@ -12,18 +11,18 @@ in rec {
       beagle2 = "176.9.121.81";
     };
     cv = { # cascade VPN
-      campanella2 = "${ipPrefix}::1:1";
-      altusanima = "${ipPrefix}::1:2";
-      saelli = "${ipPrefix}::1:3";
-      motog5 = "${ipPrefix}::1:4";
+      campanella2 = "fca5:cade:1::1:1";
+      altusanima = "fca5:cade:1::1:2";
+      saelli = "fca5:cade:1::1:3";
+      motog5 = "fca5:cade:1::1:4";
     };
     cl = { # cascade LAN at woodside road
-      altusanima = "${ipPrefix}::2:1";
-      # altusanima-lom = "${ipPrefix}::2:2";
-      shadowshow = "${ipPrefix}::2:3";
-      # shadowshow-lom = "${ipPrefix}::2:4";
-      bonito = "${ipPrefix}::2:5";
-      cherry = "${ipPrefix}::2:6";
+      altusanima = "fca5:cade:1::2:1";
+      # altusanima-lom = "fca5:cade:1::2:2";
+      shadowshow = "fca5:cade:1::2:3";
+      # shadowshow-lom = "fca5:cade:1::2:4";
+      bonito = "fca5:cade:1::2:5";
+      cherry = "fca5:cade:1::2:6";
     };
     cl4 = {
       altusanima = "192.168.2.1";
@@ -34,8 +33,8 @@ in rec {
       cherry = "192.168.2.6";
     };
     cvl = { # cascade VLAN at woodside road
-      altusanima = "${ipPrefix}::3:1";
-      coloris = "${ipPrefix}::3:2";
+      altusanima = "fca5:cade:1::3:1";
+      coloris = "fca5:cade:1::3:2";
     };
     c2vpn = { # legacy campanella2 vpn
       campanella2 = "10.99.0.1";
