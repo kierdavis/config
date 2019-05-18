@@ -1,4 +1,6 @@
 let
+  cascade = import ../cascade.nix;
+
   nordvpn-client = { config, lib, pkgs, ... }:
     let
       nordvpn = import ../../secret/nordvpn { inherit pkgs; };
@@ -76,8 +78,8 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
-    nordvpn-client
-    torrent-client
+    #nordvpn-client
+    #torrent-client
     nfs-server
   ];
 
@@ -95,6 +97,21 @@ in { config, lib, pkgs, ... }: {
   #   head -c4 /dev/urandom | od -A none -t x4
   # if this config is used as a reference for a new host!
   networking.hostId = "2689139e";
+
+  networking.useDHCP = false;
+  networking.interfaces.eth0 = {
+    useDHCP = false;
+    ipv4.addresses = [ { address = cascade.addrs.cl4.cherry; prefixLength = 24; } ];
+    ipv6.addresses = [ { address = cascade.addrs.cl.cherry; prefixLength = 112; } ];
+  };
+  networking.defaultGateway = {
+    address = cascade.addrs.cl4.altusanima;
+    interface = "eth0";
+  };
+  networking.defaultGateway6 = {
+    address = cascade.addrs.cl.altusanima;
+    interface = "eth0";
+  };
 
   # VPN client config.
   campanella-vpn.client = {
