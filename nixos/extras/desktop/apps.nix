@@ -5,6 +5,17 @@ let
     #!${pkgs.stdenv.shell}
     ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
   '';
+
+  mailboxes = let
+    c = "${pkgs.chromium}/bin/chromium";
+    cr = "${chromium-river}/bin/chromium-river";
+  in pkgs.writeShellScriptBin "mailboxes" ''
+    ${c} https://mail.google.com/ &
+    ${c} http://ecs.gg/mail &
+    ${c} https://mail.zoho.eu/zm/ &
+    ${cr} https://mail.google.com/ &
+    wait
+  '';
 in
 
 {
@@ -33,6 +44,7 @@ in
     i3blocks
     i3blocks-scripts
     i3lock
+    mailboxes
     pavucontrol
     screenshot
     signal-desktop
