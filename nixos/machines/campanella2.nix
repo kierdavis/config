@@ -11,7 +11,25 @@ let
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts = (import ../../secret/campanella2-vhosts.nix) // {
+      virtualHosts = {
+        "eleanor.cool" = {
+          enableACME = true;
+          forceSSL = true;
+          root = "/srv/http/eleanor.cool/www";
+        };
+        "dl.eleanor.cool" = {
+          enableACME = true;
+          forceSSL = true;
+          root = "/srv/http/dl.eleanor.cool/www";
+          locations."/gifs".extraConfig = "autoindex on;";
+        };
+        "gallery.eleanor.cool" = {
+          enableACME = true;
+          forceSSL = true;
+          root = "/srv/http/gallery.eleanor.cool/www";
+          locations."/video".extraConfig = "autoindex on;";
+          locations."/video-nsfw".extraConfig = "autoindex on;";
+        };
         "gendershake.dev.eleanor.cool" = {
           enableACME = true;
           forceSSL = true;
