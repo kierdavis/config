@@ -2,7 +2,6 @@
 
 let
   chromium-river = pkgs.writeShellScriptBin "chromium-river" ''
-    #!${pkgs.stdenv.shell}
     ${pkgs.chromium}/bin/chromium --user-data-dir=$HOME/.river/chromium "$@"
   '';
 
