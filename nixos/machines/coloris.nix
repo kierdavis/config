@@ -3,7 +3,10 @@
 
 { config, lib, pkgs, ... }:
 
-{
+let
+  cascade = import ../cascade.nix;
+
+in {
   imports = [
     ../common
     ../extras/platform/efi.nix
@@ -30,6 +33,19 @@
       ethInterface = "enp4s0";
       wlanInterface = "wlp3s0";
     };
+  };
+
+  networking.vlans.cascadevlan = {
+    interface = "enp4s0";
+    id = 5;
+  };
+  networking.interfaces.cascadevlan = {
+    useDHCP = false;
+    ipv6.addresses = [ { address = cascade.addrs.cvl.coloris; prefixLength = 112; } ];
+    ipv6.routes = [
+      { address = cascade.addrs.cv._subnet; prefixLength = 112; via = cascade.addrs.cvl.altusanima; }
+      { address = cascade.addrs.cl._subnet; prefixLength = 112; via = cascade.addrs.cvl.altusanima; }
+    ];
   };
 
   # Filesystems.
