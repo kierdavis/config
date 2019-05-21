@@ -57,6 +57,7 @@ in rec {
     };
   };
   hostAddrs = {
+    inherit (addrs.pub4) beagle2;
     inherit (addrs.cv) campanella2 altusanima saelli motog5;
     inherit (addrs.cl) shadowshow bonito cherry;
     inherit (addrs.cvl) coloris;
