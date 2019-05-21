@@ -79,6 +79,8 @@ in rec {
       })
       hostAddrs
     )
+    { name = "virt.cascade"; addr = hostAddrs.campanella2; }
+    { name = "net.cascade"; addr = hostAddrs.altusanima; }
   ];
   vpn.port = 9045;
   vpn.peers = let
