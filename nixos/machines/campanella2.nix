@@ -12,6 +12,9 @@ let
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
+        "virt.cascade" = {
+          locations."/".proxyPass = "https://[${cascade.hostAddrs.shadowshow}]:8006/";
+        };
         "eleanor.cool" = {
           enableACME = true;
           forceSSL = true;
