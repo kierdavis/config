@@ -87,6 +87,7 @@ in { config, lib, pkgs, ... }: {
   machine = {
     name = "cherry";
     wifi = false;
+    ipv6-internet = false;
     cpu = {
       cores = 24;
       intel = true;
