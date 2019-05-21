@@ -11,16 +11,20 @@ in rec {
       beagle2 = "176.9.121.81";
     };
     w4 = { # woodside road LAN
+      _subnet = "192.168.1.0";
       gateway = "192.168.1.1";
+      coloris = "192.168.1.20";
       altusanima = "192.168.1.30";
     };
     cv = { # cascade VPN
+      _subnet = "fca5:cade:1::1:0";
       campanella2 = "fca5:cade:1::1:1";
       altusanima = "fca5:cade:1::1:2";
       saelli = "fca5:cade:1::1:3";
       motog5 = "fca5:cade:1::1:4";
     };
     cl = { # cascade LAN at woodside road
+      _subnet = "fca5:cade:1::2:0";
       altusanima = "fca5:cade:1::2:1";
       # altusanima-lom = "fca5:cade:1::2:2";
       shadowshow = "fca5:cade:1::2:3";
@@ -29,6 +33,7 @@ in rec {
       cherry = "fca5:cade:1::2:6";
     };
     cl4 = {
+      _subnet = "192.168.2.0";
       altusanima = "192.168.2.1";
       # altusanima-lom = "192.168.2.2";
       shadowshow = "192.168.2.3";
@@ -37,10 +42,12 @@ in rec {
       cherry = "192.168.2.6";
     };
     cvl = { # cascade VLAN at woodside road
+      _subnet = "fca5:cade:1::3:0";
       altusanima = "fca5:cade:1::3:1";
       coloris = "fca5:cade:1::3:2";
     };
     c2vpn = { # legacy campanella2 vpn
+      _subnet = "10.99.0.0";
       campanella2 = "10.99.0.1";
       coloris = "10.99.1.1";
       ouroboros = "10.99.1.2";
