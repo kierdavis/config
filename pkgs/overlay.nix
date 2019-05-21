@@ -13,6 +13,7 @@ self: super: {
   modd = super.callPackage ./modd { };
   mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
+  netcheck = super.callPackage ./netcheck { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   publish = super.callPackage ./publish { };
