@@ -150,11 +150,6 @@ in { config, lib, pkgs, ... }: {
   powerManagement.cpuFreqGovernor = "ondemand";
 
   # VPN server config.
-  campanella-vpn.server = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/campanella2.crt;
-    keyFile = "/etc/campanella2.key";
-  };
   networking.wireguard.interfaces.wg0 = {
     ips = [ "${cascade.addrs.cv.campanella2}/112" ];
     listenPort = cascade.vpn.port;
