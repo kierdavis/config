@@ -87,6 +87,7 @@ in { config, lib, pkgs, ... }: {
   machine = {
     name = "cherry";
     wifi = false;
+    ipv6-internet = false;
     cpu = {
       cores = 24;
       intel = true;
@@ -111,12 +112,5 @@ in { config, lib, pkgs, ... }: {
   networking.defaultGateway6 = {
     address = cascade.addrs.cl.altusanima;
     interface = "eth0";
-  };
-
-  # VPN client config.
-  campanella-vpn.client = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/cherry.crt;
-    keyFile = "/etc/cherry.key";
   };
 }
