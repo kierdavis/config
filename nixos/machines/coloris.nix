@@ -13,7 +13,6 @@ in {
     ../extras/boinc.nix
     ../extras/desktop
     ../extras/devel.nix
-    ../extras/netfs/cherry.nix
   ];
 
   # High-level configuration used by nixos/common/*.nix.

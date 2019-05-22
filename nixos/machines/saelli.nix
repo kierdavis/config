@@ -14,7 +14,6 @@ in { config, lib, pkgs, ... }:
     ../extras/low-power.nix
     ../extras/clickpad.nix
     ../extras/devel.nix
-    ../extras/netfs/cherry.nix
   ];
 
   # High-level configuration used by nixos/common/*.nix.

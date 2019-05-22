@@ -105,7 +105,6 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/linode.nix
     ../extras/headless.nix
-    ../extras/netfs/cherry.nix
     http-server
     dns-server
   ];

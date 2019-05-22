@@ -63,7 +63,6 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/proxmox-ct.nix
     ../extras/headless.nix
-    ../extras/netfs/cherry.nix
     print-server
     http-server
     mysql-server
@@ -80,6 +79,7 @@ in { config, lib, pkgs, ... }: {
       cores = 24;
       intel = true;
     };
+    netfs.bonito.isServer = true;
   };
 
   # Make sure to generate a new ID using:
