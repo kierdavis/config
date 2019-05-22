@@ -16,6 +16,9 @@ let
           extraConfig = ''
             rewrite ^/(.*)$ ${dest}/$1 permanent;
           '';
+          forceSSL = true;
+          sslCertificate = ../../secret/ssl/campanella2-nginx.crt;
+          sslCertificateKey = ../../secret/ssl/campanella2-nginx.key;
         };
       in {
         "virt.cascade" = mkRedirect "https://shadowshow.h.cascade:8006";
