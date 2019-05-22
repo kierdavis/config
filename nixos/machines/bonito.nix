@@ -5,6 +5,10 @@ let
     services.printing = {
       enable = true;
       drivers = [ pkgs.samsung-unified-linux-driver_4_01_17 ];
+      extraConf = ''
+        ServerName bonito.h.cascade
+        ServerAlias print.cascade
+      '';
     };
     networking.firewall.allowedTCPPorts = [ 631 ];
     environment.variables.CUPS_SERVER = lib.mkForce ""; # override common/print.nix
