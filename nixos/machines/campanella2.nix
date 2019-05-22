@@ -11,10 +11,18 @@ let
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts = {
-        "virt.cascade" = {
-          locations."/".proxyPass = "https://[${cascade.hostAddrs.shadowshow}]:8006/";
+      virtualHosts = let
+        mkRedirect = dest: {
+          extraConfig = ''
+            rewrite ^/(.*)$ ${dest}/$1 permanent;
+          '';
         };
+      in {
+        "virt.cascade" = mkRedirect "https://shadowshow.h.cascade:8006";
+        "net.cascade" = mkRedirect "https://altusanima.h.cascade";
+        "music.cascade" = mkRedirect "http://bonito.h.cascade:3000";
+        "wiki.cascade" = mkRedirect "http://bonito.h.cascade:4567";
+        "torrents.cascade" = mkRedirect "http://cherry.h.cascade:9091";
         "eleanor.cool" = {
           enableACME = true;
           forceSSL = true;
