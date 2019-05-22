@@ -62,17 +62,6 @@ let
     };
   };
 
-  nfs-server = { config, lib, pkgs, ... }: {
-    services.nfs.server = {
-      enable = true;
-      exports = ''
-        /downloads 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70)
-        /srv/transmission/torrent-archive 10.99.0.0/16(ro,all_squash,anonuid=70,anongid=70)
-      '';
-    };
-    networking.firewall.allowedTCPPorts = [ 2049 ];
-  };
-
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -80,7 +69,6 @@ in { config, lib, pkgs, ... }: {
     ../extras/headless.nix
     #nordvpn-client
     #torrent-client
-    nfs-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
@@ -92,6 +80,7 @@ in { config, lib, pkgs, ... }: {
       cores = 24;
       intel = true;
     };
+    netfs.cherry.isServer = true;
   };
 
   # Make sure to generate a new ID using:
