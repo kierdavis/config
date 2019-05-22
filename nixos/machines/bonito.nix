@@ -1,4 +1,6 @@
 let
+  cascade = import ../cascade.nix;
+
   print-server = { config, lib, pkgs, ... }: {
     services.printing = {
       enable = true;
@@ -22,7 +24,7 @@ let
       enable = true;
       dataDir = "/srv/mysql";
       package = pkgs.mysql;
-      bind = "10.99.1.3";
+      bind = "127.0.0.1";
       port = 3306;
     };
     networking.firewall.allowedTCPPorts = [ 3306 ];
@@ -31,7 +33,7 @@ let
   wiki-server = { config, lib, pkgs, ... }: {
     services.gollum = {
       enable = true;
-      address = "10.99.1.3";
+      address = cascade.hostAddrs.bonito;
       stateDir = "/srv/gollum";
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
@@ -53,8 +55,6 @@ let
     networking.firewall.allowedTCPPorts = [ 3000 ];
     environment.systemPackages = with pkgs; [ beets ];
   };
-
-  cascade = import ../cascade.nix;
 
 in { config, lib, pkgs, ... }: {
   imports = [
