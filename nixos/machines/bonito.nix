@@ -35,8 +35,6 @@ let
       stateDir = "/srv/gollum";
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
-    systemd.services.gollum.after = [ "openvpn-campanella-client.service" ];
-    systemd.services.gollum.requires = [ "openvpn-campanella-client.service" ];
   };
 
   music-server = { config, lib, pkgs, ... }: {
@@ -98,12 +96,5 @@ in { config, lib, pkgs, ... }: {
   networking.defaultGateway6 = {
     address = cascade.addrs.cl.altusanima;
     interface = "eth0";
-  };
-
-  # VPN client config.
-  campanella-vpn.client = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/bonito.crt;
-    keyFile = "/etc/bonito.key";
   };
 }

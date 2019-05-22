@@ -1,10 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  imports = [
-    ../vpn
-  ];
-
   networking.hostName = config.machine.name;
 
   networking.nameservers = let

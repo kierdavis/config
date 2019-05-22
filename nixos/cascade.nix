@@ -46,15 +46,6 @@ in rec {
       altusanima = "fca5:cade:1::3:1";
       coloris = "fca5:cade:1::3:2";
     };
-    c2vpn = { # legacy campanella2 vpn
-      _subnet = "10.99.0.0";
-      campanella2 = "10.99.0.1";
-      coloris = "10.99.1.1";
-      ouroboros = "10.99.1.2";
-      bonito = "10.99.1.3";
-      saelli = "10.99.1.4";
-      cherry = "10.99.1.7";
-    };
   };
   hostAddrs = {
     inherit (addrs.pub4) beagle2;

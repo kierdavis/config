@@ -113,11 +113,4 @@ in { config, lib, pkgs, ... }: {
     address = cascade.addrs.cl.altusanima;
     interface = "eth0";
   };
-
-  # VPN client config.
-  campanella-vpn.client = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/cherry.crt;
-    keyFile = "/etc/cherry.key";
-  };
 }

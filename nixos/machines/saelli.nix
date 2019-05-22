@@ -58,11 +58,6 @@ in { config, lib, pkgs, ... }:
   powerManagement.cpuFreqGovernor = "powersave";
 
   # VPN client config.
-  campanella-vpn.client = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/saelli.crt;
-    keyFile = "/etc/saelli.key";
-  };
   networking.wireguard.interfaces.wg0 = {
     ips = [ "${cascade.addrs.cv.saelli}/112" ];
     listenPort = cascade.vpn.port;

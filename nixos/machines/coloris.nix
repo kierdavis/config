@@ -84,13 +84,6 @@ in {
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
   powerManagement.cpuFreqGovernor = "ondemand";
 
-  # VPN client config.
-  campanella-vpn.client = {
-    enable = true;
-    certFile = ../../secret/vpn/certs/coloris.crt;
-    keyFile = "/etc/coloris.key";
-  };
-
   # Keyboard/mouse driver.
   hardware.ckb-next.enable = true;
   # https://github.com/mattanger/ckb-next#linux
