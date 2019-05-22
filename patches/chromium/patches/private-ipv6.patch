@@ -1,0 +1,174 @@
+Fix for https://bugs.chromium.org/p/chromium/issues/detail?id=530482
+
+The problem is that chromium tests whether IPv6 internet access is available
+by trying to connect to a hardcoded address. If it appears to be unavailable,
+it disables AAAA DNS queries for performance reasons. This means that AAAA
+records for private networks will not be used, which is problematic for
+IPv6-only private networks.
+
+This patch solves this problem by checking to see if see if the computer
+has at least one non-loopback, non-link-local IPv6 address - if it does,
+AAAA lookups remain enabled and the connectivity test is skipped.
+
+private-ipv6.patch.bak is the unmodified upstream patch. This patch cherry-picks
+those changes onto the version of the source tree used in this nix derivation.
+
+
+diff --git a/net/dns/host_resolver_impl.cc b/net/dns/host_resolver_impl.cc
+index 563af33..bd04a6f 100644
+--- a/net/dns/host_resolver_impl.cc
++++ b/net/dns/host_resolver_impl.cc
+@@ -58,6 +58,7 @@
+ #include "net/base/ip_address.h"
+ #include "net/base/ip_endpoint.h"
+ #include "net/base/net_errors.h"
++#include "net/base/network_interfaces.h"
+ #include "net/base/trace_constants.h"
+ #include "net/base/url_util.h"
+ #include "net/dns/address_sorter.h"
+@@ -265,6 +266,41 @@ bool HaveOnlyLoopbackAddresses() {
+ #endif  // defined(various platforms)
+ }
+ 
++bool IsIPv6LinkLocal(const IPAddress& address) {
++  return (address.bytes()[0] == 0xFE) && ((address.bytes()[1] & 0xC0) == 0x80);
++}
++
++bool HaveSystemIPv6Addressses() {
++  NetworkInterfaceList interfaces;
++  if (!GetNetworkList(&interfaces, EXCLUDE_HOST_SCOPE_VIRTUAL_INTERFACES))
++    return false;
++  for (NetworkInterface i : interfaces) {
++    if (!i.address.IsIPv6())
++      continue;
++    if (i.address == IPAddress::IPv6Localhost() || IsIPv6LinkLocal(i.address))
++      continue;
++#if defined(OS_WIN)
++    if (i.friendly_name == "Teredo Tunneling Pseudo-Interface")
++      continue;
++#endif
++#if defined(OS_MACOSX)
++    // Ignore airdrop interfaces.
++    if (base::StartsWith(i.friendly_name, "awdl",
++                         base::CompareCase::SENSITIVE)) {
++      continue;
++    }
++#endif
++    // Remove VMware network interfaces as they're internal and should not be
++    // used to determine the network connection type.
++    if (base::ToLowerASCII(i.friendly_name).find("vmnet") !=
++        std::string::npos) {
++      continue;
++    }
++    return true;
++  }
++  return false;
++}
++
+ // Creates NetLog parameters when the resolve failed.
+ std::unique_ptr<base::Value> NetLogProcTaskFailedCallback(
+     uint32_t attempt_number,
+@@ -2130,6 +2166,7 @@ HostResolverImpl::HostResolverImpl(const Options& options, NetLog* net_log)
+       num_dns_failures_(0),
+       assume_ipv6_failure_on_wifi_(false),
+       use_local_ipv6_(false),
++      system_has_ipv6_address_(false),
+       last_ipv6_probe_result_(true),
+       additional_resolver_flags_(0),
+       use_proctask_by_default_(false),
+@@ -2158,6 +2195,7 @@ HostResolverImpl::HostResolverImpl(const Options& options, NetLog* net_log)
+     defined(OS_FUCHSIA)
+   RunLoopbackProbeJob();
+ #endif
++  RunFindSystemIPv6AddressesJob();
+   NetworkChangeNotifier::AddIPAddressObserver(this);
+   NetworkChangeNotifier::AddConnectionTypeObserver(this);
+   NetworkChangeNotifier::AddDNSObserver(this);
+@@ -2361,6 +2399,10 @@ void HostResolverImpl::SetBaseDnsConfigForTesting(
+   UpdateDNSConfig(true);
+ }
+ 
++void HostResolverImpl::SetSystemHasIPv6Addresses(bool result) {
++  system_has_ipv6_address_ = result;
++}
++
+ void HostResolverImpl::SetTaskRunnerForTesting(
+     scoped_refptr<base::TaskRunner> task_runner) {
+   proc_task_runner_ = std::move(task_runner);
+@@ -2729,7 +2771,7 @@ HostResolverImpl::Key HostResolverImpl::GetEffectiveKeyForRequest(
+       // that this query is UNSPECIFIED (see effective_query_type check above)
+       // so the code requesting the resolution should be amenable to receiving a
+       // IPv6 resolution.
+-      !use_local_ipv6_ && ip_address == nullptr && !IsIPv6Reachable(net_log)) {
++      !use_local_ipv6_ && !system_has_ipv6_address_ && ip_address == nullptr && !IsIPv6Reachable(net_log)) {
+     effective_query_type = DnsQueryType::A;
+     effective_flags |= HOST_RESOLVER_DEFAULT_FAMILY_SET_DUE_TO_NO_IPV6;
+   }
+@@ -2777,9 +2819,7 @@ bool HostResolverImpl::IsGloballyReachable(const IPAddress& dest,
+   DCHECK_EQ(ADDRESS_FAMILY_IPV6, endpoint.GetFamily());
+   const IPAddress& address = endpoint.address();
+ 
+-  bool is_link_local =
+-      (address.bytes()[0] == 0xFE) && ((address.bytes()[1] & 0xC0) == 0x80);
+-  if (is_link_local)
++  if (IsIPv6LinkLocal(address))
+     return false;
+ 
+   const uint8_t kTeredoPrefix[] = {0x20, 0x01, 0, 0};
+@@ -2800,6 +2840,17 @@ void HostResolverImpl::RunLoopbackProbeJob() {
+                      weak_ptr_factory_.GetWeakPtr()));
+ }
+ 
++void HostResolverImpl::RunFindSystemIPv6AddressesJob() {
++  // Run this asynchronously as it can block and should not block
++  // initialization.
++  base::PostTaskWithTraitsAndReplyWithResult(
++      FROM_HERE,
++      {base::MayBlock(), base::TaskShutdownBehavior::CONTINUE_ON_SHUTDOWN},
++      base::BindOnce(&HaveSystemIPv6Addressses),
++      base::BindOnce(&HostResolverImpl::SetSystemHasIPv6Addresses,
++                     weak_ptr_factory_.GetWeakPtr()));
++}
++
+ void HostResolverImpl::AbortAllInProgressJobs() {
+   // In Abort, a Request callback could spawn new Jobs with matching keys, so
+   // first collect and remove all running jobs from |jobs_|.
+@@ -2885,6 +2936,7 @@ void HostResolverImpl::OnIPAddressChanged() {
+     defined(OS_FUCHSIA)
+   RunLoopbackProbeJob();
+ #endif
++  RunFindSystemIPv6AddressesJob();
+   AbortAllInProgressJobs();
+   // |this| may be deleted inside AbortAllInProgressJobs().
+ }
+diff --git a/net/dns/host_resolver_impl.h b/net/dns/host_resolver_impl.h
+index 24380e6..2d926d5 100644
+--- a/net/dns/host_resolver_impl.h
++++ b/net/dns/host_resolver_impl.h
+@@ -162,6 +162,7 @@ class NET_EXPORT HostResolverImpl
+  protected:
+   // Callback from HaveOnlyLoopbackAddresses probe.
+   void SetHaveOnlyLoopbackAddresses(bool result);
++  void SetSystemHasIPv6Addresses(bool result);
+ 
+   // Sets the task runner used for HostResolverProc tasks.
+   void SetTaskRunnerForTesting(scoped_refptr<base::TaskRunner> task_runner);
+@@ -277,6 +278,8 @@ class NET_EXPORT HostResolverImpl
+   // Asynchronously checks if only loopback IPs are available.
+   virtual void RunLoopbackProbeJob();
+ 
++  void RunFindSystemIPv6AddressesJob();
++
+   // Records the result in cache if cache is present.
+   void CacheResult(const Key& key,
+                    const HostCache::Entry& entry,
+@@ -392,6 +395,9 @@ class NET_EXPORT HostResolverImpl
+   // local IPv6 connectivity. Disables probing.
+   bool use_local_ipv6_;
+ 
++  // True if system has a network adapter with a IPv6 address. Disables probing.
++  bool system_has_ipv6_address_;
++
+   base::TimeTicks last_ipv6_probe_time_;
+   bool last_ipv6_probe_result_;
+ 
