@@ -8,11 +8,6 @@ in
       system = "x86_64-linux";
     }).system;
 
-    ouroboros = (nixos {
-      configuration = machines/ouroboros.nix;
-      system = "x86_64-linux";
-    }).system;
-
     saelli = (nixos {
       configuration = machines/saelli.nix;
       system = "x86_64-linux";
@@ -21,11 +16,6 @@ in
     campanella2 = (nixos {
       configuration = machines/campanella2.nix;
       system = "x86_64-linux";
-    }).system;
-
-    gyroscope = (nixos {
-      configuration = machines/gyroscope.nix;
-      system = "aarch64-linux";
     }).system;
 
     bonito = (nixos {
