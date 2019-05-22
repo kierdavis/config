@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  fileSystems."/net/torrents" = {
-    device = "cherry:/downloads";
+  fileSystems."/net/torrentdownloads" = {
+    device = "cherry.h.cascade:/downloads";
     fsType = "nfs";
     options = [
       "vers=4"      # NFS version 4.
@@ -16,8 +16,8 @@
       "x-systemd.idle-timeout=10min" # Unmount automatically when not used for 10 minutes.
     ];
   };
-  fileSystems."/net/torrent-archive" = {
-    device = "cherry:/srv/transmission/torrent-archive";
+  fileSystems."/net/torrentarchive" = {
+    device = "cherry.h.cascade:/srv/transmission/torrent-archive";
     fsType = "nfs";
     options = [
       "vers=4"      # NFS version 4.
