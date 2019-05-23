@@ -39,4 +39,5 @@
     group = config.users.users.kier.group;
     guiAddress = "[${(import ../cascade.nix).hostAddrs."${config.machine.name}"}]:8384";
   };
+  networking.firewall.allowedTCPPorts = [ 8384 ];
 }
