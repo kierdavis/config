@@ -78,7 +78,7 @@ let
         generate-structures = true;
         hardcore = false;
         level-name = "world";
-        level-seed = "the big gay";
+        level-seed = "";
         max-players = 20;
         motd = "no u";
         online-mode = true;
