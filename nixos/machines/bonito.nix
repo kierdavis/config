@@ -53,6 +53,10 @@ let
         username = "kierdavis";
         password = (import ../../secret/passwords.nix).lastfm;
       };
+      ssl = {
+        certFile = ../../secret/ssl/bonito-mstream.crt;
+        keyFile = ../../secret/ssl/bonito-mstream.key;
+      };
     };
     networking.firewall.allowedTCPPorts = [ 3000 ];
     environment.systemPackages = with pkgs; [ beets youtube-dl ];
