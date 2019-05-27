@@ -58,6 +58,46 @@ let
     environment.systemPackages = with pkgs; [ beets ];
   };
 
+  minecraft-server = { config, lib, pkgs, ... }: {
+    services.minecraft-server = {
+      dataDir = "/srv/minecraft/aqua";
+      declarative = true;
+      enable = true;
+      eula = true;
+      jvmOpts = "-Xmx4096M -Xms4096M";
+      openFirewall = true;
+      serverProperties = {
+        allow-flight = false;
+        allow-nether = true;
+        difficulty = "normal";
+        enable-command-block = true;
+        enable-query = false;
+        enable-rcon = false;
+        force-gamemode = false;
+        gamemode = "survival";
+        generate-structures = true;
+        hardcore = false;
+        level-name = "world";
+        level-seed = "the big gay";
+        max-players = 20;
+        motd = "no u";
+        online-mode = true;
+        prevent-proxy-connections = false;
+        pvp = false;
+        server-ip = "";
+        server-port = 25565;
+        snooper-enabled = false;
+        spawn-animals = true;
+        spawn-monsters = true;
+        spawn-npcs = true;
+        spawn-protection = 0;
+        white-list = false;
+        enforce-whitelist = false;
+      };
+      whitelist = {};
+    };
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -68,6 +108,7 @@ in { config, lib, pkgs, ... }: {
     mysql-server
     wiki-server
     music-server
+    minecraft-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
