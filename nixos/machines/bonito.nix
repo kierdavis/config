@@ -55,7 +55,7 @@ let
       };
     };
     networking.firewall.allowedTCPPorts = [ 3000 ];
-    environment.systemPackages = with pkgs; [ beets ];
+    environment.systemPackages = with pkgs; [ beets youtube-dl ];
   };
 
   minecraft-server = { config, lib, pkgs, ... }: {
