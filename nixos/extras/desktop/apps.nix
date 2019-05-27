@@ -44,6 +44,7 @@ in
     i3blocks-scripts
     i3lock
     mailboxes
+    multimc
     pavucontrol
     screenshot
     signal-desktop
