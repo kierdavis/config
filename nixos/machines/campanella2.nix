@@ -23,7 +23,7 @@ let
       in {
         "virt.cascade" = mkRedirect "https://shadowshow.h.cascade:8006";
         "net.cascade" = mkRedirect "https://altusanima.h.cascade";
-        "music.cascade" = mkRedirect "http://bonito.h.cascade:3000";
+        "music.cascade" = mkRedirect "https://bonito.h.cascade:3000";
         "wiki.cascade" = mkRedirect "http://bonito.h.cascade:4567";
         "torrents.cascade" = mkRedirect "http://cherry.h.cascade:9091";
         "eleanor.cool" = {

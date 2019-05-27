@@ -6,15 +6,17 @@ let
   cfg = config.services.mstream;
   pkg = pkgs.mstream;
 
-  lastfmFlags = if cfg.lastfm.username != null && cfg.lastfm.password != null
-    then [ "--luser" cfg.lastfm.username "--lpass" cfg.lastfm.password ]
-    else [];
-
-  command = escapeShellArgs ([
-    "${pkg}/bin/mstream"
-    "--musicdir"
-    cfg.musicDir
-  ] ++ lastfmFlags);
+  command = escapeShellArgs (
+    [
+      "${pkg}/bin/mstream"
+      "--musicdir"
+      cfg.musicDir
+    ]
+    ++ lib.optionals (cfg.lastfm.username != null) [ "--luser" cfg.lastfm.username ]
+    ++ lib.optionals (cfg.lastfm.password != null) [ "--lpass" cfg.lastfm.password ]
+    ++ lib.optionals (cfg.ssl.certFile != null) [ "--cert" cfg.ssl.certFile ]
+    ++ lib.optionals (cfg.ssl.keyFile != null) [ "--key" cfg.ssl.keyFile ]
+  );
 
 in {
   options.services.mstream = {
@@ -49,6 +51,22 @@ in {
       default = null;
       description = ''
         Last.fm password. This will be passed on the command line and so will be visible to all other users on the system! This needs to be fixed upstream.
+      '';
+    };
+
+    ssl.certFile = mkOption {
+      type = types.path;
+      default = null;
+      description = ''
+        SSL certificate file.
+      '';
+    };
+
+    ssl.keyFile = mkOption {
+      type = types.path;
+      default = null;
+      description = ''
+        SSL private key file.
       '';
     };
   };
