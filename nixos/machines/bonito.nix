@@ -62,7 +62,24 @@ let
     environment.systemPackages = with pkgs; [ beets youtube-dl ];
   };
 
-  minecraft-server = { config, lib, pkgs, ... }: {
+  minecraft-server = { config, lib, pkgs, ... }: let
+    template = pkgs.fetchzip {
+      url = "https://media.forgecdn.net/files/2714/58/FTBUltimateReloadedServer_1.7.1.zip";
+      name = "ftb-ultimate-reloaded-server";
+      stripRoot = false;
+      sha256 = "0nkdrycwjjlc86f1100lqc87d3lf2s0aaa3knczlry5dmbawfahj";
+    };
+    jarName = "FTBserver-1.12.2-14.23.5.2836-universal.jar";
+    stampName = ".initialised-from-template";
+    startScript = pkgs.writeShellScriptBin "minecraft-server" ''
+      set -o errexit -o nounset
+      if [ ! -e ${stampName} ]; then
+        ${pkgs.rsync}/bin/rsync -rl ${template}/ ./
+        touch ${stampName}
+      fi
+      exec ${pkgs.jre}/bin/java "$@" -jar ${jarName} nogui
+    '';
+  in {
     services.minecraft-server = {
       dataDir = "/srv/minecraft/aqua";
       declarative = true;
@@ -70,6 +87,7 @@ let
       eula = true;
       jvmOpts = "-Xmx4096M -Xms4096M";
       openFirewall = true;
+      package = startScript;
       serverProperties = {
         allow-flight = false;
         allow-nether = true;
