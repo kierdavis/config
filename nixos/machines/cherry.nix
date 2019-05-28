@@ -77,7 +77,7 @@ in { config, lib, pkgs, ... }: {
     wifi = false;
     ipv6-internet = false;
     cpu = {
-      cores = 24;
+      cores = 16;
       intel = true;
     };
     netfs.cherry.isServer = true;
