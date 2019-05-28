@@ -121,7 +121,7 @@ in { config, lib, pkgs, ... }: {
     wifi = false;
     ipv6-internet = false;
     cpu = {
-      cores = 16;
+      cores = 24;
       intel = true;
     };
     netfs.bonito.isServer = true;
