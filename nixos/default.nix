@@ -27,4 +27,9 @@ in
       configuration = machines/cherry.nix;
       system = "x86_64-linux";
     }).system;
+
+    moon = (nixos {
+      configuration = machines/moon.nix;
+      system = "x86_64-linux";
+    }).system;
   }
