@@ -38,4 +38,7 @@ in { config, lib, pkgs, ... }: {
     address = cascade.addrs.cl.altusanima;
     interface = "eth0";
   };
+
+  # We mount a big disk filesystem here instead.
+  boot.tmpOnTmpfs = lib.mkForce false;
 }
