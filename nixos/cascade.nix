@@ -31,6 +31,7 @@ in rec {
       # shadowshow-lom = "fca5:cade:1::2:4";
       bonito = "fca5:cade:1::2:5";
       cherry = "fca5:cade:1::2:6";
+      moon = "fca5:cade:1::2:7";
     };
     cl4 = {
       _subnet = "192.168.2.0";
@@ -40,6 +41,7 @@ in rec {
       # shadowshow-lom = "192.168.2.4";
       bonito = "192.168.2.5";
       cherry = "192.168.2.6";
+      moon = "192.168.2.7";
     };
     cvl = { # cascade VLAN at woodside road
       _subnet = "fca5:cade:1::3:0";
@@ -50,7 +52,7 @@ in rec {
   hostAddrs = {
     inherit (addrs.pub4) beagle2;
     inherit (addrs.cv) campanella2 altusanima saelli motog5;
-    inherit (addrs.cl) shadowshow bonito cherry;
+    inherit (addrs.cl) shadowshow bonito cherry moon;
     inherit (addrs.cvl) coloris;
   };
   domainNames = lib.flatten [
