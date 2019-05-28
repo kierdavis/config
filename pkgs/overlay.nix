@@ -6,6 +6,7 @@ self: super: {
   gds2svg = super.callPackage ./gds2svg { };
   hartmaster = super.callPackage ./hartmaster { };
   i3blocks-scripts = super.callPackage ./i3blocks-scripts { inherit (self.linuxPackages) nvidia_x11; };
+  igdm = super.callPackage ./igdm { };
   klayout = super.libsForQt5.callPackage ./klayout { };
   libkoki = super.callPackage ./libkoki { };
   lock = super.callPackage ./lock { };
