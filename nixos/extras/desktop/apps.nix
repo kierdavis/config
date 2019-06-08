@@ -28,6 +28,7 @@ in
   # Other programs
   programs.chromium.enable = true;
   environment.systemPackages = with pkgs; [
+    alacritty
     chromium
     dmenu
     evince
@@ -43,7 +44,6 @@ in
     signal-desktop
     spotify
     sublime3
-    terminator
     tor-browser-bundle
     vlc
   ];
