@@ -64,4 +64,11 @@ in { config, lib, pkgs, ... }:
     peers = with cascade.vpn.peers; [ altusanima campanella2 motog5 ];
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
+
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "eduroam" ''
+      set -o errexit -o nounset
+      sudo ${pkgs.gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
+    '')
+  ];
 }
