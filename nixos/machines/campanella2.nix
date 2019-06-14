@@ -153,7 +153,27 @@ in { config, lib, pkgs, ... }: {
     ips = [ "${cascade.addrs.cv.campanella2}/112" ];
     listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
-    peers = with cascade.vpn.peers; [ altusanima motog5 saelli ];
+    peers = [
+      {
+        publicKey = "jbol9385zdX7Ctfd3iz1LM3pHbT/zB1YvRg6gMx/zV8=";
+        allowedIPs = [
+          "${cascade.addrs.cv.altusanima}/128"
+          "${cascade.addrs.cl.altusanima}/112"
+          "${cascade.addrs.cvl.altusanima}/112"
+        ];
+        persistentKeepalive = 25;
+      }
+      {
+        publicKey = "Kk29EQEXWlCJxMB14brjEz4/UOixlXPp6Smq7Ti8jQ0=";
+        allowedIPs = [ "${cascade.addrs.cv.saelli}/128" ];
+        persistentKeepalive = 25;
+      }
+      {
+        publicKey = "ah856MqtJfCOeg4y7xl1jxcyioGC2cojVBeU047wwVU=";
+        allowedIPs = [ "${cascade.addrs.cv.motog5}/128" ];
+        persistentKeepalive = 25;
+      }
+    ];
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
   boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = true;

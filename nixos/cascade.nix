@@ -80,34 +80,6 @@ in rec {
     { name = "torrents.cascade"; addr = hostAddrs.campanella2; }
   ];
   vpn.port = 9045;
-  vpn.peers = let
-    mkEndpoint = host: "${host}:${toString vpn.port}";
-    mkPeer = attrs: attrs // {
-      persistentKeepalive = 25;
-    };
-  in {
-    campanella2 = mkPeer {
-      publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
-      allowedIPs = [ "${addrs.cv.campanella2}/96" ];
-      endpoint = mkEndpoint addrs.pub4.campanella2;
-    };
-    altusanima = mkPeer {
-      publicKey = "jbol9385zdX7Ctfd3iz1LM3pHbT/zB1YvRg6gMx/zV8=";
-      allowedIPs = [
-        "${addrs.cv.altusanima}/128"
-        "${addrs.cl.altusanima}/112"
-        "${addrs.cvl.altusanima}/112"
-      ];
-    };
-    saelli = mkPeer {
-      publicKey = "Kk29EQEXWlCJxMB14brjEz4/UOixlXPp6Smq7Ti8jQ0=";
-      allowedIPs = [ "${addrs.cv.saelli}/128" ];
-    };
-    motog5 = mkPeer {
-      publicKey = "ah856MqtJfCOeg4y7xl1jxcyioGC2cojVBeU047wwVU=";
-      allowedIPs = [ "${addrs.cv.motog5}/128" ];
-    };
-  };
   upstreamNameservers = [
     "1.1.1.1"
     "1.0.0.1"
