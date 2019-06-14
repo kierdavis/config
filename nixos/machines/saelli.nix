@@ -61,7 +61,18 @@ in { config, lib, pkgs, ... }:
     ips = [ "${cascade.addrs.cv.saelli}/112" ];
     listenPort = cascade.vpn.port;
     privateKeyFile = "/etc/cascade.wg-priv-key";
-    peers = with cascade.vpn.peers; [ altusanima campanella2 motog5 ];
+    peers = [
+      {
+        publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
+        endpoint = "${cascade.addrs.pub4.campanella2}:${toString cascade.vpn.port}";
+        allowedIPs = [
+          "${cascade.addrs.cv.campanella2}/112"
+          "${cascade.addrs.cl.altusanima}/112"
+          "${cascade.addrs.cvl.altusanima}/112"
+        ];
+        persistentKeepalive = 25;
+      }
+    ];
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
 
