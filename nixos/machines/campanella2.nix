@@ -156,4 +156,5 @@ in { config, lib, pkgs, ... }: {
     peers = with cascade.vpn.peers; [ altusanima motog5 saelli ];
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = true;
 }
