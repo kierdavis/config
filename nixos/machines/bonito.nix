@@ -42,6 +42,18 @@ let
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
     users.users.gollum.home = "/srv/gollum";
+    systemd.services.sync-gollum = {
+      description = "Sync gollum wiki content to campanella2";
+      script = ''
+        ${pkgs.git}/bin/git -C /srv/gollum/content push campanella2 master
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        PermissionsStartOnly = true;
+        User = "gollum";
+      };
+      startAt = "daily";
+    };
   };
 
   music-server = { config, lib, pkgs, ... }: {
