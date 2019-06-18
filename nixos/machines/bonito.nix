@@ -70,11 +70,14 @@ let
       sha256 = "0nkdrycwjjlc86f1100lqc87d3lf2s0aaa3knczlry5dmbawfahj";
     };
     jarName = "FTBserver-1.12.2-14.23.5.2836-universal.jar";
-    stampName = ".initialised-from-template";
+    stampName = ".installed";
     startScript = pkgs.writeShellScriptBin "minecraft-server" ''
       set -o errexit -o nounset
       if [ ! -e ${stampName} ]; then
         ${pkgs.rsync}/bin/rsync -rl ${template}/ ./
+        chmod -R +w .
+        chmod +x FTBInstall.sh
+        PATH=${pkgs.which}/bin:${pkgs.curl}/bin:$PATH ./FTBInstall.sh
         touch ${stampName}
       fi
       exec ${pkgs.jre}/bin/java "$@" -jar ${jarName} nogui
