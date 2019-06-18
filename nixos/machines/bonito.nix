@@ -38,7 +38,7 @@ let
     services.gollum = {
       enable = true;
       address = cascade.hostAddrs.bonito;
-      stateDir = "/srv/gollum";
+      stateDir = "/srv/gollum/content";
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
   };
