@@ -41,6 +41,7 @@ let
       stateDir = "/srv/gollum/content";
     };
     networking.firewall.allowedTCPPorts = [ 4567 ];
+    users.users.gollum.home = "/srv/gollum";
   };
 
   music-server = { config, lib, pkgs, ... }: {
