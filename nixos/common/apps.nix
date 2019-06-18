@@ -5,6 +5,13 @@ let
     ${pkgs.wakelan}/bin/wakelan ${mac}
   '';
 
+  nixos-rebuild-remote = pkgs.writeShellScriptBin "nixos-rebuild-remote" ''
+    set -o errexit -o nounset -o pipefail
+    ssh_dir=/home/kier/.ssh
+    ssh_key=$ssh_dir/$(ls $ssh_dir | grep -E '^id_(rsa|ed25519)$')
+    exec nixos-rebuild --builders "ssh://nixremotebuild@moon.h.cascade - $ssh_key 4" --max-jobs 0 "$@"
+  '';
+
 in {
   # sudo
   security.sudo.enable = true;
@@ -36,6 +43,7 @@ in {
     git
     manpages
     mountext
+    nixos-rebuild-remote
     pbzip2
     pigz
     psmisc  # provides killall
