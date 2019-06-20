@@ -118,6 +118,21 @@ in { config, lib, pkgs, ... }: {
       cores = 1;
       intel = true;
     };
+    backup = {
+      tempDir = "/home/kier/.cache/duplicity/tmp";
+      archiveDir = "/home/kier/.cache/duplicity/archive";
+      volumes = [
+        {
+          name = "git-0";
+          path = "/home/kier/srv/git";
+          before = ''
+            for dir in /home/kier/srv/git/*; do
+              ${pkgs.git}/bin/git -C $dir gc --aggressive
+            done
+          '';
+        }
+      ];
+    };
   };
 
   # Filesystems.
