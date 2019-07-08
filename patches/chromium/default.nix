@@ -8,7 +8,7 @@
 , gnomeSupport ? false, gnome ? null
 , gnomeKeyringSupport ? false
 , proprietaryCodecs ? true
-, enablePepperFlash ? false
+, enablePepperFlash ? true
 , enableWideVine ? false
 , cupsSupport ? true
 , pulseSupport ? config.pulseaudio or stdenv.isLinux
