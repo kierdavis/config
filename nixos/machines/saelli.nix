@@ -76,10 +76,10 @@ in { config, lib, pkgs, ... }:
   };
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
 
-  environment.systemPackages = [
-    (pkgs.writeShellScriptBin "eduroam" ''
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "eduroam" ''
       set -o errexit -o nounset
-      sudo ${pkgs.gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
+      sudo ${gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
     '')
   ];
 }
