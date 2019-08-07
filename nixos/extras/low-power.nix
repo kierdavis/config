@@ -38,7 +38,7 @@
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", ATTR{idProduct}=="2e82", GOTO="power_usb_rules_end"
 
     # Enable USB autosuspend by default for all other devices.
-    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+    #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
     LABEL="power_usb_rules_end"
   '';
 
