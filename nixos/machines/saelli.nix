@@ -77,6 +77,7 @@ in { config, lib, pkgs, ... }:
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
 
   environment.systemPackages = with pkgs; [
+    steam
     (writeShellScriptBin "eduroam" ''
       set -o errexit -o nounset
       sudo ${gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
