@@ -5,7 +5,6 @@ let
     c = "${pkgs.chromium}/bin/chromium";
   in pkgs.writeShellScriptBin "mailboxes" ''
     ${c} https://mail.google.com/ &
-    ${c} http://ecs.gg/mail &
     ${c} https://mail.zoho.eu/zm/ &
     wait
   '';
