@@ -4,7 +4,8 @@ let
   mailboxes = let
     c = "${pkgs.chromium}/bin/chromium";
   in pkgs.writeShellScriptBin "mailboxes" ''
-    ${c} https://mail.google.com/ &
+    ${c} https://mail.google.com/u/0/ &
+    ${c} https://mail.google.com/u/1/ &
     ${c} https://mail.zoho.eu/zm/ &
     wait
   '';
