@@ -103,6 +103,7 @@ with lib;
       };
     in mkOption {
       type = types.listOf volumeType;
+      default = [];
       example = ''[ { name = "archive-0"; path = "/data/archive"; } ]'';
       description = ''Backup volumes.'';
     };
