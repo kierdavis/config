@@ -39,4 +39,6 @@ in {
     # Altera "USB Blaster" JTAG cable
     SUBSYSTEM=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0666"
   '';
+
+  nix.trustedUsers = [ "root" "kier" ];
 }
