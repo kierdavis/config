@@ -4,10 +4,14 @@ let
   mailboxes = let
     c = "${pkgs.chromium}/bin/chromium";
   in pkgs.writeShellScriptBin "mailboxes" ''
-    ${c} https://mail.google.com/ &
-    ${c} http://ecs.gg/mail &
+    ${c} https://mail.google.com/mail/u/0/ &
+    ${c} https://mail.google.com/mail/u/1/ &
     ${c} https://mail.zoho.eu/zm/ &
     wait
+  '';
+
+  netflix = pkgs.writeShellScriptBin "netflix" ''
+    exec ${pkgs.google-chrome}/bin/google-chrome-stable https://www.netflix.com/
   '';
 in
 
@@ -38,6 +42,7 @@ in
     i3lock
     mailboxes
     multimc
+    netflix
     pavucontrol
     screenshot
     signal-desktop

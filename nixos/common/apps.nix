@@ -7,9 +7,12 @@ let
 
   nixos-rebuild-remote = pkgs.writeShellScriptBin "nixos-rebuild-remote" ''
     set -o errexit -o nounset -o pipefail
+    host="$1"
+    shift
+    ping -c1 "$host"
     ssh_dir=/home/kier/.ssh
     ssh_key=$ssh_dir/$(ls $ssh_dir | grep -E '^id_(rsa|ed25519)$')
-    exec nixos-rebuild --builders "ssh://nixremotebuild@moon.h.cascade - $ssh_key 4" --max-jobs 0 "$@"
+    exec nixos-rebuild --builders "ssh://nixremotebuild@$host - $ssh_key 4" --max-jobs 0 "$@"
   '';
 
 in {

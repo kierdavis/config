@@ -159,6 +159,21 @@ in { config, lib, pkgs, ... }: {
       intel = true;
     };
     netfs.bonito.isServer = true;
+    backup = {
+      tempDir = "/var/cache/duplicity/tmp";
+      archiveDir = "/var/cache/duplicity/archive";
+      volumes = [
+        { name = "archive-0"; path = "/data/archive"; }
+        { name = "music-0"; path = "/data/music"; }
+        { name = "home-sync-0"; path = "/home/kier/sync"; }
+        {
+          name = "minecraft-aqua-0";
+          path = "/data/minecraft/aqua";
+          before = "sudo systemctl stop minecraft-server.service";
+          after = "sudo systemctl start minecraft-server.service";
+        }
+      ];
+    };
   };
 
   # Make sure to generate a new ID using:
