@@ -42,8 +42,12 @@ in {
   # Allow access to USB devices without requiring root permissions
   services.udev.extraRules = ''
     # SR V4 power board
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="1bda", ATTRS{idProduct}=="0010", GROUP="dialout", MODE="0666"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1bda", ATTR{idProduct}=="0010", GROUP="dialout", MODE="0666"
+    # SR V4 servo board
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1bda", ATTR{idProduct}=="0011", GROUP="dialout", MODE="0666"
     # Altera "USB Blaster" JTAG cable
     SUBSYSTEM=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0666"
   '';
+
+  nix.trustedUsers = [ "root" "kier" ];
 }

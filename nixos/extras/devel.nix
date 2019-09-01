@@ -13,7 +13,7 @@
     # Software
     circleci
     modd
-    python3
+    (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
     # Hardware
     geda
