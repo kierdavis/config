@@ -12,7 +12,7 @@ let
     ping -c1 "$host"
     ssh_dir=/home/kier/.ssh
     ssh_key=$ssh_dir/$(ls $ssh_dir | grep -E '^id_(rsa|ed25519)$')
-    exec nixos-rebuild --builders "ssh://nixremotebuild@$host - $ssh_key 4" --max-jobs 0 "$@"
+    exec nixos-rebuild --builders "ssh://nixremotebuild@$host - $ssh_key 4 - big-parallel" --max-jobs 0 "$@"
   '';
 
 in {
