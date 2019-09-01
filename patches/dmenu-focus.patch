@@ -1,0 +1,48 @@
+This fixes an problem introduced between NixOS 18.09 and
+NixOS 19.03 where the pinentry text field is not focused
+upon exiting passmenu, causing me to start typing my
+password into whatever application is open underneath
+pinentry.
+
+For future reference:
+First bad commit in nixpkgs: f825049742266616afe60a74380ffb5e3b6aaa45 (a dmenu update)
+First bad commit in dmenu: 377bd37e212b1ec4c03a481245603c6560d0be22
+
+commit a74604dbc455e3c20d354a4f6512914629df6ce3
+Author: Kier Davis <kierdavis@gmail.com>
+Date:   Fri Apr 19 14:38:53 2019 +0100
+
+    Revert "Handle IME input"
+    
+    This reverts commit 377bd37e212b1ec4c03a481245603c6560d0be22.
+
+diff --git a/dmenu.c b/dmenu.c
+index 6b8f51b..d7597c6 100644
+--- a/dmenu.c
++++ b/dmenu.c
+@@ -553,7 +553,7 @@ run(void)
+ 	XEvent ev;
+ 
+ 	while (!XNextEvent(dpy, &ev)) {
+-		if (XFilterEvent(&ev, None))
++		if (XFilterEvent(&ev, win))
+ 			continue;
+ 		switch(ev.type) {
+ 		case Expose:
+@@ -665,7 +665,6 @@ setup(void)
+ 	                XNClientWindow, win, XNFocusWindow, win, NULL);
+ 
+ 	XMapRaised(dpy, win);
+-	XSetInputFocus(dpy, win, RevertToParent, CurrentTime);
+ 	if (embed) {
+ 		XSelectInput(dpy, parentwin, FocusChangeMask);
+ 		if (XQueryTree(dpy, parentwin, &dw, &w, &dws, &du) && dws) {
+@@ -731,8 +730,6 @@ main(int argc, char *argv[])
+ 
+ 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
+ 		fputs("warning: no locale support\n", stderr);
+-	if (!XSetLocaleModifiers(""))
+-		fputs("warning: no locale modifiers support\n", stderr);
+ 	if (!(dpy = XOpenDisplay(NULL)))
+ 		die("cannot open display");
+ 	screen = DefaultScreen(dpy);
