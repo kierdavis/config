@@ -30,6 +30,15 @@ in {
     useDefaultShell = true;
   };
 
+  users.users.nixremotebuild = {
+    description = "Nix remote build user";
+    isNormalUser = false;
+    isSystemUser = true;
+    openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
+    useDefaultShell = true;
+  };
+  nix.trustedUsers = [ "nixremotebuild" ];
+
   # Allow access to USB devices without requiring root permissions
   services.udev.extraRules = ''
     # SR V4 power board
