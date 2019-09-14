@@ -1,4 +1,4 @@
-{ fetchFromGitHub, python3Packages }:
+{ python3Packages }:
 
 let
   fetchPypi = python3Packages.fetchPypi;
@@ -38,12 +38,10 @@ let
 
   sr-tools = python3Packages.buildPythonApplication rec {
     pname = "sr.tools";
-    version = "1.1.1";
-    src = fetchFromGitHub {
-      owner = "srobo";
-      repo = "tools";
-      rev = "v${version}";
-      sha256 = "0d0amd20iar51i2hb7ncnz6b9jjszxdcscaddnzpg07cwv41gdks";
+    version = "1.1.2";
+    src = fetchPypi {
+      inherit pname version;
+      sha256 = "03rp6d1810iy7gxis9m001jmqy8cs0cgla149y5h7l3k1s2ragxq";
     };
     buildInputs = with python3Packages; [
       nose
