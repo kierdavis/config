@@ -15,6 +15,7 @@ self: super: {
   mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
   netcheck = super.callPackage ./netcheck { };
+  nix-channel-proxy = super.callPackage ./nix-channel-proxy { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   publish = super.callPackage ./publish { };
