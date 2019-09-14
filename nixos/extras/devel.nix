@@ -27,6 +27,7 @@
 
     # Other
     keybase
+    sr-tools
     x2goclient
   ];
 
