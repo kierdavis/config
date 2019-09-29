@@ -15,6 +15,10 @@ let
     exec nixos-rebuild --builders "ssh://nixremotebuild@$host - $ssh_key 4 - big-parallel" --max-jobs 0 "$@"
   '';
 
+  kubesh = pkgs.writeShellScriptBin "kubesh" ''
+    exec ${pkgs.kubectl}/bin/kubectl --namespace kier-dev run --rm --stdin --tty --image=nixos/nix --restart=Never kubesh -- /bin/sh
+  '';
+
 in {
   # sudo
   security.sudo.enable = true;
@@ -44,6 +48,8 @@ in {
     duplicity
     file
     git
+    kubectl
+    kubesh
     manpages
     mountext
     nixos-rebuild-remote
