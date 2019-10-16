@@ -52,6 +52,7 @@ let
     propagatedBuildInputs = with python3Packages; [
       beautifulsoup4
       numpy
+      pygit2
       pyparsing
       pyyaml
       requests
