@@ -20,11 +20,7 @@ in
   virtualisation.virtualbox.host.enable = true;
 
   # redshift (adjusts colour temperature of displays at night)
-  services.redshift = {
-    enable = true;
-    latitude = "50.92";
-    longitude = "-1.39";
-  };
+  services.redshift.enable = true;
 
   # Backlight control
   programs.light.enable = true;

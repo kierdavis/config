@@ -13,4 +13,10 @@
 
   # Time zone.
   time.timeZone = "Europe/London";
+
+  # Location (used by redshift).
+  location = {
+    latitude = 50.92;
+    longitude = -1.39;
+  };
 }
