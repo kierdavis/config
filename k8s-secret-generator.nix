@@ -4,7 +4,32 @@ let
   network = import ./network.nix;
   vpnKeys = import ./secret/vpn-keys.nix;
 
+  mkYamlVal = value: if value ? filePath then
+    "$(base64 --wrap=0 <${value.filePath})"
+  else
+    abort "secret value must define filePath";
+
+  mkYaml = { name, entries }: namespace: runCommand "${namespace}.${name}.yaml" {} ''
+    cat >$out <<EOF
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: ${name}
+      namespace: ${namespace}
+    type: Opaque
+    data:
+    ${lib.concatStringsSep "\n" (lib.mapAttrsToList (name: value: "  ${name}: ${mkYamlVal value}") entries)}
+    EOF
+  '';
+
   things = rec {
+    ingressAuthYaml = mkYaml {
+      name = "ingress-auth";
+      entries = {
+        "auth".filePath = ./secret/k8s-ingress.auth;
+      };
+    };
+
     vpnServerInterfaceConfig = writeText "vpn-server-wg0.conf" ''
       [Interface]
       Address = ${network.dns."vpn.vpn-server.k8s.cascade".address}/24
@@ -15,21 +40,15 @@ let
       AllowedIPs = ${network.dns."vpn.saelli.cascade".address}/32
     '';
 
-    vpnServerConfigYaml = namespace: runCommand "${namespace}.vpn-server-config.yaml" {} ''
-      cat >$out <<EOF
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: vpn-server-config
-        namespace: ${namespace}
-      type: Opaque
-      data:
-        wg0.conf: $(base64 --wrap=0 < ${vpnServerInterfaceConfig})
-      EOF
-    '';
+    vpnServerConfigYaml = mkYaml {
+      name = "vpn-server-config";
+      entries = {
+        "wg0.conf".filePath = vpnServerInterfaceConfig;
+      };
+    };
 
     namespaces = [ "kier" "kier-dev" ];
-    namespacedYamls = [ vpnServerConfigYaml ];
+    namespacedYamls = [ ingressAuthYaml vpnServerConfigYaml ];
     yamls = lib.concatMap (yamlFunc: map (namespace: yamlFunc namespace) namespaces) namespacedYamls;
     yamlDir = runCommand "k8s-secret-yamls" {} ''
       mkdir -p $out
