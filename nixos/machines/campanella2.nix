@@ -4,32 +4,11 @@
 let
   cascade = import ../cascade.nix;
 
-  dns-server = { config, lib, pkgs, ... }: {
-    services.unbound = {
-      enable = true;
-      interfaces = [ "0.0.0.0" "::" ];
-      allowedAccess = [ "0.0.0.0/0" "::/0" ];
-      forwardAddresses = cascade.upstreamNameservers;
-      extraConfig = let
-        mkRecord = entry: let
-          isIPv6 = lib.strings.hasInfix ":" entry.addr;
-          recordType = if isIPv6 then "AAAA" else "A";
-        in ''local-data: "${entry.name}. IN ${recordType} ${entry.addr}"'';
-      in ''
-        local-zone: "cascade." static
-        ${lib.concatStringsSep "\n" (map mkRecord cascade.domainNames)}
-      '';
-    };
-    networking.firewall.allowedTCPPorts = [ 53 ];
-    networking.firewall.allowedUDPPorts = [ 53 ];
-  };
-
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/linode.nix
     ../extras/headless.nix
-    dns-server
   ];
 
   # High-level configuration used by nixos/common/*.nix.
