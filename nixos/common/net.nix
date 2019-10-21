@@ -1,12 +1,11 @@
 { config, pkgs, lib, ... }:
 
+let
+  network = import ../../network.nix;
+in
+
 {
   networking.hostName = config.machine.name;
-
-  networking.nameservers = let
-    cascade = import ../cascade.nix;
-    pubSeg = if config.machine.ipv6-internet then cascade.addrs.pub else cascade.addrs.pub4;
-  in [ pubSeg.campanella2 ] ++ cascade.upstreamNameservers;
 
   # Firewall
   networking.firewall.enable = true;
@@ -27,4 +26,23 @@
   # required in order to make the port accessible from other machine's on the host's network.
   # https://docs.docker.com/v17.09/engine/userguide/networking/default_network/container-communication/#communicating-to-the-outside-world
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
+
+  # Local DNS server.
+  services.unbound = {
+    enable = true;
+    interfaces = [ "127.0.0.1" "::1" ];
+    allowedAccess = [ "127.0.0.1/32" "::1/128" ];
+    forwardAddresses = network.upstreamNameservers;
+    extraConfig = let
+      serialiseRecord = record: if record.type == "A" || record.type == "AAAA"
+        then ''local-data: "${record.name}. IN ${record.type} ${record.address}"''
+        else if record.type == "CNAME"
+          then ''local-sata: "${record.name}. IN CNAME ${record.targetName}"''
+          else "";
+    in ''
+      local-zone: "cascade." static
+      ${lib.concatStringsSep "\n" (map serialiseRecord network.records)}
+    '';
+  };
+  networking.nameservers = [ "::1" ];
 }
