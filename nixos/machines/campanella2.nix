@@ -4,82 +4,6 @@
 let
   cascade = import ../cascade.nix;
 
-  http-server = { config, lib, pkgs, ... }: {
-    services.nginx = {
-      enable = true;
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = let
-        mkRedirect = dest: {
-          extraConfig = ''
-            rewrite ^/(.*)$ ${dest}/$1 permanent;
-          '';
-          forceSSL = true;
-          sslCertificate = ../../secret/ssl/campanella2-nginx.crt;
-          sslCertificateKey = ../../secret/ssl/campanella2-nginx.key;
-        };
-      in {
-        "virt.cascade" = mkRedirect "https://shadowshow.h.cascade:8006";
-        "net.cascade" = mkRedirect "https://altusanima.h.cascade";
-        "music.cascade" = mkRedirect "https://bonito.h.cascade:3000";
-        "wiki.cascade" = mkRedirect "http://bonito.h.cascade:4567";
-        "torrents.cascade" = mkRedirect "http://cherry.h.cascade:9091";
-        "eleanor.cool" = {
-          enableACME = true;
-          forceSSL = true;
-          root = "/srv/http/eleanor.cool/www";
-        };
-        "dl.eleanor.cool" = {
-          enableACME = true;
-          forceSSL = true;
-          root = "/srv/http/dl.eleanor.cool/www";
-          locations."/gifs".extraConfig = "autoindex on;";
-        };
-        "gallery.eleanor.cool" = {
-          enableACME = true;
-          forceSSL = true;
-          root = "/srv/http/gallery.eleanor.cool/www";
-          locations."/video".extraConfig = "autoindex on;";
-          locations."/video-nsfw".extraConfig = "autoindex on;";
-        };
-        "gendershake.dev.eleanor.cool" = {
-          enableACME = true;
-          forceSSL = true;
-          root = "/srv/http/gendershake.dev.eleanor.cool";
-          extraConfig = ''
-            index index.php;
-          '';
-          locations."~* \.php$".extraConfig = ''
-            fastcgi_pass unix:/var/run/phpfpm.default.sock;
-            include ${pkgs.nginx}/conf/fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
-          '';
-        };
-        default = {
-          default = true;
-          root = "/srv/http/default/www";
-        };
-      };
-    };
-    services.phpfpm.pools.default = {
-      listen = "/var/run/phpfpm.default.sock";
-      extraConfig = ''
-        listen.owner = nginx
-        listen.group = nginx
-        user = nginx
-        group = nginx
-        pm = ondemand
-        pm.max_children = 8
-      '';
-    };
-    systemd.services.nginx.after = [ "srv.mount" ];
-    systemd.services.nginx.requires = [ "srv.mount" ];
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
-  };
-
   dns-server = { config, lib, pkgs, ... }: {
     services.unbound = {
       enable = true;
@@ -105,7 +29,6 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/linode.nix
     ../extras/headless.nix
-    http-server
     dns-server
   ];
 
