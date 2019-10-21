@@ -1,24 +1,31 @@
 let
-  mkA = address: { recordType = "A"; inherit address; };
-  mkAAAA = address: { recordType = "AAAA"; inherit address; };
-  mkCNAME = hostname: { recordType = "CNAME"; inherit hostname; };
-  mkNet = address: prefixLength: {
-    recordType = "net";
-    inherit address prefixLength;
+  lib = (import <nixpkgs> {}).lib;
+
+  mkA = name: address: { type = "A"; inherit name address; };
+  mkAAAA = name: address: { type = "AAAA"; inherit name address; };
+  mkCNAME = name: targetName: { type = "CNAME"; inherit name targetName; };
+  mkNet = name: address: prefixLength: {
+    type = "net";
+    inherit name address prefixLength;
     cidr = "${address}/${builtins.toString prefixLength}";
   };
 
-in {
-  dns = rec {
+in rec {
+  records = [
     # Public address space
-    "pub4.beagle2.cascade" = mkA "176.9.121.81";
+    (mkA "pub4.beagle2.cascade" "176.9.121.81")
 
     # VPN address space
-    "vpn.network.cascade" = mkNet "10.88.1.0" 24;
-    "vpn.vpn-server.k8s.cascade" = mkA "10.88.1.1";
-    "vpn.saelli.cascade" = mkA "10.88.1.2";
+    (mkNet "vpn.network.cascade" "10.88.1.0" 24)
+    (mkA "vpn.vpn-server.k8s.cascade" "10.88.1.1")
+    (mkA "vpn.saelli.cascade" "10.88.1.2")
 
     # Aliases to default interfaces.
-    "saelli.cascade" = mkCNAME "vpn.saelli.cascade";
-  };
+    (mkCNAME "saelli.cascade" "vpn.saelli.cascade")
+  ];
+
+  byName = builtins.listToAttrs (map (record: { name = record.name; value = record; }) records);
+
+  # OpenDNS
+  upstreamNameservers = [ "208.67.222.222" "208.67.220.220" ];
 }
