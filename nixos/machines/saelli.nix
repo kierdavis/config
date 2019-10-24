@@ -78,12 +78,12 @@ in { config, lib, pkgs, ... }:
   networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
   networking.wireguard.interfaces.wg1 = {
     ips = [ "${network.byName."vpn.saelli.cascade".address}/24" ];
-    listenPort = 5555;
+    listenPort = 9001;
     privateKey = (import ../../secret/vpn-keys.nix).saelli.priv;
     peers = [
       {
         publicKey = (import ../../secret/vpn-keys.nix).server.pub;
-        endpoint = "${network.byName."pub4.beagle2.cascade".address}:5555";
+        endpoint = "${network.byName."pub4.beagle2.cascade".address}:9001";
         allowedIPs = [ "${network.byName."vpn.network.cascade".cidr}" ];
         persistentKeepalive = 25;
       }
