@@ -3,6 +3,7 @@ with import <nixpkgs> {};
 let
   network = import ./network.nix;
   vpnKeys = import ./secret/vpn-keys.nix;
+  passwords = import ./secret/passwords.nix;
 
   mkYamlVal = value: if value ? fromFile then
     "$(base64 --wrap=0 <${value.fromFile})"
@@ -47,8 +48,15 @@ let
       };
     };
 
+    lastfmYaml = mkYaml {
+      name = "lastfm";
+      entries = {
+        "password".fromFile = writeText "lastfm-password" passwords.lastfm;
+      };
+    };
+
     namespaces = [ "kier" "kier-dev" ];
-    namespacedYamls = [ ingressAuthYaml vpnServerConfigYaml ];
+    namespacedYamls = [ ingressAuthYaml vpnServerConfigYaml lastfmYaml ];
     yamls = lib.concatMap (yamlFunc: map (namespace: yamlFunc namespace) namespaces) namespacedYamls;
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
