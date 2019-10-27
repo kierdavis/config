@@ -12,19 +12,4 @@ in
       configuration = machines/saelli.nix;
       system = "x86_64-linux";
     }).system;
-
-    bonito = (nixos {
-     configuration = machines/bonito.nix;
-     system = "x86_64-linux";
-    }).system;
-
-    cherry = (nixos {
-      configuration = machines/cherry.nix;
-      system = "x86_64-linux";
-    }).system;
-
-    moon = (nixos {
-      configuration = machines/moon.nix;
-      system = "x86_64-linux";
-    }).system;
   }

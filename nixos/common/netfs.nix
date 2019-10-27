@@ -1,35 +1,6 @@
 let
   lib = import <nixpkgs/lib>;
   filesystemsByHost = {
-    cherry = [
-      {
-        netPath = "/net/torrents";
-        realPath = "/downloads";
-        nfsOptions = "ro,all_squash,anonuid=70,anongid=70";
-      }
-      {
-        netPath = "/net/torrent-archive";
-        realPath = "/srv/transmission/torrent-archive";
-        nfsOptions = "ro,all_squash,anonuid=70,anongid=70";
-      }
-    ];
-    bonito = [
-      {
-        netPath = "/net/archive";
-        realPath = "/data/archive";
-        nfsOptions = "ro,all_squash,anonuid=1000,anongid=100";
-      }
-      {
-        netPath = "/net/images";
-        realPath = "/data/images";
-        nfsOptions = "ro,all_squash,anonuid=1000,anongid=100";
-      }
-      {
-        netPath = "/net/music";
-        realPath = "/data/music";
-        nfsOptions = "ro,all_squash,anonuid=1000,anongid=100";
-      }
-    ];
   };
   mkNfsExport = filesystem: "${filesystem.netPath} fca5:cade:1::/96(${filesystem.nfsOptions})";
   mkBindMount = filesystem: {
