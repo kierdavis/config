@@ -9,7 +9,6 @@
     ./netfs.nix
     ./nix.nix
     ./options.nix
-    ./print.nix
     ./services.nix
     ./users.nix
   ];
