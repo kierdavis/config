@@ -58,24 +58,6 @@ in { config, lib, pkgs, ... }:
   powerManagement.cpuFreqGovernor = "powersave";
 
   # VPN client config.
-  networking.wireguard.interfaces.wg0 = {
-    ips = [ "${cascade.addrs.cv.saelli}/112" ];
-    listenPort = cascade.vpn.port;
-    privateKeyFile = "/etc/cascade.wg-priv-key";
-    peers = [
-      {
-        publicKey = "rCt64U6gNe10TK7SRhaNd/ePuzhiLKW2IAJKSHTQKE4=";
-        endpoint = "${cascade.addrs.pub4.campanella2}:${toString cascade.vpn.port}";
-        allowedIPs = [
-          "${cascade.addrs.cv.campanella2}/112"
-          "${cascade.addrs.cl.altusanima}/112"
-          "${cascade.addrs.cvl.altusanima}/112"
-        ];
-        persistentKeepalive = 25;
-      }
-    ];
-  };
-  networking.firewall.allowedUDPPorts = [ cascade.vpn.port ];
   networking.wireguard.interfaces.wg1 = {
     ips = [ "${network.byName."vpn.saelli.cascade".address}/24" ];
     listenPort = 9001;
