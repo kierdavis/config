@@ -13,11 +13,6 @@ in
       system = "x86_64-linux";
     }).system;
 
-    campanella2 = (nixos {
-      configuration = machines/campanella2.nix;
-      system = "x86_64-linux";
-    }).system;
-
     bonito = (nixos {
      configuration = machines/bonito.nix;
      system = "x86_64-linux";
