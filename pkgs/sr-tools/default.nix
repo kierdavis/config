@@ -1,4 +1,4 @@
-{ python3Packages }:
+{ libyaml, python3Packages }:
 
 let
   fetchPypi = python3Packages.fetchPypi;
@@ -36,6 +36,17 @@ let
     doCheck = false;  # failing :(
   };
 
+  pyyaml3 = python3Packages.buildPythonPackage rec {
+    pname = "PyYAML";
+    version = "3.13";
+    src = fetchPypi {
+      inherit pname version;
+      sha256 = "3ef3092145e9b70e3ddd2c7ad59bdd0252a94dfe3949721633e41344de00a6bf";
+    };
+    propagatedBuildInputs = [ libyaml ];
+    doCheck = false;  # failing :(
+  };
+
   sr-tools = python3Packages.buildPythonApplication rec {
     pname = "sr.tools";
     version = "1.1.2";
@@ -54,8 +65,9 @@ let
       numpy
       pygit2
       pyparsing
-      pyyaml
+      pyyaml3
       requests
+      setuptools  # needs pkg_resources at runtime
       six
       sympy0
       tabulate
