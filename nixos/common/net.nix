@@ -28,21 +28,21 @@ in
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
 
   # Local DNS server.
-  services.unbound = {
-    enable = true;
-    interfaces = [ "127.0.0.1" "::1" ];
-    allowedAccess = [ "127.0.0.1/32" "::1/128" ];
-    forwardAddresses = network.upstreamNameservers;
-    extraConfig = let
-      serialiseRecord = record: if record.type == "A" || record.type == "AAAA"
-        then ''local-data: "${record.name}. IN ${record.type} ${record.address}"''
-        else if record.type == "CNAME"
-          then ''local-sata: "${record.name}. IN CNAME ${record.targetName}"''
-          else "";
-    in ''
-      local-zone: "cascade." static
-      ${lib.concatStringsSep "\n" (map serialiseRecord network.records)}
-    '';
-  };
-  networking.nameservers = [ "::1" ];
+  #services.unbound = {
+  #  enable = true;
+  #  interfaces = [ "127.0.0.1" "::1" ];
+  #  allowedAccess = [ "127.0.0.1/32" "::1/128" ];
+  #  forwardAddresses = network.upstreamNameservers;
+  #  extraConfig = let
+  #    serialiseRecord = record: if record.type == "A" || record.type == "AAAA"
+  #      then ''local-data: "${record.name}. IN ${record.type} ${record.address}"''
+  #      else if record.type == "CNAME"
+  #        then ''local-sata: "${record.name}. IN CNAME ${record.targetName}"''
+  #        else "";
+  #  in ''
+  #    local-zone: "cascade." static
+  #    ${lib.concatStringsSep "\n" (map serialiseRecord network.records)}
+  #  '';
+  #};
+  #networking.nameservers = [ "::1" ];
 }
