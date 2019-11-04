@@ -79,4 +79,6 @@ in { config, lib, pkgs, ... }:
       sudo ${gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
     '')
   ];
+
+  hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
 }
