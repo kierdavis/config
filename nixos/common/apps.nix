@@ -48,6 +48,7 @@ in {
     duplicity
     file
     git
+    kakoune
     kubectl
     kubesh
     manpages
