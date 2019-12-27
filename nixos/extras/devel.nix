@@ -9,6 +9,9 @@
     };
   };
 
+  # VirtualBox
+  virtualisation.virtualbox.host.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Software
     circleci
