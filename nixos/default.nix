@@ -12,4 +12,9 @@ in
       configuration = machines/saelli.nix;
       system = "x86_64-linux";
     }).system;
+
+    poutbox = (nixos {
+      configuration = machines/poutbox.nix;
+      system = "x86_64-linux";
+    });
   }
