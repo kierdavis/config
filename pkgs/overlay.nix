@@ -16,6 +16,7 @@ self: super: {
   netcheck = super.callPackage ./netcheck { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
+  pout = super.callPackage ./pout { };
   publish = super.callPackage ./publish { };
   quartus = super.callPackage ./quartus { };
   redstore = super.callPackage ./redstore { };
