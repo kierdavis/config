@@ -20,7 +20,7 @@
 
   # Mail relay
   services.nullmailer = {
-    enable = true;
+    enable = false;
     setSendmail = true;
     config = {
       me = config.machine.name;
