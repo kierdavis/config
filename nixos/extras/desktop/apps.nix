@@ -16,9 +16,6 @@ let
 in
 
 {
-  # VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-
   # redshift (adjusts colour temperature of displays at night)
   services.redshift.enable = true;
 
