@@ -1,5 +1,6 @@
 #!/bin/sh
 set -o errexit -o nounset -o pipefail
-nix-build -A poutbox.vm
+result=$(nix-build -A poutbox.vm --no-out-link)
 rm -fv poutbox.qcow2
-result/bin/run-poutbox-vm
+export QEMU_OPTS="-device usb-ehci,id=ehci -device usb-host,hostbus=2,hostaddr=4,bus=ehci.0"
+$result/bin/run-poutbox-vm
