@@ -48,6 +48,7 @@ in {
     duplicity
     file
     git
+    gptfdisk
     kakoune
     kubectl
     kubesh
