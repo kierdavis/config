@@ -1,7 +1,10 @@
 # Butterfly is a server running kubernetes.
 # It is named after the song Butterfly by Swingrowers.
 
-{ config, lib, pkgs, ... }: {
+let
+  network = import ../../network.nix;
+
+in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/efi.nix
@@ -48,4 +51,43 @@
 
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg-k8s = let
+      localAddr = network.byName."k8s-vpn.butterfly.cascade".address;
+      remoteAddr = network.byName."k8s-vpn.beagle2.cascade".address;
+      prefixLength = network.byName."k8s-vpn.network.cascade".prefixLength;
+      endpointAddr = network.byName."pub4.beagle2.cascade".address;
+      endpointPort = 14137;
+    in {
+      ips = [ "${localAddr}/${builtins.toString prefixLength}" ];
+      privateKey = (import ../../secret/passwords.nix).butterfly-k8s-vpn-priv-key;
+      peers = [ {
+        endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
+        publicKey = "mYnDERLKGuwmWSS6PkAdTuBnjnqr+hzg9n0VlnLJd3Q=";
+        allowedIPs = [ "${remoteAddr}/32" ];
+        persistentKeepalive = 25;
+      } ];
+    };
+  };
+
+  services.kubernetes = let
+    kubeconfig = {
+      caFile = ../../k8s-ca.pem;
+      certFile = ../../secret/butterfly-kubelet.crt;
+      keyFile = ../../secret/butterfly-kubelet.key;
+    };
+  in {
+    kubelet = {
+      enable = true;
+      unschedulable = false;
+      nodeIp = network.byName."k8s-vpn.butterfly.cascade".address;
+      networkPlugin = "cni";
+      cni.configDir = "/etc/cni/net.d";  # weave-net pod writes into this directory
+      inherit kubeconfig;
+    };
+    masterAddress = network.byName."pub4.beagle2.cascade".address;
+    inherit (kubeconfig) caFile;
+  };
 }
