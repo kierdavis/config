@@ -73,7 +73,6 @@ in {
     dnsutils  # dig
     htop
     lsof
-    netcheck
     nmap
     pciutils  # lspci
     usbutils  # lsusb
