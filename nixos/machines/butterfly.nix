@@ -90,6 +90,7 @@ in { config, lib, pkgs, ... }: {
       nodeIp = network.byName."k8s-vpn.butterfly.cascade".address;
       networkPlugin = "cni";
       cni.configDir = "/etc/cni/net.d";  # weave-net pod writes into this directory
+      clusterDns = "10.96.0.10";
       inherit kubeconfig;
     };
     masterAddress = network.byName."pub4.beagle2.cascade".address;
