@@ -71,6 +71,11 @@ in { config, lib, pkgs, ... }: {
       } ];
     };
   };
+  networking.firewall.interfaces.wg-k8s = {
+    allowedTCPPorts = [
+      10250  # kubelet
+    ];
+  };
 
   services.kubernetes = let
     kubeconfig = {
