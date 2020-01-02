@@ -29,7 +29,7 @@
   #   See 'man hdparm'.
   #   Generally, -S n means n*5 seconds.
   services.udev.extraRules = ''
-    KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -B 200 -S 60 /dev/%k"
+    KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -B 254 -S 0 /dev/%k"
   '';
 
   # By default this is in /etc, which is not very NixOS-friendly.
