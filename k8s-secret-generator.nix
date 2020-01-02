@@ -10,7 +10,7 @@ let
   else
     abort "secret value must define fromFile";
 
-  mkYaml = { name, entries }: namespace: runCommand "${namespace}.${name}.yaml" {} ''
+  mkYaml = { name, namespace, entries }: runCommand "${namespace}.${name}.yaml" {} ''
     cat >$out <<EOF
     apiVersion: v1
     kind: Secret
@@ -24,21 +24,23 @@ let
   '';
 
   things = rec {
-    ingressAuthYamls = map (mkYaml {
+    ingressAuthYamls = map (namespace: mkYaml {
       name = "ingress-auth";
+      inherit namespace;
       entries = {
         "auth".fromFile = ./secret/k8s-ingress.auth;
       };
     }) [ "kier" "kier-dev" ];
 
-    lastfmYamls = map (mkYaml {
+    lastfmYaml = mkYaml {
       name = "lastfm";
+      namespace = "kier";
       entries = {
         "password".fromFile = writeText "lastfm-password" passwords.lastfm;
       };
-    }) [ "kier" ];
+    };
 
-    yamls = ingressAuthYamls ++ lastfmYamls;
+    yamls = ingressAuthYamls ++ [ lastfmYaml ];
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
         cat $file >> $out
