@@ -24,23 +24,21 @@ let
   '';
 
   things = rec {
-    ingressAuthYaml = mkYaml {
+    ingressAuthYamls = map (mkYaml {
       name = "ingress-auth";
       entries = {
         "auth".fromFile = ./secret/k8s-ingress.auth;
       };
-    };
+    }) [ "kier" "kier-dev" ];
 
-    lastfmYaml = mkYaml {
+    lastfmYamls = map (mkYaml {
       name = "lastfm";
       entries = {
         "password".fromFile = writeText "lastfm-password" passwords.lastfm;
       };
-    };
+    }) [ "kier" ];
 
-    namespaces = [ "kier" "kier-dev" ];
-    namespacedYamls = [ ingressAuthYaml lastfmYaml ];
-    yamls = lib.concatMap (yamlFunc: map (namespace: yamlFunc namespace) namespaces) namespacedYamls;
+    yamls = ingressAuthYamls ++ lastfmYamls;
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
         cat $file >> $out
