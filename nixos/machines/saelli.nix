@@ -57,21 +57,6 @@ in { config, lib, pkgs, ... }:
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   powerManagement.cpuFreqGovernor = "powersave";
 
-  # VPN client config.
-  networking.wireguard.interfaces.wg1 = {
-    ips = [ "${network.byName."vpn.saelli.cascade".address}/24" ];
-    listenPort = 9001;
-    privateKey = (import ../../secret/vpn-keys.nix).saelli.priv;
-    peers = [
-      {
-        publicKey = (import ../../secret/vpn-keys.nix).server.pub;
-        endpoint = "${network.byName."pub4.beagle2.cascade".address}:9001";
-        allowedIPs = [ "${network.byName."vpn.network.cascade".cidr}" ];
-        persistentKeepalive = 25;
-      }
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
     steam
     (writeShellScriptBin "eduroam" ''
