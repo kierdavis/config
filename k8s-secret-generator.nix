@@ -32,6 +32,14 @@ let
       };
     }) [ "kier" "kier-dev" ];
 
+    cephDashboardIngressAuthYaml = mkYaml {
+      name = "rook-ceph-mgr-ingress-auth";
+      namespace = "rook-ceph";
+      entries = {
+        "auth".fromFile = ./secret/k8s-ceph-dashboard-ingress.auth;
+      };
+    };
+
     lastfmYaml = mkYaml {
       name = "lastfm";
       namespace = "kier";
@@ -40,7 +48,7 @@ let
       };
     };
 
-    yamls = ingressAuthYamls ++ [ lastfmYaml ];
+    yamls = ingressAuthYamls ++ [ cephDashboardIngressAuthYaml lastfmYaml ];
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
         cat $file >> $out
