@@ -31,23 +31,6 @@ let
       };
     };
 
-    vpnServerInterfaceConfig = writeText "vpn-server-wg0.conf" ''
-      [Interface]
-      Address = ${network.byName."vpn.vpn-server.k8s.cascade".address}/24
-      PrivateKey = ${vpnKeys.server.priv}
-      ListenPort = 5555
-      [Peer]
-      PublicKey = ${vpnKeys.saelli.pub}
-      AllowedIPs = ${network.byName."vpn.saelli.cascade".address}/32
-    '';
-
-    vpnServerConfigYaml = mkYaml {
-      name = "vpn-server-config";
-      entries = {
-        "wg0.conf".fromFile = vpnServerInterfaceConfig;
-      };
-    };
-
     lastfmYaml = mkYaml {
       name = "lastfm";
       entries = {
@@ -56,7 +39,7 @@ let
     };
 
     namespaces = [ "kier" "kier-dev" ];
-    namespacedYamls = [ ingressAuthYaml vpnServerConfigYaml lastfmYaml ];
+    namespacedYamls = [ ingressAuthYaml lastfmYaml ];
     yamls = lib.concatMap (yamlFunc: map (namespace: yamlFunc namespace) namespaces) namespacedYamls;
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
