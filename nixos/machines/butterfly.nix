@@ -52,6 +52,10 @@ in { config, lib, pkgs, ... }: {
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
 
+  # I have a stereo system plugged into this server.
+  # mkForce needed to override extras/headless.nix
+  sound.enable = lib.mkForce true;
+
   networking.wireguard = {
     enable = true;
     interfaces.wg-k8s = let
