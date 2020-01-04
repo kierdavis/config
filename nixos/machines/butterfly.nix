@@ -93,6 +93,7 @@ in { config, lib, pkgs, ... }: {
       clusterDns = "10.96.0.10";
       inherit kubeconfig;
     };
+    dataDir = "/var/lib/kubelet";  # must be consistent across all nodes in the cluster, else things break e.g. csi mounting
     masterAddress = network.byName."pub4.beagle2.cascade".address;
     inherit (kubeconfig) caFile;
   };
