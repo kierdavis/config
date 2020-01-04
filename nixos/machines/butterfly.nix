@@ -75,6 +75,9 @@ in { config, lib, pkgs, ... }: {
       } ];
     };
   };
+  networking.firewall.allowedTCPPorts = [
+    30000  # mopidy MPD
+  ];
   networking.firewall.interfaces.wg-k8s = {
     allowedTCPPorts = [
       10250  # kubelet
