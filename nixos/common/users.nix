@@ -16,6 +16,7 @@ in {
     createHome = true;
     description = "Kier Davis";
     extraGroups = [
+      "audio"           # Permission to use audio devices e.g. /dev/snd/...
       "dialout"         # Permission to use USB serial devices (e.g. /dev/ttyACM0)
       "docker"          # Permission to communicate with the Docker daemon
       "networkmanager"  # Permission to control NetworkManager
