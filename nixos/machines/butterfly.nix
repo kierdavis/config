@@ -77,6 +77,7 @@ in { config, lib, pkgs, ... }: {
   };
   networking.firewall.allowedTCPPorts = [
     30000  # mopidy MPD
+    30001  # mopidy HTTP
   ];
   networking.firewall.interfaces.wg-k8s = {
     allowedTCPPorts = [
