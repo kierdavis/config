@@ -97,4 +97,8 @@ in { config, lib, pkgs, ... }: {
     masterAddress = network.byName."pub4.beagle2.cascade".address;
     inherit (kubeconfig) caFile;
   };
+
+  # csi-rbdplugin usually loads this automatically so long as it can find it, but
+  # it's in an unusual place on this system.
+  boot.kernelModules = [ "rbd" ];
 }
