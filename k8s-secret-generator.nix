@@ -40,7 +40,21 @@ let
       };
     };
 
-    yamls = ingressAuthYamls ++ [ lastfmYaml ];
+    mopidyYaml = mkYaml {
+      name = "mopidy-config";
+      namespace = "kier";
+      entries = {
+        "mopidy.conf".fromFile = writeText "mopidy.conf" ''
+          [spotify]
+          username=kierdavis
+          password=${passwords.spotify}
+          client_id=${passwords.mopidy-spotify.client-id}
+          client_secret=${passwords.mopidy-spotify.client-secret}
+        '';
+      };
+    };
+
+    yamls = ingressAuthYamls ++ [ lastfmYaml mopidyYaml ];
     combinedYaml = runCommand "k8s-secret-yamls" {} ''
       for file in ${lib.concatStringsSep " " yamls}; do
         cat $file >> $out
