@@ -75,10 +75,6 @@ in { config, lib, pkgs, ... }: {
       } ];
     };
   };
-  networking.firewall.allowedTCPPorts = [
-    30000  # mopidy MPD
-    30001  # mopidy HTTP
-  ];
   networking.firewall.interfaces.wg-k8s = {
     allowedTCPPorts = [
       10250  # kubelet
@@ -109,4 +105,10 @@ in { config, lib, pkgs, ... }: {
   # csi-rbdplugin usually loads this automatically so long as it can find it, but
   # it's in an unusual place on this system.
   boot.kernelModules = [ "rbd" ];
+
+  # Expose kubernetes NodePorts.
+  networking.firewall.allowedTCPPortRanges = [ {
+    from = 30000;
+    to = 32767;
+  } ];
 }
