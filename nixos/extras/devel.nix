@@ -2,7 +2,7 @@
 
 let
   kubesh = pkgs.writeShellScriptBin "kubesh" ''
-    exec ${pkgs.kubectl}/bin/kubectl --namespace kier-dev run --rm --stdin --tty --image=nixos/nix --restart=Never kubesh -- /bin/sh
+    exec ${pkgs.kubectl}/bin/kubectl --namespace kier-dev-2 run --rm --stdin --tty --image=nixos/nix --restart=Never kubesh -- /bin/sh
   '';
 
   # helm 3 hasn't made it into the release channel yet.
