@@ -3,7 +3,6 @@
 {
   imports = [
     ./apps.nix
-    ./audio.nix
     ./etc.nix
     ./x11.nix
   ];

@@ -12,6 +12,7 @@ in {
     ../extras/platform/efi.nix
     ../extras/boinc.nix
     ../extras/desktop
+    ../extras/audio.nix
     ../extras/devel.nix
   ];
 
