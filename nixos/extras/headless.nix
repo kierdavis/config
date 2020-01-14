@@ -1,16 +1,19 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  mkLowPriority = lib.mkOverride 200;  # 100 is the default priority
+
+in {
   networking.wireless.enable = config.machine.wifi;
 
-  #environment.noXlibs = true;
-  boot.vesa = false;
-  fonts.fontconfig.enable = false;
-  hardware.pulseaudio.enable = false;
-  programs.ssh.setXAuthLocation = false;
+  #environment.noXlibs = mkLowPriority true;
+  boot.vesa = mkLowPriority false;
+  fonts.fontconfig.enable = mkLowPriority false;
+  hardware.pulseaudio.enable = mkLowPriority false;
+  programs.ssh.setXAuthLocation = mkLowPriority false;
   security.pam.services.su.forwardXAuth = lib.mkForce false;
-  services.xserver.enable = false;
-  sound.enable = false;
+  services.xserver.enable = mkLowPriority false;
+  sound.enable = mkLowPriority false;
 
   # Don't start a tty on the serial consoles.
   #systemd.services."serial-getty@ttyS0".enable = false;
@@ -22,7 +25,7 @@
   boot.kernelParams = [ "panic=1" "boot.panic_on_fail" ];
 
   # Being headless, we don't need a GRUB splash image.
-  boot.loader.grub.splashImage = null;
+  boot.loader.grub.splashImage = mkLowPriority null;
 
   # Disable optional features of some packages to reduce dependency on graphics libraries.
   nixpkgs.overlays = [
