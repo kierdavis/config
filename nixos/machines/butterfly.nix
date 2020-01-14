@@ -53,6 +53,11 @@ in { config, lib, pkgs, ... }: {
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
 
+  # Tweaking pulseaudio to play nicely with users in kubernetes.
+  hardware.pulseaudio = {
+    systemWide = true;
+  };
+
   networking.wireguard = {
     enable = true;
     interfaces.wg-k8s = let
