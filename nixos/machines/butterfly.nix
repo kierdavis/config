@@ -9,6 +9,7 @@ in { config, lib, pkgs, ... }: {
     ../common
     ../extras/platform/efi.nix
     ../extras/headless.nix
+    ../extras/audio.nix
   ];
 
   # High-level configuration used by nixos/common/*.nix.
@@ -51,9 +52,6 @@ in { config, lib, pkgs, ... }: {
 
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
-
-  # I have a stereo system plugged into this server.
-  sound.enable = true;
 
   networking.wireguard = {
     enable = true;
