@@ -67,9 +67,11 @@ in {
     # System diagnostics
     dnsutils  # dig
     htop
+    iotop
     lsof
     nmap
     pciutils  # lspci
+    sysstat   # iostat
     usbutils  # lsusb
 
     # Security
