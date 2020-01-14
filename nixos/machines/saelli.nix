@@ -12,6 +12,7 @@ in { config, lib, pkgs, ... }:
     ../common
     ../extras/platform/efi.nix
     ../extras/desktop
+    ../extras/audio.nix
     ../extras/low-power.nix
     ../extras/clickpad.nix
     ../extras/devel.nix
