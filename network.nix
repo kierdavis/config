@@ -16,9 +16,10 @@ in rec {
     (mkA "pub4.beagle2.cascade" "176.9.121.81")
 
     # Kubenetes VPN address space
-    (mkNet "k8s-vpn.network.cascade" "10.107.252.0" 24)
-    (mkA "k8s-vpn.beagle2.cascade" "10.107.252.1")
-    (mkA "k8s-vpn.butterfly.cascade" "10.107.252.2")
+    (mkNet "k8s.network.cascade" "172.27.0.0" 16)
+    (mkA "k8s.beagle2.cascade" "172.27.0.1")
+    (mkA "k8s.butterfly.cascade" "172.27.0.2")
+    (mkA "k8s.saelli.cascade" "172.27.128.1")
 
     # Aliases to default interfaces.
   ];
