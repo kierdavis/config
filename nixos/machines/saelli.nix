@@ -67,4 +67,27 @@ in { config, lib, pkgs, ... }:
   ];
 
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg-k8s = let
+      localAddr = network.byName."k8s.saelli.cascade".address;
+      prefixLength = network.byName."k8s.network.cascade".prefixLength;
+    in {
+      ips = [ "${localAddr}/${builtins.toString prefixLength}" ];
+      privateKey = (import ../../secret/passwords.nix).k8s-vpn.saelli;
+      peers = [
+        (let
+          remoteAddr = network.byName."k8s.beagle2.cascade".address;
+          endpointAddr = network.byName."pub4.beagle2.cascade".address;
+          endpointPort = 14137;
+        in {
+          endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
+          publicKey = "mYnDERLKGuwmWSS6PkAdTuBnjnqr+hzg9n0VlnLJd3Q=";
+          allowedIPs = [ "${remoteAddr}/32" ];
+          persistentKeepalive = 25;
+        })
+      ];
+    };
+  };
 }
