@@ -26,6 +26,12 @@ in {
     };
   };
 
+  fileSystems."/" = {
+    device = "/dev/mmcblk0p2";
+    fsType = "ext4";
+    options = ["noatime" "nodiratime"];
+  };
+
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
 
