@@ -13,6 +13,7 @@ let
 in {
   imports = [
     ../common
+    ../extras/platform/raspberry-pi-3.nix
   ];
 
   machine = {
