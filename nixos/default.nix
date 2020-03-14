@@ -18,8 +18,8 @@ in
       system = "x86_64-linux";
     };
 
-    poutbox = (nixos {
+    poutbox = nixos {
       configuration = machines/poutbox.nix;
       system = "x86_64-linux";
-    });
+    };
   }
