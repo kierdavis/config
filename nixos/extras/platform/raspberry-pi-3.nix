@@ -10,14 +10,5 @@
  
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  fileSystems."/boot" = {
-    device = config.machine.fsdevices.boot;
-    fsType = "vfat";
-  };
-
   boot.tmpOnTmpfs = lib.mkForce false;
-  fileSystems."/tmp" = {
-    device = config.machine.fsdevices.tmp;
-    fsType = "ext4";
-  };
 }
