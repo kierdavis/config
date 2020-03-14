@@ -41,25 +41,21 @@ in {
 
   boot.plymouth.enable = true;
 
-  services.xserver = {
+  # When console login prompt is reached, automatically log in and start sway.
+  services.mingetty.autologinUser = "kier";
+  environment.etc."profile".text = ''
+    if [[ "$USER" = "kier" && "$(tty)" = "/dev/tty1" ]]; then
+      while true; do
+        sway --config ${i3Config}
+        echo "Restarting sway in 5 seconds..."
+        sleep 5
+      done
+    fi
+  '';
+  programs.sway = {
     enable = true;
-    displayManager.lightdm = {
-      enable = true;
-      autoLogin = {
-        enable = true;
-        user = "kier";
-      };
-    };
-    windowManager = {
-      default = "i3";
-      i3 = {
-        enable = true;
-        configFile = i3Config;
-      };
-    };
   };
   environment.systemPackages = with pkgs; [
-    gnome3.dconf
     pout
   ];
 }
