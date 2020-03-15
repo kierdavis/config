@@ -39,13 +39,13 @@ in {
     boot.loader.grub.enable = false;
     # Enables the generation of /boot/extlinux/extlinux.conf
     boot.loader.generic-extlinux-compatible.enable = true;
-
+    # Run the latest kernel (for some reason).
     boot.kernelPackages = pkgs.linuxPackages_latest;
-
+    # We have a pitiful amount of RAM, so don't waste it on something that could instead by backed by disk.
     boot.tmpOnTmpfs = lib.mkForce false;
-
+    # Only pull in the needed xorg video driver (otherwise it tries to add irrelevant drivers e.g. VMware, which fails to build).
     services.xserver.videoDrivers = ["fbdev"];
-
+    # Building things takes so long - don't throw build products away unnecessarily.
     nix.gc.automatic = false;
 
     fileSystems."/boot/fw" = {
