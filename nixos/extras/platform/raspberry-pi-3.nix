@@ -1,5 +1,3 @@
-# OUT OF DATE!
-
 { config, pkgs, lib, ... }:
 
 {
