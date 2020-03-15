@@ -13,4 +13,6 @@
   boot.tmpOnTmpfs = lib.mkForce false;
 
   services.xserver.videoDrivers = ["fbdev"];
+
+  nix.gc.automatic = false;
 }
