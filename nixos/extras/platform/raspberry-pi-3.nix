@@ -47,6 +47,9 @@ in {
     services.xserver.videoDrivers = ["fbdev"];
     # Building things takes so long - don't throw build products away unnecessarily.
     nix.gc.automatic = false;
+    # Fixes '[drm:vc4_bo_create [vc4]] *ERROR* Failed to allocate from CMA:' error when using VC4 hardware acceleration stack.
+    # https://salsa.debian.org/raspi-team/image-specs/issues/1
+    boot.kernelParams = [ "cma=128M" ];
 
     fileSystems."/boot/fw" = {
       device = config.raspberryPi.firmwareFS.device;
