@@ -21,6 +21,7 @@ self: super: {
   redstore = super.callPackage ./redstore { };
   repetier-host = super.callPackage ./repetier-host { };
   riscv-gnu-toolchain = super.callPackage ./riscv-gnu-toolchain/default.nix { };
+  rustc-commit-db = super.callPackage ./rustc-commit-db { };
   screenshot = super.callPackage ./screenshot { inherit (self.gnome3) eog; };
   slic3r_1_3 = super.callPackage ./slic3r_1_3 { };
   sr-tools = super.callPackage ./sr-tools { };
