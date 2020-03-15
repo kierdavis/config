@@ -31,10 +31,6 @@ in {
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
-  fileSystems."/boot" = {
-    device = "/dev/mmcblk0p1";
-    fsType = "vfat";
-  };
 
   # XXX hack, this should be made optional
   services.syncthing.enable = lib.mkForce false;
