@@ -22,30 +22,48 @@ let
   };
 
 in {
-  # NixOS wants to enable GRUB by default
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
- 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  boot.tmpOnTmpfs = lib.mkForce false;
-
-  services.xserver.videoDrivers = ["fbdev"];
-
-  nix.gc.automatic = false;
-
-  systemd.services.bootloader-config = {
-    description = "Bootloader configuration";
-    wantedBy = [ "basic.target" ];
-    requires = [ "boot.mount" ];
-    after = [ "boot.mount" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
+  options = with lib; {
+    raspberryPi = {
+      firmwareFS = {
+        device = mkOption {
+          type = types.path;
+          default = "/dev/mmcblk0p1";
+          description = ''Device containing the firmware filesystem.'';
+        };
+      };
     };
-    preStop = ''
-      cp -L ${bootConfig} /boot/config.txt
-    '';
+  };
+
+  config = {
+    # NixOS wants to enable GRUB by default
+    boot.loader.grub.enable = false;
+    # Enables the generation of /boot/extlinux/extlinux.conf
+    boot.loader.generic-extlinux-compatible.enable = true;
+
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
+    boot.tmpOnTmpfs = lib.mkForce false;
+
+    services.xserver.videoDrivers = ["fbdev"];
+
+    nix.gc.automatic = false;
+
+    fileSystems."/boot/fw" = {
+      device = config.raspberryPi.firmwareFS.device;
+      fsType = "vfat";
+    };
+
+    systemd.services.bootloader-config = {
+      description = "Bootloader configuration";
+      wantedBy = [ "basic.target" ];
+      requires = [ "boot-fw.mount" ];
+      after = [ "boot-fw.mount" ];
+      serviceConfig = {
+        Type = "oneshot";
+      };
+      script = ''
+        cp -L ${bootConfig} /boot/fw/config.txt
+      '';
+    };
   };
 }
