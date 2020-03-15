@@ -2,10 +2,10 @@
 
 let
   src = fetchFromGitHub {
-    owner = "jethrogb";
+    owner = "kierdavis";
     repo = "rustc-commit-db";
-    rev = "cc7324166062352271df573e5ccbf4e51f23254f";
-    sha256 = "12mfc7z3kflqq91n5945p91r5whqm2y9jayfgz1a8l623gq04xks";
+    rev = "28a224efc5635b26703d7d619861c549bbeeba67";
+    sha256 = "1zijkrnf6yp5la72r1mwggikd162800pr4ivrq5n5l2zx4q2lgz7";
   };
 
   rubyDeps = bundlerEnv {
