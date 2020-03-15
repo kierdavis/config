@@ -20,7 +20,7 @@
   environment.variables.NIX_SECRET_KEY_FILE = "/etc/nix/signing-key.sec";
 
   nix.gc = {
-    automatic = true;
+    automatic = lib.mkDefault true;
     dates = "Sat 03:00";
     options = "--delete-older-than 14d";
   };
