@@ -10,6 +10,8 @@ let
 
   i3Config = pkgs.runCommand "i3config" {} "cat ${baseI3Config} ${extraI3Config} > $out";
 
+  swayTTY = "tty1";
+
 in {
   imports = [
     ../common
@@ -37,21 +39,26 @@ in {
 
   boot.plymouth.enable = true;
 
-  # When console login prompt is reached, automatically log in and start sway.
   services.mingetty.autologinUser = "kier";
-  environment.etc."profile".text = ''
-    if [[ "$USER" = "kier" && "$(tty)" = "/dev/tty1" ]]; then
-      while true; do
-        sway --config ${i3Config}
-        echo "Restarting sway in 5 seconds..."
-        sleep 5
-      done
-    fi
-  '';
-  programs.sway = {
-    enable = true;
+  systemd.defaultUnit = "graphical.target";
+  systemd.services.sway = {
+    description = "sway window manager";
+    wantedBy = [ "graphical.target" ];
+    requires = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    conflicts = [ "getty@${swayTTY}.service" ];
+    preStart = "/run/current-system/sw/bin/systemctl --user start dbus";
+    script = "/run/current-system/sw/bin/sway --config ${i3Config} || sleep infinity";
+    serviceConfig = {
+      StandardInput = "tty-force";
+      TTYPath = "/dev/${swayTTY}";
+      User = "kier";
+      Group = "users";
+      PAMName = "graphical";
+    };
   };
-  environment.systemPackages = with pkgs; [
-    pout
-  ];
+  programs.sway.enable = true;
+  security.pam.services.graphical = {
+    startSession = true;
+  };
 }
