@@ -26,6 +26,11 @@
   };
   systemd.timers.nix-gc.timerConfig.Persistent = true;
 
+  nix.nixPath = [
+    "nixpkgs=/home/kier/config/nixpkgs"
+    "nixos-config=/home/kier/config/nixos/machines/${config.machine.name}.nix"
+  ];
+
   nixpkgs.overlays = [
     (import ../../patches/overlay.nix)
     (import ../../pkgs/overlay.nix)
