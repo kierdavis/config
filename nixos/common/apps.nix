@@ -64,6 +64,7 @@ in {
 
     # System diagnostics
     dnsutils  # dig
+    fping
     htop
     iotop
     lsof
