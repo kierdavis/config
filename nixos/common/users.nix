@@ -28,6 +28,7 @@ in {
     isNormalUser = true;
     name = "kier";
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
+    uid = 1001;
     useDefaultShell = true;
   };
 
