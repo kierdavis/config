@@ -26,7 +26,7 @@ in {
   # documentation
   documentation = {
     enable = true;
-    nixos.enable = true;
+    nixos.enable = lib.mkDefault true;
     dev.enable = false;
 
     # Types of documentation
