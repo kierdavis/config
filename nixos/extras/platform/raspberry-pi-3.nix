@@ -45,6 +45,8 @@ in {
     boot.tmpOnTmpfs = lib.mkForce false;
     # Only pull in the needed xorg video driver (otherwise it tries to add irrelevant drivers e.g. VMware, which fails to build).
     services.xserver.videoDrivers = ["fbdev"];
+    # nixos manpages take forever to build, and they're not essential.
+    documentation.nixos.enable = false;
     # Building things takes so long - don't throw build products away unnecessarily.
     nix.gc.automatic = false;
     # Fixes '[drm:vc4_bo_create [vc4]] *ERROR* Failed to allocate from CMA:' error when using VC4 hardware acceleration stack.
