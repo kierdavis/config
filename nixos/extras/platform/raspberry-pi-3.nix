@@ -53,6 +53,10 @@ in {
     # https://salsa.debian.org/raspi-team/image-specs/issues/1
     boot.kernelParams = [ "cma=128M" ];
 
+    hardware.firmware = [
+      pkgs.raspberrypiWirelessFirmware
+    ];
+
     fileSystems."/boot/fw" = {
       device = config.raspberryPi.firmwareFS.device;
       fsType = "vfat";
