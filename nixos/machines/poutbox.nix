@@ -16,6 +16,7 @@ in {
   imports = [
     ../common
     ../extras/platform/raspberry-pi-3.nix
+    ../extras/wifi.nix
   ];
 
   machine = {
