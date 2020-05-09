@@ -84,10 +84,16 @@ in { config, lib, pkgs, ... }:
         in {
           endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
           publicKey = "mYnDERLKGuwmWSS6PkAdTuBnjnqr+hzg9n0VlnLJd3Q=";
-          allowedIPs = [ "${remoteAddr}/32" ];
+          allowedIPs = [
+            "${remoteAddr}/32"
+            "10.96.0.0/12"  # k8s services
+          ];
           persistentKeepalive = 25;
         })
       ];
     };
   };
+  networking.nameservers = lib.mkForce ([
+    "10.96.0.10"  # kube-dns.kube-system.svc.cluster.local
+  ] ++ network.upstreamNameservers);
 }
