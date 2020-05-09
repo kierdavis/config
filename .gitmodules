@@ -3,4 +3,4 @@
 	url = ../config-secret
 [submodule "nixpkgs"]
 	path = nixpkgs
-	url = git@github.com:kierdavis/nixpkgs.git
+	url = git@github.com:NixOS/nixpkgs.git
