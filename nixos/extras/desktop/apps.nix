@@ -42,5 +42,6 @@ in
     spotify
     terminator
     vlc
+    zoom-us
   ];
 }
