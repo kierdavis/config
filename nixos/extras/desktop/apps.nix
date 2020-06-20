@@ -26,6 +26,7 @@ in
   programs.chromium.enable = true;
   environment.systemPackages = with pkgs; [
     chromium
+    citrix_workspace
     dmenu
     evince
     gimp
