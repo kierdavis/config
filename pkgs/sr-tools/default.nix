@@ -58,7 +58,7 @@ let
       nose
       numpy
       pygments
-      sphinx
+      sphinx_1_7_9
     ];
     propagatedBuildInputs = with python3Packages; [
       beautifulsoup4
