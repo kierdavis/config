@@ -16,7 +16,7 @@ let
   '') config.machine.i3blocks.batteries;
 
 in {
-  environment.etc."i3blocks.conf".text = ''
+  environment.etc."xdg/i3blocks/config".text = ''
     command=/run/current-system/sw/bin/i3blocks-$BLOCK_NAME
 
     [disk]
