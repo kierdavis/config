@@ -3,6 +3,7 @@
 {
   services.xserver.enable = true;
   services.xserver.windowManager.i3.enable = true;
+  services.xserver.windowManager.openbox.enable = true;
   services.xserver.windowManager.default = "i3";
   services.xserver.desktopManager.xterm.enable = false;  # creates unnecessary session types "xterm" and "xterm + i3"
   services.xserver.videoDrivers = lib.optional config.machine.gpu.nvidia "nvidia";
