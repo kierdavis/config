@@ -43,6 +43,7 @@ in {
     bc
     duplicity
     file
+    fzf
     git
     gptfdisk
     kakoune
