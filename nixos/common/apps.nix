@@ -78,6 +78,7 @@ in {
     gnupg
     pass
     passchars
+    pinentry-curses
   ];
 
   environment.variables = {
