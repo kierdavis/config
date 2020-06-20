@@ -37,6 +37,7 @@ in
     multimc
     netflix
     pavucontrol
+    pinentry-gnome
     screenshot
     signal-desktop
     spotify
