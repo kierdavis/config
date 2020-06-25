@@ -25,7 +25,4 @@ in rec {
   ];
 
   byName = builtins.listToAttrs (map (record: { name = record.name; value = record; }) records);
-
-  # OpenDNS
-  upstreamNameservers = [ "208.67.222.222" "208.67.220.220" ];
 }
