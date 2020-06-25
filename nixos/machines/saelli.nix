@@ -86,6 +86,7 @@ in { config, lib, pkgs, ... }:
           publicKey = "mYnDERLKGuwmWSS6PkAdTuBnjnqr+hzg9n0VlnLJd3Q=";
           allowedIPs = [
             "${remoteAddr}/32"
+            "10.32.0.0/12"  # k8s pods
             "10.96.0.0/12"  # k8s services
           ];
           persistentKeepalive = 25;
