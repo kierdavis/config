@@ -45,4 +45,7 @@ in
   #  '';
   #};
   #networking.nameservers = [ "::1" ];
+
+  networking.nameservers = ["10.96.1.0"];
+  networking.networkmanager.dns = "none";
 }

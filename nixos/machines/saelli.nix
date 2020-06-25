@@ -93,7 +93,4 @@ in { config, lib, pkgs, ... }:
       ];
     };
   };
-  networking.nameservers = lib.mkForce ([
-    "10.96.0.10"  # kube-dns.kube-system.svc.cluster.local
-  ] ++ network.upstreamNameservers);
 }
