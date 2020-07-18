@@ -3,7 +3,7 @@
 	url = ../config-secret
 [submodule "nixpkgs"]
 	path = nixpkgs
-	url = git@github.com:NixOS/nixpkgs.git
+	url = git@github.com:kierdavis/nixpkgs.git
 [submodule "kak/thirdparty/fzf.kak"]
 	path = kak/thirdparty/fzf.kak
 	url = git@github.com:andreyorst/fzf.kak
