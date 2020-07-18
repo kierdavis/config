@@ -47,7 +47,6 @@ in {
     # Other
     keybase
     sr-tools
-    x2goclient
   ];
 
   services.keybase.enable = true;
