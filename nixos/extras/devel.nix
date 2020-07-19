@@ -25,6 +25,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     # Software
+    android-studio
     circleci
     modd
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
