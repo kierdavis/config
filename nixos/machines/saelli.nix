@@ -59,7 +59,6 @@ in { config, lib, pkgs, ... }:
   powerManagement.cpuFreqGovernor = "powersave";
 
   environment.systemPackages = with pkgs; [
-    steam
     (writeShellScriptBin "eduroam" ''
       set -o errexit -o nounset
       sudo ${gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
