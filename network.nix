@@ -20,6 +20,7 @@ in rec {
     (mkA "k8s.beagle2.cascade" "172.27.0.1")
     (mkA "k8s.butterfly.cascade" "172.27.0.2")
     (mkA "k8s.saelli.cascade" "172.27.128.1")
+    (mkA "k8s.coloris.cascade" "172.27.128.2")
 
     # Aliases to default interfaces.
   ];

@@ -65,7 +65,7 @@ in
           endpointPort = 14137;
         in {
           endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
-          publicKey = passwords.k8s-vpn."${config.machine.name}".public;
+          publicKey = passwords.k8s-vpn.beagle2.public;
           allowedIPs = [
             "${remoteAddr}/32"
             "10.32.0.0/12"  # k8s pods
