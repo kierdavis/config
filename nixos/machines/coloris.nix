@@ -3,10 +3,7 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  cascade = import ../cascade.nix;
-
-in {
+{
   imports = [
     ../common
     ../extras/platform/efi.nix
@@ -33,19 +30,6 @@ in {
       ethInterface = "enp4s0";
       wlanInterface = "wlp3s0";
     };
-  };
-
-  networking.vlans.cascadevlan = {
-    interface = "enp4s0";
-    id = 5;
-  };
-  networking.interfaces.cascadevlan = {
-    useDHCP = false;
-    ipv6.addresses = [ { address = cascade.addrs.cvl.coloris; prefixLength = 112; } ];
-    ipv6.routes = [
-      { address = cascade.addrs.cv._subnet; prefixLength = 112; via = cascade.addrs.cvl.altusanima; }
-      { address = cascade.addrs.cl._subnet; prefixLength = 112; via = cascade.addrs.cvl.altusanima; }
-    ];
   };
 
   # Filesystems.
@@ -88,17 +72,4 @@ in {
   hardware.ckb-next.enable = true;
   # https://github.com/mattanger/ckb-next#linux
   boot.kernelParams = [ "usbhid.quirks=0x1B1C:0x1B15:0x20000408,0x1B1C:0x1B2F:0x20000408" ];
-
-  # Monitor layout.
-  services.xserver.xrandrHeads = ["DP-0" "HDMI-0"];
-
-  # Fix keyboard layout.
-  # Since https://gitlab.freedesktop.org/xorg/driver/xf86-input-evdev/commit/192fdb06905f0f190e3a0e258919676934e6633c
-  # my keyboard has a US layout on startup instead of a UK one (as is already specified by services.xserver.layout).
-  # Updating the keyboard layout with setxkbmap is a workaround, but it doesn't fix the underlying problem, which
-  # is probably related to interaction between ckb-next (the driver), xf86-input-evdev (X11's input module) and
-  # /dev/input/* (kernel input event stuff).
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.xorg.setxkbmap}/bin/setxkbmap ${config.services.xserver.layout}
-  '';
 }
