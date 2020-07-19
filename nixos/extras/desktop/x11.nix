@@ -4,8 +4,8 @@
   services.xserver.enable = true;
   services.xserver.windowManager.i3.enable = true;
   services.xserver.windowManager.openbox.enable = true;
-  services.xserver.windowManager.default = "i3";
   services.xserver.desktopManager.xterm.enable = false;  # creates unnecessary session types "xterm" and "xterm + i3"
+  services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.videoDrivers = lib.optional config.machine.gpu.nvidia "nvidia";
   #hardware.opengl.extraPackages = lib.optional config.machine.cpu.intel pkgs.intel-ocl;
   # Allow support for Direct Rendering for 32-bit applications e.g. Wine

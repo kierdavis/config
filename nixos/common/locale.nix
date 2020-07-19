@@ -5,10 +5,10 @@
   i18n.defaultLocale = "en_GB.UTF-8";
 
   # Console font.
-  i18n.consoleFont = "Lat2-Terminus16";
+  console.font = "Lat2-Terminus16";
 
   # Keyboard layout.
-  i18n.consoleKeyMap = "uk";
+  console.keyMap = "uk";
   services.xserver.layout = "gb";
 
   # Time zone.

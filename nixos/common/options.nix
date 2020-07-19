@@ -5,7 +5,7 @@ with lib;
 {
   options = {
     machine.name = mkOption {
-      type = types.string;
+      type = types.str;
       description = ''The machine's hostname.'';
     };
 
@@ -40,25 +40,25 @@ with lib;
     };
 
     machine.i3blocks.cpuThermalZone = mkOption {
-      type = types.string;
+      type = types.str;
       example = "thermal_zone2";
       description = ''Subdirectory of /sys/class/thermal representing the CPU temperature sensor.'';
     };
 
     machine.i3blocks.ethInterface = mkOption {
-      type = types.string;
+      type = types.str;
       example = "enp4s0";
       description = ''Name of the Ethernet network interface.'';
     };
 
     machine.i3blocks.wlanInterface = mkOption {
-      type = types.string;
+      type = types.str;
       example = "wlp3s0";
       description = ''Name of the WiFi network interface.'';
     };
 
     machine.i3blocks.batteries = mkOption {
-      type = types.listOf types.string;
+      type = types.listOf types.str;
       default = [];
       example = ''[ "BAT0" "BAT1" ]'';
       description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
@@ -82,7 +82,7 @@ with lib;
       volumeType = types.submodule {
         options = {
           name = mkOption {
-            type = types.string;
+            type = types.str;
             description = ''Name of the volume (e.g. archive-0) to be used in destination URLs.'';
           };
           path = mkOption {
@@ -90,12 +90,12 @@ with lib;
             description = ''Location of the volume on disk.'';
           };
           before = mkOption {
-            type = types.string;
+            type = types.lines;
             default = "";
             description = ''Script to run before performing the backup.'';
           };
           after = mkOption {
-            type = types.string;
+            type = types.lines;
             default = "";
             description = ''Script to run after performing the backup.'';
           };
