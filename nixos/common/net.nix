@@ -2,6 +2,7 @@
 
 let
   network = import ../../network.nix;
+  passwords = import ../../secret/passwords.nix;
 in
 
 {
@@ -48,4 +49,31 @@ in
 
   networking.nameservers = ["10.96.1.0" "208.67.222.222" "208.67.220.220"];
   networking.networkmanager.dns = "none";
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg-k8s = let
+      localAddr = network.byName."k8s.${config.machine.name}.cascade".address;
+      prefixLength = network.byName."k8s.network.cascade".prefixLength;
+    in {
+      ips = [ "${localAddr}/${builtins.toString prefixLength}" ];
+      privateKey = passwords.k8s-vpn."${config.machine.name}".private;
+      peers = [
+        (let
+          remoteAddr = network.byName."k8s.beagle2.cascade".address;
+          endpointAddr = network.byName."pub4.beagle2.cascade".address;
+          endpointPort = 14137;
+        in {
+          endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
+          publicKey = passwords.k8s-vpn."${config.machine.name}".public;
+          allowedIPs = [
+            "${remoteAddr}/32"
+            "10.32.0.0/12"  # k8s pods
+            "10.96.0.0/12"  # k8s services
+          ];
+          persistentKeepalive = 25;
+        })
+      ];
+    };
+  };
 }
