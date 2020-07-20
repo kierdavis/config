@@ -16,4 +16,6 @@ in {
   environment.systemPackages = [
     pkgs.boincgpuctl
   ];
+
+  environment.variables.BOINC_DATA_DIR = config.services.boinc.dataDir;
 }
