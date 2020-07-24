@@ -47,6 +47,7 @@ in {
 
     # Other
     keybase
+    jq
     sr-tools
   ];
 
