@@ -34,4 +34,6 @@
 
   # By default this is in /etc, which is not very NixOS-friendly.
   environment.variables.LVM_SYSTEM_DIR = "/var/lvm";
+
+  boot.supportedFilesystems = ["nfs"];
 }
