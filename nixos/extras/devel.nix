@@ -52,6 +52,7 @@ in {
   ];
 
   services.keybase.enable = true;
+  programs.adb.enable = true;
 
   documentation.dev.enable = lib.mkOverride 500 true;
 }
