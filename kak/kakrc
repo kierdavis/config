@@ -27,3 +27,7 @@ source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-buffer.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-search.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-cd.kak"
 map global normal <c-p> ': fzf-mode<ret>'
+
+hook global BufCreate .*[.](pyi) %{
+  set-option buffer filetype python
+}
