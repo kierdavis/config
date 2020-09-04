@@ -20,4 +20,6 @@ in {
 
   # helm 3 hasn't made it into the release channel yet.
   kubernetes-helm-latest = pkgs-latest.kubernetes-helm;
+
+  zoom-us = pkgs-latest.zoom-us;
 }
