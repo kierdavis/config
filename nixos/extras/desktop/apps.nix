@@ -9,10 +9,6 @@ let
     ${c} https://mail.zoho.eu/zm/ &
     wait
   '';
-
-  netflix = pkgs.writeShellScriptBin "netflix" ''
-    exec ${pkgs.google-chrome}/bin/google-chrome-stable https://www.netflix.com/
-  '';
 in
 
 {
@@ -36,7 +32,6 @@ in
     i3lock
     mailboxes
     multimc
-    netflix
     openttd_1_10_2
     pavucontrol
     pinentry-gnome
