@@ -90,5 +90,7 @@ in {
     GPG_BACKUP_SIGNING_KEY = "EC1301FD757E43F7";
 
     TMUX_TMPDIR = lib.mkForce "/tmp";
+
+    EDITOR = "kak";
   };
 }
