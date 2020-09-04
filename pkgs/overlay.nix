@@ -13,6 +13,7 @@ self: super: {
   magic = super.callPackage ./magic { };
   mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
+  openttd_1_10_2 = super.callPackage ./openttd-1.10.2 { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   pout = super.callPackage ./pout { };

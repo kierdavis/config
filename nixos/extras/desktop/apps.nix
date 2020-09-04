@@ -37,6 +37,7 @@ in
     mailboxes
     multimc
     netflix
+    openttd_1_10_2
     pavucontrol
     pinentry-gnome
     screenshot
