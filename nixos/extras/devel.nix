@@ -39,6 +39,10 @@ in {
     repetier-host
     slic3r-prusa3d
 
+    # Accounting
+    ledger
+    marionette
+
     # Other
     keybase
     jq

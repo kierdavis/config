@@ -11,6 +11,7 @@ self: super: {
   libkoki = super.callPackage ./libkoki { };
   lock = super.callPackage ./lock { };
   magic = super.callPackage ./magic { };
+  marionette = super.callPackage ./marionette { };
   mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
   openttd_1_10_2 = super.callPackage ./openttd-1.10.2 { };
