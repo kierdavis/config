@@ -5,12 +5,6 @@ let
     exec ${pkgs.kubectl}/bin/kubectl --namespace kier-dev run --rm --stdin --tty --image=nixos/nix --restart=Never kubesh -- /bin/sh
   '';
 
-  # helm 3 hasn't made it into the release channel yet.
-  pkgs-latest = import (fetchTarball https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz) {
-    inherit (pkgs) config;
-  };
-  kubernetes-helm-latest = pkgs-latest.kubernetes-helm;
-
 in {
   # Docker daemon
   virtualisation.docker = {
