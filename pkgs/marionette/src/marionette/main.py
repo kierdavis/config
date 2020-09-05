@@ -68,7 +68,7 @@ def create_ledger_tx_from_monzo_tx(monzo_tx: monzo.Transaction, monzo_pots: Dict
   ledger_tx.postings = sorted([
     ledger.Posting(ledger.accounts.MONZO, amount),
     ledger.Posting(counter_account, -amount),
-  ], key=lambda p: -p.amount)
+  ], key=lambda p: -(p.amount or 0))
   return ledger_tx
 
 def set_balance_assertion(lg: ledger.Ledger, monzo_txs: List[monzo.Transaction], balance: Decimal) -> None:

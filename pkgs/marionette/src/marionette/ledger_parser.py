@@ -20,7 +20,7 @@ date = And([
   nonnegative_integer.copy().leaveWhitespace(),
 ]).setParseAction(lambda s, l, t: datetime.date(*t)).setName("date")
 
-amount = Suppress(Literal("£")) + decimal.leaveWhitespace().setName("amount")
+amount = (Suppress(Literal("£")) + decimal.leaveWhitespace()).setName("amount")
 
 metadata_key = Word(alphanums).setName("metadata_key")
 metadata_key_val = (Word(alphanums) + Suppress(":") + SkipTo(LineEnd())) \
@@ -35,15 +35,19 @@ metadata_line = And([
 metadata_lines = ZeroOrMore(metadata_line).setParseAction(lambda s, l, t: [dict(iter(t))]).setName("metadata_lines")
 
 posting_line = And([
-  Suppress(LineStart().leaveWhitespace()),
+  LineStart().leaveWhitespace(),
   Suppress(White(ws)),
-  ...,
-  Suppress(White(ws, min=2)),
-  amount,
-  Optional(Suppress("=") + amount, default=None).setWhitespaceChars(ws),
-  Suppress(LineEnd()),
+  SkipTo(White(ws, min=2) | LineEnd()).setResultsName("account"),
+  Optional(amount).setResultsName("amount").setWhitespaceChars(ws),
+  Optional(Suppress("=") + amount).setResultsName("balance_assertion").setWhitespaceChars(ws),
+  LineEnd(),
 ]).setName("posting_line")
-posting = (posting_line + metadata_lines).setParseAction(lambda s, l, t: Posting(*t)).setName("posting")
+posting = (posting_line + metadata_lines.setResultsName("metadata")).setParseAction(lambda s, l, t: Posting(
+  account=t["account"],
+  amount=t.get("amount", [None])[0],
+  balance_assertion=t.get("balance_assertion", [None])[0],
+  metadata=t["metadata"][0],
+)).setName("posting")
 
 transaction_line = And([
   Suppress(LineStart()),

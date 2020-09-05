@@ -23,7 +23,7 @@ class accounts:
 @dataclass
 class Posting:
   account: Account
-  amount: Amount
+  amount: Optional[Amount]
   balance_assertion: Optional[Amount] = None
   metadata: Dict[str, str] = field(default_factory=dict)
 
@@ -67,7 +67,20 @@ class Transaction:
     self.metadata["Timestamp"] = ts.strftime(TIMESTAMP_FORMAT)
 
   def validate(self) -> None:
-    if sum(p.amount for p in self.postings) != 0:
+    amounts = []
+    elided_postings = []
+    for p in self.postings:
+      if p.amount is not None:
+        amounts.append(p.amount)
+      else:
+        elided_postings.append(p)
+    if len(elided_postings) > 1:
+      raise ValueError(f"{self.date} {self.summary}: at most one posting may have an elided amount")
+    elif elided_postings:
+      elided_amount = -sum(amounts, Decimal(0))
+      elided_postings[0].amount = elided_amount
+      amounts.append(elided_amount)
+    if sum(amounts, Decimal(0)) != 0:
       raise ValueError(f"{self.date} {self.summary}: posting amounts do not sum to zero")
 
   def __str__(self) -> str:
