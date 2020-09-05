@@ -27,9 +27,11 @@ def test_amount() -> None:
   compare_parse(lp.amount, "123", expected=ParseException)
 
 def test_posting() -> None:
+  compare_parse(lp.posting, "  Assets:Monzo\n", expected=[Posting("Assets:Monzo", None)])
   compare_parse(lp.posting, "  Assets:Monzo  £123\n", expected=[Posting("Assets:Monzo", Decimal("123"))])
   compare_parse(lp.posting, "Assets:Monzo  £123\n", expected=ParseException)
-  compare_parse(lp.posting, "  Assets:Monzo £123\n", expected=ParseException)
+  compare_parse(lp.posting, "  Assets:Monzo £123\n", expected=[Posting("Assets:Monzo £123", None)])
+  compare_parse(lp.posting, "  Assets:Monzo   £123\n", expected=[Posting("Assets:Monzo", Decimal("123"))])
   compare_parse(lp.posting, "  Assets:Monzo  £123\n    ; Foobar\n", expected=[Posting("Assets:Monzo", Decimal("123"))])
   compare_parse(lp.posting, "  Assets:Monzo  £123\n    ; Foo: bar\n", expected=[Posting("Assets:Monzo", Decimal("123"), metadata={"Foo": "bar"})])
   compare_parse(lp.posting, "  Assets:Monzo  £123=£456\n", expected=[Posting("Assets:Monzo", Decimal("123"), balance_assertion=Decimal("456"))])
