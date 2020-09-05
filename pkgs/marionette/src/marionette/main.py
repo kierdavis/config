@@ -55,7 +55,7 @@ def create_ledger_tx_from_monzo_tx(monzo_tx: monzo.Transaction, monzo_pots: Dict
   amount = Decimal(monzo_tx["amount"]) / Decimal(100)
   if monzo_tx.get("metadata", {}).get("pot_id"):
     pot_name = monzo_pots[monzo_tx["metadata"]["pot_id"]]["name"]
-    counter_account = ledger.Account(f"{ledger.accounts.MONZO}:{pot_name}")
+    counter_account = ledger.Account(f"{ledger.accounts.MONZO_POT_BASE}:{pot_name}")
     if amount > 0:  # pot -> account
       ledger_tx.summary = f"Withdrawal from {pot_name} pot"
     else:

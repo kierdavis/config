@@ -15,7 +15,8 @@ Account = NewType("Account", str)
 Amount = Decimal
 
 class accounts:
-  MONZO = Account("Assets:Monzo")
+  MONZO = Account("Assets:Monzo:Main")
+  MONZO_POT_BASE = Account("Assets:Monzo")
   INCOME = Account("Income")
   EXPENSES = Account("Expenses")
 
@@ -86,8 +87,22 @@ class Ledger:
     return {id: tx for tx in self.transactions for id in tx.monzo_ids}
 
   def validate(self) -> None:
+    self._validate_account_tree()
     for tx in self.transactions:
       tx.validate()
+
+  def _validate_account_tree(self) -> None:
+    accounts = {p.account for tx in self.transactions for p in tx.postings}
+    accounts_with_children = set()
+    for acc in accounts:
+      while ":" in acc:
+        acc_str, _ = acc.rsplit(":", 1)
+        acc = Account(acc_str)
+        accounts_with_children.add(acc)
+    for tx in self.transactions:
+      for p in tx.postings:
+        if p.account in accounts_with_children:
+          p.account = Account(f"{p.account}:Misc")
 
   def __str__(self) -> str:
     txs = sorted(self.transactions, key=attrgetter("timestamp"))
