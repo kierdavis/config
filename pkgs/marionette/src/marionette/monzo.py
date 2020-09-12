@@ -12,6 +12,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from requests_oauthlib import OAuth2Session
 from typing import Any, TYPE_CHECKING, Tuple, Optional, cast, NewType, List
 from typing_extensions import TypedDict
+from . import errors
 from urllib.parse import parse_qs
 
 if TYPE_CHECKING:
@@ -53,11 +54,26 @@ class Transaction(TypedDict, total=False):
   description: str
   amount: int
   currency: str
-  merchant: Merchant
+  merchant: Optional[Merchant]
   notes: str
   category: str
   metadata: TransactionMetadata
   decline_reason: str
+
+class TransactionUtil:
+  @staticmethod
+  def timestamp(tx: Transaction) -> datetime.datetime:
+    return datetime.datetime.strptime(tx["created"], "%Y-%m-%dT%H:%M:%S.%f%z")
+  
+  @staticmethod
+  def amount(tx: Transaction) -> Decimal:
+    if tx["currency"] != "GBP":
+      raise errors.UnexpectedCurrencyError(tx=tx)
+    return Decimal(tx["amount"]) / Decimal(100)
+
+  @staticmethod
+  def merchant(tx: Transaction) -> Merchant:
+    return tx.get("merchant") or {}
 
 class Monzo:
   def __init__(self, session: OAuth2Session):
