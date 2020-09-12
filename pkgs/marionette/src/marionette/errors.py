@@ -32,6 +32,36 @@ class UnbalancedTransactionError(IntegrityError):
   def __str__(self) -> str:
     return f"postings in transaction '{self.tx.short_str}' do not sum to zero (they sum to £{self.actual_sum:2f} instead)"
 
+@dataclass
+class OverusedPredictionLinkError(IntegrityError):
+  link: str
+  txs: List["ledger.Transaction"]
+  def __str__(self) -> str:
+    return f"prediction link {self.link!r} is used more than twice: {', '.join(tx.short_str for tx in self.txs)}"
+
+@dataclass
+class MultipleTransactionsMatchPredictionError(IntegrityError):
+  prediction: "ledger.Transaction"
+  matches: List["ledger.Transaction"]
+  def __str__(self) -> str:
+    return f"multiple transactions match prediction '{self.prediction.short_str}': {', '.join(tx.short_str for tx in self.matches)}"
+
+@dataclass
+class PredictionResolutionWarning(Warning, IntegrityError):
+  prediction: "ledger.Transaction"
+  def __str__(self) -> str:
+    return f"prediction '{self.prediction.short_str}' is in the past but could not be resolved against any concrete transactions"
+
+class LedgerSyntaxError(SyntaxError):
+  pass
+
+@dataclass
+class InvalidPredictionSpecError(LedgerSyntaxError):
+  tx: "ledger.Transaction"
+  input: str
+  def __str__(self) -> str:
+    return f"invalid prediction specification in transaction '{self.tx.short_str}': {self.input}"
+
 class MonzoAPIError(Exception):
   pass
 

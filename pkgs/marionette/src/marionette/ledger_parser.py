@@ -58,7 +58,7 @@ transaction_line = And([
 transaction = (transaction_line + metadata_lines + Group(ZeroOrMore(posting))) \
   .setParseAction(lambda s, l, t: Transaction(*t)).setName("transaction")
 
-ledger = Group(ZeroOrMore(transaction)).setParseAction(lambda s, l, t: Ledger(*t)).setName("ledger")
+ledger = Group(ZeroOrMore(transaction)).setParseAction(lambda s, l, t: Ledger(transactions=list(t[0]))).setName("ledger")
 
 def parse_string(s):
   [result] = (ledger + Suppress(StringEnd())).parseString(s)
