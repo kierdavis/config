@@ -52,6 +52,7 @@ posting = (posting_line + metadata_lines.setResultsName("metadata")).setParseAct
 transaction_line = And([
   Suppress(LineStart()),
   date.copy().leaveWhitespace(),
+  Suppress(Optional(Literal("*"))),
   ...,
   Suppress(LineEnd()),
 ]).setName("transaction_line")

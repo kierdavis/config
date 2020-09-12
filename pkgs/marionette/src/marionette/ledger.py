@@ -224,8 +224,9 @@ class Transaction:
 
   @property
   def short_str(self) -> str:
+    cleared_marker = "" if self.is_prediction else " *"
     date = self.date.strftime("%Y-%m-%d")
-    return f"{date} {self.summary}" 
+    return f"{date}{cleared_marker} {self.summary}"
 
   def __str__(self) -> str:
     s = f"{self.short_str}\n"
