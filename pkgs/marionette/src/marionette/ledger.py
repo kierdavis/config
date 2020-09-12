@@ -58,7 +58,7 @@ class PredictionSpec:
   def parse(cls, s: str, tx: "Transaction") -> "PredictionSpec":
     spec = cls()
     for word in s.split():
-      if word in {"monthly"}:
+      if word in {"monthly", "yearly"}:
         spec.frequency = word
       elif word.startswith("merchant_id="):
         merchant_id = monzo.MerchantId(word.split("=")[1])
@@ -95,6 +95,8 @@ class PredictionSpec:
         year, month = year+1, month-12
       day = min(day, [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month-1])
       return datetime.date(year, month, day)
+    elif self.frequency == "yearly":
+      return datetime.date(ref_date.year+1, ref_date.month, ref_date.day)
     else:
       raise ValueError(self.frequency)
 
