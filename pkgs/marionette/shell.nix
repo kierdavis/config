@@ -3,13 +3,10 @@
 pkgs.mkShell {
   buildInputs = with pkgs; [
     modd
-    (pkgs.python3.withPackages (pyPkgs: with pyPkgs; [
+    (pkgs.python3.withPackages (pyPkgs: with pyPkgs; ((import ./common.nix).requires pyPkgs) ++ [
       mypy
-      pyparsing
       pytest
-      requests_oauthlib
       testfixtures
-      typing_extensions
     ]))
   ];
   PYTHONPATH = ["."];

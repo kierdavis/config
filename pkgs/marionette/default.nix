@@ -5,9 +5,5 @@ python3Packages.buildPythonApplication rec {
   version = "1";
   src = ./src;
   doCheck = false;
-  propagatedBuildInputs = with python3Packages; [
-    pyparsing
-    requests_oauthlib
-    typing-extensions
-  ];
+  propagatedBuildInputs = (import ./common.nix).requires;
 }
