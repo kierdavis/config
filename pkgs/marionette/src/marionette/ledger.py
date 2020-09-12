@@ -1,11 +1,15 @@
 import datetime
+import warnings
+import uuid
+import dataclasses
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import NewType, Dict, Optional, List, cast, FrozenSet
+from typing import NewType, Dict, Optional, List, cast, FrozenSet, Set
 from decimal import Decimal
 from operator import attrgetter
 from . import monzo, errors
 from .util import append_right_aligned
+from typing_extensions import Protocol
 
 LEDGER_PATH = Path.home() / ".marionette" / "ledger"
 
@@ -20,10 +24,85 @@ class accounts:
   INCOME = Account("Income")
   EXPENSES = Account("Expenses")
 
+class PredictionResolutionCriteria(Protocol):
+  def matches(self, prediction: "Transaction", concrete: "Transaction") -> bool: ...
+
 @dataclass
-class RecurringInfo:
+class MerchantEquals(PredictionResolutionCriteria):
+  merchant_id: monzo.MerchantId
+  def matches(self, prediction: "Transaction", concrete: "Transaction") -> bool:
+    return self.merchant_id in concrete.monzo_merchant_ids
+
+@dataclass
+class DateWithin(PredictionResolutionCriteria):
+  max_days: int
+  def matches(self, prediction: "Transaction", concrete: "Transaction") -> bool:
+    return abs((prediction.date - concrete.date).days) <= self.max_days
+
+@dataclass
+class AmountWithin(PredictionResolutionCriteria):
+  max_delta: Decimal
+  def matches(self, prediction: "Transaction", concrete: "Transaction") -> bool:
+    [p_amount, c_amount] = [
+      sum((amount for account, amount in tx.amounts.items() if account == accounts.MONZO or account.startswith(accounts.MONZO_POT_BASE + ":")), Decimal(0))
+      for tx in [prediction, concrete]
+    ]
+    return abs(p_amount - c_amount) <= self.max_delta
+
+@dataclass
+class PredictionSpec:
   frequency: str = "monthly"
-  
+  criteria: List[PredictionResolutionCriteria] = field(default_factory=list)
+
+  @classmethod
+  def parse(cls, s: str, tx: "Transaction") -> "PredictionSpec":
+    spec = cls()
+    for word in s.split():
+      if word in {"monthly"}:
+        spec.frequency = word
+      elif word.startswith("merchant_id="):
+        merchant_id = monzo.MerchantId(word.split("=")[1])
+        spec.criteria.append(MerchantEquals(merchant_id))
+      elif word.startswith("date_within="):
+        max_days = int(word.split("=", 1)[1].strip("d"))
+        spec.criteria.append(DateWithin(max_days))
+      elif word.startswith("amount_within="):
+        max_delta = Decimal(word.split("=", 1)[1].strip("£"))
+        spec.criteria.append(AmountWithin(max_delta))
+      else:
+        raise errors.InvalidPredictionSpecError(tx=tx, input=s)
+    if not spec.criteria:
+      raise errors.InvalidPredictionSpecError(tx=tx, input=s)
+    return spec
+
+  def predict_next_transaction(self, ref_tx: "Transaction") -> "Transaction":
+    tx = dataclasses.replace(ref_tx,
+      date = self.predict_next_date(ref_tx.date),
+      postings = [
+        dataclasses.replace(ref_post,
+          balance_assertion=None,
+        )
+        for ref_post in ref_tx.postings
+      ],
+      metadata = {k: v for k, v in ref_tx.metadata.items() if k not in {"MonzoIds", "MonzoMerchantIds", "Timestamp", "PredictionState"}},
+    )
+    return tx
+
+  def predict_next_date(self, ref_date: datetime.date) -> datetime.date:
+    if self.frequency == "monthly":
+      year, month, day = ref_date.year, ref_date.month+1, ref_date.day
+      if month > 12:
+        year, month = year+1, month-12
+      day = min(day, [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month-1])
+      return datetime.date(year, month, day)
+    else:
+      raise ValueError(self.frequency)
+
+  def matches(self, prediction: "Transaction", concrete: "Transaction") -> bool:
+    return all(criterion.matches(prediction, concrete) for criterion in self.criteria)
+
+PredictionLink = NewType("PredictionLink", str)
+
 @dataclass
 class Posting:
   account: Account
@@ -88,17 +167,25 @@ class Transaction:
     self.metadata["Timestamp"] = ts.strftime(TIMESTAMP_FORMAT)
 
   @property
-  def recurring(self) -> Optional[RecurringInfo]:
-    s = self.metadata.get("Recurring", "")
+  def prediction_spec(self) -> Optional[PredictionSpec]:
+    s = self.metadata.get("Predict", "")
     if not s:
       return None
-    info = RecurringInfo()
-    for word in s.split():
-      if word in ["monthly"]:
-        info.frequency = word
-      else:
-        raise ValueError(word)
-    return info
+    return PredictionSpec.parse(s, self)
+
+  @property
+  def prediction_link(self) -> Optional[PredictionLink]:
+    s = self.metadata.get("PredictionLink", "")
+    if not s:
+      return None
+    return PredictionLink(s)
+
+  @prediction_link.setter
+  def prediction_link(self, val: Optional[PredictionLink]) -> None:
+    if val is not None:
+      self.metadata["PredictionLink"] = val
+    else:
+      self.metadata.pop("PredictionLink", "")
 
   @property
   def is_prediction(self) -> bool:
@@ -108,8 +195,8 @@ class Transaction:
   def is_prediction(self, val: bool) -> None:
     if val:
       self.metadata["IsPrediction"] = "true"
-    elif "IsPrediction" in self.metadata:
-      del self.metadata["IsPrediction"]
+    else:
+      self.metadata.pop("IsPrediction", "")
 
   @property
   def amounts(self) -> Dict[Account, Amount]:
@@ -155,7 +242,7 @@ class Ledger:
 
   def validate(self) -> None:
     self._ensure_all_accounts_are_leaves()
-    self._create_predictions()
+    self._manage_predictions()
     for tx in self.transactions:
       tx.validate()
 
@@ -172,8 +259,59 @@ class Ledger:
         if p.account in accounts_with_children:
           p.account = Account(f"{p.account}:Misc")
 
-  def _create_predictions(self) -> None:
-    return
+  def _manage_predictions(self) -> None:
+    now = max(tx.timestamp for tx in self.transactions if not tx.is_prediction)
+    self._resolve_predictions(now)
+    self._prune_dead_prediction_links()
+    self._create_new_predictions(now)
+
+  def _resolve_predictions(self, now: datetime.datetime) -> None:
+    txs_to_remove = []
+    for predicted_tx in self.transactions:
+      spec = predicted_tx.prediction_spec
+      if spec is None or not predicted_tx.is_prediction:
+        continue
+      matching_txs = [other_tx for other_tx in self.transactions if not other_tx.is_prediction and spec.matches(predicted_tx, other_tx)]
+      if len(matching_txs) > 1:
+        raise errors.MultipleTransactionsMatchPredictionError(prediction=predicted_tx, matches=matching_txs)
+      if len(matching_txs) < 1:
+        if predicted_tx.date < now.date():
+          warnings.warn(errors.PredictionResolutionWarning(prediction=predicted_tx))
+        continue
+      [matching_tx] = matching_txs
+      matching_tx.metadata["Predict"] = predicted_tx.metadata["Predict"]
+      txs_to_remove.append(predicted_tx)
+    for tx in txs_to_remove:
+      self.transactions.remove(tx)
+
+  def _prune_dead_prediction_links(self) -> None:
+    txs_by_link: Dict[PredictionLink, List[Transaction]] = {}
+    for tx in self.transactions:
+      link = tx.prediction_link
+      if link is not None:
+        txs_by_link.setdefault(link, []).append(tx)
+    for link, txs in txs_by_link.items():
+      if len(txs) < 2:
+        for tx in txs:
+          tx.prediction_link = None
+      elif len(txs) > 2:
+        raise errors.OverusedPredictionLinkError(link=link, txs=txs)
+
+  def _create_new_predictions(self, now: datetime.datetime) -> None:
+    txs_to_add = []
+    for tx in self.transactions:
+      spec = tx.prediction_spec
+      if spec is None or tx.prediction_link is not None:
+        continue
+      predicted_tx = spec.predict_next_transaction(tx)
+      if predicted_tx.date < now.date():
+        continue
+      link = PredictionLink(uuid.uuid4().hex)
+      tx.prediction_link = link
+      predicted_tx.prediction_link = link
+      predicted_tx.is_prediction = True
+      txs_to_add.append(predicted_tx)
+    self.transactions += txs_to_add
 
   def __str__(self) -> str:
     txs = sorted(self.transactions, key=attrgetter("timestamp"))
