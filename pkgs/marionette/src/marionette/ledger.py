@@ -1,10 +1,10 @@
 import datetime
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import NewType, Dict, Optional, List, cast
+from typing import NewType, Dict, Optional, List, cast, FrozenSet
 from decimal import Decimal
 from operator import attrgetter
-from . import monzo
+from . import monzo, errors
 from .util import append_right_aligned
 
 LEDGER_PATH = Path.home() / ".marionette" / "ledger"
@@ -20,6 +20,10 @@ class accounts:
   INCOME = Account("Income")
   EXPENSES = Account("Expenses")
 
+@dataclass
+class RecurringInfo:
+  frequency: str = "monthly"
+  
 @dataclass
 class Posting:
   account: Account
@@ -45,15 +49,32 @@ class Transaction:
   postings: List[Posting] = field(default_factory=list)
 
   @property
-  def monzo_ids(self) -> List[monzo.TransactionId]:
+  def monzo_ids(self) -> FrozenSet[monzo.TransactionId]:
     s = self.metadata.get("MonzoIds", "")
     if not s:
-      return []
-    return [monzo.TransactionId(i) for i in s.split()]
+      return frozenset()
+    return frozenset(monzo.TransactionId(i) for i in s.split())
 
   @monzo_ids.setter
-  def monzo_ids(self, ids: List[monzo.TransactionId]) -> None:
-    self.metadata["MonzoIds"] = " ".join(ids)
+  def monzo_ids(self, ids: FrozenSet[monzo.TransactionId]) -> None:
+    if ids:
+      self.metadata["MonzoIds"] = " ".join(sorted(ids))
+    else:
+      self.metadata.pop("MonzoIds", "")
+
+  @property
+  def monzo_merchant_ids(self) -> FrozenSet[monzo.MerchantId]:
+    s = self.metadata.get("MonzoMerchantIds", "")
+    if not s:
+      return frozenset()
+    return frozenset(monzo.MerchantId(i) for i in s.split())
+
+  @monzo_merchant_ids.setter
+  def monzo_merchant_ids(self, ids: FrozenSet[monzo.MerchantId]) -> None:
+    if ids:
+      self.metadata["MonzoMerchantIds"] = " ".join(sorted(ids))
+    else:
+      self.metadata.pop("MonzoMerchantIds", "")
 
   @property
   def timestamp(self) -> datetime.datetime:
@@ -66,26 +87,59 @@ class Transaction:
   def timestamp(self, ts: datetime.datetime) -> None:
     self.metadata["Timestamp"] = ts.strftime(TIMESTAMP_FORMAT)
 
-  def validate(self) -> None:
-    amounts = []
+  @property
+  def recurring(self) -> Optional[RecurringInfo]:
+    s = self.metadata.get("Recurring", "")
+    if not s:
+      return None
+    info = RecurringInfo()
+    for word in s.split():
+      if word in ["monthly"]:
+        info.frequency = word
+      else:
+        raise ValueError(word)
+    return info
+
+  @property
+  def is_prediction(self) -> bool:
+    return bool(self.metadata.get("IsPrediction", ""))
+
+  @is_prediction.setter
+  def is_prediction(self, val: bool) -> None:
+    if val:
+      self.metadata["IsPrediction"] = "true"
+    elif "IsPrediction" in self.metadata:
+      del self.metadata["IsPrediction"]
+
+  @property
+  def amounts(self) -> Dict[Account, Amount]:
+    amounts: Dict[Account, Amount] = {}
     elided_postings = []
     for p in self.postings:
       if p.amount is not None:
-        amounts.append(p.amount)
+        amounts[p.account] = amounts.get(p.account, Decimal(0)) + p.amount
       else:
         elided_postings.append(p)
     if len(elided_postings) > 1:
-      raise ValueError(f"{self.date} {self.summary}: at most one posting may have an elided amount")
+      raise errors.PostingElisionError(tx=self)
     elif elided_postings:
-      elided_amount = -sum(amounts, Decimal(0))
-      elided_postings[0].amount = elided_amount
-      amounts.append(elided_amount)
-    if sum(amounts, Decimal(0)) != 0:
-      raise ValueError(f"{self.date} {self.summary}: posting amounts do not sum to zero")
+      [elided_posting] = elided_postings
+      elided_posting.amount = elided_amount = -sum(amounts.values(), Decimal(0))
+      amounts[elided_posting.account] = amounts.get(elided_posting.account, Decimal(0)) + elided_amount
+    return amounts
+
+  def validate(self) -> None:
+    amount_sum = sum(self.amounts.values(), Decimal(0))
+    if amount_sum != Decimal(0):
+      raise errors.UnbalancedTransactionError(tx=self, actual_sum=amount_sum)
+
+  @property
+  def short_str(self) -> str:
+    date = self.date.strftime("%Y-%m-%d")
+    return f"{date} {self.summary}" 
 
   def __str__(self) -> str:
-    date = self.date.strftime("%Y-%m-%d")
-    s = f"{date} {self.summary}\n"
+    s = f"{self.short_str}\n"
     for key, value in sorted(self.metadata.items()):
       s += f"  ; {key}: {value}\n"
     for posting in self.postings:
@@ -100,11 +154,12 @@ class Ledger:
     return {id: tx for tx in self.transactions for id in tx.monzo_ids}
 
   def validate(self) -> None:
-    self._validate_account_tree()
+    self._ensure_all_accounts_are_leaves()
+    self._create_predictions()
     for tx in self.transactions:
       tx.validate()
 
-  def _validate_account_tree(self) -> None:
+  def _ensure_all_accounts_are_leaves(self) -> None:
     accounts = {p.account for tx in self.transactions for p in tx.postings}
     accounts_with_children = set()
     for acc in accounts:
@@ -116,6 +171,9 @@ class Ledger:
       for p in tx.postings:
         if p.account in accounts_with_children:
           p.account = Account(f"{p.account}:Misc")
+
+  def _create_predictions(self) -> None:
+    return
 
   def __str__(self) -> str:
     txs = sorted(self.transactions, key=attrgetter("timestamp"))
