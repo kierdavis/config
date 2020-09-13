@@ -161,7 +161,7 @@ class Transaction:
   def timestamp(self) -> datetime.datetime:
     s = self.metadata.get("Timestamp", "")
     if not s:
-      return datetime.datetime.combine(self.date, datetime.time(), tzinfo=datetime.timezone.utc)
+      return datetime.datetime.combine(self.date, datetime.time(23, 59, 59), tzinfo=datetime.timezone.utc)
     return datetime.datetime.strptime(s, TIMESTAMP_FORMAT)
 
   @timestamp.setter
