@@ -33,18 +33,17 @@ class UnbalancedTransactionError(IntegrityError):
     return f"postings in transaction '{self.tx.short_str}' do not sum to zero (they sum to £{self.actual_sum:2f} instead)"
 
 @dataclass
-class OverusedPredictionLinkError(IntegrityError):
-  link: str
-  txs: List["ledger.Transaction"]
-  def __str__(self) -> str:
-    return f"prediction link {self.link!r} is used more than twice: {', '.join(tx.short_str for tx in self.txs)}"
-
-@dataclass
 class MultipleTransactionsMatchPredictionError(IntegrityError):
   prediction: "ledger.Transaction"
   matches: List["ledger.Transaction"]
   def __str__(self) -> str:
     return f"multiple transactions match prediction '{self.prediction.short_str}': {', '.join(tx.short_str for tx in self.matches)}"
+
+@dataclass
+class MissingPredictionReferenceError(IntegrityError):
+  link: "ledger.PredictionLink"
+  def __str__(self) -> str:
+    return f"no reference transaction with prediction link {self.link}"
 
 @dataclass
 class PredictionResolutionWarning(Warning, IntegrityError):

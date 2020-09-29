@@ -2,9 +2,10 @@ import datetime
 import warnings
 import uuid
 import dataclasses
+from enum import Enum, auto
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import NewType, Dict, Optional, List, cast, FrozenSet, Set
+from typing import NewType, Dict, Optional, List, cast, FrozenSet, Set, Tuple
 from decimal import Decimal
 from operator import attrgetter
 from . import monzo, errors
@@ -105,6 +106,24 @@ class PredictionSpec:
 
 PredictionLink = NewType("PredictionLink", str)
 
+class PredictionState(Enum):
+  REFERENCE = auto()
+  PREDICTION = auto()
+  SUPERSEDED = auto()
+
+@dataclass
+class PredictionData:
+  state: PredictionState
+  link: PredictionLink
+
+  @classmethod
+  def parse(cls, s: str) -> "PredictionData":
+    state_str, link_str = s.split()
+    return cls(PredictionState[state_str.upper()], PredictionLink(link_str))
+
+  def __str__(self) -> str:
+    return f"{self.state.name.lower()} {self.link}"
+
 @dataclass
 class Posting:
   account: Account
@@ -121,6 +140,17 @@ class Posting:
     for key, value in self.metadata.items():
       s += f"    ; {key}: {value}\n"
     return s
+
+  @staticmethod
+  def sort_key(post: "Posting") -> Tuple[int, str]:
+    major: int
+    if post.amount is None:
+      major = 2
+    elif post.amount < 0:
+      major = 1
+    else:
+      major = 0
+    return major, post.account
 
 @dataclass
 class Transaction:
@@ -176,29 +206,25 @@ class Transaction:
     return PredictionSpec.parse(s, self)
 
   @property
-  def prediction_link(self) -> Optional[PredictionLink]:
-    s = self.metadata.get("PredictionLink", "")
+  def prediction_data(self) -> Optional[PredictionData]:
+    s = self.metadata.get("PredictionData", "")
     if not s:
       return None
-    return PredictionLink(s)
+    return PredictionData.parse(s)
 
-  @prediction_link.setter
-  def prediction_link(self, val: Optional[PredictionLink]) -> None:
+  @prediction_data.setter
+  def prediction_data(self, val: Optional[PredictionData]) -> None:
     if val is not None:
-      self.metadata["PredictionLink"] = val
+      self.metadata["PredictionData"] = str(val)
     else:
-      self.metadata.pop("PredictionLink", "")
+      self.metadata.pop("PredictionData", "")
 
   @property
   def is_prediction(self) -> bool:
-    return bool(self.metadata.get("IsPrediction", ""))
-
-  @is_prediction.setter
-  def is_prediction(self, val: bool) -> None:
-    if val:
-      self.metadata["IsPrediction"] = "true"
-    else:
-      self.metadata.pop("IsPrediction", "")
+    if bool(self.metadata.get("IsPrediction", "")):
+      return True
+    data = self.prediction_data
+    return data is not None and data.state == PredictionState.PREDICTION
 
   @property
   def amounts(self) -> Dict[Account, Amount]:
@@ -217,6 +243,14 @@ class Transaction:
       amounts[elided_posting.account] = amounts.get(elided_posting.account, Decimal(0)) + elided_amount
     return amounts
 
+  @property
+  def counter_account(self) -> Optional[Account]:
+    candidates = {p.account for p in self.postings if not (p.account == accounts.MONZO or p.account.startswith(accounts.MONZO_POT_BASE+":"))}
+    if len(candidates) == 1:
+      return list(candidates)[0]
+    else:
+      return None
+
   def validate(self) -> None:
     amount_sum = sum(self.amounts.values(), Decimal(0))
     if amount_sum != Decimal(0):
@@ -232,7 +266,7 @@ class Transaction:
     s = f"{self.short_str}\n"
     for key, value in sorted(self.metadata.items()):
       s += f"  ; {key}: {value}\n"
-    for posting in self.postings:
+    for posting in sorted(self.postings, key=Posting.sort_key):
       s += str(posting)
     return s
 
@@ -263,58 +297,69 @@ class Ledger:
           p.account = Account(f"{p.account}:Misc")
 
   def _manage_predictions(self) -> None:
-    now = max(tx.timestamp for tx in self.transactions if not tx.is_prediction)
-    self._resolve_predictions(now)
-    self._prune_dead_prediction_links()
-    self._create_new_predictions(now)
-
-  def _resolve_predictions(self, now: datetime.datetime) -> None:
-    txs_to_remove = []
-    for predicted_tx in self.transactions:
-      spec = predicted_tx.prediction_spec
-      if spec is None or not predicted_tx.is_prediction:
-        continue
-      matching_txs = [other_tx for other_tx in self.transactions if not other_tx.is_prediction and spec.matches(predicted_tx, other_tx)]
-      if len(matching_txs) > 1:
-        raise errors.MultipleTransactionsMatchPredictionError(prediction=predicted_tx, matches=matching_txs)
-      if len(matching_txs) < 1:
-        if predicted_tx.date < now.date():
-          warnings.warn(errors.PredictionResolutionWarning(prediction=predicted_tx))
-        continue
-      [matching_tx] = matching_txs
-      matching_tx.metadata["Predict"] = predicted_tx.metadata["Predict"]
-      txs_to_remove.append(predicted_tx)
-    for tx in txs_to_remove:
-      self.transactions.remove(tx)
-
-  def _prune_dead_prediction_links(self) -> None:
+    today = max(tx.timestamp for tx in self.transactions if not tx.is_prediction).date()
     txs_by_link: Dict[PredictionLink, List[Transaction]] = {}
     for tx in self.transactions:
-      link = tx.prediction_link
-      if link is not None:
-        txs_by_link.setdefault(link, []).append(tx)
+      spec, maybe_data = tx.prediction_spec, tx.prediction_data
+      if spec is None:
+        continue
+      data: PredictionData
+      if maybe_data is not None:
+        data = maybe_data
+      else:
+        data = PredictionData(PredictionState.REFERENCE, PredictionLink(uuid.uuid4().hex))
+        tx.prediction_data = data
+      if data.state != PredictionState.SUPERSEDED:
+        txs_by_link.setdefault(data.link, []).append(tx)
     for link, txs in txs_by_link.items():
-      if len(txs) < 2:
-        for tx in txs:
-          tx.prediction_link = None
-      elif len(txs) > 2:
-        raise errors.OverusedPredictionLinkError(link=link, txs=txs)
+      changed = True
+      while changed:
+        changed = False
+        reference_tx = self._get_reference(txs, link)
+        spec = reference_tx.prediction_spec
+        assert spec is not None
+        maybe_prediction_tx = self._get_prediction(txs)
+        if maybe_prediction_tx is not None:
+          prediction_tx = maybe_prediction_tx
+        else:
+          prediction_tx = spec.predict_next_transaction(reference_tx)
+          prediction_tx.prediction_data = PredictionData(PredictionState.PREDICTION, link)
+          txs.append(prediction_tx)
+          self.transactions.append(prediction_tx)
+          changed = True
+        if prediction_tx.date <= today:
+          matching_txs = [candidate_tx for candidate_tx in self.transactions if not candidate_tx.is_prediction and spec.matches(prediction_tx, candidate_tx)]
+          if len(matching_txs) > 1:
+            raise errors.MultipleTransactionsMatchPredictionError(prediction=prediction_tx, matches=matching_txs)
+          elif len(matching_txs) < 1:
+            if prediction_tx.date < today:
+              warnings.warn(errors.PredictionResolutionWarning(prediction=prediction_tx))
+          else:
+            txs.remove(prediction_tx)
+            self.transactions.remove(prediction_tx)
+            reference_tx.prediction_data = PredictionData(PredictionState.SUPERSEDED, link)
+            [matching_tx] = matching_txs
+            matching_tx.metadata["Predict"] = reference_tx.metadata["Predict"]
+            matching_tx.prediction_data = PredictionData(PredictionState.REFERENCE, link)
+            txs.append(matching_tx)
+            reference_tx = matching_tx
+            changed = True
 
-  def _create_new_predictions(self, now: datetime.datetime) -> None:
-    txs_to_add = []
-    for tx in self.transactions:
-      spec = tx.prediction_spec
-      if spec is None or tx.prediction_link is not None:
-        continue
-      predicted_tx = spec.predict_next_transaction(tx)
-      if predicted_tx.date < now.date():
-        continue
-      link = PredictionLink(uuid.uuid4().hex)
-      tx.prediction_link = link
-      predicted_tx.prediction_link = link
-      predicted_tx.is_prediction = True
-      txs_to_add.append(predicted_tx)
-    self.transactions += txs_to_add
+  @staticmethod
+  def _get_reference(txs: List[Transaction], link: PredictionLink) -> Transaction:
+    for tx in txs:
+      assert tx.prediction_data is not None
+      if tx.prediction_data.state == PredictionState.REFERENCE:
+        return tx
+    raise errors.MissingPredictionReferenceError(link=link)
+
+  @staticmethod
+  def _get_prediction(txs: List[Transaction]) -> Optional[Transaction]:
+    for tx in txs:
+      assert tx.prediction_data is not None
+      if tx.prediction_data.state == PredictionState.PREDICTION:
+        return tx
+    return None
 
   def __str__(self) -> str:
     txs = sorted(self.transactions, key=attrgetter("timestamp"))
