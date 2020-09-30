@@ -339,6 +339,7 @@ class Ledger:
             self.transactions.remove(prediction_tx)
             reference_tx.prediction_data = PredictionData(PredictionState.SUPERSEDED, link)
             [matching_tx] = matching_txs
+            matching_tx.summary = prediction_tx.summary
             matching_tx.metadata["Predict"] = reference_tx.metadata["Predict"]
             matching_tx.prediction_data = PredictionData(PredictionState.REFERENCE, link)
             txs.append(matching_tx)
