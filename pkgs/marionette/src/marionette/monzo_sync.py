@@ -8,6 +8,7 @@ def sync(lg: ledger.Ledger) -> None:
   monzo_api = monzo.Monzo.login()
   monzo_balance = monzo_api.balance()
   monzo_txs = monzo_api.transactions()
+  monzo_txs = [mtx for mtx in monzo_txs if not (mtx.get("decline_reason") or mtx.get("amount") == 0)]
   monzo_pots = {pot["id"]: pot for pot in monzo_api.pots()}
   create_missing_txs(lg, monzo_txs, monzo_pots)
   sync_txs(lg, monzo_txs)
@@ -20,8 +21,6 @@ def create_missing_txs(
 ) -> None:
   existing_ledger_txs = lg.transactions_by_monzo_id()
   for monzo_tx in monzo_txs:
-    if monzo_tx.get("decline_reason") or monzo_tx.get("amount") == 0:
-      continue
     if monzo_tx["id"] not in existing_ledger_txs:
       lg.transactions.append(create_ledger_tx_from_monzo_tx(monzo_tx, monzo_pots, lg))
 
