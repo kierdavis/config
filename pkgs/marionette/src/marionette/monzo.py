@@ -5,6 +5,7 @@ import logging
 import webbrowser
 import threading
 import datetime
+import requests
 from queue import Queue
 from decimal import Decimal
 from pathlib import Path
@@ -124,18 +125,18 @@ class Monzo:
     return cls(session)
 
   def accounts(self) -> List[Account]:
-    raw = self._session.get("https://api.monzo.com/accounts").json()["accounts"]
+    raw = self._check(self._session.get("https://api.monzo.com/accounts")).json()["accounts"]
     return cast(List[Account], raw)
 
   def balance(self) -> Decimal:
     params = {"account_id": self.account_id}
-    raw = self._session.get("https://api.monzo.com/balance", params=params).json()
+    raw = self._check(self._session.get("https://api.monzo.com/balance", params=params)).json()
     amount_int = cast(AccountBalance, raw)["balance"]
     return Decimal(amount_int) / Decimal(100)
 
   def pots(self) -> List[Pot]:
     params = {"current_account_id": self.account_id}
-    raw = self._session.get("https://api.monzo.com/pots", params=params).json()["pots"]
+    raw = self._check(self._session.get("https://api.monzo.com/pots", params=params)).json()["pots"]
     return cast(List[Pot], raw)
 
   def transactions(self) -> List[Transaction]:
@@ -144,8 +145,18 @@ class Monzo:
       "since": (datetime.datetime.now() - datetime.timedelta(days=89)).strftime("%Y-%m-%dT%H:%M:%SZ"),
       "expand[]": "merchant",
     }
-    raw = self._session.get("https://api.monzo.com/transactions", params=params).json()["transactions"]
+    raw = self._check(self._session.get("https://api.monzo.com/transactions", params=params)).json()["transactions"]
     return cast(List[Transaction], raw)
+
+  def _check(self, resp: requests.Response) -> requests.Response:
+    if resp.status_code != 200:
+      raise errors.MonzoAPIHTTPError(
+        method = resp.request.method or "?",
+        url = resp.request.url or "?",
+        status = resp.status_code,
+        body = resp.text,
+      )
+    return resp
 
 def load_auth_token() -> Optional[Token]:
   if AUTH_TOKEN_PATH.exists():
