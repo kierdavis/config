@@ -28,6 +28,7 @@ AccountId = NewType("AccountId", str)
 MerchantId = NewType("MerchantId", str)
 PotId = NewType("PotId", str)
 TransactionId = NewType("TransactionId", str)
+Category = NewType("Category", str)
 
 class Account(TypedDict, total=False):
   id: AccountId
@@ -57,7 +58,7 @@ class Transaction(TypedDict, total=False):
   currency: str
   merchant: Optional[Merchant]
   notes: str
-  category: str
+  category: Category
   metadata: TransactionMetadata
   decline_reason: str
 
@@ -147,6 +148,9 @@ class Monzo:
     }
     raw = self._check(self._session.get("https://api.monzo.com/transactions", params=params)).json()["transactions"]
     return cast(List[Transaction], raw)
+
+  def patch_transaction(self, id: TransactionId, **data: str) -> None:
+    self._check(self._session.patch(f"https://api.monzo.com/transactions/{id}", data=data))
 
   def _check(self, resp: requests.Response) -> requests.Response:
     if resp.status_code != 200:
