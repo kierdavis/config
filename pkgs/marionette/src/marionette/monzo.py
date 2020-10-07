@@ -150,9 +150,11 @@ class Monzo:
     return cast(List[Transaction], raw)
 
   def patch_transaction(self, id: TransactionId, **data: str) -> None:
+    print(f"PATCH {id} {data}")
     self._check(self._session.patch(f"https://api.monzo.com/transactions/{id}", data=data))
 
   def _check(self, resp: requests.Response) -> requests.Response:
+    time.sleep(0.5)  # poor man's rate limit
     if resp.status_code != 200:
       raise errors.MonzoAPIHTTPError(
         method = resp.request.method or "?",
