@@ -65,6 +65,15 @@ class MonzoAPIError(Exception):
   pass
 
 @dataclass
+class MonzoAPIHTTPError(MonzoAPIError):
+  method: str
+  url: str
+  status: int
+  body: str
+  def __str__(self) -> str:
+    return f"monzo API request {self.method} {self.url} returned status {self.status}: {self.body}"
+
+@dataclass
 class UnexpectedCurrencyError(MonzoAPIError):
   tx: "monzo.Transaction"
   @property
