@@ -1,4 +1,5 @@
 from . import ledger, monzo, errors
+from .categorise import monzo_category_for_transaction
 import datetime
 from decimal import Decimal
 from operator import itemgetter, attrgetter
@@ -11,7 +12,7 @@ def sync(lg: ledger.Ledger) -> None:
   monzo_txs = [mtx for mtx in monzo_txs if not (mtx.get("decline_reason") or mtx.get("amount") == 0)]
   monzo_pots = {pot["id"]: pot for pot in monzo_api.pots()}
   create_missing_txs(lg, monzo_txs, monzo_pots)
-  sync_txs(lg, monzo_txs)
+  sync_txs(lg, monzo_txs, monzo_api)
   set_balance_assertion(lg, monzo_txs, monzo_balance)
 
 def create_missing_txs(
@@ -66,7 +67,7 @@ def get_counter_account(monzo_tx: monzo.Transaction, lg: ledger.Ledger) -> ledge
   else:
     return ledger.accounts.EXPENSES
 
-def sync_txs(lg: ledger.Ledger, monzo_txs: List[monzo.Transaction]) -> None:
+def sync_txs(lg: ledger.Ledger, monzo_txs: List[monzo.Transaction], monzo_api: monzo.Monzo) -> None:
   monzo_txs_by_id = {mt["id"]: mt for mt in monzo_txs}
   for ledger_tx in lg.transactions:
     try:
@@ -74,9 +75,9 @@ def sync_txs(lg: ledger.Ledger, monzo_txs: List[monzo.Transaction]) -> None:
     except KeyError:
       # We don't have access to one or more monzo transactions (90 day limit).
       continue
-    sync_tx(ledger_tx, these_monzo_txs)
+    sync_tx(ledger_tx, these_monzo_txs, monzo_api)
 
-def sync_tx(ledger_tx: ledger.Transaction, monzo_txs: List[monzo.Transaction]) -> None:
+def sync_tx(ledger_tx: ledger.Transaction, monzo_txs: List[monzo.Transaction], monzo_api: monzo.Monzo) -> None:
   if not monzo_txs:
     return
   # Timestamp
@@ -96,7 +97,14 @@ def sync_tx(ledger_tx: ledger.Transaction, monzo_txs: List[monzo.Transaction]) -
     )
   # Metadata
   ledger_tx.monzo_merchant_ids = frozenset({monzo.TransactionUtil.merchant(mt).get("id", monzo.MerchantId("")) for mt in monzo_txs} - {monzo.MerchantId("")})
-  
+  # Category
+  monzo_category = monzo_category_for_transaction(ledger_tx)
+  if monzo_category is not None:
+    for monzo_tx in monzo_txs:
+      if monzo_tx["category"] != monzo_category:
+        print(f"change {monzo.TransactionUtil.merchant(monzo_tx).get('name','?')} from {monzo_tx['category']} to {monzo_category}")
+        monzo_api.patch_transaction(monzo_tx["id"], category=monzo_category)
+
 def set_balance_assertion(lg: ledger.Ledger, monzo_txs: List[monzo.Transaction], balance: Decimal) -> None:
   monzo_tx = max(monzo_txs, key=itemgetter("created"))
   ledger_tx = lg.transactions_by_monzo_id()[monzo_tx["id"]]
