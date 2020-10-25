@@ -12,6 +12,7 @@ self: super:
       ${if oldAttrs ? preFixup then oldAttrs.preFixup else ""}
       wrapProgram $out/bin/boincmgr --run 'cd ''${BOINC_DATA_DIR:-/var/lib/boinc}'
     '';
+    NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
   });
 
   duplicity = super.duplicity.overrideDerivation (oldAttrs: {
