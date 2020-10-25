@@ -1,4 +1,4 @@
-{ libyaml, python3Packages }:
+{ glibcLocales, libyaml, python3Packages }:
 
 let
   fetchPypi = python3Packages.fetchPypi;
@@ -47,6 +47,45 @@ let
     doCheck = false;  # failing :(
   };
 
+  sphinx1 = python3Packages.buildPythonPackage rec {
+    pname = "sphinx";
+    version = "1.8.5";
+    src = fetchPypi {
+      pname = "Sphinx";
+      inherit version;
+      sha256 = "c7658aab75c920288a8cf6f09f244c6cfdae30d82d803ac1634d9f223a80ca08";
+    };
+    LC_ALL = "en_US.UTF-8";
+
+    buildInputs = with python3Packages; [ simplejson mock glibcLocales html5lib ];
+    propagatedBuildInputs = with python3Packages; [
+      alabaster
+      Babel
+      docutils
+      imagesize
+      jinja2
+      pygments
+      requests
+      setuptools
+      six
+      snowballstemmer
+      sphinxcontrib-websupport
+      sqlalchemy
+      whoosh
+    ];
+
+    # Disable two tests that require network access.
+    #checkPhase = "pytest -k 'not test_defaults and not test_anchors_ignored'";
+    #checkInputs = with python3Packages; [ pytest ];
+    doCheck = false;
+
+    # https://github.com/NixOS/nixpkgs/issues/22501
+    # Do not run `python sphinx-build arguments` but `sphinx-build arguments`.
+    postPatch = ''
+      substituteInPlace sphinx/make_mode.py --replace "sys.executable, " ""
+    '';
+  };
+
   sr-tools = python3Packages.buildPythonApplication rec {
     pname = "sr.tools";
     version = "1.1.2";
@@ -58,7 +97,7 @@ let
       nose
       numpy
       pygments
-      sphinx_1_7_9
+      sphinx1
     ];
     propagatedBuildInputs = with python3Packages; [
       beautifulsoup4
