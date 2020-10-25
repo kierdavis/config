@@ -48,16 +48,10 @@
     device = "/dev/disk/by-uuid/f25c297c-46ff-45c6-96f0-d645931b3a67";
     fsType = "ext4";
   };
-  fileSystems."/var/lib/docker" = {
-    device = "/dev/disk/by-uuid/842e7d6c-cc65-4719-89b4-3968b8bfb30d";
-    fsType = "ext4";
-  };
   swapDevices = [ { device = "/dev/disk/by-uuid/afd2e652-b34e-4543-95c3-e2fc5df22201"; } ];
   fileSystems.efi.device = "/dev/disk/by-uuid/6F09-65AE";
   systemd.services.boinc.after = [ "var-lib-boinc.mount" ];
   systemd.services.boinc.requires = [ "var-lib-boinc.mount" ];
-  systemd.services.docker.after = [ "var-lib-docker.mount" ];
-  systemd.services.docker.requires = [ "var-lib-docker.mount" ];
 
   # Make sure to generate a new ID using:
   #   head -c4 /dev/urandom | od -A none -t x4

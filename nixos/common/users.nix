@@ -18,7 +18,6 @@ in {
     extraGroups = [
       "audio"           # Permission to use audio devices e.g. /dev/snd/...
       "dialout"         # Permission to use USB serial devices (e.g. /dev/ttyACM0)
-      "docker"          # Permission to communicate with the Docker daemon
       "networkmanager"  # Permission to control NetworkManager
       "wheel"           # Permission to use 'sudo'
       "video"           # Permission to access video devices (including hardware acceleration of video processing)

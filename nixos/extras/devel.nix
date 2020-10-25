@@ -6,14 +6,6 @@ let
   '';
 
 in {
-  # Docker daemon
-  virtualisation.docker = {
-    enable = true;
-    autoPrune = {
-      enable = true;
-    };
-  };
-
   # VirtualBox
   virtualisation.virtualbox.host.enable = true;
 
