@@ -19,7 +19,7 @@ in {
     # Kubernetes
     kubectl
     kubesh
-    kubernetes-helm-latest
+    kubernetes-helm
 
     # Hardware
     geda

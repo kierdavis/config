@@ -18,8 +18,5 @@ in {
     propagatedBuildInputs = oldAttrs.propagatedBuildInputs ++ [ self.backblaze-b2 ];
   });
 
-  # helm 3 hasn't made it into the release channel yet.
-  kubernetes-helm-latest = pkgs-latest.kubernetes-helm;
-
   zoom-us = pkgs-latest.zoom-us;
 }
