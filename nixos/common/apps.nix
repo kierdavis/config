@@ -83,8 +83,6 @@ in {
   ];
 
   environment.variables = {
-    PKGS = "/nix/var/nix/profiles/per-user/root/channels/nixos/pkgs/top-level/all-packages.nix";
-
     GPG_MASTER_KEY = "8139C5FCEDA73ABF";
     GPG_ENCRYPTION_KEY = "DFDCA524B0742D62";
     GPG_GIT_SIGNING_KEY = "66378DA35FF9F0FA";
