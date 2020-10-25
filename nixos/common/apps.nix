@@ -55,6 +55,7 @@ in {
     psmisc  # provides killall
     publish
     pv
+    ripgrep
     screen
     sshfs
     umountext
