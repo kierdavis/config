@@ -1,10 +1,5 @@
 self: super:
 
-#let
-#  pkgs-latest = import (fetchTarball https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz) {
-#    inherit (self) config;
-#  };
-#in
 {
   boinc = super.boinc.overrideDerivation (oldAttrs: {
     nativeBuildInputs = (if oldAttrs ? nativeBuildInputs then oldAttrs.nativeBuildInputs else []) ++ [ self.makeWrapper ];
