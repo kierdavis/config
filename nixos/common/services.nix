@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+let network = import ../../network.nix; in
+
 {
   # use timesyncd instead of ntpd
   # Explicit lower-than-usual priority of 150 is needed
@@ -40,7 +42,7 @@
     systemService = true;
     user = "kier";
     group = config.users.users.kier.group;
-    guiAddress = "0.0.0.0:8384";
+    guiAddress = "${network.byName."k8s.${config.machine.name}.cascade".address}:8384";
   };
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
