@@ -74,4 +74,14 @@
       pkgs.cups-brother-hl1110
     ];
   };
+
+  systemd.services.komi-server = {
+    script = "exec ${pkgs.python3}/bin/python -m http.server 9090";
+    serviceConfig = {
+      User = "kier";
+      Group = "users";
+      WorkingDirectory = "/home/kier/checkouts/komi";
+    };
+    wantedBy = ["multi-user.target"];
+  };
 }
