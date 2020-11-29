@@ -38,6 +38,7 @@ in
     screenshot
     signal-desktop
     spotify
+    steam
     terminator
     vlc
     zoom-us
