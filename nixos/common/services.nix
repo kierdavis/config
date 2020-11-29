@@ -40,7 +40,7 @@
     systemService = true;
     user = "kier";
     group = config.users.users.kier.group;
-    guiAddress = "[${(import ../cascade.nix).hostAddrs."${config.machine.name}"}]:8384";
+    guiAddress = "0.0.0.0:8384";
   };
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
