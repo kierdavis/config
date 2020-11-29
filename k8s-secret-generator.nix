@@ -2,7 +2,6 @@ with import <nixpkgs> {};
 
 let
   network = import ./network.nix;
-  vpnKeys = import ./secret/vpn-keys.nix;
   passwords = import ./secret/passwords.nix;
 
   mkYamlVal = value: if value ? fromFile then
