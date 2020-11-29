@@ -2,7 +2,6 @@
 # It is named after the song "Saelli" by "Corpo-Mente".
 
 let
-  cascade = import ../cascade.nix;
   network = import ../../network.nix;
 
 in { config, lib, pkgs, ... }:
