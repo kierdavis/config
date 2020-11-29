@@ -1,3 +1,3 @@
 import <nixpkgs> {
-  overlays = [ (import ./overlay.nix) ];
+  overlays = [ (import ../patches/overlay.nix) (import ./overlay.nix) ];
 }
