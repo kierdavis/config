@@ -9,6 +9,8 @@ in {
   # VirtualBox
   virtualisation.virtualbox.host.enable = true;
 
+  virtualisation.podman.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Software
     android-studio
@@ -16,7 +18,8 @@ in {
     modd
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
-    # Kubernetes
+    # Kubernetes/containers
+    buildah
     kubectl
     kubesh
     kubernetes-helm
