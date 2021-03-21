@@ -2,6 +2,7 @@
   imports = [
     ./apps.nix
     ./boot.nix
+    ./env.nix
     ./fs.nix
     ./locale.nix
     ./net.nix
