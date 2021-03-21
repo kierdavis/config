@@ -1,7 +1,6 @@
 {
   imports = [
     ./apps.nix
-    ./backups.nix
     ./boot.nix
     ./fs.nix
     ./locale.nix
