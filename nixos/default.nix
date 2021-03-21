@@ -17,9 +17,4 @@ in
       configuration = machines/saelli.nix;
       system = "x86_64-linux";
     };
-
-    butterfly = nixos {
-      configuration = machines/butterfly.nix;
-      system = "x86_64-linux";
-    };
   }
