@@ -22,9 +22,4 @@ in
       configuration = machines/butterfly.nix;
       system = "x86_64-linux";
     };
-
-    poutbox = nixos {
-      configuration = machines/poutbox.nix;
-      system = "x86_64-linux";
-    };
   }
