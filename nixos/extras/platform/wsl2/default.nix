@@ -14,7 +14,10 @@ in
   boot.isContainer = true;
 
   environment.etc.hosts.enable = false;
-  environment.etc."resolv.conf".enable = false;
+  environment.etc."wsl.conf".text = ''
+    [network]
+    generateResolvConf = false
+  '';
 
   networking.dhcpcd.enable = false;
 
@@ -32,7 +35,6 @@ in
 
   networking.firewall.enable = false;
   systemd.services.firewall.enable = false;
-  systemd.services.systemd-resolved.enable = false;
   systemd.services.systemd-udevd.enable = false;
 
   # Don't allow emergency mode, because we don't have a console.
