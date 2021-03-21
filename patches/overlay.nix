@@ -25,13 +25,13 @@ self: super:
     };
   });
 
-  podman-unwrapped = super.podman-unwrapped.overrideDerivation (oldAttrs: {
-    patches = [
-      # fix a bug triggered by x11docker
-      (self.fetchpatch {
-        url = "https://github.com/containers/podman/commit/8d12d8104f9599dc10435f8c5ce88d1bde0ca1bc.patch";
-        sha256 = "11xdigfw0wrmkhiablpj2gxn26gacd2cyfx6mav7pfqwhfmvqsnb";
-      })
-    ];
-  });
+  # podman-unwrapped = super.podman-unwrapped.overrideDerivation (oldAttrs: {
+  #   patches = [
+  #     # fix a bug triggered by x11docker
+  #     (self.fetchpatch {
+  #       url = "https://github.com/containers/podman/commit/8d12d8104f9599dc10435f8c5ce88d1bde0ca1bc.patch";
+  #       sha256 = "11xdigfw0wrmkhiablpj2gxn26gacd2cyfx6mav7pfqwhfmvqsnb";
+  #     })
+  #   ];
+  # });
 }
