@@ -19,7 +19,8 @@ in {
       "audio"           # Permission to use audio devices e.g. /dev/snd/...
       "dialout"         # Permission to use USB serial devices (e.g. /dev/ttyACM0)
       "networkmanager"  # Permission to control NetworkManager
-      "wheel"           # Permission to use 'sudo'
+      "tty"             # Permission to operate any tty
+      "wheel"           # Permission to 'sudo' as root
       "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
     hashedPassword = passwords.user.kier;
