@@ -47,7 +47,6 @@ in {
     pbzip2
     pigz
     psmisc  # provides killall
-    publish
     pv
     ripgrep
     screen
