@@ -20,6 +20,7 @@ in
 
   # Other programs
   programs.chromium.enable = true;
+  programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
     chromium
     citrix_workspace
@@ -38,7 +39,6 @@ in
     screenshot
     signal-desktop
     spotify
-    steam
     terminator
     vlc
     zoom-us
