@@ -21,6 +21,7 @@ in rec {
     (mkA "k8s.saelli.cascade" "172.27.128.1")
     (mkA "k8s.coloris.cascade" "172.27.128.2")
     (mkA "k8s.pixel4-202007.cascade" "172.27.128.3")
+    (mkA "k8s.coloris-win.cascade" "172.27.128.4")
 
     # Aliases to default interfaces.
   ];
