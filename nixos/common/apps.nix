@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  mkWake = name: mac: pkgs.writeShellScriptBin "wake-${name}" ''
-    ${pkgs.wakelan}/bin/wakelan ${mac}
-  '';
-
   nixos-rebuild-remote = pkgs.writeShellScriptBin "nixos-rebuild-remote" ''
     set -o errexit -o nounset -o pipefail
     host="$1"
@@ -62,7 +58,6 @@ in {
     unzip
     wget
     zip
-    (mkWake "coloris" "34:97:f6:34:19:3f")
 
     # System diagnostics
     dnsutils  # dig
