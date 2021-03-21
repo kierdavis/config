@@ -63,49 +63,5 @@ with lib;
       example = ''[ "BAT0" "BAT1" ]'';
       description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
     };
-
-    machine.backup.tempDir = mkOption {
-      type = types.nullOr types.path;
-      default = null;
-      example = "/var/cache/duplicity/tmp";
-      description = ''Location of the duplicity scratch directory.'';
-    };
-
-    machine.backup.archiveDir = mkOption {
-      type = types.nullOr types.path;
-      default = null;
-      example = "/var/cache/duplicity/archive";
-      description = ''Location of the duplicity archive directory.'';
-    };
-
-    machine.backup.volumes = let
-      volumeType = types.submodule {
-        options = {
-          name = mkOption {
-            type = types.str;
-            description = ''Name of the volume (e.g. archive-0) to be used in destination URLs.'';
-          };
-          path = mkOption {
-            type = types.path;
-            description = ''Location of the volume on disk.'';
-          };
-          before = mkOption {
-            type = types.lines;
-            default = "";
-            description = ''Script to run before performing the backup.'';
-          };
-          after = mkOption {
-            type = types.lines;
-            default = "";
-            description = ''Script to run after performing the backup.'';
-          };
-        };
-      };
-    in mkOption {
-      type = types.listOf volumeType;
-      default = [];
-      example = ''[ { name = "archive-0"; path = "/data/archive"; } ]'';
-      description = ''Backup volumes.'';
-    };
   };
 }
