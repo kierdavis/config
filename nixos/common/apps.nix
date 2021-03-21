@@ -31,6 +31,7 @@ in {
   programs.iotop.enable = true;
   programs.less.enable = true;
   programs.tmux.enable = true;
+  programs.traceroute.enable = true;
   environment.systemPackages = with pkgs; [
     # Utilities
     bc
