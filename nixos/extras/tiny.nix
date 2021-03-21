@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }: {
-  nixpkgs.overlays = [ (import ../../patches/tiny.nix) ];
   boot.plymouth.enable = lib.mkForce false;
   fonts.fontconfig.enable = lib.mkForce false;
   programs.command-not-found.enable = lib.mkForce false;
@@ -18,4 +17,27 @@
     info.enable = lib.mkForce false;
     doc.enable = lib.mkForce false;
   };
+
+  # Disable optional features of some packages.
+  nixpkgs.overlays = [(self: super: {
+    gnupg = super.gnupg.override {
+      libusb1 = null;
+      openldap = null;
+      pcsclite = null;
+    };
+    nix = super.nix.override {
+      withLibseccomp = false;
+      withAWS = false;
+    };
+    rng-tools = super.rng-tools.override {
+      withPkcs11 = false;
+    };
+    udisks = super.udisks.override {
+      xfsprogs = null;
+      f2fs-tools = null;
+      btrfs-progs = null;
+      nilfs-utils = null;
+      ntfs3g = null;
+    };
+  })];
 }
