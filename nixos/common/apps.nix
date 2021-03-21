@@ -12,10 +12,6 @@ let
   '';
 
 in {
-  # sudo
-  security.sudo.enable = true;
-  security.sudo.wheelNeedsPassword = false;
-
   # bash completion
   programs.bash.enableCompletion = true;
 
