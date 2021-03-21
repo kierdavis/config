@@ -19,8 +19,10 @@ in
   programs.light.enable = true;
 
   # Other programs
+  programs.adb.enable = false;
   programs.chromium.enable = true;
   programs.steam.enable = true;
+  virtualisation.virtualbox.host.enable = true;
   environment.systemPackages = with pkgs; [
     chromium
     citrix_workspace
@@ -42,5 +44,13 @@ in
     terminator
     vlc
     zoom-us
+
+    # Development
+    geda
+    pcb
+    quartus
+    freecad
+    repetier-host
+    slic3r-prusa3d
   ];
 }
