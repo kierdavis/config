@@ -6,15 +6,11 @@ let
   '';
 
 in {
-  # VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-
   virtualisation.podman.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Software
-    android-studio
-    circleci
+    cargo
     modd
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
@@ -23,16 +19,6 @@ in {
     kubectl
     kubesh
     kubernetes-helm
-
-    # Hardware
-    geda
-    pcb
-    quartus
-
-    # 3D modelling/printing
-    freecad
-    repetier-host
-    slic3r-prusa3d
 
     # Accounting
     ledger
@@ -45,7 +31,6 @@ in {
   ];
 
   services.keybase.enable = true;
-  programs.adb.enable = true;
 
   documentation.dev.enable = lib.mkOverride 500 true;
 }
