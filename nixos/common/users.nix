@@ -50,4 +50,10 @@ in {
   '';
 
   nix.trustedUsers = [ "root" "kier" "nixremotebuild" ];
+
+  # sudo
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
 }
