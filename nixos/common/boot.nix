@@ -2,7 +2,6 @@
 
 {
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
   hardware.enableAllFirmware = false;
 
   # Microcode updates
