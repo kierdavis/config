@@ -31,8 +31,5 @@
     "nixos-config=/home/kier/config/nixos/machines/${config.machine.name}.nix"
   ];
 
-  nixpkgs.overlays = [
-    (import ../../patches/overlay.nix)
-    (import ../../pkgs/overlay.nix)
-  ];
+  nixpkgs.overlays = [(import ../../pkgs/overlay.nix)];
 }
