@@ -24,5 +24,10 @@ fi
 
 $sw/chown @defaultUser@:tty $($sw/tty) || true
 
+workdir="$PWD"
+if [ "$($sw/basename "$workdir")" = system32 ]; then
+    workdir=$($sw/getent passwd @defaultUser@ | $sw/cut -d: -f6)
+fi
+
 userShell=$($sw/getent passwd @defaultUser@ | $sw/cut -d: -f7)
-exec $sw/nsenter -t $(< /run/systemd.pid) -p -m --wd="$PWD" -- @wrapperDir@/su -s $userShell @defaultUser@ "$@"
+exec $sw/nsenter -t $(< /run/systemd.pid) -p -m --wd="$workdir" -- @wrapperDir@/su -s $userShell @defaultUser@ "$@"
