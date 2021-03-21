@@ -35,7 +35,6 @@ in {
   environment.systemPackages = with pkgs; [
     # Utilities
     bc
-    duplicity
     file
     fzf
     git
