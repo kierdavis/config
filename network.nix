@@ -18,7 +18,6 @@ in rec {
     # Kubenetes VPN address space
     (mkNet "k8s.network.cascade" "172.27.0.0" 16)
     (mkA "k8s.beagle2.cascade" "172.27.0.1")
-    (mkA "k8s.butterfly.cascade" "172.27.0.2")
     (mkA "k8s.saelli.cascade" "172.27.128.1")
     (mkA "k8s.coloris.cascade" "172.27.128.2")
 
