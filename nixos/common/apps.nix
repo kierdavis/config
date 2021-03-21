@@ -28,6 +28,7 @@ in {
   };
 
   # other programs
+  programs.iotop.enable = true;
   programs.less.enable = true;
   programs.tmux.enable = true;
   environment.systemPackages = with pkgs; [
@@ -59,7 +60,6 @@ in {
     dnsutils  # dig
     fping
     htop
-    iotop
     lsof
     nmap
     pciutils  # lspci
