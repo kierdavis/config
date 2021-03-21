@@ -11,6 +11,7 @@ with lib;
 
     machine.wifi = mkOption {
       type = types.bool;
+      default = false;
       description = ''Whether to enable wireless networking.'';
     };
 

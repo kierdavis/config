@@ -9,7 +9,7 @@ in
   networking.hostName = config.machine.name;
 
   # Firewall
-  networking.firewall.enable = true;
+  networking.firewall.enable = lib.mkDefault true;
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPortRanges = [
     { from = 8080; to = 8090; }
