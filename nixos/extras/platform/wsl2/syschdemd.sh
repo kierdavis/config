@@ -22,5 +22,7 @@ if [ ! -e "/run/systemd.pid" ]; then
     /run/current-system/sw/bin/pgrep -xf systemd > /run/systemd.pid
 fi
 
+$sw/chown @defaultUser@:tty $($sw/tty) || true
+
 userShell=$($sw/getent passwd @defaultUser@ | $sw/cut -d: -f7)
 exec $sw/nsenter -t $(< /run/systemd.pid) -p -m --wd="$PWD" -- @wrapperDir@/su -s $userShell @defaultUser@ "$@"
