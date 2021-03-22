@@ -13,6 +13,7 @@ in {
     cargo
     modd
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
+    rustfmt
 
     # Kubernetes/containers
     buildah
