@@ -1,0 +1,9 @@
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p crate2nix
+
+src=$(nix-build --no-out-link -E '((import <nixpkgs> {}).callPackage ./. {}).src')
+crate2nix generate --cargo-toml "$src/Cargo.toml"
+sed -i '
+  /^\}:$/i, src
+  /filterSource/cinherit src;
+' Cargo.nix
