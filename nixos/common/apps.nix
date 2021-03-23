@@ -56,6 +56,7 @@ in {
     fzf
     git
     gptfdisk
+    jq
     kakoune
     manpages
     mountext
