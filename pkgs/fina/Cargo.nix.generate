@@ -7,5 +7,5 @@ crate2nix generate --cargo-toml "$src/Cargo.toml"
 sed -i -r '
   /^\}:$/i, src
   /filterSource/cinherit src;
-  s,/nix/store/[a-z0-9]{32},/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee,g
+  s,/nix/store/.*/Cargo.toml,.../Cargo.toml,
 ' Cargo.nix
