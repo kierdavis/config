@@ -2,6 +2,7 @@ self: super: {
   admesh = super.callPackage ./admesh { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
   circleci = super.callPackage ./circleci { };
+  fina = super.callPackage ./fina { };
   ftb-launcher = super.callPackage ./ftb-launcher { };
   gds2svg = super.callPackage ./gds2svg { };
   hartmaster = super.callPackage ./hartmaster { };

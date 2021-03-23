@@ -26,6 +26,7 @@ in {
     marionette
 
     # Other
+    fina
     keybase
     sr-tools
   ];
