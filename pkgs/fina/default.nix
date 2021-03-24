@@ -9,10 +9,10 @@
 
 let
   crateName = "fina";
-  version = "0.2.1";
+  version = "0.3.0";
   src = fetchCrate {
     inherit crateName version;
-    sha256 = "16cmxv97jm7fv8676i2rs9nvzh3srrwzs3fgyivhinamvdwfhvah";
+    sha256 = "10q70wiqbrwj72rz1pwlclwsn3cmwqsayprli2dnmda5mqllvx15";
   };
   crate = (import ./Cargo.nix {
     inherit buildRustCrate defaultCrateOverrides lib stdenv;
