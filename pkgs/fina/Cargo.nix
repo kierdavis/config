@@ -668,7 +668,7 @@ rec {
       };
       "fina" = rec {
         crateName = "fina";
-        version = "0.2.1";
+        version = "0.3.0";
         edition = "2018";
         crateBin = [
           { name = "fina"; path = "src/main.rs"; }
