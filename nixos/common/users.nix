@@ -10,6 +10,7 @@ in {
   users.users.root = {
     # TODO: remove this
     hashedPassword = passwords.user.root;
+    openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
   };
 
   users.users.kier = {
