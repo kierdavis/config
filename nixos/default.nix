@@ -20,4 +20,9 @@ in
       configuration = machines/saelli.nix;
       system = "x86_64-linux";
     };
+
+    ptolemy = nixos {
+      configuration = machines/ptolemy.nix;
+      system = "x86_64-linux";
+    };
   }
