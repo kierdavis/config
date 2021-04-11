@@ -32,10 +32,13 @@ in {
     beets = super.beets.override {
       enableKeyfinder = false; # pulls in mesa-noglu
     };
-    # cairo = super.cairo.override {
-    #   x11Support = false;
-    # };
-    gnupg = super.gnupg.override {
+    cairo = super.cairo.override {
+      x11Support = false;
+    };
+    git = super.git.override {
+      guiSupport = false;
+    };
+    gnupg22 = super.gnupg22.override {
       # 'true' removes gpg-agent, which breaks password-store.
       enableMinimal = false;
       # This option's name isn't very descriptive of what it actually does.
@@ -50,6 +53,13 @@ in {
     gobject-introspection = super.gobject-introspection.override {
       x11Support = false;
     };
+    pango = (super.pango.override {
+      x11Support = false;
+    }).overrideAttrs (superAttrs: {
+      # docs fail to build when x11Support=false.
+      mesonFlags = (lib.lists.remove "-Dgtk_doc=true" superAttrs.mesonFlags) ++ ["-Dgtk_doc=false"];
+      outputs = lib.lists.remove "devdoc" superAttrs.outputs;
+    });
     pass = super.pass.override {
       dmenu = null;
       qrencode = null;
