@@ -3,6 +3,7 @@
 {
   imports = [
     ../common
+    ../extras/headless.nix
     ../extras/platform/grub.nix
   ];
 
