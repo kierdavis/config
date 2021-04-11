@@ -31,11 +31,12 @@ in rec {
 
   hosts = {
     ptolemy = {
-      addresses = {
+      addresses = rec {
         wg = "${networks.wg.prefix}::1";
         ptolemyGuests = "${networks.ptolemyGuests.prefix}::1";
         ptolemyGuests4 = "${networks.ptolemyGuests4.prefix}.1";
         internet = "192.168.1.27";  # Hack until installed in DC.
+        default.private = wg;
       };
       wgGatewayTo = [
         networks.ptolemyGuests.cidr
@@ -44,7 +45,7 @@ in rec {
       publicKey = "fUn4jHh1QLmuGZ1qNMI0nPMXAfqos7xMMTzFQHDw/0Q=";
     };
     coloris = {
-      addresses = {
+      addresses = rec {
         wg = "${networks.wg.prefix}::2";
       };
       publicKey = "1cxw/cG2D/+VDtb65q/R3H5XfIQr/k820+8Uz4Vqvz8=";

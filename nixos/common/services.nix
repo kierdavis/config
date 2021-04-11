@@ -1,8 +1,12 @@
 { config, lib, pkgs, ... }:
 
-let network = import ../../network.nix; in
+let
+  hist = import ../../hist.nix;
 
-{
+  syncthingListenAddr = hist.hosts."${config.machine.name}".addresses.default.private;
+  syncthingListenPort = 8384;
+
+in {
   # use timesyncd instead of ntpd
   # Explicit lower-than-usual priority of 150 is needed
   # so that <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
@@ -42,9 +46,13 @@ let network = import ../../network.nix; in
     systemService = true;
     user = "kier";
     group = config.users.users.kier.group;
-    guiAddress = "${network.byName."k8s.${config.machine.name}.cascade".address}:8384";
+    guiAddress = "${syncthingListenAddr}:${builtins.toString syncthingListenPort}";
   };
-  networking.firewall.allowedTCPPorts = [ 8384 ];
+  systemd.services.syncthing = lib.optionalAttrs (lib.hasPrefix "${hist.networks.wg.prefix}:" syncthingListenAddr) {
+    requires = ["wireguard-wg-hist.service"];
+    after = ["wireguard-wg-hist.service"];
+  };
+  networking.firewall.allowedTCPPorts = [ syncthingListenPort ];
 
   programs.gnupg.agent.enable = true;
 }
