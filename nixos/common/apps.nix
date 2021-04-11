@@ -81,6 +81,7 @@ in {
     nmap
     pciutils  # lspci
     sysstat   # iostat
+    tcpdump
     usbutils  # lsusb
 
     # Security
