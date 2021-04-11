@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  network = import ../../network.nix;
+  hist = import ../../hist.nix;
   passwords = import ../../secret/passwords.nix;
 in
 
@@ -11,9 +11,6 @@ in
   # Firewall
   networking.firewall.enable = lib.mkDefault true;
   networking.firewall.allowPing = true;
-  networking.firewall.allowedTCPPortRanges = [
-    { from = 8080; to = 8090; }
-  ];
 
   # Allow the 'gre' (Generic Routing Encapsulation) IP protocol.
   # The Windows PPTP VPN client uses this; if it is run in a VM, its traffic will still need to go through this firewall.
@@ -53,7 +50,6 @@ in
   networking.wireguard = {
     enable = true;
     interfaces.wg-hist = let
-      hist = import ../../hist.nix;
       localAddr = hist.hosts."${config.machine.name}".addresses.wg;
       prefixLength = hist.networks.wg.prefixLength;
     in {
@@ -68,4 +64,5 @@ in
       }) (lib.filterAttrs (peerName: _: peerName != config.machine.name) hist.hosts);
     };
   };
+  networking.firewall.allowedUDPPorts = [ hist.wgPort ];
 }
