@@ -4,8 +4,12 @@
   # mount a tmpfs on /tmp
   boot.tmpOnTmpfs = true;
 
-  # Don't forcibly import non-root ZFS pools during boot.
-  boot.zfs.forceImportAll = false;
+  # Don't forcibly import ZFS pools during boot.
+  boot.zfs = {
+    forceImportAll = false;
+    forceImportRoot = false;
+  };
+  boot.loader.grub.zfsSupport = true;
 
 #  # ZFS auto-snapshotting
 #  services.zfs.autoSnapshot = {
