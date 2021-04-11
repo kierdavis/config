@@ -52,27 +52,20 @@ in
 
   networking.wireguard = {
     enable = true;
-    interfaces.wg-k8s = let
-      localAddr = network.byName."k8s.${config.machine.name}.cascade".address;
-      prefixLength = network.byName."k8s.network.cascade".prefixLength;
+    interfaces.wg-hist = let
+      hist = import ../../hist.nix;
+      localAddr = hist.hosts."${config.machine.name}".addresses.wg;
+      prefixLength = hist.networks.wg.prefixLength;
     in {
-      ips = [ "${localAddr}/${builtins.toString prefixLength}" ];
-      privateKey = passwords.k8s-vpn."${config.machine.name}".private;
-      peers = [
-        (let
-          endpointAddr = network.byName."pub4.beagle2.cascade".address;
-          endpointPort = 14137;
-        in {
-          endpoint = "${endpointAddr}:${builtins.toString endpointPort}";
-          publicKey = passwords.k8s-vpn.beagle2.public;
-          allowedIPs = [
-            network.byName."k8s.network.cascade".cidr
-            "10.32.0.0/12"  # k8s pods
-            "10.96.0.0/12"  # k8s services
-          ];
-          persistentKeepalive = 25;
-        })
-      ];
+      ips = ["${localAddr}/${builtins.toString prefixLength}"];
+      listenPort = hist.wgPort;
+      privateKeyFile = "/etc/wg-hist.key";
+      peers = lib.mapAttrsToList (peerName: peer: {
+        inherit (peer) publicKey;
+        allowedIPs = ["${peer.addresses.wg}/128"] ++ (if peer ? wgGatewayTo then peer.wgGatewayTo else []);
+        endpoint = if peer ? addresses.internet then "${peer.addresses.internet}:${builtins.toString hist.wgPort}" else null;
+        persistentKeepalive = 25;
+      }) (lib.filterAttrs (peerName: _: peerName != config.machine.name) hist.hosts);
     };
   };
 }
