@@ -2,7 +2,7 @@
 
 {
   # mount a tmpfs on /tmp
-  boot.tmpOnTmpfs = true;
+  boot.tmpOnTmpfs = lib.mkDefault true;
 
   # Don't forcibly import ZFS pools during boot.
   boot.zfs = {
