@@ -2,7 +2,7 @@
 
 {
   nix.useSandbox = true;
-  nix.buildCores = 4;
+  nix.buildCores = config.machine.cpu.cores;
   nix.maxJobs = 2;
 
   nixpkgs.config.allowUnfree = true;
