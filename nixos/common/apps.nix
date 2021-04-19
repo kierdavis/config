@@ -77,6 +77,7 @@ in {
     dnsutils  # dig
     fping
     htop
+    lshw
     lsof
     nmap
     pciutils  # lspci
