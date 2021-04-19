@@ -56,4 +56,12 @@
 
   virtualisation.podman.enable = true;
   virtualisation.oci-containers.backend = "podman";
+
+  services.icingaweb2 = {
+    enable = true;
+    timezone = config.time.timeZone;
+  };
+
+  # TODO TODO TODO
+  networking.firewall.enable = false;
 }
