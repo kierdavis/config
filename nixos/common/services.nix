@@ -46,7 +46,7 @@ in {
     systemService = true;
     user = "kier";
     group = config.users.users.kier.group;
-    guiAddress = "${syncthingListenAddr}:${builtins.toString syncthingListenPort}";
+    guiAddress = "[${syncthingListenAddr}]:${builtins.toString syncthingListenPort}";
   };
   systemd.services.syncthing = lib.optionalAttrs (lib.hasPrefix "${hist.networks.wg.prefix}:" syncthingListenAddr) {
     requires = ["wireguard-wg-hist.service"];
