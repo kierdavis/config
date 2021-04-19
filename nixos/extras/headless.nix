@@ -3,6 +3,15 @@
 let
   mkLowPriority = lib.mkOverride 200;  # 100 is the default priority
 
+  refuse = name: pkgs.runCommand "refuse-${name}" {} ''
+    echo >&2 "If you're seeing this, your system has a dependency on ${name}, please remove it."
+    exit 1
+  '';
+
+  dummy = name: pkgs.runCommand "dummy-${name}" {} ''
+    mkdir -p $out
+  '';
+
 in {
   networking.wireless.enable = config.machine.wifi;
 
@@ -35,6 +44,9 @@ in {
     cairo = super.cairo.override {
       x11Support = false;
     };
+    dbus = super.dbus.override {
+      x11Support = false;
+    };
     git = super.git.override {
       guiSupport = false;
     };
@@ -53,6 +65,15 @@ in {
     gobject-introspection = super.gobject-introspection.override {
       x11Support = false;
     };
+    gtk2 = refuse "gtk2";
+    gtk2-x11 = refuse "gtk2-x11";
+    gtk3 = refuse "gtk3";
+    gtk3-x11 = refuse "gtk3-x11";
+    imagemagick = super.imagemagick.override {
+      libX11 = null;
+      libXext = null;
+      libXt = null;
+    };
     pango = (super.pango.override {
       x11Support = false;
     }).overrideAttrs (superAttrs: {
@@ -61,16 +82,25 @@ in {
       outputs = lib.lists.remove "devdoc" superAttrs.outputs;
     });
     pass = super.pass.override {
-      dmenu = null;
       qrencode = null;
       x11Support = false;
-      xclip = null;
-      xdotool = null;
       waylandSupport = false;
-      wl-clipboard = null;
     };
     pinentry = super.pinentry.override {
       enabledFlavors = [ "curses" "tty" ];
+    };
+    qemu_kvm = super.qemu_kvm.override {
+      gtkSupport = false;
+      sdlSupport = false;
+      spiceSupport = false;
+    };
+    SDL2 = super.SDL2.override {
+      x11Support = false;
+    };
+    wayland = refuse "wayland";
+    xorg = super.xorg // {
+      libxcb = refuse "libxcb";
+      libX11 = refuse "libX11";
     };
   })];
 }
