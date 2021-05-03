@@ -42,4 +42,14 @@ in
 
   # seccomp not supported.
   nix.extraOptions = "filter-syscalls = false";
+
+  # Avoid warnings from Perl when running nixos activation script on first login.
+  system.activationScripts = {
+    locale.text = ''
+      export LOCALE_ARCHIVE=${config.i18n.glibcLocales}/lib/locale/locale-archive
+      export LANG=${config.i18n.defaultLocale}
+    '';
+    etc.deps = [ "locale" ];
+    users.deps = [ "locale" ];
+  };
 }
