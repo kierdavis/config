@@ -21,10 +21,6 @@ in {
     kubesh
     kubernetes-helm
 
-    # Accounting
-    ledger
-    marionette
-
     # Other
     fina
     keybase
