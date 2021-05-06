@@ -44,9 +44,6 @@ in
   #};
   #networking.nameservers = [ "::1" ];
 
-  networking.nameservers = ["10.96.1.0" "208.67.222.222" "208.67.220.220"];
-  networking.networkmanager.dns = "none";
-
   networking.wireguard = {
     enable = true;
     interfaces.wg-hist = let
