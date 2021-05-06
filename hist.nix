@@ -50,5 +50,12 @@ in rec {
       };
       publicKey = "1cxw/cG2D/+VDtb65q/R3H5XfIQr/k820+8Uz4Vqvz8=";
     };
+    saelli = {
+      addresses = rec {
+        wg = "${networks.wg.prefix}::4";
+        default.private = wg;
+      };
+      publicKey = "mjplz2S5i8HvSFOVSyYpn6SLLipMWMGGf08Ld1VP3U8=";
+    };
   };
 }
