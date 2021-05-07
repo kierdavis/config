@@ -6,7 +6,7 @@
 { buildFHSUserEnv
 , fetchurl
 , stdenv
-, writeShellScriptBin
+, writeShellScript
 , withModelsim ? true
 , withHelp ? false
 , withArriaSupport ? false
@@ -54,22 +54,9 @@ let
     };
 
     # Create a wrapper around the installer that runs it in an FHS-compatible environment.
-    installerWrapperContents = stdenv.mkDerivation {
-      name = "${name}-installer-wrapper-contents";
-      phases = "buildPhase";
-      buildPhase = ''
-        runHook preBuild
-        mkdir -p $out/bin
-        echo '#!${stdenv.shell}' > $out/bin/entrypoint
-        echo 'exec "${extracted}/QuartusSetupWeb-${version}.run" "$@"' >> $out/bin/entrypoint
-        chmod +x $out/bin/entrypoint
-        runHook postBuild
-      '';
-    };
     installerWrapper = buildFHSUserEnv {
       name = "${name}-installer-wrapper";
-      targetPkgs = _: [ installerWrapperContents ];
-      runScript = "entrypoint";
+      runScript = "${extracted}/QuartusSetupWeb-${version}.run";
     };
 
     # Run the installer to create an installation of the Quartus software.
@@ -84,29 +71,9 @@ let
     };
     installationBinDir = "${installation}/quartus/bin";
 
-    # Since an FHS wrapper can only call one executable, we define a utility script to forward calls to any executable of our choice.
-    entrypointScriptPkg = writeShellScriptBin "${name}-entrypoint" ''
-      set -o errexit -o pipefail -o nounset
-      prog_name=$1
-      shift
-      exec "${installationBinDir}/$prog_name" "$@"
-    '';
-    entrypointScript = "${entrypointScriptPkg}/bin/${entrypointScriptPkg.name}";
-
     # Create a wrapper around the Quartus executables.
-    quartusWrapperContents = stdenv.mkDerivation {
-      name = "${name}-wrapper-contents";
-      phases = "buildPhase";
-      buildPhase = ''
-        runHook preBuild
-        mkdir -p $out/bin
-        ln -s ${entrypointScript} $out/bin/entrypoint
-        runHook postBuild
-      '';
-    };
     quartusWrapper = buildFHSUserEnv {
       name = "${name}-wrapper";
-      targetPkgs = _: [ quartusWrapperContents ];
       multiPkgs = pkgs: with pkgs; [
         fontconfig
         freetype
@@ -118,16 +85,19 @@ let
         xorg.libXrender
         zlib
       ];
-      runScript = "entrypoint";
+      runScript = writeShellScript "${name}-entrypoint" ''
+        prog_name=$1
+        shift
+        exec "${installationBinDir}/$prog_name" "$@"
+      '';
     };
 
     # Assemble a frontend that's useful to a user.
-    frontendScriptPkg = writeShellScriptBin "${name}-frontend" ''
+    frontendScript = writeShellScript "${name}-frontend" ''
       set -o errexit -o pipefail -o nounset
       prog_name=$(basename $0)
       exec ${quartusWrapper}/bin/${quartusWrapper.name} $prog_name "$@"
     '';
-    frontendScript = "${frontendScriptPkg}/bin/${frontendScriptPkg.name}";
     quartus = stdenv.mkDerivation {
       inherit name;
       phases = "buildPhase";
