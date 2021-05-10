@@ -47,6 +47,7 @@ in rec {
     coloris = {
       addresses = rec {
         wg = "${networks.wg.prefix}::2";
+        default.private = wg;
       };
       publicKey = "1cxw/cG2D/+VDtb65q/R3H5XfIQr/k820+8Uz4Vqvz8=";
     };
