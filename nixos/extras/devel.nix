@@ -22,6 +22,7 @@ in {
     kubernetes-helm
 
     # Other
+    duplicity
     fina
     keybase
     sr-tools
