@@ -55,4 +55,10 @@ in {
     [time]
     interval=5
   '';
+
+  # required for fluidsynth
+  security.pam.loginLimits = [
+    { domain = "@audio"; type = "-"; item = "rtprio"; value = "90"; }
+    { domain = "@audio"; type = "-"; item = "memlock"; value = "unlimited"; }
+  ];
 }
