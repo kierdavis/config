@@ -72,6 +72,7 @@
     drivers = [
       pkgs.gutenprint
       pkgs.cups-brother-hl1110
+      pkgs.hplip
     ];
   };
 
