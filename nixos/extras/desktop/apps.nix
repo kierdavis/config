@@ -24,12 +24,12 @@ in
   programs.steam.enable = true;
   virtualisation.virtualbox.host.enable = true;
   environment.systemPackages = with pkgs; [
-    chromium
     citrix_workspace
     dmenu
     evince
     gimp
     gnome3.eog
+    google-chrome
     i3blocks
     i3blocks-scripts
     i3lock
