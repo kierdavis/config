@@ -44,6 +44,13 @@ in rec {
       ];
       publicKey = "fUn4jHh1QLmuGZ1qNMI0nPMXAfqos7xMMTzFQHDw/0Q=";
     };
+    fingerbib = {
+      addresses = rec {
+        wg = "${networks.wg.prefix}::3";
+        default.private = wg;
+      };
+      publicKey = "s3AsWEhK5Zp+YIoWYIm/p2ESquPS7h3OSKQ7SXeIElg=";
+    };
     coloris = {
       addresses = rec {
         wg = "${networks.wg.prefix}::2";
