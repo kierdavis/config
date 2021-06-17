@@ -25,4 +25,9 @@ in
       configuration = machines/ptolemy.nix;
       system = "x86_64-linux";
     };
+
+    fingerbib = nixos {
+      configuration = machines/fingerbib.nix;
+      system = "x86_64-linux";
+    };
   }
