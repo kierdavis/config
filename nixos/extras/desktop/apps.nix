@@ -53,4 +53,10 @@ in
     repetier-host
     slic3r-prusa3d
   ];
+
+  # For spotify to sync local files to other devices on the LAN via uPnP:
+  networking.firewall = {
+    allowedTCPPorts = [ 57621 ];
+    allowedUDPPorts = [ 57621 ];
+  };
 }
