@@ -42,7 +42,6 @@ in {
   services.syncthing = {
     enable = true;
     dataDir = "/home/kier/.syncthing";
-    openDefaultPorts = true;
     systemService = true;
     user = "kier";
     group = config.users.users.kier.group;
@@ -52,7 +51,8 @@ in {
     requires = ["wireguard-wg-hist.service"];
     after = ["wireguard-wg-hist.service"];
   };
-  networking.firewall.allowedTCPPorts = [ syncthingListenPort ];
+  networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ 22000 syncthingListenPort ];
+  networking.firewall.interfaces.wg-hist.allowedUDPPorts = [ 21027 ];
 
   programs.gnupg.agent.enable = true;
 }
