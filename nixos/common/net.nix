@@ -7,10 +7,16 @@ in
 
 {
   networking.hostName = config.machine.name;
+  networking.domain = "hist";
+
+  networking.iproute2.enable = true;
 
   # Firewall
   networking.firewall.enable = lib.mkDefault true;
   networking.firewall.allowPing = true;
+
+  # Debugging:
+  networking.firewall.logReversePathDrops = true;
 
   # Allow the 'gre' (Generic Routing Encapsulation) IP protocol.
   # The Windows PPTP VPN client uses this; if it is run in a VM, its traffic will still need to go through this firewall.
@@ -55,11 +61,13 @@ in
       privateKeyFile = "/etc/wg-hist.key";
       peers = lib.mapAttrsToList (peerName: peer: {
         inherit (peer) publicKey;
-        allowedIPs = ["${peer.addresses.wg}/128"] ++ (if peer ? wgGatewayTo then peer.wgGatewayTo else []);
-        endpoint = if peer ? addresses.internet then "${peer.addresses.internet}:${builtins.toString hist.wgPort}" else null;
+        allowedIPs = ["${peer.addresses.wg}/128"] ++ (peer.wgGatewayTo or []);
+        endpoint = if peer ? addresses.default.public then "${peer.addresses.default.public}:${builtins.toString hist.wgPort}" else null;
         persistentKeepalive = 25;
-      }) (lib.filterAttrs (peerName: _: peerName != config.machine.name) hist.hosts);
+      }) (lib.filterAttrs (peerName: peerInfo: peerName != config.machine.name && peerInfo ? addresses.wg) hist.hosts);
     };
   };
   networking.firewall.allowedUDPPorts = [ hist.wgPort ];
+
+  networking.hosts = lib.groupBy' (names: entry: names ++ [entry.name]) [] (entry: entry.address) hist.dns;
 }
