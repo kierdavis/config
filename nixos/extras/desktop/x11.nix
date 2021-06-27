@@ -9,8 +9,6 @@
   services.xserver.videoDrivers = lib.optional config.machine.gpu.nvidia "nvidia";
   #hardware.opengl.extraPackages = lib.optional config.machine.cpu.intel pkgs.intel-ocl;
 
-  programs.nm-applet.enable = true;
-
   fonts.fontconfig.enable = true;
   fonts.fontconfig.dpi = 84;
 

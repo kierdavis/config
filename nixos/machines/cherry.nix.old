@@ -74,7 +74,6 @@ in { config, lib, pkgs, ... }: {
   # High-level configuration used by nixos/common/*.nix.
   machine = {
     name = "cherry";
-    wifi = false;
     ipv6-internet = false;
     cpu = {
       cores = 24;
