@@ -68,6 +68,7 @@ in {
     ripgrep
     screen
     sshfs
+    tree
     umountext
     unzip
     wget
