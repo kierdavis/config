@@ -52,7 +52,7 @@ let
             address = cfg.hostAddress;
             interface = "eth0";
           };
-          networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
+          networking.nameservers = hist.upstreamNameServers;
           networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
           networking.firewall.enable = true;
           networking.firewall.interfaces.eth0.allowedTCPPorts = [ cfg.httpPort ];

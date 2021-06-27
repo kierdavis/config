@@ -10,6 +10,7 @@ let
 
 in rec {
   wgPort = 9509;
+  upstreamNameServers = [ "1.1.1.1" "1.0.0.1" ];
 
   networks = {
     wg = withCIDR6 {
