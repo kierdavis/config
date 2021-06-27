@@ -9,20 +9,23 @@ let
       vpn.configFile = mkOption { type = types.path; };
       vpn.username = mkOption { type = types.str; };
       vpn.password = mkOption { type = types.str; };
+      vpn.hostName = mkOption { type = types.str; default = "vpn"; };
     };
     config = let
       cfg = config.torrentClient;
       vpnEndpoint = import (pkgs.runCommand "nordvpn-endpoint.nix" {} ''
         echo "{" >> $out
-        awk '/^remote /{print "addr=\""$2"\";port="$3";"}' < ${cfg.vpn.configFile} >> $out
+        awk '/^remote /{print "address=\""$2"\";port="$3";"}' < ${cfg.vpn.configFile} >> $out
         awk '/^proto /{print "protocol=\""$2"\";"}' < ${cfg.vpn.configFile} >> $out
         echo "}" >> $out
       '');
     in {
+      networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
       containers.transmission = {
         autoStart = true;
         ephemeral = true;
         privateNetwork = true;
+        enableTun = true;
         hostAddress = cfg.hostAddress;
         localAddress = cfg.containerAddress;
         bindMounts."/downloads" = {
@@ -50,15 +53,16 @@ let
             interface = "eth0";
           };
           networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
+          networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
           networking.firewall.enable = true;
           networking.firewall.interfaces.eth0.allowedTCPPorts = [ cfg.httpPort ];
-          # services.openvpn.servers.vpn = {
-          #   config = ''
-          #     config "${cfg.vpn.configFile}"
-          #     dev tun-vpn
-          #   '';
-          #   authUserPass = { inherit (cfg.vpn) username password; };
-          # };
+          services.openvpn.servers.vpn = {
+            config = ''
+              config "${cfg.vpn.configFile}"
+              dev tun-vpn
+            '';
+            authUserPass = { inherit (cfg.vpn) username password; };
+          };
           services.transmission = {
             enable = true;
             home = "/var/lib/transmission";
@@ -86,8 +90,8 @@ let
       };
       networking.firewall.extraCommands = ''
         ip46tables --flush transmission-egress || ip46tables --new-chain transmission-egress
-        iptables --append transmission-egress --protocol ${vpnEndpoint.protocol} --destination ${vpnEndpoint.addr} --destination-port ${builtins.toString vpnEndpoint.port} --jump ACCEPT
-        iptables --append transmission-egress --protocol icmp --icmp-type 8 --destination ${vpnEndpoint.addr} --jump ACCEPT
+        iptables --append transmission-egress --protocol ${vpnEndpoint.protocol} --destination ${vpnEndpoint.address} --destination-port ${builtins.toString vpnEndpoint.port} --jump ACCEPT
+        iptables --append transmission-egress --protocol icmp --icmp-type 8 --destination ${vpnEndpoint.address} --jump ACCEPT
         ip46tables --append transmission-egress --jump REJECT
         ip46tables --append FORWARD --in-interface ve-transmission --jump transmission-egress
       '';
@@ -169,6 +173,6 @@ in { config, lib, pkgs, ... }: {
   torrentClient = {
     hostAddress = "${hist.networks.pointToPoint.prefix}.1";
     containerAddress = "${hist.networks.pointToPoint.prefix}.2";
-    vpn = import ../../secret/nordvpn;
+    vpn = import ../../secret/nordvpn // { hostName = "nordvpn"; };
   };
 }
