@@ -3,8 +3,8 @@
 {
   imports = [
     ./apps.nix
-    ./dns-hack.nix
     ./etc.nix
+    ./google-chrome.nix
     ./x11.nix
   ];
 
