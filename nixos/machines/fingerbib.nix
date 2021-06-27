@@ -29,7 +29,7 @@ let
         hostAddress = cfg.hostAddress;
         localAddress = cfg.containerAddress;
         bindMounts."/downloads" = {
-          hostPath = "/data/.torrents";
+          hostPath = "/data/media/torrents";
           isReadOnly = false;
         };
         bindMounts."/var/lib/transmission" = {
@@ -103,7 +103,7 @@ let
         ip46tables --append FORWARD --in-interface ve-transmission --jump transmission-egress
       '';
       networking.nat.internalInterfaces = [ "ve-transmission" ];
-      hist.local.webServer.virtualHosts.transmission.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
+      hist.local.webServer.virtualHosts.torrents.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
     };
   };
 
@@ -116,7 +116,7 @@ let
     options.hist.local.webServer = with lib; {
       address = mkOption { type = types.str; default = hist.hosts.fingerbib.addresses.default.private; };
       httpPort = mkOption { type = types.int; default = 80; };
-      virtualHosts = mkOption { type = types.attrsOf types.attrs; };
+      virtualHosts = mkOption { type = types.attrsOf types.attrs; default = {}; };
     };
     config = {
       services.nginx = {
@@ -127,9 +127,9 @@ let
     };
   };
 
-  plexServer = { config, lib, pkgs, ... }: {
-    services.plex.enable = true;
-    hist.local.webServer.virtualHosts.plex.locations."/".proxyPass = "http://[::1]:32400/";
+  mediaServer = { config, lib, pkgs, ... }: {
+    services.jellyfin.enable = true;
+    hist.local.webServer.virtualHosts.media.locations."/".proxyPass = "http://[::1]:8096/";
   };
 
 in { config, lib, pkgs, ... }: {
@@ -139,7 +139,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/platform/grub.nix
     torrentClient
     webServer
-    plexServer
+    mediaServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.
@@ -168,8 +168,7 @@ in { config, lib, pkgs, ... }: {
   fileSystems = {
     "/" = { device = "fingerbib/os/root"; fsType = "zfs"; };
     "/boot" = { device = "/dev/disk/by-partlabel/fb_boot1"; fsType = "ext4"; };
-    "/data/.torrents" = { device = "fingerbib/data/torrents"; fsType = "zfs"; };
-    "/data/torrents" = { device = "/data/.torrents"; options = ["bind" "ro"]; };
+    "/data/media" = { device = "fingerbib/data/media"; fsType = "zfs"; };
     "/home" = { device = "fingerbib/data/home"; fsType = "zfs"; };
     "/nix/store" = { device = "fingerbib/os/nix-store"; fsType = "zfs"; };
     "/tmp" = { device = "fingerbib/transient/tmp"; fsType = "zfs"; };

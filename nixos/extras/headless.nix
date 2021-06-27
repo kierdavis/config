@@ -72,6 +72,9 @@ in {
       libXext = null;
       libXt = null;
     };
+    libva = (super.libva.override { minimal = true; }).overrideAttrs (superAttrs: {
+      nativeBuildInputs = with self; [ meson pkg-config ninja ];
+    });
     pango = (super.pango.override {
       x11Support = false;
     }).overrideAttrs (superAttrs: {
