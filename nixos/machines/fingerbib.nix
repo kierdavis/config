@@ -103,22 +103,33 @@ let
         ip46tables --append FORWARD --in-interface ve-transmission --jump transmission-egress
       '';
       networking.nat.internalInterfaces = [ "ve-transmission" ];
+      hist.local.webServer.virtualHosts.transmission.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
     };
   };
 
   webServer = { config, lib, pkgs, ... }: let
-    port = 80;
+    cfg = config.hist.local.webServer;
     defaultVirtualHost = {
-      listen = [ { addr = "[${hist.hosts.fingerbib.addresses.default.private}]"; inherit port; } ];
+      listen = [ { addr = "[${cfg.address}]"; port = cfg.httpPort; } ];
     };
   in {
-    services.nginx = {
-      enable = true;
-      virtualHosts.transmission = defaultVirtualHost // {
-        locations."/".proxyPass = "http://${config.torrentClient.containerAddress}:${builtins.toString config.torrentClient.httpPort}/";
-      };
+    options.hist.local.webServer = with lib; {
+      address = mkOption { type = types.str; default = hist.hosts.fingerbib.addresses.default.private; };
+      httpPort = mkOption { type = types.int; default = 80; };
+      virtualHosts = mkOption { type = types.attrsOf types.attrs; };
     };
-    networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ port ];
+    config = {
+      services.nginx = {
+        enable = true;
+        virtualHosts = lib.mapAttrs (_: vh: defaultVirtualHost // vh) cfg.virtualHosts;
+      };
+      networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ cfg.httpPort ];
+    };
+  };
+
+  plexServer = { config, lib, pkgs, ... }: {
+    services.plex.enable = true;
+    hist.local.webServer.virtualHosts.plex.locations."/".proxyPass = "http://[::1]:32400/";
   };
 
 in { config, lib, pkgs, ... }: {
@@ -128,6 +139,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/platform/grub.nix
     torrentClient
     webServer
+    plexServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.

@@ -59,7 +59,7 @@ in rec {
         default.private = wg;
       };
       publicKey = "s3AsWEhK5Zp+YIoWYIm/p2ESquPS7h3OSKQ7SXeIElg=";
-      virtualHosts = [ "transmission" ];
+      virtualHosts = [ "plex" "transmission" ];
     };
     coloris = {
       addresses = rec {
