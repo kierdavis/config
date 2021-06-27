@@ -29,7 +29,7 @@ let
         hostAddress = cfg.hostAddress;
         localAddress = cfg.containerAddress;
         bindMounts."/downloads" = {
-          hostPath = "/data/torrents";
+          hostPath = "/data/.torrents";
           isReadOnly = false;
         };
         bindMounts."/var/lib/transmission" = {
@@ -156,7 +156,8 @@ in { config, lib, pkgs, ... }: {
   fileSystems = {
     "/" = { device = "fingerbib/os/root"; fsType = "zfs"; };
     "/boot" = { device = "/dev/disk/by-partlabel/fb_boot1"; fsType = "ext4"; };
-    "/data/torrents" = { device = "fingerbib/data/torrents"; fsType = "zfs"; };
+    "/data/.torrents" = { device = "fingerbib/data/torrents"; fsType = "zfs"; };
+    "/data/torrents" = { device = "/data/.torrents"; options = ["bind" "ro"]; };
     "/home" = { device = "fingerbib/data/home"; fsType = "zfs"; };
     "/nix/store" = { device = "fingerbib/os/nix-store"; fsType = "zfs"; };
     "/tmp" = { device = "fingerbib/transient/tmp"; fsType = "zfs"; };
