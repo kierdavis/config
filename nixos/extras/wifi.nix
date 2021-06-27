@@ -1,14 +1,10 @@
 { config, pkgs, lib, ... }:
 
-let
-  wifiSecrets = (import ../../secret/passwords.nix).wifi;
-in {
+{
   networking.wireless = {
     enable = true;
-    networks = {
-      "tubbyfrog24" = {
-        psk = wifiSecrets.tubbyfrog;
-      };
-    };
+    userControlled.enable = true;
+    networks = import ../../secret/wifi-networks.nix;
   };
+  environment.systemPackages = [ pkgs.wpa_supplicant_gui ];
 }

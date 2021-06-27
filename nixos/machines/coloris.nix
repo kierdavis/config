@@ -9,6 +9,7 @@
     ../extras/platform/efi.nix
     ../extras/boinc.nix
     ../extras/desktop
+    ../extras/wifi.nix
     ../extras/audio.nix
     ../extras/devel.nix
   ];
@@ -16,7 +17,6 @@
   # High-level configuration used by nixos/common/*.nix.
   machine = {
     name = "coloris";
-    wifi = true;
     ipv6-internet = false;
     cpu = {
       cores = 4;

@@ -11,6 +11,7 @@ in { config, lib, pkgs, ... }:
     ../common
     ../extras/platform/efi.nix
     ../extras/desktop
+    ../extras/wifi.nix
     ../extras/audio.nix
     ../extras/low-power.nix
     ../extras/clickpad.nix
@@ -20,7 +21,6 @@ in { config, lib, pkgs, ... }:
   # High-level configuration used by nixos/common/*.nix.
   machine = {
     name = "saelli";
-    wifi = true;
     ipv6-internet = false;
     cpu = {
       cores = 4;

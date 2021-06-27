@@ -9,12 +9,6 @@ with lib;
       description = ''The machine's hostname.'';
     };
 
-    machine.wifi = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''Whether to enable wireless networking.'';
-    };
-
     machine.ipv6-internet = mkOption {
       type = types.bool;
       default = true;
