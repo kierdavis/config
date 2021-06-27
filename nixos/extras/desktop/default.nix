@@ -3,11 +3,10 @@
 {
   imports = [
     ./apps.nix
+    ./dns-hack.nix
     ./etc.nix
     ./x11.nix
   ];
-
-  networking.networkmanager.enable = true;
 
   # Plymouth splash screen during boot.
   boot.plymouth.enable = true;
