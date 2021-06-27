@@ -123,6 +123,10 @@ let
         enable = true;
         virtualHosts = lib.mapAttrs (_: vh: defaultVirtualHost // vh) cfg.virtualHosts;
       };
+      hist.local.webServer.virtualHosts.default = {
+        default = true;
+        locations."/".return = ''404 "no such virtual host"'';
+      };
       networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ cfg.httpPort ];
     };
   };
@@ -131,6 +135,21 @@ let
     services.jellyfin.enable = true;
     hist.local.webServer.virtualHosts.media.locations."/".proxyPass = "http://[::1]:8096/";
   };
+
+  /*
+  icinga = { config, lib, pkgs, ... }: {
+    services.icingaweb2 = {
+      enable = true;
+      virtualHost = "fingerbib-icinga";
+      authentications.autologin.backend = "external";
+      modules.monitoring.enable = true;
+    };
+    services.nginx.virtualHosts."fingerbib-icinga" = {
+      listen = config.services.nginx.virtualHosts.default.listen;
+      locations."~ ^/index.php(.*)$".extraConfig = lib.mkAfter "fastcgi_param REMOTE_USER kier;";
+    };
+  };
+  */
 
 in { config, lib, pkgs, ... }: {
   imports = [
