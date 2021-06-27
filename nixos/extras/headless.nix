@@ -13,8 +13,6 @@ let
   '';
 
 in {
-  networking.wireless.enable = config.machine.wifi;
-
   #environment.noXlibs = mkLowPriority true;
   boot.vesa = mkLowPriority false;
   fonts.fontconfig.enable = mkLowPriority false;
