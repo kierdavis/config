@@ -79,6 +79,13 @@ let
               prefetch-enabled = true;
               utp-enabled = true;
               encryption = 2;
+              speed-limit-up = 1000;
+              speed-limit-up-enabled = true;
+              speed-limit-down = 1000;
+              speed-limit-down-enabled = true;
+              alt-speed-up = 200;
+              alt-speed-down = 200;
+              alt-speed-enabled = false; # "turtle" mode
               rpc-enabled = true;
               rpc-bind-address = cfg.containerAddress;
               rpc-port = cfg.httpPort;
