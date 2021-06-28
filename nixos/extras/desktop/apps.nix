@@ -28,6 +28,7 @@
     signal-desktop
     spotify
     terminator
+    tor-browser-bundle-bin
     vlc
     zoom-us
 
