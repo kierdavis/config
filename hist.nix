@@ -59,7 +59,7 @@ in rec {
         default.private = wg;
       };
       publicKey = "s3AsWEhK5Zp+YIoWYIm/p2ESquPS7h3OSKQ7SXeIElg=";
-      virtualHosts = [ "fingerbib-icinga" "media" "torrents" ];
+      virtualHosts = [ "fingerbib-icinga" "media" "printing" "torrents" ];
     };
     coloris = {
       addresses = rec {
