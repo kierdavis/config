@@ -151,6 +151,21 @@ let
   };
   */
 
+  printServer = { config, lib, pkgs, ... }: {
+    config = {
+      services.printing = {
+        enable = true;
+        listenAddresses = ["localhost:631"];
+        drivers = [
+          pkgs.gutenprint
+          # pkgs.cups-brother-hl1110
+          pkgs.hplip
+        ];
+      };
+      hist.local.webServer.virtualHosts.printing.locations."/".proxyPass = "http://localhost:631/";
+    };
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -159,6 +174,7 @@ in { config, lib, pkgs, ... }: {
     torrentClient
     webServer
     mediaServer
+    printServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.

@@ -3,10 +3,12 @@
 let
   mkLowPriority = lib.mkOverride 200;  # 100 is the default priority
 
-  refuse = name: pkgs.runCommand "refuse-${name}" {} ''
+  refuse = name: (pkgs.runCommand "refuse-${name}" {} ''
     echo >&2 "If you're seeing this, your system has a dependency on ${name}, please remove it."
     exit 1
-  '';
+  '') // {
+    dev = refuse "${name}.dev";
+  };
 
   dummy = name: pkgs.runCommand "dummy-${name}" {} ''
     mkdir -p $out
@@ -36,6 +38,9 @@ in {
     dbus = super.dbus.override {
       x11Support = false;
     };
+    ghostscript = super.ghostscript.override {
+      x11Support = false;
+    };
     git = super.git.override {
       guiSupport = false;
     };
@@ -58,14 +63,27 @@ in {
     gtk2-x11 = refuse "gtk2-x11";
     gtk3 = refuse "gtk3";
     gtk3-x11 = refuse "gtk3-x11";
+    hplip = super.hplip.override {
+      withQt5 = false;
+    };
     imagemagick = super.imagemagick.override {
       libX11 = null;
       libXext = null;
       libXt = null;
     };
+    libGL = refuse "libGL";
     libva = (super.libva.override { minimal = true; }).overrideAttrs (superAttrs: {
       nativeBuildInputs = with self; [ meson pkg-config ninja ];
     });
+    mupdf = super.mupdf.override {
+      enableGL = false;
+      enableX11 = false;
+    };
+    net-snmp = super.net-snmp.override {
+      perlPackages = self.perlPackages // {
+        Tk = null;
+      };
+    };
     pango = (super.pango.override {
       x11Support = false;
     }).overrideAttrs (superAttrs: {
@@ -78,8 +96,19 @@ in {
       x11Support = false;
       waylandSupport = false;
     };
+    perlPackages = super.perlPackages // {
+      Tk = refuse "perlPackages.Tk";
+    };
     pinentry = super.pinentry.override {
       enabledFlavors = [ "curses" "tty" ];
+    };
+    python3Packages = self.python3.pkgs;
+    python3 = super.python3.override {
+      packageOverrides = pythonSelf: pythonSuper: {
+        pycairo = pythonSuper.pycairo.override {
+          xlibsWrapper = null;
+        };
+      };
     };
     qemu_kvm = super.qemu_kvm.override {
       gtkSupport = false;
