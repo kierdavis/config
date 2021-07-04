@@ -109,8 +109,9 @@ let
 
   webServer = { config, lib, pkgs, ... }: let
     cfg = config.hist.local.webServer;
-    defaultVirtualHost = {
+    defaultVirtualHost = name: {
       listen = [ { addr = "[${cfg.address}]"; port = cfg.httpPort; } ];
+      serverAliases = [ "${name}.hist" ];
     };
   in {
     options.hist.local.webServer = with lib; {
@@ -121,7 +122,7 @@ let
     config = {
       services.nginx = {
         enable = true;
-        virtualHosts = lib.mapAttrs (_: vh: defaultVirtualHost // vh) cfg.virtualHosts;
+        virtualHosts = lib.mapAttrs (name: vh: defaultVirtualHost name // vh) cfg.virtualHosts;
       };
       hist.local.webServer.virtualHosts.default = {
         default = true;
