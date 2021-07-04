@@ -13,6 +13,7 @@
   virtualisation.virtualbox.host.enable = true;
   environment.systemPackages = with pkgs; [
     citrix_workspace
+    cups  # client
     dmenu
     evince
     gimp
@@ -46,4 +47,7 @@
     allowedTCPPorts = [ 57621 ];
     allowedUDPPorts = [ 57621 ];
   };
+
+  environment.variables.CUPS_SERVER = "printing.hist:80";
+  environment.variables.PRINTER = "HP_Envy_5640";
 }
