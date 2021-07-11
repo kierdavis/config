@@ -7,7 +7,9 @@
       nativeBuildInputs = (if oldAttrs ? nativeBuildInputs then oldAttrs.nativeBuildInputs else []) ++ [ self.makeWrapper ];
       preFixup = ''
         ${if oldAttrs ? preFixup then oldAttrs.preFixup else ""}
-        wrapProgram $out/bin/boincmgr --run 'cd ''${BOINC_DATA_DIR:-${config.services.boinc.dataDir}}'
+        if [[ -e $out/bin/boincmgr ]]; then
+          wrapProgram $out/bin/boincmgr --run 'cd ''${BOINC_DATA_DIR:-${config.services.boinc.dataDir}}'
+        fi
       '';
       # Hide warnings when compiling.
       NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
