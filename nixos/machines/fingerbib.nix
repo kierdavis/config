@@ -110,13 +110,11 @@ let
   webServer = { config, lib, pkgs, ... }: let
     cfg = config.hist.local.webServer;
     defaultVirtualHost = name: {
-      listen = [ { addr = "[${cfg.address}]"; port = cfg.httpPort; } ];
+      listen = [ { addr = "[${hist.hosts.fingerbib.addresses.wg}]"; port = 80; } ];
       serverAliases = [ "${name}.hist" ];
     };
   in {
     options.hist.local.webServer = with lib; {
-      address = mkOption { type = types.str; default = hist.hosts.fingerbib.addresses.default.private; };
-      httpPort = mkOption { type = types.int; default = 80; };
       virtualHosts = mkOption { type = types.attrsOf types.attrs; default = {}; };
     };
     config = {
@@ -128,13 +126,21 @@ let
         default = true;
         locations."/".return = ''404 "no such virtual host"'';
       };
-      networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ cfg.httpPort ];
+      networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ 80 ];
     };
   };
 
   mediaServer = { config, lib, pkgs, ... }: {
     services.jellyfin.enable = true;
-    hist.local.webServer.virtualHosts.media.locations."/".proxyPass = "http://[::1]:8096/";
+    hist.local.webServer.virtualHosts.media.locations."/".proxyPass = "http://localhost:8096/";
+    hist.local.webServer.virtualHosts.media-lan = {
+      listen = [ { addr = "${hist.hosts.fingerbib.addresses.lan}"; port = 80; } ];
+      serverName = "media";
+      serverAliases = [ "media.fritz.box" ];
+      default = true;
+      locations."/".proxyPass = "http://localhost:8096/";
+    };
+    networking.firewall.interfaces.br-lan.allowedTCPPorts = [ 80 ];
   };
 
   /*
@@ -222,7 +228,15 @@ in { config, lib, pkgs, ... }: {
   networking.useDHCP = false;
   services.udev.extraRules = ''ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:37:e6:bd:b8:54", NAME="en-lan"'';
   networking.bridges.br-lan.interfaces = [ "en-lan" ];
-  networking.interfaces.br-lan.useDHCP = true;
+  networking.interfaces.br-lan.ipv4.addresses = [{
+    address = hist.hosts.fingerbib.addresses.lan;
+    prefixLength = hist.networks.lan.prefixLength;
+  }];
+  networking.defaultGateway = {
+    address = "${hist.networks.lan.prefix}.1";
+    interface = "br-lan";
+  };
+  networking.nameservers = [ config.networking.defaultGateway.address ];
   networking.nat.enable = true;
   networking.nat.externalInterface = "br-lan";
 

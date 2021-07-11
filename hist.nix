@@ -13,6 +13,11 @@ in rec {
   upstreamNameServers = [ "1.1.1.1" "1.0.0.1" ];
 
   networks = {
+    lan = withCIDR4 {
+      prefix = "192.168.178";
+      prefixLength = 24;
+      mask = "255.255.255.0"; # TODO: easy way to compute this from prefixLength?
+    };
     wg = withCIDR6 {
       prefix = "fdec:affb:e11e:1";
       prefixLength = 64;
@@ -54,8 +59,9 @@ in rec {
     };
     fingerbib = {
       addresses = rec {
+        lan = "${networks.lan.prefix}.3";
         wg = "${networks.wg.prefix}::3";
-        default.public = "192.168.178.34";
+        default.public = lan;
         default.private = wg;
       };
       publicKey = "s3AsWEhK5Zp+YIoWYIm/p2ESquPS7h3OSKQ7SXeIElg=";
