@@ -32,6 +32,23 @@ in {
     beets = super.beets.override {
       enableKeyfinder = false; # pulls in mesa-noglu
     };
+    boinc = (super.boinc.override {
+      libGL = null;
+      libGLU = null;
+      libXmu = null;
+      libXi = null;
+      freeglut = null;
+      libjpeg = null;
+      wxGTK30 = null;
+      xcbutil = null;
+      gtk2 = null;
+      libXScrnSaver = null;
+      libX11 = null;
+      libxcb = null;
+    }).overrideDerivation (superAttrs: {
+      NIX_LDFLAGS = "";
+      configureFlags = ["--disable-manager"];
+    });
     cairo = super.cairo.override {
       x11Support = false;
     };
@@ -59,6 +76,9 @@ in {
     gobject-introspection = super.gobject-introspection.override {
       x11Support = false;
     };
+    gpgme = super.gpgme.override {
+      qtbase = null;
+    };
     gtk2 = refuse "gtk2";
     gtk2-x11 = refuse "gtk2-x11";
     gtk3 = refuse "gtk3";
@@ -71,7 +91,6 @@ in {
       libXext = null;
       libXt = null;
     };
-    libGL = refuse "libGL";
     libva = (super.libva.override { minimal = true; }).overrideAttrs (superAttrs: {
       nativeBuildInputs = with self; [ meson pkg-config ninja ];
     });
@@ -84,6 +103,10 @@ in {
         Tk = null;
       };
     };
+    openjdk = super.openjdk.override { headless = true; };
+    openjdk8 = super.openjdk8.override { headless = true; };
+    oepnjdk11 = super.openjdk11.override { headless = true; };
+    openjdk14 = super.openjdk14.override { headless = true; };
     pango = (super.pango.override {
       x11Support = false;
     }).overrideAttrs (superAttrs: {
@@ -110,17 +133,36 @@ in {
         };
       };
     };
+    qemu = super.qemu.override {
+      gtkSupport = false;
+      sdlSupport = false;
+      spiceSupport = false;
+    };
     qemu_kvm = super.qemu_kvm.override {
       gtkSupport = false;
       sdlSupport = false;
       spiceSupport = false;
     };
+    qtbase = refuse "qtbase";
     SDL2 = super.SDL2.override {
       x11Support = false;
     };
+    virtualbox = (super.virtualbox.override {
+      headless = true;
+      pulseSupport = false;
+      xorgproto = null;
+      libX11 = null;
+      libXext = null;
+      libXcursor = null;
+      libXmu = null;
+      libGL = null;
+      # Not strictly needed for headless, but makes the dependency tree simpler.
+      javaBindings = false;
+    }).overrideAttrs (superAttrs: {
+      configureFlags = [ "--build-headless" ];
+    });
     wayland = refuse "wayland";
     xorg = super.xorg // {
-      libxcb = refuse "libxcb";
       libX11 = refuse "libX11";
     };
   })];
