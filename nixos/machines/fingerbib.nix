@@ -76,7 +76,6 @@ let
               dht-enabled = true;
               lpd-enabled = true;
               pex-enabled = true;
-              prefetch-enabled = true;
               utp-enabled = true;
               encryption = 2;
               speed-limit-up = 1000;
@@ -91,6 +90,9 @@ let
               rpc-port = cfg.httpPort;
               rpc-whitelist-enabled = false;
               rpc-authentication-required = false;
+              prefetch-enabled = true;
+              cache-size-mb = 100;
+              download-queue-enabled = false;
             };
           };
         };
