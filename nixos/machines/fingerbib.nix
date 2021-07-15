@@ -178,7 +178,7 @@ let
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
-    # ../extras/boinc.nix
+    ../extras/boinc.nix
     ../extras/headless.nix
     ../extras/platform/grub.nix
     torrentClient

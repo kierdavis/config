@@ -8,7 +8,7 @@ in {
     dataDir = "/var/lib/boinc";
     allowRemoteGuiRpc = true;
     extraEnvPackages = [
-      pkgs.virtualbox
+      # pkgs.virtualbox
       pkgs.ocl-icd
     ] ++ lib.optional config.machine.gpu.nvidia nvidia_x11;
   };
@@ -18,4 +18,6 @@ in {
   ];
 
   environment.variables.BOINC_DATA_DIR = config.services.boinc.dataDir;
+
+  networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ 31416 ];
 }
