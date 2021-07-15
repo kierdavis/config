@@ -63,9 +63,12 @@ let
             '';
             authUserPass = { inherit (cfg.vpn) username password; };
           };
+          users.groups.media = config.users.groups.media;
           services.transmission = {
             enable = true;
             home = "/var/lib/transmission";
+            user = "transmission";
+            group = "media";
             settings = {
               download-dir = "/downloads";
               incomplete-dir-enabled = false;
@@ -93,6 +96,7 @@ let
               prefetch-enabled = true;
               cache-size-mb = 100;
               download-queue-enabled = false;
+              umask = 18; # decimal equiv of octal 022
             };
           };
         };
@@ -247,4 +251,28 @@ in { config, lib, pkgs, ... }: {
     containerAddress = "${hist.networks.pointToPoint.prefix}.2";
     vpn = import ../../secret/nordvpn // { hostName = "nordvpn"; };
   };
+
+  users.groups.media = {
+    gid = 398;
+  };
+  users.users.kier.extraGroups = ["media"];
+  users.users.media = {
+    description = "Media";
+    uid = config.users.groups.media.gid;
+    group = "media";
+    home = "/data/media";
+    isSystemUser = true;
+    useDefaultShell = true;
+  };
+  users.users.transmission = {
+    description = "Transmission BitTorrent user";
+    uid = config.ids.uids.transmission;
+    group = "media";
+    home = "/data/media/torrents";
+    isSystemUser = true;
+    useDefaultShell = true;
+  };
+
+  # Allow media user to create hardlinks to files owned by transmission.
+  boot.kernel.sysctl."fs.protected_hardlinks" = 0;
 }
