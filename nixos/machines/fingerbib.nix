@@ -81,9 +81,9 @@ let
               pex-enabled = true;
               utp-enabled = true;
               encryption = 2;
-              speed-limit-up = 1000;
+              speed-limit-up = 2000;
               speed-limit-up-enabled = true;
-              speed-limit-down = 1000;
+              speed-limit-down = 2000;
               speed-limit-down-enabled = true;
               alt-speed-up = 200;
               alt-speed-down = 200;
