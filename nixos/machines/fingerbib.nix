@@ -217,6 +217,7 @@ in { config, lib, pkgs, ... }: {
   fileSystems = {
     "/" = { device = "fingerbib/os/root"; fsType = "zfs"; };
     "/boot" = { device = "/dev/disk/by-partlabel/fb_boot1"; fsType = "ext4"; };
+    "/data" = { device = "fingerbib/data/data"; fsType = "zfs"; };
     "/data/media" = { device = "fingerbib/data/media"; fsType = "zfs"; };
     "/home" = { device = "fingerbib/data/home"; fsType = "zfs"; };
     "/nix/store" = { device = "fingerbib/os/nix-store"; fsType = "zfs"; };
