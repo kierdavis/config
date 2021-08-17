@@ -15,6 +15,22 @@
       NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
     });
 
+    # Fix hardcoded filenames, and expectation of xinit being on PATH.
+    tigervnc = super.tigervnc.overrideDerivation (oldAttrs: {
+      preFixup = ''
+        substituteInPlace $out/bin/.vncserver-wrapped \
+          --replace /etc/X11/xinit/Xsession '$ENV{XSESSION}' \
+          --replace /usr/share/xsessions '$ENV{XSESSIONS_DIR}' \
+          --replace '$vncUserDir/config' '$ENV{CONFIG}'
+        wrapProgram $out/bin/.vncserver-wrapped \
+          --prefix PATH : ${lib.makeBinPath [pkgs.xorg.xinit]} \
+          --set-default XSESSION ${config.services.xserver.displayManager.sessionData.wrapper} \
+          --set-default XSESSIONS_DIR /usr/share/xsessions \
+          --set-default CONFIG '$HOME/.vnc/config'
+        ${oldAttrs.preFixup or ""}
+      '';
+    });
+
     # --podman isn't available in any release yet.
     x11docker = super.x11docker.overrideDerivation (oldAttrs: {
       version = "6.6.2-unstable";
