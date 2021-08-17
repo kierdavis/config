@@ -15,11 +15,6 @@
       NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
     });
 
-    # Ensure backblaze B2 CLI is available in PATH.
-    duplicity = super.duplicity.overrideDerivation (oldAttrs: {
-      propagatedBuildInputs = oldAttrs.propagatedBuildInputs ++ [ self.backblaze-b2 ];
-    });
-
     # --podman isn't available in any release yet.
     x11docker = super.x11docker.overrideDerivation (oldAttrs: {
       version = "6.6.2-unstable";

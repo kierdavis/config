@@ -1,6 +1,6 @@
-{ stdenv, fetchsvn }:
+{ stdenv, lib, fetchsvn }:
 
-with stdenv.lib;
+with lib;
 
 let
   svnSources = import ./svn-sources.nix { inherit fetchsvn; };

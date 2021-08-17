@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, makeWrapper, which, cmake, perl, perlPackages,
+{ stdenv, lib, fetchFromGitHub, makeWrapper, which, cmake, perl, perlPackages,
   boost, tbb, wxGTK30, pkgconfig, gtk3, fetchurl, gtk2, libGLU,
   glew, eigen, curl }:
 let
@@ -96,7 +96,7 @@ stdenv.mkDerivation rec {
     rev = "version_${version}";
   };
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "G-code generator for 3D printer";
     homepage = https://github.com/prusa3d/Slic3r;
     license = licenses.agpl3;

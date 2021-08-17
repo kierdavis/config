@@ -1,4 +1,4 @@
-{ buildPerlPackage, fetchFromGitHub, fetchurl, perl, stdenv }:
+{ buildPerlPackage, fetchFromGitHub, fetchurl, lib, perl, stdenv }:
 
 let
   perl-gds2 = buildPerlPackage rec {
@@ -9,7 +9,7 @@ let
     };
     meta = {
       homepage = https://metacpan.org/module/GDS2;
-      license = stdenv.lib.licenses.unknown;
+      license = lib.licenses.unknown;
     };
   };
 
@@ -21,7 +21,7 @@ let
     };
     meta = {
       description = "Perl extension for generating Scalable Vector Graphics (SVG) documents";
-      license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
+      license = with lib.licenses; [ artistic1 gpl1Plus ];
     };
   };
 
