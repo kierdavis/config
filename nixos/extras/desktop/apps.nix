@@ -36,9 +36,9 @@
     geda
     kicad
     pcb
+    prusa-slicer
     quartus
     repetier-host
-    slic3r-prusa3d
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:
