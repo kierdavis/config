@@ -13,7 +13,7 @@
 
   # High-level configuration used by nixos/common/*.nix.
   machine = {
-    name = "coloris-win";
+    name = "coloris";
     cpu = {
       cores = 4;
     };
