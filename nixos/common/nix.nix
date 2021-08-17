@@ -3,7 +3,10 @@
 {
   nix.useSandbox = true;
   nix.buildCores = config.machine.cpu.cores;
-  nix.maxJobs = 2;
+  # If there is more than one job running and they're all running make -j$buildCores -l$buildCores,
+  # then system load will likely be higher than $buildCores and so each job ends up only using one core each.
+  # So we might as well spawn one job per core.
+  nix.maxJobs = config.machine.cpu.cores;
 
   nixpkgs.config.allowUnfree = true;
 
