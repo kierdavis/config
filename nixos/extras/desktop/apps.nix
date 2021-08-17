@@ -32,10 +32,10 @@
     zoom-us
 
     # Development
+    freecad
     geda
     pcb
     quartus
-    freecad
     repetier-host
     slic3r-prusa3d
   ];
