@@ -46,7 +46,7 @@
     fromImage = pkgs.dockerTools.pullImage {
       imageName = "docker.io/library/centos";
       imageDigest = "sha256:e4ca2ed0202e76be184e75fb26d14bf974193579039d5573fb2348664deef76e";
-      sha256 = "0sacyliqb1zhqccwiy2l99zk0sa7dhbxi5p4447rhnpjvd9s4s44";
+      sha256 = "1f0nri9aggnjgcr1ik1ca1n6al0wyjw087lfcqi8nxaylph88x97";
     };
     runAsRoot = ''
       yum install --assumeyes ${builtins.concatStringsSep " " packages}
