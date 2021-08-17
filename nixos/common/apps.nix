@@ -60,6 +60,7 @@ in {
     kakoune
     manpages
     mountext
+    ncdu
     nixos-rebuild-remote
     pbzip2
     pigz
