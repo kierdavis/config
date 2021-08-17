@@ -1,4 +1,4 @@
-{ fetchurl, gtk2, mono, stdenv }:
+{ fetchurl, gtk2, makeWrapper, mono, stdenv }:
 
 stdenv.mkDerivation rec {
   name = "repetier-host-${version}";
@@ -9,27 +9,22 @@ stdenv.mkDerivation rec {
     hash = "sha256:10n3liwww7alcxxavkr12ps8s549rix5qykqgic1skrqah14nrg5";
   };
 
+  nativeBuildInputs = [ makeWrapper ];
+
   buildPhase = ''
     runHook preBuild
 
-    frontend=$NIX_BUILD_TOP/repetier-host
     set_baudrate=$NIX_BUILD_TOP/SetBaudrate
-    instdir=$out/lib/repetier-host
-
-    echo "#!${stdenv.shell}" > $frontend
-    echo "cd $instdir" >> $frontend
-    echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${gtk2}/lib' >> $frontend
-    echo "${mono}/bin/mono $instdir/RepetierHost.exe -home $instdir" >> $frontend
+    instdir=$out/libexec/repetier-host
 
     # This program breaks if optimisations are enabled!!!
-    g++ -O0 SetBaudrate.cpp -o $set_baudrate
+    g++ -O0 -w SetBaudrate.cpp -o $set_baudrate
 
     runHook postBuild
   '';
 
   installPhase = ''
     runHook preInstall
-    install -D -m 0755 $frontend $out/bin/repetier-host
     install -D -m 0755 $set_baudrate $instdir/SetBaudrate
     for file in *.{application,dll,exe,exe.config,exe.manifest}; do
       install -D -m 0644 $file $instdir/$file
@@ -40,7 +35,13 @@ stdenv.mkDerivation rec {
     for file in changelog.txt README.txt Repetier-Host-licence.txt; do
       install -D -m 0644 $file $out/share/doc/repetier-host/$file
     done
+    install -D -m 0644 repetier-logo.png $out/share/icons/hicolor/128x128/apps/repetier-host.png
     # TODO: createDesktopIcon.sh Repetier-Host.desktop Repetier-Host.menu RepetierHostMimeTypes.xml repetier-RepetierHost.desktop
+    install -D -m 0755 -d $out/bin
+    makeWrapper ${mono}/bin/mono $out/bin/repetier-host \
+      --run "cd $instdir" \
+      --prefix LD_LIBRARY_PATH : ${gtk2}/lib \
+      --add-flags "$instdir/RepetierHost.exe -home $instdir"
     runHook postInstall
   '';
 }
