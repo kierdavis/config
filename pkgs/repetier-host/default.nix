@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   name = "repetier-host-${version}";
-  version = "2.1.3";
+  version = "2.2.2";
 
   src = fetchurl {
-    url = "http://download.repetier.com/files/host/linux/repetierHostLinux_2_1_3.tgz";
-    sha256 = "1wrf9yr3r57j0lb1lc36rm5n86nzyr7wqlkzix5d746c0m36chfy";
+    url = "https://download3.repetier.com/files/host/linux/repetierHostLinux_2_2_2.tgz";
+    hash = "sha256:10n3liwww7alcxxavkr12ps8s549rix5qykqgic1skrqah14nrg5";
   };
 
   buildPhase = ''
@@ -21,7 +21,8 @@ stdenv.mkDerivation rec {
     echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${gtk2}/lib' >> $frontend
     echo "${mono}/bin/mono $instdir/RepetierHost.exe -home $instdir" >> $frontend
 
-    g++ -O2 SetBaudrate.cpp -o $set_baudrate
+    # This program breaks if optimisations are enabled!!!
+    g++ -O0 SetBaudrate.cpp -o $set_baudrate
 
     runHook postBuild
   '';
