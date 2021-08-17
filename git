@@ -13,3 +13,5 @@
 	conflictStyle = diff3
 [pull]
 	rebase = true
+[diff]
+	algorithm = minimal
