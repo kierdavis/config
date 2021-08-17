@@ -34,6 +34,7 @@
     # Development
     freecad
     geda
+    kicad
     pcb
     quartus
     repetier-host
