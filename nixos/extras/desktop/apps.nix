@@ -21,8 +21,6 @@
     i3blocks
     i3blocks-scripts
     i3lock
-    multimc
-    openttd_1_10_2
     pavucontrol
     pinentry-gnome
     screenshot
