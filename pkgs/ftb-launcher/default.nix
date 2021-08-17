@@ -1,8 +1,8 @@
-{ stdenv, fetchurl
+{ stdenv, lib, fetchurl
 , jre, libX11, libXext, libXcursor, libXrandr, libXxf86vm
 , mesa, openal }:
 
-with stdenv.lib;
+with lib;
 
 stdenv.mkDerivation {
   name = "ftb-launcher-2";
@@ -32,7 +32,7 @@ stdenv.mkDerivation {
   meta = {
     description = "A sandbox-building game";
     homepage = http://www.minecraft.net;
-    maintainers = with stdenv.lib.maintainers; [ page ryantm ];
+    maintainers = with lib.maintainers; [ page ryantm ];
     license = licenses.unfree;
   };
 }

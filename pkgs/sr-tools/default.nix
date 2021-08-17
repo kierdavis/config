@@ -64,6 +64,7 @@ let
       docutils
       imagesize
       jinja2
+      packaging
       pygments
       requests
       setuptools

@@ -22,6 +22,7 @@ args@{
   #gtk3,
   #gtkglext,
   #lesstif,
+  lib,
   #libXt,
   pkgconfig,
   stdenv,
@@ -29,7 +30,7 @@ args@{
   features ? defaultFeatures
 }:
 
-with stdenv.lib;
+with lib;
 
 let
   # 'features' is the parameter provided to the derivation,

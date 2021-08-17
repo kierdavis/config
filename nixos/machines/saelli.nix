@@ -48,6 +48,9 @@ in { config, lib, pkgs, ... }:
   swapDevices = [ { device = "/dev/disk/by-uuid/d9939f0d-3e6c-439e-a308-e1b40a254b9f"; } ];
   fileSystems.efi.device = "/dev/disk/by-uuid/5036-1CC7";
 
+  # Networking.
+  networking.wireless.interfaces = [ "wlp3s0" ];
+
   # Make sure to generate a new ID using:
   #   head -c4 /dev/urandom | od -A none -t x4
   # if this config is used as a reference for a new host!

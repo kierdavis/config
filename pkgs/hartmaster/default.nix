@@ -1,13 +1,14 @@
 # http://www.romilly.co.uk/hartmaster.htm
 
 { fetchurl
+, lib
 , mysql
 , ncurses
 , stdenv
 , withMysql ? false
 }:
 
-with stdenv.lib;
+with lib;
 
 stdenv.mkDerivation rec {
   name = "hartmaster-${version}";

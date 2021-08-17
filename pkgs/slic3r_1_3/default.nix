@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, perl, makeWrapper, makeDesktopItem
+{ stdenv, lib, fetchFromGitHub, perl, makeWrapper, makeDesktopItem
 , which, perlPackages
 }:
 
@@ -66,7 +66,7 @@ stdenv.mkDerivation rec {
     cp "$desktopItem"/share/applications/* "$out/share/applications/"
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "G-code generator for 3D printers";
     longDescription = ''
       Slic3r is the tool you need to convert a digital 3D model into printing

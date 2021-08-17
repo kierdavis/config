@@ -53,6 +53,9 @@
   systemd.services.boinc.after = [ "var-lib-boinc.mount" ];
   systemd.services.boinc.requires = [ "var-lib-boinc.mount" ];
 
+  # Networking.
+  networking.wireless.interfaces = [ "wlp3s0" ];
+
   # Make sure to generate a new ID using:
   #   head -c4 /dev/urandom | od -A none -t x4
   # if this config is used as a reference for a new host!

@@ -5,6 +5,7 @@
 
 { buildFHSUserEnv
 , fetchurl
+, lib
 , stdenv
 , writeShellScript
 , withModelsim ? true
@@ -20,8 +21,6 @@ let
   revision = "232";
   version = "13.0.1.${revision}";
   name = "quartus-${version}";
-
-  lib = stdenv.lib;
 
   attrs = rec {
     # Download the installer tarball.

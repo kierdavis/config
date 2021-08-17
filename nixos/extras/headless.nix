@@ -113,6 +113,7 @@ in {
       # docs fail to build when x11Support=false.
       mesonFlags = (lib.lists.remove "-Dgtk_doc=true" superAttrs.mesonFlags) ++ ["-Dgtk_doc=false"];
       outputs = lib.lists.remove "devdoc" superAttrs.outputs;
+      postInstall = "";
     });
     pass = super.pass.override {
       qrencode = null;
@@ -125,14 +126,11 @@ in {
     pinentry = super.pinentry.override {
       enabledFlavors = [ "curses" "tty" ];
     };
-    python3Packages = self.python3.pkgs;
-    python3 = super.python3.override {
-      packageOverrides = pythonSelf: pythonSuper: {
-        pycairo = pythonSuper.pycairo.override {
-          xlibsWrapper = null;
-        };
-      };
-    };
+    # python3Packages = self.python3.pkgs;
+    # python3 = super.python3.override {
+    #   packageOverrides = pythonSelf: pythonSuper: {
+    #   };
+    # };
     qemu = super.qemu.override {
       gtkSupport = false;
       sdlSupport = false;
