@@ -5,6 +5,7 @@
     ./bugfixes.nix
     ./env.nix
     ./fs.nix
+    ./hardware.nix
     ./locale.nix
     ./net.nix
     ./nix.nix
