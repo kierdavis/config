@@ -49,6 +49,12 @@ in {
     SUBSYSTEM=="usb", ATTR{idVendor}=="1bda", ATTR{idProduct}=="0011", GROUP="dialout", MODE="0666"
     # Altera "USB Blaster" JTAG cable
     SUBSYSTEM=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0666"
+    # Teensy
+    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04*", GROUP="dialout", MODE="0666"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04*", GROUP="dialout", MODE="0666"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04*", GROUP="dialout", MODE="0666"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", GROUP="dialout", MODE="0666"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", GROUP="dialout", MODE="0666"
   '';
 
   nix.trustedUsers = [ "root" "kier" "nixremotebuild" ];
