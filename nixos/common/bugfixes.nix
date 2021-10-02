@@ -1,7 +1,19 @@
 { config, lib, pkgs, ... }:
 
+let
+  pkgs1 = import (pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    rev = "eb7e1ef185f6c990cda5f71fdc4fb02e76ab06d5";
+    hash = "sha256:1ibz204c41g7baqga2iaj11yz9l75cfdylkiqjnk5igm81ivivxg";
+  }) {};
+in
+
 {
   nixpkgs.overlays = [(self: super: {
+    # Doesn't work in current release.
+    inherit (pkgs1) freecad;
+
     # Set cwd for boincmgr to the boinc data dir, so that it has no trouble finding the gui rpc password file.
     boinc = super.boinc.overrideDerivation (oldAttrs: {
       nativeBuildInputs = (if oldAttrs ? nativeBuildInputs then oldAttrs.nativeBuildInputs else []) ++ [ self.makeWrapper ];
