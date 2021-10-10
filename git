@@ -15,3 +15,5 @@
 	rebase = true
 [diff]
 	algorithm = minimal
+[init]
+	defaultBranch = main
