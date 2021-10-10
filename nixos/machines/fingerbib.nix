@@ -179,6 +179,44 @@ let
     };
   };
 
+  print3dServer = { config, lib, pkgs, ... }: let
+    openboxConfig = pkgs.writeText "openbox-rc.xml" ''
+      <?xml version="1.0" encoding="UTF-8"?>
+      <openbox_config xmlns="http://openbox.org/3.4/rc"
+                      xmlns:xi="http://www.w3.org/2001/XInclude">
+        <keyboard>
+          <keybind key="W-Return">
+            <action name="Execute">
+              <command>${pkgs.xterm}/bin/xterm</command>
+            </action>
+          </keybind>
+          <keybind key="W-S-e">
+            <action name="Exit">
+              <prompt>yes</prompt>
+            </action>
+          </keybind>
+        </keyboard>
+      </openbox_config>
+    '';
+    startupScript = pkgs.writeShellScript "autostart" ''
+      repetier-host
+      openbox --exit
+    '';
+  in {
+    services.xrdp = {
+      enable = true;
+      defaultWindowManager = "exec ${pkgs.openbox}/bin/openbox --config-file ${openboxConfig} --startup ${startupScript}";
+    };
+    networking.firewall.allowedTCPPorts = [ config.services.xrdp.port ];
+    hardware.opengl.enable = true;
+    users.users."3dprint".extraGroups = [ "dialout" ];
+    users.users."3dprint".packages = with pkgs; [
+      openbox
+      prusa-slicer
+      repetier-host
+    ];
+  };
+
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -189,6 +227,7 @@ in { config, lib, pkgs, ... }: {
     webServer
     mediaServer
     printServer
+    print3dServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.
@@ -256,14 +295,26 @@ in { config, lib, pkgs, ... }: {
   users.groups.media = {
     gid = 398;
   };
-  users.users.kier.extraGroups = ["media"];
+  users.groups."3dprint" = {
+    gid = 397;
+  };
+  users.users.kier.extraGroups = ["media" "3dprint"];
   users.users.media = {
-    description = "Media";
+    description = "Media Services";
     uid = config.users.groups.media.gid;
     group = "media";
     home = "/data/media";
     isSystemUser = true;
     useDefaultShell = true;
+  };
+  users.users."3dprint" = {
+    description = "3D Printing Services";
+    uid = config.users.groups."3dprint".gid;
+    group = "3dprint";
+    home = "/data/3dprint";
+    isSystemUser = true;
+    useDefaultShell = true;
+    hashedPassword = (import ../../secret/passwords.nix).user."fingerbib-3dprint";
   };
   users.users.transmission = {
     description = "Transmission BitTorrent user";
