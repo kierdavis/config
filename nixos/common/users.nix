@@ -9,7 +9,7 @@ in {
 
   users.users.root = {
     # TODO: remove this
-    hashedPassword = passwords.user.root;
+    hashedPassword = passwords.user.root.hashed;
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
   };
 
@@ -24,7 +24,7 @@ in {
       "wheel"           # Permission to 'sudo' as root
       "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
-    hashedPassword = passwords.user.kier;
+    hashedPassword = passwords.user.kier.hashed;
     home = "/home/kier";
     isNormalUser = true;
     name = "kier";

@@ -1,6 +1,12 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  print3dPassword = (import ../../../secret/passwords.nix).user.fingerbib-3dprint.plain;
+  print3dScript = pkgs.writeShellScriptBin "3dprint" ''
+    exec ${pkgs.freerdp}/bin/xfreerdp /v:fingerbib /u:3dprint /p:${print3dPassword}
+  '';
+
+in {
   # redshift (adjusts colour temperature of displays at night)
   services.redshift.enable = true;
 
@@ -36,9 +42,8 @@
     geda
     kicad
     pcb
-    prusa-slicer
+    print3dScript
     quartus
-    repetier-host
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:

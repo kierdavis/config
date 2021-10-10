@@ -314,7 +314,7 @@ in { config, lib, pkgs, ... }: {
     home = "/data/3dprint";
     isSystemUser = true;
     useDefaultShell = true;
-    hashedPassword = (import ../../secret/passwords.nix).user."fingerbib-3dprint";
+    hashedPassword = (import ../../secret/passwords.nix).user.fingerbib-3dprint.hashed;
   };
   users.users.transmission = {
     description = "Transmission BitTorrent user";
