@@ -59,4 +59,8 @@ in
   # zfs admin commands to manage container volumes. These aren't in
   # podman's PATH by default.
   virtualisation.podman.extraPackages = lib.optional (builtins.elem "zfs" config.boot.supportedFilesystems) pkgs.zfs;
+
+  # The intention of restartIfChanged=false is to avoid killing user sessions when restarting the service.
+  # But, xrdp-sesman already handles this safely - upon receiving SIGINT it waits for all sessions to be terminated before exiting.
+  systemd.services.xrdp-sesman.restartIfChanged = lib.mkForce true;
 }

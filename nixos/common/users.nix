@@ -14,7 +14,7 @@ in {
   };
 
   users.users.kier = {
-    createHome = true;
+    createHome = false; # so that other users can read ~kier/config/nixpkgs
     description = "Kier Davis";
     extraGroups = [
       "audio"           # Permission to use audio devices e.g. /dev/snd/...
