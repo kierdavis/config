@@ -1,0 +1,40 @@
+From 1e501fe380feb99589aad69a79c8afa86d6784fd Mon Sep 17 00:00:00 2001
+From: Kier Davis <me@kierdavis.com>
+Date: Sat, 30 Oct 2021 17:24:15 +0100
+Subject: [PATCH 4/4] Hide C/C++ compiler warnings
+
+Useful for ntopng developers, not useful for us.
+---
+ configure.seed                     | 2 +-
+ third-party/lua-5.3.5/src/Makefile | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.seed b/configure.seed
+index e652ccc97..00854ea0f 100644
+--- a/configure.seed
++++ b/configure.seed
+@@ -61,7 +61,7 @@ PRO_LIBS=
+ AC_ARG_WITH(nedge,          [  --with-nedge          Enable nEdge device build])
+ AC_ARG_WITH(nedge,          [  --with-test-mode      Enable ntopng/nEdge test mode])
+ 
+-CFLAGS="${CFLAGS} -Wall"
++CFLAGS="${CFLAGS} -w"
+ OS=""
+ MAKE=make
+ BIN_PATH=/usr/bin
+diff --git a/third-party/lua-5.3.5/src/Makefile b/third-party/lua-5.3.5/src/Makefile
+index 64c78f775..fa7521aea 100644
+--- a/third-party/lua-5.3.5/src/Makefile
++++ b/third-party/lua-5.3.5/src/Makefile
+@@ -7,7 +7,7 @@
+ PLAT= none
+ 
+ CC= gcc -std=gnu99
+-CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_2 $(SYSCFLAGS) $(MYCFLAGS)
++CFLAGS= -O2 -w -DLUA_COMPAT_5_2 $(SYSCFLAGS) $(MYCFLAGS)
+ LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
+ LIBS= -lm $(SYSLIBS) $(MYLIBS)
+ 
+-- 
+2.31.1
+

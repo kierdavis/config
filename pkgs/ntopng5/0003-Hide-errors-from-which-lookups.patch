@@ -1,0 +1,31 @@
+From 83cc319737713d144d6ed9c3f070aef4afedd61d Mon Sep 17 00:00:00 2001
+From: Kier Davis <me@kierdavis.com>
+Date: Sat, 30 Oct 2021 17:16:07 +0100
+Subject: [PATCH 3/4] Hide errors from 'which' lookups
+
+---
+ configure.seed | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.seed b/configure.seed
+index 39393dd80..e652ccc97 100644
+--- a/configure.seed
++++ b/configure.seed
+@@ -727,12 +727,12 @@ fi
+ 
+ AC_DEFINE_UNQUOTED(_CRT_SECURE_NO_WARNINGS, 1, [Disable warning on windows])
+ 
+-GMAKE=`which gmake`
++GMAKE=`which gmake 2>/dev/null`
+ if test x$GMAKE = x; then
+   GMAKE="make"
+ fi
+ 
+-GIT=`which git`
++GIT=`which git 2>/dev/null`
+ if test x$GIT = x; then
+   AC_MSG_RESULT(FATAL ERROR: git is not installed on your host)
+ fi
+-- 
+2.31.1
+

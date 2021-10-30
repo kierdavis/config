@@ -1,0 +1,26 @@
+From 994acb4e187439c36debf97699b18027f0645b75 Mon Sep 17 00:00:00 2001
+From: Kier Davis <me@kierdavis.com>
+Date: Sat, 30 Oct 2021 17:18:40 +0100
+Subject: [PATCH 2/4] Fix bash syntax error when building from a source tarball
+ rather than a git clone
+
+---
+ configure.seed | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.seed b/configure.seed
+index 34e9a3c91..39393dd80 100644
+--- a/configure.seed
++++ b/configure.seed
+@@ -756,7 +756,7 @@ if test $SYSTEM = "OpenBSD"; then
+ fi
+ 
+ STABLE_SUFFIX=""
+-if test $GIT_BRANCH != "dev"; then
++if test "$GIT_BRANCH" != "dev"; then
+   STABLE_SUFFIX="-stable"
+ fi
+ 
+-- 
+2.31.1
+

@@ -1,0 +1,36 @@
+From 62c1d890c57c0069a49c4312e20e3383a6f29d8c Mon Sep 17 00:00:00 2001
+From: Kier Davis <me@kierdavis.com>
+Date: Sat, 30 Oct 2021 18:12:15 +0100
+Subject: [PATCH 1/4] Use PATH rather than hardcoding locations of executables
+
+---
+ Makefile.in | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index e67623bec..f92f53ad1 100755
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -187,7 +187,7 @@ clean:
+ cert:
+ 	openssl req -new -x509 -sha256 -extensions v3_ca -nodes -days 365 -out cert.pem
+ 	cat privkey.pem cert.pem > httpdocs/ssl/ntopng-cert.pem
+-	/bin/rm -f privkey.pem cert.pem
++	rm -f privkey.pem cert.pem
+ 
+ veryclean: clean
+ 	-rm -rf nDPI
+@@ -239,8 +239,8 @@ install: ntopng
+ 	cp ./ntopng.8 $(MAN_DIR)/man8
+ 	cp -r ./httpdocs $(INSTALL_DIR)/share/ntopng
+ 	cp -LR ./scripts $(INSTALL_DIR)/share/ntopng # L dereference symlinks
+-	find $(INSTALL_DIR)/share/ntopng -name "*~"   | xargs /bin/rm -f
+-	find $(INSTALL_DIR)/share/ntopng -name ".git" | xargs /bin/rm -rf
++	find $(INSTALL_DIR)/share/ntopng -name "*~"   | xargs rm -f
++	find $(INSTALL_DIR)/share/ntopng -name ".git" | xargs rm -rf
+ 
+ uninstall:
+ 	if test -f $(INSTALL_DIR)/bin/ntopng; then rm $(INSTALL_DIR)/bin/ntopng; fi;
+-- 
+2.31.1
+
