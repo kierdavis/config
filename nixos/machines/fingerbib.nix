@@ -188,7 +188,7 @@ let
         <keyboard>
           <keybind key="W-Return">
             <action name="Execute">
-              <command>${pkgs.xterm}/bin/xterm</command>
+              <command>xterm</command>
             </action>
           </keybind>
           <keybind key="W-S-e">
@@ -235,6 +235,7 @@ let
       prusa-slicer
       repetier-host
       tint2
+      xterm
     ];
   };
 
