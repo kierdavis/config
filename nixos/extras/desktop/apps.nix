@@ -39,6 +39,7 @@ in {
     zoom-us
 
     # Development
+    blender
     freecad
     geda
     kicad
