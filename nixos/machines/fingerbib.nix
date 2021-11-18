@@ -195,6 +195,24 @@ let
               <prompt>yes</prompt>
             </action>
           </keybind>
+          <keybind key="A-Tab">
+            <action name="NextWindow">
+              <finalactions>
+                <action name="Focus"/>
+                <action name="Raise"/>
+                <action name="Unshade"/>
+              </finalactions>
+            </action>
+          </keybind>
+          <keybind key="A-S-Tab">
+            <action name="PreviousWindow">
+              <finalactions>
+                <action name="Focus"/>
+                <action name="Raise"/>
+                <action name="Unshade"/>
+              </finalactions>
+            </action>
+          </keybind>
         </keyboard>
       </openbox_config>
     '';
