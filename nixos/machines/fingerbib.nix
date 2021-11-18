@@ -1,5 +1,6 @@
 let
   hist = import ../../hist.nix;
+  passwords = import ../../secret/passwords.nix;
 
   torrentClient = { config, lib, pkgs, ... }: {
     options.torrentClient = with lib; {
@@ -332,7 +333,7 @@ in { config, lib, pkgs, ... }: {
     home = "/data/3dprint";
     isSystemUser = true;
     useDefaultShell = true;
-    hashedPassword = (import ../../secret/passwords.nix).user.fingerbib-3dprint.hashed;
+    hashedPassword = passwords.user.fingerbib-3dprint.hashed;
   };
   users.users.transmission = {
     description = "Transmission BitTorrent user";
