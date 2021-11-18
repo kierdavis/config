@@ -308,6 +308,11 @@ in { config, lib, pkgs, ... }: {
   networking.nat.enable = true;
   networking.nat.externalInterface = "br-lan";
 
+  # Bit unintuitive, but this tells nixos to install the nvidia kernel module.
+  # TODO: finish this. Disabling for now since it breaks swrast.
+  # services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
+
   torrentClient = {
     hostAddress = "${hist.networks.pointToPoint.prefix}.1";
     containerAddress = "${hist.networks.pointToPoint.prefix}.2";
