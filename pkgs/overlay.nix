@@ -28,5 +28,6 @@ self: super: {
   rustc-commit-db = super.callPackage ./rustc-commit-db { };
   screenshot = super.callPackage ./screenshot { inherit (self.gnome3) eog; };
   sr-tools = super.callPackage ./sr-tools { };
+  xrdp = super.callPackage ./xrdp-glamor { };
   umountext = super.callPackage ./umountext { };
 }
