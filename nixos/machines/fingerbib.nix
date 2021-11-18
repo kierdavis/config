@@ -218,6 +218,7 @@ let
       </openbox_config>
     '';
     startupScript = pkgs.writeShellScript "autostart" ''
+      tint2 &
       repetier-host
       openbox --exit
     '';
@@ -233,6 +234,7 @@ let
       openbox
       prusa-slicer
       repetier-host
+      tint2
     ];
   };
 
