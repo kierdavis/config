@@ -1,0 +1,22 @@
+commit 6f4f84fcdd59430509284117f3219defa166aab1
+Author: Kier Davis <me@kierdavis.com>
+Date:   Thu Nov 18 00:29:28 2021 +0000
+
+    Fix compatibility with Python 3.6+
+    
+    Since Python 3.6, combining a `str` regular expression with the LOCALE flag
+    is no longer permitted. I doubt LOCALE is adding much value in this context.
+
+diff --git a/xlwt/ExcelFormulaLexer.py b/xlwt/ExcelFormulaLexer.py
+index 830338b..2f4129f 100644
+--- a/xlwt/ExcelFormulaLexer.py
++++ b/xlwt/ExcelFormulaLexer.py
+@@ -52,7 +52,7 @@ pattern_type_tuples = (
+ 
+ _re = recompile(
+     '(' + ')|('.join([i[0] for i in pattern_type_tuples]) + ')',
+-    VERBOSE+LOCALE+IGNORECASE)
++    VERBOSE+IGNORECASE)
+ 
+ _toktype = [None] + [i[1] for i in pattern_type_tuples]
+ # need dummy at start because re.MatchObject.lastindex counts from 1
