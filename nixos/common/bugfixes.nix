@@ -63,4 +63,8 @@ in
   # The intention of restartIfChanged=false is to avoid killing user sessions when restarting the service.
   # But, xrdp-sesman already handles this safely - upon receiving SIGINT it waits for all sessions to be terminated before exiting.
   systemd.services.xrdp-sesman.restartIfChanged = lib.mkForce true;
+
+  # If no X server is enabled, programs.gnupg.agent.pinentryFlavor defaults to null.
+  # But this means that gpg-agent looks for pinentry within the gpg distribution (but we've compiled it out in favour of third-party pinentry).
+  programs.gnupg.agent = lib.optionalAttrs (!config.services.xserver.enable) { pinentryFlavor = "curses"; };
 }
