@@ -4,7 +4,7 @@ let
   hostname = config.machine.name;
   print3dPassword = (import ../../../secret/passwords.nix).user.fingerbib-3dprint.plain;
   print3dScript = pkgs.writeShellScriptBin "3dprint" ''
-    exec ${pkgs.freerdp}/bin/xfreerdp /v:fingerbib /u:3dprint /p:${print3dPassword} /drive:${hostname},/
+    exec ${pkgs.freerdp}/bin/xfreerdp /v:fingerbib /u:3dprint /p:${print3dPassword} /drive:${hostname},/ /w:2520 /h:1040
   '';
 
 in {
