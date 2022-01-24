@@ -1,5 +1,4 @@
 let
-  nixpkgs = import <nixpkgs> {};
   nixos = import <nixpkgs/nixos>;
 in
   rec {
