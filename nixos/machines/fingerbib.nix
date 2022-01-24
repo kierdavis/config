@@ -286,7 +286,10 @@ in { config, lib, pkgs, ... }: {
     "/var/cache" = { device = "fingerbib/transient/cache"; fsType = "zfs"; };
     "/var/log" = { device = "fingerbib/os/log"; fsType = "zfs"; };
   };
-  boot.loader.grub.device = "/dev/disk/by-id/ata-ST2000DL003-9VT166_5YD5YEPX";
+  boot.loader.grub.devices = [
+    "/dev/disk/by-id/ata-TOSHIBA_MG03ACA200_258HK26RF"
+    "/dev/disk/by-id/ata-ST2000DL003-9VT166_5YD5YEPX"
+  ];
   swapDevices = [
     { device = "/dev/disk/by-partlabel/fb_swap"; }
   ];
