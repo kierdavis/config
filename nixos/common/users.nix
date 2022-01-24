@@ -39,7 +39,9 @@ in {
     isSystemUser = true;
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
     useDefaultShell = true;
+    group = "nixremotebuild";
   };
+  users.groups.nixremotebuild = {};
 
   # Allow access to USB devices without requiring root permissions
   services.udev.extraRules = ''

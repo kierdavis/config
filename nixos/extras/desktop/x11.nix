@@ -10,7 +10,7 @@
   #hardware.opengl.extraPackages = lib.optional config.machine.cpu.intel pkgs.intel-ocl;
 
   fonts.fontconfig.enable = true;
-  fonts.fontconfig.dpi = 84;
+  services.xserver.dpi = 84;
 
   # SSH X11 forwarding
   services.openssh.forwardX11 = true;
