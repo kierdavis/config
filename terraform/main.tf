@@ -31,13 +31,7 @@ resource "cloudflare_record" "www_kierdavis_com_a" {
   proxied = true
 }
 
-resource "cloudflare_record" "wildcard_kierdavis_com_a" {
-  zone_id = local.kierdavis_com_zone_id
-  name = "*"
-  value = local.beagle2_ipv4
-  type = "A"
-}
-
+# TODO update these: https://support.google.com/a/answer/140034
 resource "cloudflare_record" "kierdavis_com_mx" {
   for_each = {
     "0" = {
