@@ -36,6 +36,14 @@ resource "cloudflare_record" "www_kierdavis_com_a" {
   proxied = true
 }
 
+resource "cloudflare_record" "git_kierdavis_com_a" {
+  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
+  name = "git"
+  type = "A"
+  value = local.beagle2_ipv4
+  proxied = false
+}
+
 # TODO update these: https://support.google.com/a/answer/140034
 resource "cloudflare_record" "kierdavis_com_mx" {
   for_each = {
