@@ -58,3 +58,9 @@ resource "cloudflare_record" "kierdavis_com_mx" {
   value = each.value.value
   priority = each.value.priority
 }
+
+resource "cloudflare_argo_tunnel" "coloris" {
+  account_id = local.hist2_secret.api.cloudflare.account_id
+  name = "coloris"
+  secret = local.hist2_secret.nodes.coloris.cloudflare_tunnel_secret
+}
