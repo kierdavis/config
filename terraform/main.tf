@@ -12,7 +12,6 @@ provider "cloudflare" {
 }
 
 locals {
-  kierdavis_com_zone_id = "c469f5cf38543d50e06c56c3971e25b2"
   beagle2_ipv4 = "176.9.121.81"
 }
 
@@ -22,7 +21,7 @@ locals {
 }
 
 resource "cloudflare_record" "kierdavis_com_a" {
-  zone_id = local.kierdavis_com_zone_id
+  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
   name = "kierdavis.com"
   type = "A"
   value = local.beagle2_ipv4
@@ -30,7 +29,7 @@ resource "cloudflare_record" "kierdavis_com_a" {
 }
 
 resource "cloudflare_record" "www_kierdavis_com_a" {
-  zone_id = local.kierdavis_com_zone_id
+  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
   name = "www"
   type = "A"
   value = local.beagle2_ipv4
@@ -53,7 +52,7 @@ resource "cloudflare_record" "kierdavis_com_mx" {
       priority = 10
     }
   }
-  zone_id = local.kierdavis_com_zone_id
+  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
   name = "kierdavis.com"
   type = "MX"
   value = each.value.value
