@@ -7,12 +7,18 @@ terraform {
 }
 
 provider "cloudflare" {
-  email = "me@kierdavis.com"
+  email = local.hist2_secret.api.cloudflare.email
+  api_key = local.hist2_secret.api.cloudflare.api_key
 }
 
 locals {
   kierdavis_com_zone_id = "c469f5cf38543d50e06c56c3971e25b2"
   beagle2_ipv4 = "176.9.121.81"
+}
+
+locals {
+  hist2 = jsondecode(file("../hist2.json"))
+  hist2_secret = jsondecode(sensitive(file("../secret/hist2.json")))
 }
 
 resource "cloudflare_record" "kierdavis_com_a" {
