@@ -66,4 +66,7 @@ in {
     enable = true;
     wheelNeedsPassword = false;
   };
+
+  # Ensure systemd user bus is started if you su to another user.
+  security.pam.services.su.startSession = true;
 }
