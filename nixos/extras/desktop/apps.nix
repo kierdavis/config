@@ -39,7 +39,7 @@ in {
     zoom-us
 
     # Development
-    blender
+    (blender.override { cudaSupport = true; })
     freecad
     geda
     kicad
