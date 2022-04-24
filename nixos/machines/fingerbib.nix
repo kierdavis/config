@@ -1,6 +1,30 @@
 let
   hist = import ../../hist.nix;
+  hist3 = import ../../hist3.nix;
   passwords = import ../../secret/passwords.nix;
+
+  kubernetes = { config, lib, pkgs, ... }: {
+    services.kubernetes = rec {
+      roles = ["master" "node"];
+      masterAddress = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
+      clusterCidr = hist3.networks.k8s_pods.cidr;
+      apiserver = {
+        bindAddress = masterAddress;
+        serviceClusterIpRange = hist3.networks.k8s_services.cidr;
+      };
+      kubelet = {
+        extraOpts = "--fail-swap-on=false";
+        hostname = config.networking.hostName;
+        nodeIp = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
+      };
+      pki = {
+        enable = true;
+        pkiTrustOnBootstrap = true;
+      };
+    };
+    environment.systemPackages = with pkgs; [ kubectl ];
+    networking.firewall.allowedTCPPorts = [ config.services.kubernetes.apiserver.securePort ];
+  };
 
   torrentClient = { config, lib, pkgs, ... }: {
     options.torrentClient = with lib; {
@@ -245,6 +269,7 @@ in { config, lib, pkgs, ... }: {
     ../extras/boinc.nix
     # ../extras/headless.nix
     ../extras/platform/grub.nix
+    kubernetes
     torrentClient
     webServer
     mediaServer
@@ -281,9 +306,13 @@ in { config, lib, pkgs, ... }: {
     "/data" = { device = "fingerbib/data/data"; fsType = "zfs"; };
     "/data/media" = { device = "fingerbib/data/media"; fsType = "zfs"; };
     "/home" = { device = "fingerbib/data/home"; fsType = "zfs"; };
+    "/home/kier/.local/share/containers" = { device = "fingerbib/transient/podman/kier"; fsType = "zfs"; };
     "/nix/store" = { device = "fingerbib/os/nix-store"; fsType = "zfs"; };
     "/tmp" = { device = "fingerbib/transient/tmp"; fsType = "zfs"; };
     "/var/cache" = { device = "fingerbib/transient/cache"; fsType = "zfs"; };
+    "/var/lib/containerd" = { device = "fingerbib/transient/containerd"; fsType = "zfs"; };
+    "/var/lib/containerd/io.containerd.snapshotter.v1.zfs" = { device = "fingerbib/transient/containerd/snapshotter"; fsType = "zfs"; };
+    "/var/lib/containers" = { device = "fingerbib/transient/podman/root"; fsType = "zfs"; };
     "/var/log" = { device = "fingerbib/os/log"; fsType = "zfs"; };
   };
   boot.loader.grub.devices = [

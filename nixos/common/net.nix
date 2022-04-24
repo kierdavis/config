@@ -2,6 +2,7 @@
 
 let
   hist = import ../../hist.nix;
+  hist3 = import ../../hist3.nix;
   passwords = import ../../secret/passwords.nix;
 in
 
@@ -70,4 +71,9 @@ in
   networking.firewall.allowedUDPPorts = [ hist.wgPort ];
 
   networking.hosts = lib.groupBy' (names: entry: names ++ [entry.name]) [] (entry: entry.address) hist.dns;
+
+  networking.interfaces.lo.ipv4.addresses = [{
+    address = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
+    prefixLength = hist3.networks.hist3_v4.prefixLength;
+  }];
 }
