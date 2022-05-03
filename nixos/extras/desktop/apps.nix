@@ -28,6 +28,7 @@ in {
     i3blocks
     i3blocks-scripts
     i3lock
+    multimc
     pavucontrol
     pinentry-gnome
     screenshot
