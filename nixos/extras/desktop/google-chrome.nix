@@ -25,7 +25,17 @@
       forward . /etc/resolv.conf.upstream
     }
   '';
-  networking.resolvconf.extraConfig = "resolv_conf=/etc/resolv.conf.upstream";
+  networking.resolvconf = {
+    enable = true;
+    extraConfig = "resolv_conf=/etc/resolv.conf.upstream";
+  };
+  systemd.services.coredns = {
+    after = ["dhcpcd.service"];
+    wantedBy = ["network-online.target"];
+    startLimitBurst = 1;
+    startLimitIntervalSec = 4;
+    serviceConfig.RestartSec = 5;
+  };
 
   # Hack to make Google Chrome send DNS AAAA queries in addition to A queries even if the machine has no IPv6 internet connection.
   networking.interfaces.lo.ipv6.routes = lib.optional (!config.machine.ipv6-internet) {
