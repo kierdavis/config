@@ -40,7 +40,7 @@ in {
     zoom-us
 
     # Development
-    (blender.override { cudaSupport = true; })
+    (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     freecad
     geda
     kicad
