@@ -60,12 +60,5 @@ in { config, lib, pkgs, ... }:
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   powerManagement.cpuFreqGovernor = "powersave";
 
-  environment.systemPackages = with pkgs; [
-    (writeShellScriptBin "eduroam" ''
-      set -o errexit -o nounset
-      sudo ${gnused}/bin/sed -i -E '/${lib.concatStringsSep "|" config.networking.nameservers}/d' /etc/resolv.conf
-    '')
-  ];
-
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
 }
