@@ -20,12 +20,14 @@ let
         #   Tests expect element attributes to be emitted in sorted order, but actually they are getting emitted in dict insertion order.
         #   This behaviour was changed in Python 3.8.
         #   Search "made predictable" at https://docs.python.org/3/library/xml.etree.elementtree.html
+        # Requires setuptools < 58.0.0 because we need build_py_2to3.
         pname = "docutils";
         version = "0.14";
         src = self.fetchPypi {
           inherit pname version;
           hash = "sha256:0x22fs3pdmr42kvz6c654756wja305qv6cx1zbhwlagvxgr4xrji";
         };
+        patches = [ ./docutils-reveal-import-errors.patch ];
         checkPhase = ''
           cd test3
           ./alltests.py

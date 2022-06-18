@@ -15,6 +15,16 @@
       NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
     });
 
+    # Install script wants to send error messages to /dev/tty,
+    # but that device isn't available in the Nix build sandbox.
+    cudatoolkit = super.cudatoolkit.overrideDerivation (oldAttrs: {
+      unpackPhase = ''
+        sed '1,400s:>\s*/dev/tty:>\&2:g' $src > install.run
+        export src=$PWD/install.run
+        ${oldAttrs.unpackPhase}
+      '';
+    });
+
     # Fix hardcoded filenames, and expectation of xinit being on PATH.
     tigervnc = super.tigervnc.overrideDerivation (oldAttrs: {
       preFixup = ''

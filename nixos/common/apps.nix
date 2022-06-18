@@ -58,7 +58,7 @@ in {
     gptfdisk
     jq
     kakoune
-    manpages
+    man-pages
     mountext
     ncdu
     nixos-rebuild-remote

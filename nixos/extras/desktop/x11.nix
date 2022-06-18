@@ -15,7 +15,7 @@
   # SSH X11 forwarding
   services.openssh.forwardX11 = true;
 
-  environment.systemPackages = [ pkgs.gnome3.dconf ];
+  environment.systemPackages = [ pkgs.dconf ];
 
   # Fixes android-studio not being able to find the vulkan icd.d directory.
   environment.sessionVariables.XDG_DATA_DIRS = ["/run/opengl-driver/share"];

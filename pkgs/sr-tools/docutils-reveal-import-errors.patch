@@ -1,0 +1,19 @@
+diff --git a/setup.py b/setup.py
+index 3bd6225..26b8023 100755
+--- a/setup.py
++++ b/setup.py
+@@ -15,12 +15,8 @@ try:
+     from distutils.command.install_data import install_data
+     from distutils.util import convert_path
+     from distutils import log
+-except ImportError:
+-    print ('Error: The "distutils" standard module, which is required for the ')
+-    print ('installation of Docutils, could not be found.  You may need to ')
+-    print ('install a package called "python-devel" (or similar) on your ')
+-    print ('system using your package manager.')
+-    sys.exit(1)
++finally:
++    pass
+ 
+ 
+ if sys.version_info >= (3,):
