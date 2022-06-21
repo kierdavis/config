@@ -7,7 +7,7 @@
   imports = [
     ../common
     ../extras/platform/efi.nix
-    ../extras/boinc.nix
+    # ../extras/boinc.nix
     ../extras/desktop
     ../extras/wifi.nix
     ../extras/audio.nix
