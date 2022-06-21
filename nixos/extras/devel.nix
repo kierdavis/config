@@ -25,7 +25,7 @@ in {
     duplicity
     fina
     keybase
-    # sr-tools  # broken in NixOS 22.05 :(
+    sr-tools
   ];
 
   services.keybase.enable = true;
