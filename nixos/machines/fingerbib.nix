@@ -269,7 +269,6 @@ in { config, lib, pkgs, ... }: {
     # ../extras/boinc.nix
     # ../extras/headless.nix
     ../extras/platform/grub.nix
-    kubernetes
     torrentClient
     webServer
     mediaServer
@@ -310,8 +309,6 @@ in { config, lib, pkgs, ... }: {
     "/nix/store" = { device = "fingerbib/os/nix-store"; fsType = "zfs"; };
     "/tmp" = { device = "fingerbib/transient/tmp"; fsType = "zfs"; };
     "/var/cache" = { device = "fingerbib/transient/cache"; fsType = "zfs"; };
-    "/var/lib/containerd" = { device = "fingerbib/transient/containerd"; fsType = "zfs"; };
-    "/var/lib/containerd/io.containerd.snapshotter.v1.zfs" = { device = "fingerbib/transient/containerd/snapshotter"; fsType = "zfs"; };
     "/var/lib/containers" = { device = "fingerbib/transient/podman/root"; fsType = "zfs"; };
     "/var/log" = { device = "fingerbib/os/log"; fsType = "zfs"; };
   };
