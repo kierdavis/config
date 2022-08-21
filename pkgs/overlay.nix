@@ -1,7 +1,10 @@
 self: super: {
   admesh = super.callPackage ./admesh { };
+  balsa = super.callPackage ./balsa { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
   circleci = super.callPackage ./circleci { };
+  dalle-playground = super.callPackage ./dalle-playground { };
+  espresso = super.callPackage ./espresso { };
   fina = super.callPackage ./fina { };
   ftb-launcher = super.callPackage ./ftb-launcher { };
   gds2svg = super.callPackage ./gds2svg { };
@@ -21,6 +24,7 @@ self: super: {
   openttd_1_10_2 = super.callPackage ./openttd-1.10.2 { };
   passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
   pcb-rnd = super.callPackage ./pcb-rnd { };
+  petrify = super.callPackage ./petrify { };
   pout = super.callPackage ./pout { };
   quartus = super.callPackage ./quartus { };
   redstore = super.callPackage ./redstore { };
@@ -29,6 +33,7 @@ self: super: {
   rustc-commit-db = super.callPackage ./rustc-commit-db { };
   screenshot = super.callPackage ./screenshot { inherit (self.gnome3) eog; };
   sr-tools = super.callPackage ./sr-tools { };
+  sv2v = super.callPackage ./sv2v { };
   xrdp = super.callPackage ./xrdp-glamor { };
   umountext = super.callPackage ./umountext { };
 }

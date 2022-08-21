@@ -1,0 +1,14 @@
+diff --git a/src/balsa-c/output.c b/src/balsa-c/output.c
+index 243e672..6fd4a89 100644
+--- a/src/balsa-c/output.c
++++ b/src/balsa-c/output.c
+@@ -105,8 +105,7 @@ Ptrchar ExpandPathToFile (Ptrchar path, Ptrchar extension)
+             Ptrchar canonPath = g_new (char, path_max);
+ 
+             errno = 0;
+-            realpath (path, canonPath);
+-            if (errno != 0)
++            if (!realpath(path, canonPath))
+             {
+                 fprintf (stderr, "can't canonicalise path to file `%s'\n", tryFile);
+                 return NULL;

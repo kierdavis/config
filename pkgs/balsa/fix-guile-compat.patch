@@ -1,0 +1,13 @@
+diff --git a/share/scheme/breeze2ps.scm b/share/scheme/breeze2ps.scm
+index ddb4b20..7bca0b4 100644
+--- a/share/scheme/breeze2ps.scm
++++ b/share/scheme/breeze2ps.scm
+@@ -672,7 +672,7 @@
+ 	; component set of the chosen technology
+ 	(balsa-set-tech breeze2ps-tech)
+ 	(if (string=? breeze-tech "common")
+-		(begin)
++		0
+ 		(brz-get-technology)
+ 	)
+ 	(brz-load-primitives)

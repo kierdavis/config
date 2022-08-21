@@ -1,0 +1,48 @@
+diff --git a/src/balsa-mgr/Makefile.am b/src/balsa-mgr/Makefile.am
+index 45e9ba0..61297b1 100644
+--- a/src/balsa-mgr/Makefile.am
++++ b/src/balsa-mgr/Makefile.am
+@@ -45,7 +45,7 @@ balsa_mgr_SOURCES = \
+ 	callbacks.h
+ 
+ 
+-balsa_mgr_LDADD = ../libs/breeze/libbreeze.la ../libs/format/libformat.la ../../extra/scintilla-wrapper/.libs/libscintilla.a @GTK_LIBS@ @GTHREAD_LIBS@ @GMODULE_LIBS@
++balsa_mgr_LDADD = ../libs/breeze/libbreeze.la ../libs/format/libformat.la ../../extra/scintilla-wrapper/.libs/libscintilla.la @GTK_LIBS@ @GTHREAD_LIBS@ @GMODULE_LIBS@
+ 
+ ScintillaLexBalsa.o: ScintillaLexBalsa.cxx
+ 	g++ ${INCLUDES} ${CFLAGS} ${CXXFLAGS} ${CPPFLAGS} -I../../extra/scintilla-wrapper -Wno-char-subscripts -DGTK -DSCI_LEXER -c ScintillaLexBalsa.cxx
+diff --git a/src/balsa-mgr/Makefile.in b/src/balsa-mgr/Makefile.in
+index 01848ed..ce70f1c 100644
+--- a/src/balsa-mgr/Makefile.in
++++ b/src/balsa-mgr/Makefile.in
+@@ -65,7 +65,7 @@ am_balsa_mgr_OBJECTS = support.$(OBJEXT) main.$(OBJEXT) \
+ balsa_mgr_OBJECTS = $(am_balsa_mgr_OBJECTS)
+ balsa_mgr_DEPENDENCIES = ../libs/breeze/libbreeze.la \
+ 	../libs/format/libformat.la \
+-	../../extra/scintilla-wrapper/.libs/libscintilla.a
++	../../extra/scintilla-wrapper/.libs/libscintilla.la
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+@@ -309,7 +309,7 @@ balsa_mgr_SOURCES = \
+ 	interface.c interface.h \
+ 	callbacks.h
+ 
+-balsa_mgr_LDADD = ../libs/breeze/libbreeze.la ../libs/format/libformat.la ../../extra/scintilla-wrapper/.libs/libscintilla.a @GTK_LIBS@ @GTHREAD_LIBS@ @GMODULE_LIBS@
++balsa_mgr_LDADD = ../libs/breeze/libbreeze.la ../libs/format/libformat.la ../../extra/scintilla-wrapper/.libs/libscintilla.la @GTK_LIBS@ @GTHREAD_LIBS@ @GMODULE_LIBS@
+ all: all-recursive
+ 
+ .SUFFIXES:
+diff --git a/bin/balsa-make-builtin-lib.in b/bin/balsa-make-builtin-lib.in
+index 4833375..1e83660 100644
+--- a/bin/balsa-make-builtin-lib.in
++++ b/bin/balsa-make-builtin-lib.in
+@@ -98,7 +98,7 @@ if [ -n "${DOCOMPILE}" ]; then
+ 	fi
+ fi
+ 
+-if @NM@ -g ${LIBNAME}.o | grep BalsaSim_BuiltinLibrary_${LIBNAME} > /dev/null
++if @NM@ -g .libs/${LIBNAME}.o | grep BalsaSim_BuiltinLibrary_${LIBNAME} > /dev/null
+ then
+ 	:
+ else

@@ -1,0 +1,32 @@
+commit c50842f546a3ce1e5556934de750e197244d0719
+Author: Kier Davis <me@kierdavis.com>
+Date:   Tue Aug 9 04:04:13 2022 +0100
+
+    fix compatibility with Linux & glibc
+
+diff --git a/port/port.h b/port/port.h
+index 8875930..c4f498b 100644
+--- a/port/port.h
++++ b/port/port.h
+@@ -95,7 +95,7 @@ typedef int int16;
+ #	define	UNSCHAR(c)	((c)&CHARBITS)
+ #endif
+ 
+-#define SIZET int
++#define SIZET size_t
+ 
+ #ifdef __STDC__
+ #define CONST const
+diff --git a/port/stdlib.h b/port/stdlib.h
+index ace2baf..d813f27 100644
+--- a/port/stdlib.h
++++ b/port/stdlib.h
+@@ -12,7 +12,7 @@ extern char *realloc(char *, unsigned int);
+ extern char *getenv(char *);
+ 
+ /* should be in stdio.h */
+-extern void perror(char *);
++extern void perror(const char *);
+ 
+ #ifdef LINT
+ #undef putc
