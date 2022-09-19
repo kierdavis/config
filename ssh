@@ -4,7 +4,3 @@ Host sr-gerrit
     User kdavis
     IdentityFile /home/kier/.ssh/id_rsa
     Ciphers aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
-
-Host uglogin
-    HostName uglogin.ecs.soton.ac.uk
-    User kad2g15
