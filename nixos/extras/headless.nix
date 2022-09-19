@@ -7,6 +7,7 @@ let
     echo >&2 "If you're seeing this, your system has a dependency on ${name}, please remove it."
     exit 1
   '') // {
+    bin = refuse "${name}.bin";
     dev = refuse "${name}.dev";
   };
 
