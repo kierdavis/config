@@ -1,10 +1,7 @@
 # Saelli is a Thinkpad T440s, bought second-hand in 2018.
 # It is named after the song "Saelli" by "Corpo-Mente".
 
-let
-  network = import ../../network.nix;
-
-in { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
