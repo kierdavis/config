@@ -16,7 +16,7 @@
 
   # Location (used by redshift).
   location = {
-    latitude = 50.92;
-    longitude = -1.39;
+    latitude = 53.48;
+    longitude = -2.25;
   };
 }
