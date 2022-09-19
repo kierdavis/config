@@ -12,11 +12,13 @@ in {
     # Software
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
-    # Kubernetes/containers
+    # Infrastructure
     buildah
+    cue
     kubectl
     kubesh
-    kubernetes-helm
+    talosctl
+    terraform
 
     # Other
     duplicity

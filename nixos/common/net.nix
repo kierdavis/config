@@ -4,6 +4,19 @@ let
   hist = import ../../hist.nix;
   hist3 = import ../../hist3.nix;
   passwords = import ../../secret/passwords.nix;
+
+  hist5 =
+    let
+      secretCueDir = ../../secret/hist5/cue;
+      jsonFile = pkgs.runCommand "hist5-cue.json" {} ''
+        cp -rs ${../../hist5/cue} cue
+        chmod -R +w cue
+        ln -sfT ${../../secret/hist5/cue/secrets.cue} cue/secrets.cue
+        cd cue
+        ${pkgs.cue}/bin/cue export --out=json > $out
+      '';
+    in builtins.fromJSON (builtins.readFile jsonFile);
+
 in
 
 {
@@ -53,22 +66,34 @@ in
 
   networking.wireguard = {
     enable = true;
-    interfaces.wg-hist = let
-      localAddr = hist.hosts."${config.machine.name}".addresses.wg;
-      prefixLength = hist.networks.wg.prefixLength;
-    in {
-      ips = ["${localAddr}/${builtins.toString prefixLength}"];
-      listenPort = hist.wgPort;
-      privateKeyFile = "/etc/wg-hist.key";
-      peers = lib.mapAttrsToList (peerName: peer: {
-        inherit (peer) publicKey;
-        allowedIPs = ["${peer.addresses.wg}/128"] ++ (peer.wgGatewayTo or []);
-        endpoint = if peer ? addresses.default.public then "${peer.addresses.default.public}:${builtins.toString hist.wgPort}" else null;
+    interfaces.wg-hist5 = {
+      ips = ["${hist5.machines."${config.networking.hostName}".addresses.wireguard}/${builtins.toString hist5.networks.wireguard.prefixLength}"];
+      listenPort = hist5.networks.wireguard.listenPort;
+      privateKey = hist5.machines."${config.networking.hostName}".wireguardKey.private;
+      peers = builtins.map (peer: {
+        allowedIPs = [
+          "${peer.addresses.wireguard}/32"
+        ] ++ lib.optionals (peer.name == "talosgcp1") [
+          hist5.networks.services.cidr
+          hist5.networks.pods.cidr
+        ];
+        endpoint = "${peer.addresses.internet}:${builtins.toString hist5.networks.wireguard.listenPort}";
+        publicKey = peer.wireguardKey.public;
         persistentKeepalive = 25;
-      }) (lib.filterAttrs (peerName: peerInfo: peerName != config.machine.name && peerInfo ? addresses.wg) hist.hosts);
+      }) (builtins.filter (peer: peer.name != config.networking.hostName) (lib.attrsets.attrValues hist5.machines));
+      postSetup = ''
+        ip link set dev wg-hist5 mtu ${builtins.toString hist5.networks.wireguard.mtu}
+      '';
+      # postSetup = ''
+      #   ${pkgs.openresolv}/bin/resolvconf -a wg-hist5 -m 10 <<EOF
+      #   nameserver 10.171.8.10
+      #   EOF
+      # '';
+      # postShutdown = ''
+      #   ${pkgs.openresolv}/bin/resolvconf -d wg-hist5
+      # '';
     };
   };
-  networking.firewall.allowedUDPPorts = [ hist.wgPort ];
 
   networking.hosts = lib.groupBy' (names: entry: names ++ [entry.name]) [] (entry: entry.address) hist.dns;
 
