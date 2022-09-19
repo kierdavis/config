@@ -1,3 +1,6 @@
+# Shrink size of system closure.
+# Generally only used when having to compile the entire system from source.
+
 { config, pkgs, lib, ... }: {
   boot.plymouth.enable = lib.mkForce false;
   fonts.fontconfig.enable = lib.mkForce false;
