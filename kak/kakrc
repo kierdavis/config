@@ -1,9 +1,4 @@
-hook global InsertChar \t %{ try %{
-      execute-keys -draft "h<a-h><a-k>\A\h+\z<ret><a-;>;%opt{indentwidth}@"
-}}
-hook global InsertDelete ' ' %{ try %{
-      execute-keys -draft 'h<a-h><a-k>\A\h+\z<ret>i<space><esc><lt>'
-}}
+# Complete using tab key.
 hook global InsertCompletionShow .* %{
     try %{
         # this command temporarily removes cursors preceded by whitespace;
@@ -19,19 +14,57 @@ hook global InsertCompletionHide .* %{
     unmap window insert <tab> <c-n>
     unmap window insert <s-tab> <c-p>
 }
-set-option global indentwidth 2
 
+# Indent using tab key.
+hook global InsertChar \t %{ try %{
+      execute-keys -draft "hd<a-gt>"
+}}
+
+# Key binding for duplicating current line.
+map global normal D ':execute-keys -draft xyP<ret>'
+
+# Display tab characters as 2 chars wide, rather than the default 8.
+set-option global tabstop 2
+
+# Highlight invalid indentation.
+hook global BufSetOption indentwidth=(.*) %{
+  add-highlighter -override buffer/wrong-indentation regex %sh{if [[ "$kak_opt_indentwidth" -eq 0 ]]; then echo -n '^\h* \h*'; else echo -n '^\h*\t\h*'; fi} 0:Error
+}
+
+# Default indentation.
+set-option global indentwidth 2
+hook global BufSetOption filetype=(cue|go|makefile) %{
+  set-option buffer indentwidth 0
+}
+hook global BufCreate (.*/)?go\.mod %{
+  set-option buffer indentwidth 0
+}
+
+# Highlight trailing whitespace in an "error" colour.
+add-highlighter global/trailing-whitespace regex '\h+$' 0:Error
+
+# Command to remove all trailing whitespace.
+define-command -override tidy-ws %{
+  execute-keys -draft '%s\h+$<ret><a-d>'
+}
+
+# Additional filetype detection rules.
+hook global BufCreate (.*/)?[mM]akefile\.[^/]+ %{
+  set-option buffer filetype makefile
+}
+hook global BufCreate .*\.pyi %{
+  set-option buffer filetype python
+}
+
+# Disable weird autocomplete behaviour.
+hook global WinSetOption filetype=lua %{
+  remove-hooks window lua-insert
+}
+
+# fzf (fuzzy finder) plugin.
 source "%val{config}/thirdparty/fzf.kak/rc/fzf.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-file.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-buffer.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-search.kak"
 source "%val{config}/thirdparty/fzf.kak/rc/modules/fzf-cd.kak"
 map global normal <c-p> ': fzf-mode<ret>'
-
-hook global BufCreate .*[.](pyi) %{
-  set-option buffer filetype python
-}
-
-hook global WinSetOption filetype=lua %{
-  remove-hooks window lua-insert
-}
