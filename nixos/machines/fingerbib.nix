@@ -1,30 +1,6 @@
 let
   hist = import ../../hist.nix;
-  hist3 = import ../../hist3.nix;
   passwords = import ../../secret/passwords.nix;
-
-  kubernetes = { config, lib, pkgs, ... }: {
-    services.kubernetes = rec {
-      roles = ["master" "node"];
-      masterAddress = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
-      clusterCidr = hist3.networks.k8s_pods.cidr;
-      apiserver = {
-        bindAddress = masterAddress;
-        serviceClusterIpRange = hist3.networks.k8s_services.cidr;
-      };
-      kubelet = {
-        extraOpts = "--fail-swap-on=false";
-        hostname = config.networking.hostName;
-        nodeIp = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
-      };
-      pki = {
-        enable = true;
-        pkiTrustOnBootstrap = true;
-      };
-    };
-    environment.systemPackages = with pkgs; [ kubectl ];
-    networking.firewall.allowedTCPPorts = [ config.services.kubernetes.apiserver.securePort ];
-  };
 
   torrentClient = { config, lib, pkgs, ... }: {
     options.torrentClient = with lib; {
