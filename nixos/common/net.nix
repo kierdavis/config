@@ -76,9 +76,10 @@ in
           hist5.networks.services.cidr
           hist5.networks.pods.cidr
         ];
-        endpoint = "${peer.addresses.internet}:${builtins.toString hist5.networks.wireguard.listenPort}";
         publicKey = peer.wireguardKey.public;
         persistentKeepalive = 25;
+      } // lib.optionalAttrs (peer.addresses.internet != null) {
+        endpoint = "${peer.addresses.internet}:${builtins.toString hist5.networks.wireguard.listenPort}";
       }) (builtins.filter (peer: peer.name != config.networking.hostName) (lib.attrsets.attrValues hist5.machines));
       postSetup = ''
         ip link set dev wg-hist5 mtu ${builtins.toString hist5.networks.wireguard.mtu}
