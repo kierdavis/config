@@ -17,7 +17,7 @@ in
 
 {
   networking.hostName = config.machine.name;
-  networking.domain = "hist";
+  networking.domain = "hist5";
 
   networking.iproute2.enable = true;
 
