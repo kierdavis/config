@@ -1,5 +1,4 @@
 let
-  hist = import ../../hist.nix;
   passwords = import ../../secret/passwords.nix;
 
   torrentClient = { config, lib, pkgs, ... }: {
@@ -53,7 +52,7 @@ let
             address = cfg.hostAddress;
             interface = "eth0";
           };
-          networking.nameservers = hist.upstreamNameServers;
+          networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
           networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
           networking.firewall.enable = true;
           networking.firewall.interfaces.eth0.allowedTCPPorts = [ cfg.httpPort ];
@@ -110,18 +109,18 @@ let
         ip46tables --append FORWARD --in-interface ve-transmission --jump transmission-egress
       '';
       networking.nat.internalInterfaces = [ "ve-transmission" ];
-      hist.local.webServer.virtualHosts.torrents.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
+      local.webServer.virtualHosts.torrents.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
     };
   };
 
   webServer = { config, lib, pkgs, ... }: let
-    cfg = config.hist.local.webServer;
+    cfg = config.local.webServer;
     defaultVirtualHost = name: {
-      listen = [ { addr = "[${hist.hosts.fingerbib.addresses.wg}]"; port = 80; } ];
+      listen = [ { addr = "[fdec:affb:e11e:1::3]"; port = 80; } ];
       serverAliases = [ "${name}.hist" ];
     };
   in {
-    options.hist.local.webServer = with lib; {
+    options.local.webServer = with lib; {
       virtualHosts = mkOption { type = types.attrsOf types.attrs; default = {}; };
     };
     config = {
@@ -129,19 +128,18 @@ let
         enable = true;
         virtualHosts = lib.mapAttrs (name: vh: defaultVirtualHost name // vh) cfg.virtualHosts;
       };
-      hist.local.webServer.virtualHosts.default = {
+      local.webServer.virtualHosts.default = {
         default = true;
         locations."/".return = ''404 "no such virtual host"'';
       };
-      networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ 80 ];
     };
   };
 
   mediaServer = { config, lib, pkgs, ... }: {
     services.jellyfin.enable = true;
-    hist.local.webServer.virtualHosts.media.locations."/".proxyPass = "http://localhost:8096/";
-    hist.local.webServer.virtualHosts.media-lan = {
-      listen = [ { addr = "${hist.hosts.fingerbib.addresses.lan}"; port = 80; } ];
+    local.webServer.virtualHosts.media.locations."/".proxyPass = "http://localhost:8096/";
+    local.webServer.virtualHosts.media-lan = {
+      listen = [ { addr = "192.168.178.3"; port = 80; } ];
       serverName = "media";
       serverAliases = [ "media.fritz.box" ];
       default = true;
@@ -176,7 +174,7 @@ let
           pkgs.hplip
         ];
       };
-      hist.local.webServer.virtualHosts.printing.locations."/".proxyPass = "http://localhost:631/";
+      local.webServer.virtualHosts.printing.locations."/".proxyPass = "http://localhost:631/";
     };
   };
 
@@ -302,11 +300,11 @@ in { config, lib, pkgs, ... }: {
   services.udev.extraRules = ''ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:37:e6:bd:b8:54", NAME="en-lan"'';
   networking.bridges.br-lan.interfaces = [ "en-lan" ];
   networking.interfaces.br-lan.ipv4.addresses = [{
-    address = hist.hosts.fingerbib.addresses.lan;
-    prefixLength = hist.networks.lan.prefixLength;
+    address = "192.168.178.3";
+    prefixLength = 24;
   }];
   networking.defaultGateway = {
-    address = "${hist.networks.lan.prefix}.1";
+    address = "192.168.178.1";
     interface = "br-lan";
   };
   networking.nameservers = [ config.networking.defaultGateway.address ];
@@ -319,8 +317,8 @@ in { config, lib, pkgs, ... }: {
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
 
   torrentClient = {
-    hostAddress = "${hist.networks.pointToPoint.prefix}.1";
-    containerAddress = "${hist.networks.pointToPoint.prefix}.2";
+    hostAddress = "192.168.103.1";
+    containerAddress = "192.168.103.2";
     vpn = import ../../secret/nordvpn // { hostName = "nordvpn"; };
   };
 
