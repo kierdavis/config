@@ -16,7 +16,6 @@ locals {
 }
 
 locals {
-  hist2 = jsondecode(file("../hist2.json"))
   hist2_secret = jsondecode(sensitive(file("../secret/hist2.json")))
 }
 
