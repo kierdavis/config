@@ -21,13 +21,8 @@ in {
     terraform
 
     # Other
-    duplicity
-    fina
-    keybase
     sr-tools
   ];
-
-  services.keybase.enable = true;
 
   documentation.dev.enable = lib.mkOverride 500 true;
 }

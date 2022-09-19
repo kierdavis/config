@@ -19,5 +19,5 @@ in {
 
   environment.variables.BOINC_DATA_DIR = config.services.boinc.dataDir;
 
-  networking.firewall.interfaces.wg-hist.allowedTCPPorts = [ 31416 ];
+  # networking.firewall.interfaces.xxx.allowedTCPPorts = [ 31416 ];
 }

@@ -11,16 +11,6 @@
   };
   boot.loader.grub.zfsSupport = true;
 
-#  # ZFS auto-snapshotting
-#  services.zfs.autoSnapshot = {
-#    enable = true;
-#    frequent = 4; # every 15 minutes
-#    hourly = 4;
-#    daily = 7;
-#    weekly = 4;
-#    monthly = 6;
-#  };
-
   # Hard disk spin-down time / Advanced Power Management.
   # https://wiki.archlinux.org/index.php/hdparm#Tips_and_tricks
   # Match only devices named by the kernel as sd[a-z].
@@ -38,6 +28,4 @@
 
   # By default this is in /etc, which is not very NixOS-friendly.
   environment.variables.LVM_SYSTEM_DIR = "/var/lvm";
-
-  # boot.supportedFilesystems = ["nfs"];
 }

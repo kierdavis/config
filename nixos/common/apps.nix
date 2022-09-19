@@ -1,17 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  nixos-rebuild-remote = pkgs.writeShellScriptBin "nixos-rebuild-remote" ''
-    set -o errexit -o nounset -o pipefail
-    host="$1"
-    shift
-    ping -c1 "$host"
-    ssh_dir=/home/kier/.ssh
-    ssh_key=$ssh_dir/$(ls $ssh_dir | grep -E '^id_(rsa|ed25519)$')
-    exec nixos-rebuild --builders "ssh://nixremotebuild@$host - $ssh_key 4 - big-parallel" --max-jobs 0 "$@"
-  '';
-
-in {
+{
   # bash completion
   programs.bash.enableCompletion = true;
 
@@ -61,14 +50,12 @@ in {
     man-pages
     mountext
     ncdu
-    nixos-rebuild-remote
     pbzip2
     pigz
     psmisc  # provides killall
     pv
     ripgrep
     screen
-    sshfs
     tree
     umountext
     unzip

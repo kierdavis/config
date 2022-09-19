@@ -33,16 +33,6 @@ in {
     useDefaultShell = true;
   };
 
-  users.users.nixremotebuild = {
-    description = "Nix remote build user";
-    isNormalUser = false;
-    isSystemUser = true;
-    openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
-    useDefaultShell = true;
-    group = "nixremotebuild";
-  };
-  users.groups.nixremotebuild = {};
-
   # Allow access to USB devices without requiring root permissions
   services.udev.extraRules = ''
     # SR V4 power board
@@ -59,7 +49,7 @@ in {
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", GROUP="dialout", MODE="0666"
   '';
 
-  nix.trustedUsers = [ "root" "kier" "nixremotebuild" ];
+  nix.trustedUsers = [ "root" "kier" ];
 
   # sudo
   security.sudo = {

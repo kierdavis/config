@@ -2,10 +2,6 @@
 
 let
   hostname = config.machine.name;
-  print3dPassword = (import ../../../secret/passwords.nix).user.fingerbib-3dprint.plain;
-  print3dScript = pkgs.writeShellScriptBin "3dprint" ''
-    exec ${pkgs.freerdp}/bin/xfreerdp /v:fingerbib /u:3dprint /p:${print3dPassword} /drive:${hostname},/ /w:2520 /h:1040
-  '';
 
 in {
   # redshift (adjusts colour temperature of displays at night)
@@ -15,9 +11,7 @@ in {
   programs.light.enable = true;
 
   # Other programs
-  programs.adb.enable = false;
   programs.steam.enable = true;
-  virtualisation.virtualbox.host.enable = true;
   environment.systemPackages = with pkgs; [
     citrix_workspace
     cups  # client
@@ -30,9 +24,8 @@ in {
     i3lock
     pavucontrol
     pinentry-gnome
-    polymc
+    # polymc  # multimc successor
     screenshot
-    signal-desktop
     spotify
     terminator
     tor-browser-bundle-bin
@@ -42,11 +35,6 @@ in {
     # Development
     (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     freecad
-    geda
-    kicad
-    pcb
-    print3dScript
-    quartus
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:
