@@ -106,7 +106,7 @@ in {
     };
     openjdk = super.openjdk.override { headless = true; };
     openjdk8 = super.openjdk8.override { headless = true; };
-    oepnjdk11 = super.openjdk11.override { headless = true; };
+    openjdk11 = super.openjdk11.override { headless = true; };
     openjdk14 = super.openjdk14.override { headless = true; };
     pango = (super.pango.override {
       x11Support = false;
