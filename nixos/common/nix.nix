@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  # The NixOS release to be compatible with for stateful data such as databases.
+  system.stateVersion = "18.09";
+
   nix.useSandbox = true;
   nix.buildCores = config.machine.cpu.cores;
   # If there is more than one job running and they're all running make -j$buildCores -l$buildCores,
