@@ -2,25 +2,21 @@ terraform {
   required_providers {
     cloudflare = {
       source = "cloudflare/cloudflare"
+      version = "~> 3.23.0"
     }
   }
 }
 
-provider "cloudflare" {
-  email = local.hist2_secret.api.cloudflare.email
-  api_key = local.hist2_secret.api.cloudflare.api_key
+variable "cue" {
+  type = any
 }
 
 locals {
   beagle2_ipv4 = "176.9.121.81"
 }
 
-locals {
-  hist2_secret = jsondecode(sensitive(file("../secret/hist2.json")))
-}
-
 resource "cloudflare_record" "kierdavis_com_a" {
-  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
+  zone_id = var.cue.cloudflare.zoneIds.kierdavisCom
   name = "kierdavis.com"
   type = "A"
   value = local.beagle2_ipv4
@@ -28,7 +24,7 @@ resource "cloudflare_record" "kierdavis_com_a" {
 }
 
 resource "cloudflare_record" "www_kierdavis_com_a" {
-  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
+  zone_id = var.cue.cloudflare.zoneIds.kierdavisCom
   name = "www"
   type = "A"
   value = local.beagle2_ipv4
@@ -36,7 +32,7 @@ resource "cloudflare_record" "www_kierdavis_com_a" {
 }
 
 resource "cloudflare_record" "git_kierdavis_com_a" {
-  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
+  zone_id = var.cue.cloudflare.zoneIds.kierdavisCom
   name = "git"
   type = "A"
   value = local.beagle2_ipv4
@@ -59,7 +55,7 @@ resource "cloudflare_record" "kierdavis_com_mx" {
       priority = 10
     }
   }
-  zone_id = local.hist2_secret.api.cloudflare.zone_ids.kierdavis_com
+  zone_id = var.cue.cloudflare.zoneIds.kierdavisCom
   name = "kierdavis.com"
   type = "MX"
   value = each.value.value

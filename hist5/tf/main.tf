@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "~> 3.23.0"
+    }
     cue = {
       source = "xinau/cue"
       version = "~> 0.1.0"
@@ -19,9 +23,8 @@ locals {
   cue = jsondecode(data.cue_export.main.rendered)
 }
 
-module "gcp" {
-  source = "./gcp"
-  cue = local.cue
+provider "cloudflare" {
+  api_token = local.cue.cloudflare.apiToken
 }
 
 provider "kubernetes" {
@@ -42,10 +45,20 @@ module "apps" {
   storage_classes = module.rook_ceph.storage_classes
 }
 
+module "cloudflare" {
+  source = "./cloudflare"
+  cue = local.cue
+}
+
 module "cni" {
   source = "./cni"
   namespace = kubernetes_namespace.system.metadata[0].name
   pod_network_cidr = local.cue.networks.pods.cidr
+}
+
+module "gcp" {
+  source = "./gcp"
+  cue = local.cue
 }
 
 module "rook_ceph" {
