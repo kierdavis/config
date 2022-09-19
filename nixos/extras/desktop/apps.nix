@@ -11,14 +11,18 @@ in {
   programs.light.enable = true;
 
   # Other programs
+  programs.chromium.enable = true;
   programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
+    (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     citrix_workspace
     cups  # client
     dmenu
     evince
+    freecad
     gimp
     gnome3.eog
+    google-chrome
     i3blocks
     i3blocks-scripts
     i3lock
@@ -31,10 +35,6 @@ in {
     tor-browser-bundle-bin
     vlc
     zoom-us
-
-    # Development
-    (blender.override { cudaSupport = config.machine.gpu.nvidia; })
-    freecad
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:
@@ -43,6 +43,9 @@ in {
     allowedUDPPorts = [ 57621 ];
   };
 
-  environment.variables.CUPS_SERVER = "printing.hist:80";
-  environment.variables.PRINTER = "HP_Envy_5640";
+  # Hack to make Google Chrome send DNS AAAA queries in addition to A queries even if the machine has no IPv6 internet connection.
+  #networking.interfaces.lo.ipv6.routes = lib.optional (!config.machine.ipv6-internet) {
+  #  address = "2001:4860:4860::8888";
+  #  prefixLength = 128;
+  #};
 }

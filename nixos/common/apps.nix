@@ -35,6 +35,8 @@
   };
 
   # other programs
+  programs.git.enable = true;
+  programs.htop.enable = true;
   programs.iotop.enable = true;
   programs.less.enable = true;
   programs.traceroute.enable = true;
@@ -43,7 +45,6 @@
     bc
     file
     fzf
-    git
     gptfdisk
     jq
     kakoune
@@ -65,7 +66,6 @@
     # System diagnostics
     dnsutils  # dig
     fping
-    htop
     lshw
     lsof
     nmap

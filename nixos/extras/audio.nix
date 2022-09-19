@@ -13,4 +13,10 @@ in {
   hardware.pulseaudio.support32Bit = true; # Might be necessary for some Steam games.
   hardware.pulseaudio.configFile = pulseConfig;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
+
+  # required for fluidsynth
+  security.pam.loginLimits = [
+    { domain = "@audio"; type = "-"; item = "rtprio"; value = "90"; }
+    { domain = "@audio"; type = "-"; item = "memlock"; value = "unlimited"; }
+  ];
 }
