@@ -101,4 +101,26 @@ in
     address = hist3.nodes."${config.networking.hostName}".addresses.hist3_v4;
     prefixLength = hist3.networks.hist3_v4.prefixLength;
   }];
+
+  # resolvconf prioritises interfaces according to a metric (lower is better).
+  # This metric is provided via -m or IFMETRIC when resolvconf -a is called.
+  # NixOS static configuration (networking.nameservers) option has metric 1.
+  # DHCP interfaces have a default metric of 1000 + if_nametoindex(3), but this can be overridden in dhcpcd.conf.
+  networking.resolvconf.enable = true;
+  systemd.services.fallback-dns-config = {
+    inherit (config.systemd.services.network-setup) before wants partOf conflicts wantedBy;
+    after = ["network-pre.target"];
+    serviceConfig.Type = "oneshot";
+    serviceConfig.RemainAfterExit = true;
+    unitConfig.DefaultDependencies = false;
+    script = ''
+      ${pkgs.openresolv}/sbin/resolvconf -a static-fallback -m 800 <<EOF
+      nameserver 1.1.1.1
+      nameserver 1.0.0.1
+      EOF
+    '';
+    preStop = ''
+      ${pkgs.openresolv}/sbin/resolvconf -d static-fallback
+    '';
+  };
 }
