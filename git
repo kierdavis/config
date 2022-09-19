@@ -8,7 +8,6 @@
 	program = gpg
 [core]
 	editor = /run/current-system/sw/bin/kak
-	excludesfile = /home/kier/.gitignore
 [merge]
 	conflictStyle = diff3
 [pull]
