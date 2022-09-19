@@ -38,3 +38,11 @@ machines: "talosgcp3": {
 machines: "coloris": {
 	addresses: wireguard: "10.181.2.254"
 }
+
+machines: "saelli": {
+	addresses: wireguard: "10.181.2.253"
+}
+
+machines: "fingerbib": {
+	addresses: wireguard: "10.181.2.252"
+}
