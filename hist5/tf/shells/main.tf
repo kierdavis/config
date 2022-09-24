@@ -59,6 +59,17 @@ resource "kubernetes_daemonset" "host" {
               ephemeral-storage = "1Gi"
             }
           }
+          volume_mount {
+            name = "host"
+            mount_path = "/host"
+            read_only = true
+          }
+        }
+        volume {
+          name = "host"
+          host_path {
+            path = "/"
+          }
         }
       }
     }
