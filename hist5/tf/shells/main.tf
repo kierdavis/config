@@ -71,6 +71,14 @@ resource "kubernetes_daemonset" "host" {
             path = "/"
           }
         }
+        toleration {
+          effect = "NoExecute"
+          operator = "Exists"
+        }
+        toleration {
+          effect = "NoSchedule"
+          operator = "Exists"
+        }
       }
     }
   }
@@ -122,6 +130,14 @@ resource "kubernetes_deployment" "cluster" {
               ephemeral-storage = "1Gi"
             }
           }
+        }
+        toleration {
+          effect = "NoExecute"
+          operator = "Exists"
+        }
+        toleration {
+          effect = "NoSchedule"
+          operator = "Exists"
         }
       }
     }
