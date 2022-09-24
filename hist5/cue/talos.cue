@@ -129,7 +129,8 @@ kubeconfig: {
 		name: "hist5"
 		cluster: {
 			"certificate-authority-data": machines.talosgcp1.talos.cluster.ca.crt
-			"server": "https://\(machines.talosgcp1.addresses.wireguard):6443"
+			// "server": "https://\(machines.talosgcp1.addresses.wireguard):6443"
+			"server": "https://10.181.8.1"
 		}
 	}]
 	users: [{
