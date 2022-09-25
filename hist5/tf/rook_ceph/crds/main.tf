@@ -1,4 +1,4 @@
-# tfk8s -f .../rook/deploy/examples/crds.yaml -o rook_ceph_crds.tf
+# From https://github.com/rook/rook/raw/v1.10.1/deploy/examples/crds.yaml
 
 terraform {
   required_providers {

@@ -1,4 +1,4 @@
-# tfk8s -f .../rook/deploy/examples/operator.yaml -o rook_ceph_operator.tf
+# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/operator.yaml
 
 terraform {
   required_providers {
@@ -149,10 +149,6 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_operator" {
                       "fieldPath" = "metadata.namespace"
                     }
                   }
-                },
-                {
-                  "name" = "ROOK_LOG_LEVEL"
-                  "value" = "DEBUG"
                 },
               ]
               "image" = "rook/ceph:v1.10.1"
