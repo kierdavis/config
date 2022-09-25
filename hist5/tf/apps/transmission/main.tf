@@ -179,7 +179,6 @@ resource "kubernetes_persistent_volume_claim" "stateful_config" {
 }
 
 resource "kubernetes_deployment" "main" {
-  wait_for_rollout = false  # TODO
   metadata {
     name = "transmission"
     namespace = var.namespace
