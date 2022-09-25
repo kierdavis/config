@@ -115,7 +115,7 @@ talosconfig: {
 				machine.addresses.wireguard
 			}
 		]
-		nodes: [endpoints[0]]
+		nodes: endpoints
 		ca: string
 		crt: string
 		key: string

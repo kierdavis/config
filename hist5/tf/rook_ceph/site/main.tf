@@ -135,7 +135,7 @@ resource "kubernetes_manifest" "cephobjectstore_nonvolatile_0" {
     "apiVersion" = "ceph.rook.io/v1"
     "kind" = "CephObjectStore"
     "metadata" = {
-      "name" = "nonvolatile-0"
+      "name" = "obj-nonvolatile-0"
       "namespace" = var.namespace
     }
     "spec" = {
@@ -152,7 +152,7 @@ resource "kubernetes_manifest" "cephobjectstore_nonvolatile_0" {
         # back up.
         "parameters" = {
           "bulk" = "0"
-          "pg_num_min" = "4"
+          "pg_num_min" = "1"
         }
       }
       "dataPool" = {
@@ -160,13 +160,13 @@ resource "kubernetes_manifest" "cephobjectstore_nonvolatile_0" {
         "erasureCoded" = { "dataChunks" = 2, "codingChunks" = 1 }
         "parameters" = {
           "bulk" = "1"
-          "pg_num_min" = "4"
+          "pg_num_min" = "1"
         }
       }
       "preservePoolsOnDelete" = false
       "gateway" = {
         "port" = 80
-        "instances" = 3
+        "instances" = 2
       }
     }
   }

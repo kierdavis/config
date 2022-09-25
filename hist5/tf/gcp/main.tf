@@ -141,16 +141,7 @@ resource "google_compute_disk" "ceph_std1" {
   zone = each.value.gcpZone
   name = "${each.key}-ceph-std1"
   type = "pd-standard"
-  size = 100
-}
-
-resource "google_compute_disk" "ceph_std2" {
-  for_each = local.machines
-  project = google_project.main.project_id
-  zone = each.value.gcpZone
-  name = "${each.key}-ceph-std2"
-  type = "pd-standard"
-  size = 582
+  size = 682
 }
 
 resource "google_compute_resource_policy" "os_snapshot" {
@@ -199,11 +190,6 @@ resource "google_compute_instance" "talos" {
   attached_disk {
     source = google_compute_disk.ceph_std1[each.key].self_link
     device_name = "ceph-std1"
-    mode = "READ_WRITE"
-  }
-  attached_disk {
-    source = google_compute_disk.ceph_std2[each.key].self_link
-    device_name = "ceph-std2"
     mode = "READ_WRITE"
   }
   network_interface {

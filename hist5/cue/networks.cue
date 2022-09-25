@@ -20,7 +20,7 @@ networks: {
 	wireguard: {
 		baseAddress: "10.181.2.0"
 		prefixLength: 24
-		mtu: gcpMachines.mtu - 80
+		mtu: gcpMachines.mtu - 80  // size of header added by wireguard
 		listenPort: 19908
 	}
 
@@ -32,5 +32,6 @@ networks: {
 	pods: {
 		baseAddress: "10.181.16.0"
 		prefixLength: 20
+		mtu: wireguard.mtu - 88  // size of header added by weave-net
 	}
 }

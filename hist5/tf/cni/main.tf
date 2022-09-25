@@ -1,4 +1,4 @@
-# https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+# From https://cloud.weave.works/k8s/v1.16/net.yaml
 
 terraform {
   required_providers {
@@ -9,286 +9,375 @@ terraform {
   }
 }
 
-variable "namespace" {
-  type = string
-}
-
 variable "pod_network_cidr" {
   type = string
 }
 
-resource "kubernetes_cluster_role" "flannel" {
+variable "pod_network_mtu" {
+  type = number
+}
+
+resource "kubernetes_service_account" "main" {
   metadata {
-    name = "flannel"
+    name = "weave-net"
+    namespace = "kube-system"
+    labels = {
+      "name" = "weave-net"
+    }
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
+  }
+}
+
+resource "kubernetes_cluster_role" "main" {
+  metadata {
+    name = "weave-net"
+    labels = {
+      "name" = "weave-net"
+    }
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
   }
   rule {
     api_groups = [""]
-    resources = ["pods"]
-    verbs = ["get"]
+    resources = ["pods", "namespaces", "nodes"]
+    verbs = ["get", "list", "watch"]
   }
   rule {
-    api_groups = [""]
-    resources = ["nodes"]
-    verbs = ["list", "watch"]
+    api_groups = ["networking.k8s.io"]
+    resources = ["networkpolicies"]
+    verbs = ["get", "list", "watch"]
   }
   rule {
     api_groups = [""]
     resources = ["nodes/status"]
-    verbs = ["patch"]
+    verbs = ["patch", "update"]
   }
 }
 
-resource "kubernetes_cluster_role_binding" "flannel" {
+resource "kubernetes_cluster_role_binding" "main" {
   metadata {
-    name = "flannel"
+    name = "weave-net"
+    labels = {
+      "name" = "weave-net"
+    }
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.flannel.metadata[0].name
+    kind = "ClusterRole"
+    name = kubernetes_cluster_role.main.metadata[0].name
   }
   subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.flannel.metadata[0].name
-    namespace = kubernetes_service_account.flannel.metadata[0].namespace
+    kind = "ServiceAccount"
+    name = kubernetes_service_account.main.metadata[0].name
+    namespace = kubernetes_service_account.main.metadata[0].namespace
   }
 }
 
-resource "kubernetes_service_account" "flannel" {
+resource "kubernetes_role" "main" {
   metadata {
-    name      = "flannel"
-    namespace = var.namespace
-  }
-  automount_service_account_token = false
-}
-
-resource "kubernetes_config_map" "flannel" {
-  metadata {
+    name = "weave-net"
+    namespace = "kube-system"
     labels = {
-      "app"  = "flannel"
-      "tier" = "node"
+      "name" = "weave-net"
     }
-    name      = "flannel"
-    namespace = var.namespace
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
   }
-  data = {
-    "cni-conf.json" = jsonencode(
-      {
-        cniVersion = "0.3.1"
-        name       = "cbr0"
-        plugins = [
-          {
-            delegate = {
-              hairpinMode      = true
-              isDefaultGateway = true
-            }
-            type = "flannel"
-          },
-          {
-            capabilities = {
-              portMappings = true
-            }
-            type = "portmap"
-          },
-        ]
-      }
-    )
-    "net-conf.json" = jsonencode(
-      {
-        Backend = {
-          Type = "vxlan"
-          Port = 4789
-        }
-        Network = var.pod_network_cidr
-      }
-    )
+  rule {
+    api_groups = [""]
+    resource_names = ["weave-net"]
+    resources = ["configmaps"]
+    verbs = ["get", "update"]
+  }
+  rule {
+    api_groups = [""]
+    resources = ["configmaps"]
+    verbs = ["create"]
   }
 }
 
-resource "kubernetes_daemonset" "flannel" {
+resource "kubernetes_role_binding" "main" {
   metadata {
+    name = "weave-net"
+    namespace = "kube-system"
     labels = {
-      "app"  = "flannel"
-      "tier" = "node"
+      "name" = "weave-net"
     }
-    name      = "flannel"
-    namespace = var.namespace
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind = "Role"
+    name = kubernetes_role.main.metadata[0].name
+  }
+  subject {
+    kind = "ServiceAccount"
+    name = kubernetes_service_account.main.metadata[0].name
+    namespace = kubernetes_service_account.main.metadata[0].namespace
+  }
+}
+
+resource "kubernetes_daemonset" "main" {
+  metadata {
+    name = "weave-net"
+    namespace = "kube-system"
+    labels = {
+      "name" = "weave-net"
+    }
+    annotations = {
+      "cloud.weave.works/launcher-info" = <<-EOT
+      {
+        "original-request": {
+          "url": "/k8s/v1.16/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIyMyIsIEdpdFZlcnNpb246InYxLjIzLjUiLCBHaXRDb21taXQ6ImMyODVlNzgxMzMxYTM3ODVhN2Y0MzYwNDJjNjVjNTY0MWNlOGE5ZTkiLCBHaXRUcmVlU3RhdGU6ImFyY2hpdmUiLCBCdWlsZERhdGU6IjE5ODAtMDEtMDFUMDA6MDA6MDBaIiwgR29WZXJzaW9uOiJnbzEuMTcuMTAiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjI1IiwgR2l0VmVyc2lvbjoidjEuMjUuMCIsIEdpdENvbW1pdDoiYTg2NmNiZTJlNWJiYWEwMWNmZDVlOTY5YWEzZTAzM2YzMjgyYThhMiIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMjItMDgtMjNUMTc6Mzg6MTVaIiwgR29WZXJzaW9uOiJnbzEuMTkiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQo=",
+          "date": "Sat Sep 24 2022 21:36:54 GMT+0000 (UTC)"
+        },
+        "email-address": "support@weave.works"
+      }
+      EOT
+    }
   }
   spec {
-    min_ready_seconds      = 0
-    revision_history_limit = 10
+    min_ready_seconds = 5
     selector {
-      match_labels = { "app" = "flannel" }
+      match_labels = {
+        "name" = "weave-net"
+      }
     }
     strategy {
       type = "RollingUpdate"
-      rolling_update {
-        max_unavailable = "1"
-      }
     }
     template {
       metadata {
         labels = {
-          "app"  = "flannel"
-          "tier" = "node"
+          "name" = "weave-net"
         }
       }
       spec {
-        automount_service_account_token  = true
-        dns_policy                       = "ClusterFirst"
-        enable_service_links             = false
-        host_ipc                         = false
-        host_network                     = true
-        host_pid                         = false
-        node_selector                    = {}
-        priority_class_name              = "system-node-critical"
-        restart_policy                   = "Always"
-        service_account_name             = "flannel"
-        share_process_namespace          = false
-        termination_grace_period_seconds = 30
+        dns_policy = "ClusterFirstWithHostNet"
+        host_network = true
+        priority_class_name = "system-node-critical"
+        restart_policy = "Always"
+        service_account_name = kubernetes_service_account.main.metadata[0].name
+        # Workaround for missing 'loopback' plugin.
         init_container {
-          args                       = ["-f", "/etc/kube-flannel/cni-conf.json", "/etc/cni/net.d/10-flannel.conflist"]
-          command                    = ["cp"]
-          image                      = "ghcr.io/siderolabs/flannel:v0.19.2"
-          image_pull_policy          = "IfNotPresent"
-          name                       = "install-config"
-          stdin                      = false
-          stdin_once                 = false
-          termination_message_path   = "/dev/termination-log"
-          termination_message_policy = "File"
-          tty                        = false
+          name = "setup-standard-cni-plugins"
+          image = "docker.io/kierdavis/cni-plugin-installer:v1.1.1-2"
           volume_mount {
-            mount_path = "/etc/cni/net.d"
-            name       = "cni"
-            read_only  = false
-          }
-          volume_mount {
-            mount_path = "/etc/kube-flannel/"
-            name       = "flannel-cfg"
-            read_only  = false
+            name = "cni-bin"
+            mount_path = "/host/opt/cni/bin"
           }
         }
         init_container {
-          command                    = ["/install-cni.sh"]
-          image                      = "ghcr.io/siderolabs/install-cni:v1.2.0-1-g116c5a9"
-          image_pull_policy          = "IfNotPresent"
-          name                       = "install-cni"
-          stdin                      = false
-          stdin_once                 = false
-          termination_message_path   = "/dev/termination-log"
-          termination_message_policy = "File"
-          tty                        = false
+          name = "weave-init"
+          image = "ghcr.io/weaveworks/launcher/weave-kube:2.8.1"
+          command = ["/home/weave/init.sh"]
+          security_context {
+            privileged = true
+          }
           volume_mount {
+            name = "cni-bin"
             mount_path = "/host/opt/cni/bin"
-            name       = "cni-plugin"
-            read_only  = false
+          }
+          # volume_mount {
+          #   name = "cni-bin2"
+          #   mount_path = "/host/home"
+          # }
+          volume_mount {
+            name = "cni-conf"
+            mount_path = "/host/etc"
+          }
+          volume_mount {
+            name = "lib-modules"
+            mount_path = "/lib/modules"
+          }
+          volume_mount {
+            name = "xtables-lock"
+            mount_path = "/run/xtables.lock"
           }
         }
         container {
-          args                       = ["--ip-masq", "--kube-subnet-mgr", "-iface", "wg-hist5"]
-          command                    = ["/opt/bin/flanneld"]
-          image                      = "ghcr.io/siderolabs/flannel:v0.19.2"
-          image_pull_policy          = "IfNotPresent"
-          name                       = "kube-flannel"
-          stdin                      = false
-          stdin_once                 = false
-          termination_message_path   = "/dev/termination-log"
-          termination_message_policy = "File"
-          tty                        = false
+          name = "weave"
+          image = "ghcr.io/weaveworks/launcher/weave-kube:2.8.1"
+          command = ["/home/weave/launch.sh"]
           env {
-            name = "POD_NAME"
+            name = "HOSTNAME"
             value_from {
               field_ref {
                 api_version = "v1"
-                field_path  = "metadata.name"
+                field_path = "spec.nodeName"
               }
             }
           }
           env {
-            name = "POD_NAMESPACE"
-            value_from {
-              field_ref {
-                api_version = "v1"
-                field_path  = "metadata.namespace"
-              }
-            }
+            name = "IPALLOC_RANGE"
+            value = var.pod_network_cidr
           }
           env {
-            name = "POD_IP"
-            value_from {
-              field_ref {
-                api_version = "v1"
-                field_path  = "status.podIP"
-              }
-            }
+            name = "WEAVE_MTU"
+            value = tostring(var.pod_network_mtu)
           }
           env {
-            name  = "EVENT_QUEUE_DEPTH"
-            value = "5000"
+            name = "INIT_CONTAINER"
+            value = "true"
+          }
+          readiness_probe {
+            http_get {
+              host = "127.0.0.1"
+              path = "/status"
+              port = 6784
+            }
           }
           resources {
-            limits = {
-              "cpu"    = "100m"
-              "memory" = "50Mi"
-            }
             requests = {
-              "cpu"    = "100m"
-              "memory" = "50Mi"
+              cpu = "50m"
+              memory = "100Mi"
             }
           }
           security_context {
-            allow_privilege_escalation = false
-            privileged                 = false
-            read_only_root_filesystem  = false
-            run_as_non_root            = false
-            capabilities {
-              add = [
-                "NET_ADMIN",
-                "NET_RAW",
-              ]
-              drop = []
+            privileged = true
+          }
+          volume_mount {
+            name = "weavedb"
+            mount_path = "/weavedb"
+          }
+          volume_mount {
+            name = "dbus"
+            mount_path = "/host/var/lib/dbus"
+          }
+          volume_mount {
+            name = "machine-id"
+            mount_path = "/host/etc/machine-id"
+            read_only = true
+          }
+          volume_mount {
+            name = "xtables-lock"
+            mount_path = "/run/xtables.lock"
+          }
+        }
+        container {
+          name = "weave-npc"
+          image = "ghcr.io/weaveworks/launcher/weave-npc:2.8.1"
+          env {
+            name = "HOSTNAME"
+            value_from {
+              field_ref {
+                api_version = "v1"
+                field_path = "spec.nodeName"
+              }
             }
           }
-          volume_mount {
-            mount_path = "/run/flannel"
-            name       = "run"
-            read_only  = false
+          resources {
+            requests = {
+              cpu = "50m"
+              memory = "100Mi"
+            }
+          }
+          security_context {
+            privileged = true
           }
           volume_mount {
-            mount_path = "/etc/kube-flannel/"
-            name       = "flannel-cfg"
-            read_only  = false
-          }
-          volume_mount {
+            name = "xtables-lock"
             mount_path = "/run/xtables.lock"
-            name       = "xtables-lock"
-            read_only  = false
           }
         }
+        toleration {
+          effect = "NoSchedule"
+          operator = "Exists"
+        }
+        toleration {
+          effect = "NoExecute"
+          operator = "Exists"
+        }
         volume {
-          name = "run"
+          name = "weavedb"
           host_path {
-            path = "/run/flannel"
+            path = "/var/lib/weave"
           }
         }
         volume {
-          name = "cni-plugin"
+          name = "cni-bin"
           host_path {
             path = "/opt/cni/bin"
           }
         }
+        #volume {
+        #  name = "cni-bin2"
+        #  host_path {
+        #    path = "/home"
+        #  }
+        #}
         volume {
-          name = "cni"
+          name = "cni-conf"
           host_path {
-            path = "/etc/cni/net.d"
+            path = "/etc"
           }
         }
         volume {
-          name = "flannel-cfg"
-          config_map {
-            default_mode = "0644"
-            name         = "flannel"
-            optional     = false
+          name = "dbus"
+          host_path {
+            path = "/var/lib/dbus"
+          }
+        }
+        volume {
+          name = "lib-modules"
+          host_path {
+            path = "/lib/modules"
+          }
+        }
+        volume {
+          name = "machine-id"
+          host_path {
+            path = "/etc/machine-id"
+            type = "FileOrCreate"
           }
         }
         volume {
@@ -298,25 +387,7 @@ resource "kubernetes_daemonset" "flannel" {
             type = "FileOrCreate"
           }
         }
-        affinity {
-          node_affinity {
-            required_during_scheduling_ignored_during_execution {
-              node_selector_term {
-                match_expressions {
-                  key      = "kubernetes.io/os"
-                  operator = "In"
-                  values = ["linux"]
-                }
-              }
-            }
-          }
-        }
-        toleration {
-          effect   = "NoSchedule"
-          operator = "Exists"
-        }
       }
     }
   }
 }
-

@@ -34,17 +34,6 @@ provider "kubernetes" {
   client_key = base64decode(local.cue.kubeconfig.users[0].user["client-key-data"])
 }
 
-resource "kubernetes_namespace" "system" {
-  metadata {
-    name = "system"
-  }
-}
-
-module "apps" {
-  source = "./apps"
-  storage_classes = module.rook_ceph.storage_classes
-}
-
 module "cloudflare" {
   source = "./cloudflare"
   cue = local.cue
@@ -52,8 +41,8 @@ module "cloudflare" {
 
 module "cni" {
   source = "./cni"
-  namespace = kubernetes_namespace.system.metadata[0].name
   pod_network_cidr = local.cue.networks.pods.cidr
+  pod_network_mtu = local.cue.networks.pods.mtu
 }
 
 module "gcp" {
@@ -67,10 +56,5 @@ module "rook_ceph" {
 
 module "shells" {
   source = "./shells"
-  namespace = kubernetes_namespace.system.metadata[0].name
-}
-
-module "theila" {
-  source = "./theila"
-  namespace = kubernetes_namespace.system.metadata[0].name
+  namespace = "default"
 }
