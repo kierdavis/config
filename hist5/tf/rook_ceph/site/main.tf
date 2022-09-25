@@ -130,6 +130,131 @@ resource "kubernetes_manifest" "cluster" {
   }
 }
 
+resource "kubernetes_manifest" "cephblockpool_replicated_0_metadata" {
+  manifest = {
+    "apiVersion" = "ceph.rook.io/v1"
+    "kind" = "CephBlockPool"
+    "metadata" = {
+      "name" = "blk-replicated-0-metadata"
+      "namespace" = var.namespace
+    }
+    "spec" = {
+      "failureDomain" = "host"
+      "replicated" = { "size" = 2 }
+      "parameters" = {
+        "bulk" = "0"
+        "pg_num_min" = "1"
+      }
+    }
+  }
+}
+
+resource "kubernetes_manifest" "cephblockpool_replicated_0_data" {
+  manifest = {
+    "apiVersion" = "ceph.rook.io/v1"
+    "kind" = "CephBlockPool"
+    "metadata" = {
+      "name" = "blk-replicated-0-data"
+      "namespace" = var.namespace
+    }
+    "spec" = {
+      "failureDomain" = "host"
+      "erasureCoded" = { "dataChunks" = 2, "codingChunks" = 1 }
+      "parameters" = {
+        "bulk" = "1"
+        "pg_num_min" = "1"
+      }
+    }
+  }
+}
+
+resource "kubernetes_storage_class" "ceph_blk_replicated_0" {
+  metadata {
+    name = "ceph-blk-replicated-0"
+  }
+  storage_provisioner = "${var.namespace}.rbd.csi.ceph.com"
+  reclaim_policy = "Delete"
+  allow_volume_expansion = true
+  parameters = {
+    clusterID = var.namespace
+    pool = kubernetes_manifest.cephblockpool_replicated_0_metadata.manifest.metadata.name
+    dataPool = kubernetes_manifest.cephblockpool_replicated_0_data.manifest.metadata.name
+    "csi.storage.k8s.io/fstype" = "ext4"
+    "csi.storage.k8s.io/provisioner-secret-name" = "rook-csi-rbd-provisioner"
+    "csi.storage.k8s.io/provisioner-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/controller-expand-secret-name" = "rook-csi-rbd-provisioner"
+    "csi.storage.k8s.io/controller-expand-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/node-stage-secret-name" = "rook-csi-rbd-node"
+    "csi.storage.k8s.io/node-stage-secret-namespace" = var.namespace
+  }
+}
+
+resource "kubernetes_manifest" "cephfilesystem_replicated_0" {
+  manifest = {
+    "apiVersion" = "ceph.rook.io/v1"
+    "kind" = "CephFilesystem"
+    "metadata" = {
+      "name" = "fs-replicated-0"
+      "namespace" = var.namespace
+    }
+    "spec" = {
+      "metadataPool" = {
+        "failureDomain" = "host"
+        "replicated" = { "size" = 2 }
+        "parameters" = {
+          "bulk" = "0"
+          "pg_num_min" = "1"
+        }
+      }
+      "dataPools" = [
+        # https://tracker.ceph.com/issues/42450
+        # The first (default) pool contains gluey inode backtrace stuff and must be replicated.
+        # All the file contents will actually be stored in the second pool.
+        {
+          "name" = "inode-backtraces"
+          "failureDomain" = "host"
+          "replicated" = { "size" = 2 }
+          "parameters" = {
+            "bulk" = "0"
+            "pg_num_min" = "1"
+          }
+        },
+        {
+          "name" = "data"
+          "failureDomain" = "host"
+          "erasureCoded" = { "dataChunks" = 2, "codingChunks" = 1 }
+          "parameters" = {
+            "bulk" = "1"
+            "pg_num_min" = "1"
+          }
+        },
+      ]
+      "metadataServer" = {
+        "activeCount" = 1  # Controls sharding, not redundancy.
+      }
+    }
+  }
+}
+
+resource "kubernetes_storage_class" "ceph_fs_replicated_0" {
+  metadata {
+    name = "ceph-fs-replicated-0"
+  }
+  storage_provisioner = "${var.namespace}.cephfs.csi.ceph.com"
+  reclaim_policy = "Delete"
+  parameters = {
+    clusterID = var.namespace
+    fsName = kubernetes_manifest.cephfilesystem_replicated_0.manifest.metadata.name
+    pool = "${kubernetes_manifest.cephfilesystem_replicated_0.manifest.metadata.name}-data"
+    "csi.storage.k8s.io/provisioner-secret-name" = "rook-csi-cephfs-provisioner"
+    "csi.storage.k8s.io/provisioner-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/controller-expand-secret-name" = "rook-csi-cephfs-provisioner"
+    "csi.storage.k8s.io/controller-expand-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/node-stage-secret-name" = "rook-csi-cephfs-node"
+    "csi.storage.k8s.io/node-stage-secret-namespace" = var.namespace
+  }
+}
+
 resource "kubernetes_manifest" "cephobjectstore_nonvolatile_0" {
   manifest = {
     "apiVersion" = "ceph.rook.io/v1"
@@ -176,7 +301,7 @@ resource "kubernetes_storage_class" "ceph_obj_nonvolatile_0" {
   metadata {
     name = "ceph-obj-nonvolatile-0"
   }
-  storage_provisioner = "rook-ceph.ceph.rook.io/bucket"
+  storage_provisioner = "${var.namespace}.ceph.rook.io/bucket"
   reclaim_policy = "Delete"
   parameters = {
     objectStoreNamespace = kubernetes_manifest.cephobjectstore_nonvolatile_0.manifest.metadata.namespace
@@ -186,6 +311,8 @@ resource "kubernetes_storage_class" "ceph_obj_nonvolatile_0" {
 
 output "storage_classes" {
   value = {
+    ceph_blk_replicated_0 = kubernetes_storage_class.ceph_blk_replicated_0.metadata[0].name
+    ceph_fs_replicated_0 = kubernetes_storage_class.ceph_fs_replicated_0.metadata[0].name
     ceph_obj_nonvolatile_0 = kubernetes_storage_class.ceph_obj_nonvolatile_0.metadata[0].name
   }
 }

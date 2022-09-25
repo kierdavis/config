@@ -34,6 +34,11 @@ provider "kubernetes" {
   client_key = base64decode(local.cue.kubeconfig.users[0].user["client-key-data"])
 }
 
+module "apps" {
+  source = "./apps"
+  storage_classes = module.rook_ceph.storage_classes
+}
+
 module "cloudflare" {
   source = "./cloudflare"
   cue = local.cue
