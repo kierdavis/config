@@ -1,122 +1,6 @@
 let
   passwords = import ../../secret/passwords.nix;
 
-  torrentClient = { config, lib, pkgs, ... }: {
-    options.torrentClient = with lib; {
-      hostAddress = mkOption { type = types.str; };
-      containerAddress = mkOption { type = types.str; };
-      httpPort = mkOption { type = types.int; default = 8000; };
-      vpn.configFile = mkOption { type = types.path; };
-      vpn.username = mkOption { type = types.str; };
-      vpn.password = mkOption { type = types.str; };
-      vpn.hostName = mkOption { type = types.str; default = "vpn"; };
-    };
-    config = let
-      cfg = config.torrentClient;
-      vpnEndpoint = import (pkgs.runCommand "nordvpn-endpoint.nix" {} ''
-        echo "{" >> $out
-        awk '/^remote /{print "address=\""$2"\";port="$3";"}' < ${cfg.vpn.configFile} >> $out
-        awk '/^proto /{print "protocol=\""$2"\";"}' < ${cfg.vpn.configFile} >> $out
-        echo "}" >> $out
-      '');
-    in {
-      networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
-      containers.transmission = {
-        autoStart = true;
-        ephemeral = true;
-        privateNetwork = true;
-        enableTun = true;
-        hostAddress = cfg.hostAddress;
-        localAddress = cfg.containerAddress;
-        bindMounts."/downloads" = {
-          hostPath = "/data/media/torrents";
-          isReadOnly = false;
-        };
-        bindMounts."/var/lib/transmission" = {
-          hostPath = "/var/lib/transmission";
-          isReadOnly = false;
-        };
-        config = {
-          imports = [
-            ../common/apps.nix
-            ../common/bugfixes.nix
-            ../common/env.nix
-            ../common/locale.nix
-            ../common/nix.nix
-            ../common/options.nix
-          ];
-          machine.name = "transmission";
-          machine.cpu.cores = 8;
-          networking.useDHCP = false;
-          networking.defaultGateway = {
-            address = cfg.hostAddress;
-            interface = "eth0";
-          };
-          networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
-          networking.hosts."${vpnEndpoint.address}" = [cfg.vpn.hostName];
-          networking.firewall.enable = true;
-          networking.firewall.interfaces.eth0.allowedTCPPorts = [ cfg.httpPort ];
-          services.openvpn.servers.vpn = {
-            config = ''
-              config "${cfg.vpn.configFile}"
-              dev tun-vpn
-            '';
-            authUserPass = { inherit (cfg.vpn) username password; };
-          };
-          users.groups.media = config.users.groups.media;
-          services.transmission = {
-            enable = true;
-            home = "/var/lib/transmission";
-            user = "transmission";
-            group = "media";
-            settings = {
-              download-dir = "/downloads";
-              incomplete-dir-enabled = false;
-              rename-partial-files = true;
-              start-added-torrents = true;
-              trash-original-torrent-files = false;
-              watch-dir-enabled = false;
-              dht-enabled = true;
-              lpd-enabled = true;
-              pex-enabled = true;
-              utp-enabled = true;
-              encryption = 2;
-              speed-limit-up = 2000;
-              speed-limit-up-enabled = true;
-              speed-limit-down = 2000;
-              speed-limit-down-enabled = true;
-              alt-speed-up = 200;
-              alt-speed-down = 200;
-              alt-speed-enabled = false; # "turtle" mode
-              rpc-enabled = true;
-              rpc-bind-address = cfg.containerAddress;
-              rpc-port = cfg.httpPort;
-              rpc-whitelist-enabled = false;
-              rpc-authentication-required = false;
-              prefetch-enabled = true;
-              cache-size-mb = 100;
-              download-queue-enabled = false;
-              umask = 18; # decimal equiv of octal 022
-            };
-          };
-        };
-      };
-      systemd.services."container@transmission".serviceConfig = {
-        Nice = 10;
-        IOSchedulingClass = "idle";
-      };
-      networking.firewall.extraCommands = ''
-        ip46tables --flush transmission-egress || ip46tables --new-chain transmission-egress
-        iptables --append transmission-egress --protocol ${vpnEndpoint.protocol} --destination ${vpnEndpoint.address} --destination-port ${builtins.toString vpnEndpoint.port} --jump ACCEPT
-        iptables --append transmission-egress --protocol icmp --icmp-type 8 --destination ${vpnEndpoint.address} --jump ACCEPT
-        ip46tables --append transmission-egress --jump REJECT
-        ip46tables --append FORWARD --in-interface ve-transmission --jump transmission-egress
-      '';
-      networking.nat.internalInterfaces = [ "ve-transmission" ];
-      local.webServer.virtualHosts.torrents.locations."/".proxyPass = "http://${cfg.containerAddress}:${builtins.toString cfg.httpPort}/";
-    };
-  };
-
   webServer = { config, lib, pkgs, ... }: let
     cfg = config.local.webServer;
     defaultVirtualHost = name: {
@@ -251,7 +135,6 @@ in { config, lib, pkgs, ... }: {
     # ../extras/boinc.nix
     # ../extras/headless.nix
     ../extras/platform/grub.nix
-    torrentClient
     webServer
     mediaServer
     printServer
