@@ -29,6 +29,14 @@
   # By default this is in /etc, which is not very NixOS-friendly.
   environment.variables.LVM_SYSTEM_DIR = "/var/lvm";
 
+  fileSystems."/net/hist5/media" = {
+    fsType = "ceph";
+    device = "10.181.9.32,10.181.12.17,10.181.11.232:/volumes/csi/csi-vol-3332b43f-3d31-11ed-859d-b2fd75dbc430/45581bff-2059-45eb-93e3-ad7b07b5adca";
+    options = [
+      "name=${config.hist5.ceph.auth.mountUniversal.clientName}"
+      "secret=${config.hist5.ceph.auth.mountUniversal.secretKey}"
+    ];
+  };
   fileSystems."/net/hist5/torrent-downloads" = {
     fsType = "ceph";
     device = "10.181.9.32,10.181.12.17,10.181.11.232:/volumes/csi/csi-vol-9551265a-3c76-11ed-859d-b2fd75dbc430/19c5abc3-c6b0-4ada-99e3-28857b4ff777";

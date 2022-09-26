@@ -37,6 +37,22 @@ resource "kubernetes_persistent_volume_claim" "torrent_downloads" {
   }
 }
 
+resource "kubernetes_persistent_volume_claim" "media" {
+  metadata {
+    name = "media"
+    namespace = local.namespace
+  }
+  spec {
+    storage_class_name = var.storage_classes.ceph_fs_replicated_0
+    access_modes = ["ReadWriteMany"]
+    resources {
+      requests = {
+        storage = "50Gi"
+      }
+    }
+  }
+}
+
 module "transmission" {
   source = "./transmission"
   namespace = local.namespace
