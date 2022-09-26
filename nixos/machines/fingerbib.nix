@@ -70,65 +70,6 @@ let
     };
   };
 
-  print3dServer = { config, lib, pkgs, ... }: let
-    openboxConfig = pkgs.writeText "openbox-rc.xml" ''
-      <?xml version="1.0" encoding="UTF-8"?>
-      <openbox_config xmlns="http://openbox.org/3.4/rc"
-                      xmlns:xi="http://www.w3.org/2001/XInclude">
-        <keyboard>
-          <keybind key="W-Return">
-            <action name="Execute">
-              <command>xterm</command>
-            </action>
-          </keybind>
-          <keybind key="W-S-e">
-            <action name="Exit">
-              <prompt>yes</prompt>
-            </action>
-          </keybind>
-          <keybind key="A-Tab">
-            <action name="NextWindow">
-              <finalactions>
-                <action name="Focus"/>
-                <action name="Raise"/>
-                <action name="Unshade"/>
-              </finalactions>
-            </action>
-          </keybind>
-          <keybind key="A-S-Tab">
-            <action name="PreviousWindow">
-              <finalactions>
-                <action name="Focus"/>
-                <action name="Raise"/>
-                <action name="Unshade"/>
-              </finalactions>
-            </action>
-          </keybind>
-        </keyboard>
-      </openbox_config>
-    '';
-    startupScript = pkgs.writeShellScript "autostart" ''
-      tint2 &
-      repetier-host
-      openbox --exit
-    '';
-  in {
-    services.xrdp = {
-      enable = true;
-      defaultWindowManager = "exec ${pkgs.openbox}/bin/openbox --config-file ${openboxConfig} --startup ${startupScript}";
-    };
-    networking.firewall.allowedTCPPorts = [ config.services.xrdp.port ];
-    hardware.opengl.enable = true;
-    users.users."3dprint".extraGroups = [ "dialout" ];
-    users.users."3dprint".packages = with pkgs; [
-      openbox
-      prusa-slicer
-      repetier-host
-      tint2
-      xterm
-    ];
-  };
-
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
@@ -138,7 +79,6 @@ in { config, lib, pkgs, ... }: {
     webServer
     mediaServer
     printServer
-    print3dServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.
