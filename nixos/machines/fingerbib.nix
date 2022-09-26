@@ -40,28 +40,12 @@ let
     networking.firewall.interfaces.br-lan.allowedTCPPorts = [ 80 ];
   };
 
-  printServer = { config, lib, pkgs, ... }: {
-    config = {
-      services.printing = {
-        enable = true;
-        listenAddresses = ["localhost:631"];
-        drivers = [
-          pkgs.gutenprint
-          # pkgs.cups-brother-hl1110
-          pkgs.hplip
-        ];
-      };
-      local.webServer.virtualHosts.printing.locations."/".proxyPass = "http://localhost:631/";
-    };
-  };
-
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
     ../extras/platform/grub.nix
     webServer
     mediaServer
-    printServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.
