@@ -1,20 +1,5 @@
 { config, pkgs, lib, ... }:
 
-let
-  hist5 =
-    let
-      secretCueDir = ../../secret/hist5/cue;
-      jsonFile = pkgs.runCommand "hist5-cue.json" {} ''
-        cp -rs ${../../hist5/cue} cue
-        chmod -R +w cue
-        ln -sfT ${../../secret/hist5/cue/secrets.cue} cue/secrets.cue
-        cd cue
-        ${pkgs.cue}/bin/cue export --out=json > $out
-      '';
-    in builtins.fromJSON (builtins.readFile jsonFile);
-
-in
-
 {
   networking.hostName = config.machine.name;
   networking.domain = "hist5";
@@ -41,23 +26,23 @@ in
   networking.wireguard = {
     enable = true;
     interfaces.wg-hist5 = {
-      ips = ["${hist5.machines."${config.networking.hostName}".addresses.wireguard}/${builtins.toString hist5.networks.wireguard.prefixLength}"];
-      listenPort = hist5.networks.wireguard.listenPort;
-      privateKey = hist5.machines."${config.networking.hostName}".wireguardKey.private;
+      ips = ["${config.hist5.machines."${config.networking.hostName}".addresses.wireguard}/${builtins.toString config.hist5.networks.wireguard.prefixLength}"];
+      listenPort = config.hist5.networks.wireguard.listenPort;
+      privateKey = config.hist5.machines."${config.networking.hostName}".wireguardKey.private;
       peers = builtins.map (peer: {
         allowedIPs = [
           "${peer.addresses.wireguard}/32"
         ] ++ lib.optionals (peer.name == "talosgcp1") [
-          hist5.networks.services.cidr
-          hist5.networks.pods.cidr
+          config.hist5.networks.services.cidr
+          config.hist5.networks.pods.cidr
         ];
         publicKey = peer.wireguardKey.public;
         persistentKeepalive = 25;
       } // lib.optionalAttrs (peer.addresses.internet != null) {
-        endpoint = "${peer.addresses.internet}:${builtins.toString hist5.networks.wireguard.listenPort}";
-      }) (builtins.filter (peer: peer.name != config.networking.hostName) (lib.attrsets.attrValues hist5.machines));
+        endpoint = "${peer.addresses.internet}:${builtins.toString config.hist5.networks.wireguard.listenPort}";
+      }) (builtins.filter (peer: peer.name != config.networking.hostName) (lib.attrsets.attrValues config.hist5.machines));
       postSetup = ''
-        ip link set dev wg-hist5 mtu ${builtins.toString hist5.networks.wireguard.mtu}
+        ip link set dev wg-hist5 mtu ${builtins.toString config.hist5.networks.wireguard.mtu}
       '';
       # postSetup = ''
       #   ${pkgs.openresolv}/bin/resolvconf -a wg-hist5 -m 10 <<EOF

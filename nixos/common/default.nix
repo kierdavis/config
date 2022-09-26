@@ -6,6 +6,7 @@
     ./env.nix
     ./fs.nix
     ./hardware.nix
+    ./hist5.nix
     ./locale.nix
     ./net.nix
     ./nix.nix

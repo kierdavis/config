@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    ceph = {
+      source = "cernops/ceph"
+      version = "~> 0.1.4"
+    }
     cloudflare = {
       source = "cloudflare/cloudflare"
       version = "~> 3.23.0"
@@ -21,6 +25,25 @@ data "cue_export" "main" {
 
 locals {
   cue = jsondecode(data.cue_export.main.rendered)
+}
+
+data "kubernetes_secret" "ceph_config" {
+  metadata {
+    name = "rook-ceph-config"
+    namespace = "rook-ceph"
+  }
+}
+
+data "kubernetes_secret" "ceph_admin_keyring" {
+  metadata {
+    name = "rook-ceph-admin-keyring"
+    namespace = "rook-ceph"
+  }
+}
+
+provider "ceph" {
+  keyring = data.kubernetes_secret.ceph_admin_keyring.data.keyring
+  mon_host = data.kubernetes_secret.ceph_config.data.mon_host
 }
 
 provider "cloudflare" {
