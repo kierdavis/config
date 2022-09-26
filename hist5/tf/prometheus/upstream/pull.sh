@@ -22,12 +22,14 @@ for subdir in "setup" "."; do
   done
 
   for src in "$checkout"/manifests/"$subdir"/*.yaml; do
-    src_basename="${src##*/}"
-    dest="$subdir/${src_basename/.yaml/.tf}"
-    args="--url https://github.com/prometheus-operator/kube-prometheus/blob/$tag/${src#$checkout/}"
-    if [[ "$subdir" = . ]]; then
-      args="$args --depends-on-setup"
+    if [[ "$src" != *networkPolicy* ]]; then
+      src_basename="${src##*/}"
+      dest="$subdir/${src_basename/.yaml/.tf}"
+      args="--url https://github.com/prometheus-operator/kube-prometheus/blob/$tag/${src#$checkout/}"
+      if [[ "$subdir" = . ]]; then
+        args="$args --depends-on-setup"
+      fi
+      tfk8s --strip < "$src" | python3 pull.subst.py $args > "$dest"
     fi
-    tfk8s --strip < "$src" | python3 pull.subst.py $args > "$dest"
   done
 done
