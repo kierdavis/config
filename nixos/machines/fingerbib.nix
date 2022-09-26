@@ -207,12 +207,6 @@ in { config, lib, pkgs, ... }: {
   # services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
 
-  torrentClient = {
-    hostAddress = "192.168.103.1";
-    containerAddress = "192.168.103.2";
-    vpn = import ../../secret/nordvpn // { hostName = "nordvpn"; };
-  };
-
   users.groups.media = {
     gid = 398;
   };
