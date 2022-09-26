@@ -11,6 +11,10 @@ variable "storage_classes" {
   type = map(any)
 }
 
+variable "shared_filesystem_uid" {
+  type = number
+}
+
 resource "kubernetes_namespace" "main" {
   metadata {
     name = "kier-apps"
@@ -57,5 +61,6 @@ module "transmission" {
   source = "./transmission"
   namespace = local.namespace
   storage_classes = var.storage_classes
+  shared_filesystem_uid = var.shared_filesystem_uid
   torrent_downloads_pvc = kubernetes_persistent_volume_claim.torrent_downloads.metadata[0].name
 }

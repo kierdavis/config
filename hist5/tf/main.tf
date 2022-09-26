@@ -60,6 +60,7 @@ provider "kubernetes" {
 module "apps" {
   source = "./apps"
   storage_classes = module.rook_ceph.storage_classes
+  shared_filesystem_uid = local.cue.sharedFilesystemUid
 }
 
 module "cloudflare" {

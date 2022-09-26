@@ -46,4 +46,18 @@
       "ro"
     ];
   };
+
+  users.groups.cephfsdata = {
+    gid = config.hist5.sharedFilesystemUid;
+  };
+  users.users.cephfsdata = {
+    createHome = false;
+    description = "Owner of data on shared filesystems";
+    group = "cephfsdata";
+    isNormalUser = false;
+    isSystemUser = true;
+    uid = config.hist5.sharedFilesystemUid;
+    useDefaultShell = true;
+  };
+  users.users.kier.extraGroups = ["cephfsdata"];
 }

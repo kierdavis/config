@@ -15,6 +15,10 @@ variable "storage_classes" {
   type = map(any)
 }
 
+variable "shared_filesystem_uid" {
+  type = number
+}
+
 variable "torrent_downloads_pvc" {
   type = string
 }
@@ -227,6 +231,14 @@ resource "kubernetes_deployment" "main" {
           env {
             name = "TZ"
             value = "Europe/London"
+          }
+          env {
+            name = "PUID"
+            value = tostring(var.shared_filesystem_uid)
+          }
+          env {
+            name = "PGID"
+            value = tostring(var.shared_filesystem_uid)
           }
           port {
             name = "ui"
