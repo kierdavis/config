@@ -40,21 +40,6 @@ let
     networking.firewall.interfaces.br-lan.allowedTCPPorts = [ 80 ];
   };
 
-  /*
-  icinga = { config, lib, pkgs, ... }: {
-    services.icingaweb2 = {
-      enable = true;
-      virtualHost = "fingerbib-icinga";
-      authentications.autologin.backend = "external";
-      modules.monitoring.enable = true;
-    };
-    services.nginx.virtualHosts."fingerbib-icinga" = {
-      listen = config.services.nginx.virtualHosts.default.listen;
-      locations."~ ^/index.php(.*)$".extraConfig = lib.mkAfter "fastcgi_param REMOTE_USER kier;";
-    };
-  };
-  */
-
   printServer = { config, lib, pkgs, ... }: {
     config = {
       services.printing = {
@@ -73,8 +58,6 @@ let
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
-    # ../extras/boinc.nix
-    # ../extras/headless.nix
     ../extras/platform/grub.nix
     webServer
     mediaServer
