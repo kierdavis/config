@@ -66,6 +66,7 @@
     # System diagnostics
     dnsutils  # dig
     fping
+    jnettop
     lshw
     lsof
     nmap
