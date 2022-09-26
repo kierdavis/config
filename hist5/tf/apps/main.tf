@@ -35,7 +35,7 @@ resource "kubernetes_persistent_volume_claim" "torrent_downloads" {
     access_modes = ["ReadWriteMany"]
     resources {
       requests = {
-        storage = "400Gi"
+        storage = "1Ti"
       }
     }
   }
