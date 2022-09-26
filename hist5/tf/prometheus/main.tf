@@ -1,0 +1,3 @@
+module "upstream" {
+  source = "./upstream"
+}

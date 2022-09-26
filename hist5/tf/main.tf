@@ -79,6 +79,10 @@ module "gcp" {
   cue = local.cue
 }
 
+module "prometheus" {
+  source = "./prometheus"
+}
+
 module "rook_ceph" {
   source = "./rook_ceph"
 }
