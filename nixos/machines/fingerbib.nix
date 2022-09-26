@@ -362,6 +362,7 @@ in { config, lib, pkgs, ... }: {
     isSystemUser = true;
     useDefaultShell = true;
   };
+  users.users.jellyfin.extraGroups = ["media"];
 
   # Allow media user to create hardlinks to files owned by transmission.
   boot.kernel.sysctl."fs.protected_hardlinks" = 0;
