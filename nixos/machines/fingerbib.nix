@@ -101,6 +101,10 @@ let
           };
         };
       };
+      systemd.services."container@transmission".serviceConfig = {
+        Nice = 10;
+        IOSchedulingClass = "idle";
+      };
       networking.firewall.extraCommands = ''
         ip46tables --flush transmission-egress || ip46tables --new-chain transmission-egress
         iptables --append transmission-egress --protocol ${vpnEndpoint.protocol} --destination ${vpnEndpoint.address} --destination-port ${builtins.toString vpnEndpoint.port} --jump ACCEPT
@@ -137,6 +141,10 @@ let
 
   mediaServer = { config, lib, pkgs, ... }: {
     services.jellyfin.enable = true;
+    systemd.services.jellyfin.serviceConfig = {
+      Nice = -10;
+      IOSchedulingClass = "realtime";
+    };
     local.webServer.virtualHosts.media.locations."/".proxyPass = "http://localhost:8096/";
     local.webServer.virtualHosts.media-lan = {
       listen = [ { addr = "192.168.178.3"; port = 80; } ];
