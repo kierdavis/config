@@ -40,45 +40,12 @@ let
     networking.firewall.interfaces.br-lan.allowedTCPPorts = [ 80 ];
   };
 
-  /*
-  icinga = { config, lib, pkgs, ... }: {
-    services.icingaweb2 = {
-      enable = true;
-      virtualHost = "fingerbib-icinga";
-      authentications.autologin.backend = "external";
-      modules.monitoring.enable = true;
-    };
-    services.nginx.virtualHosts."fingerbib-icinga" = {
-      listen = config.services.nginx.virtualHosts.default.listen;
-      locations."~ ^/index.php(.*)$".extraConfig = lib.mkAfter "fastcgi_param REMOTE_USER kier;";
-    };
-  };
-  */
-
-  printServer = { config, lib, pkgs, ... }: {
-    config = {
-      services.printing = {
-        enable = true;
-        listenAddresses = ["localhost:631"];
-        drivers = [
-          pkgs.gutenprint
-          # pkgs.cups-brother-hl1110
-          pkgs.hplip
-        ];
-      };
-      local.webServer.virtualHosts.printing.locations."/".proxyPass = "http://localhost:631/";
-    };
-  };
-
 in { config, lib, pkgs, ... }: {
   imports = [
     ../common
-    # ../extras/boinc.nix
-    # ../extras/headless.nix
     ../extras/platform/grub.nix
     webServer
     mediaServer
-    printServer
   ];
 
   # High-level configuration used by nixos/common/*.nix.
