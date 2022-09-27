@@ -81,6 +81,7 @@ module "gcp" {
 
 module "prometheus" {
   source = "./prometheus"
+  storage_classes = module.rook_ceph.storage_classes
 }
 
 module "rook_ceph" {

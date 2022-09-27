@@ -22,7 +22,7 @@ for subdir in "setup" "."; do
   done
 
   for src in "$checkout"/manifests/"$subdir"/*.yaml; do
-    if [[ "$src" != *networkPolicy* ]]; then
+    if [[ "$src" != *networkPolicy* && "$src" != *-prometheus.yaml && "$src" != *-alertmanager.yaml ]]; then
       src_basename="${src##*/}"
       dest="$subdir/${src_basename/.yaml/.tf}"
       args="--url https://github.com/prometheus-operator/kube-prometheus/blob/$tag/${src#$checkout/}"
