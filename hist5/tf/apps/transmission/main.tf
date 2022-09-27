@@ -196,6 +196,9 @@ resource "kubernetes_deployment" "main" {
         app = "transmission"
       }
     }
+    strategy {
+      type = "Recreate"  # Because only one pod can use the PVC at a time.
+    }
     template {
       metadata {
         labels = {
