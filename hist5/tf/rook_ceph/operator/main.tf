@@ -181,6 +181,7 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_operator" {
               ]
             },
           ]
+          "priorityClassName" = "system-cluster-critical"
           "serviceAccountName" = "rook-ceph-system"
           "volumes" = [
             {

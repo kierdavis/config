@@ -92,3 +92,7 @@ module "shells" {
   source = "./shells"
   namespace = "default"
 }
+
+module "system_misc" {
+  source = "./system_misc"
+}

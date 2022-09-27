@@ -227,6 +227,16 @@ resource "kubernetes_deployment" "main" {
               add = ["NET_ADMIN"]
             }
           }
+          resources {
+            requests = {
+              cpu = "150m"
+              memory = "2.5Mi"
+            }
+            limits = {
+              cpu = "200m"
+              memory = "20Mi"
+            }
+          }
         }
         container {
           name = "transmission"
@@ -254,6 +264,16 @@ resource "kubernetes_deployment" "main" {
           volume_mount {
             name = "downloads"
             mount_path = "/downloads"
+          }
+          resources {
+            requests = {
+              cpu = "150m"
+              memory = "500Mi"
+            }
+            limits = {
+              cpu = "200m"
+              memory = "1Gi"
+            }
           }
         }
         volume {

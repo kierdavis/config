@@ -239,6 +239,7 @@ resource "kubernetes_manifest" "cephfilesystem_replicated_0" {
       ]
       "metadataServer" = {
         "activeCount" = 1  # Controls sharding, not redundancy.
+        "priorityClassName" = "system-cluster-critical"
       }
     }
   }
