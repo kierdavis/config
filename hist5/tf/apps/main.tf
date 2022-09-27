@@ -57,6 +57,14 @@ resource "kubernetes_persistent_volume_claim" "media" {
   }
 }
 
+module "jellyfin" {
+  source = "./jellyfin"
+  namespace = local.namespace
+  storage_classes = var.storage_classes
+  torrent_downloads_pvc = kubernetes_persistent_volume_claim.torrent_downloads.metadata[0].name
+  media_pvc = kubernetes_persistent_volume_claim.media.metadata[0].name
+}
+
 module "transmission" {
   source = "./transmission"
   namespace = local.namespace
