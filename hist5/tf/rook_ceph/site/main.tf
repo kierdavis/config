@@ -347,7 +347,6 @@ resource "local_file" "output" {
   file_permission = "0644"
   content = join("\n", ["package hist5", jsonencode({
     ceph = {
-      mon_host = data.kubernetes_secret.ceph_config.data.mon_host
       auth = {
         mountUniversal = {
           name = ceph_auth.mount_universal.entity
