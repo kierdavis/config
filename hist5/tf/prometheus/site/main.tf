@@ -64,6 +64,7 @@ resource "kubernetes_manifest" "prometheus" {
           "memory" = "400Mi"
         }
       }
+      "retentionSize" = "3.8GiB"
       "ruleNamespaceSelector" = {}
       "ruleSelector" = {}
       "securityContext" = {
@@ -81,7 +82,7 @@ resource "kubernetes_manifest" "prometheus" {
             "accessModes" = ["ReadWriteOnce"]
             "resources" = {
               "requests" = {
-                "storage" = "1Gi"
+                "storage" = "4Gi"
               }
             }
           }
