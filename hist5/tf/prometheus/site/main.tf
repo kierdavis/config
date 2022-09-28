@@ -178,7 +178,8 @@ resource "kubernetes_manifest" "secret_monitoring_grafana_config" {
       "grafana.ini" = <<-EOT
         [date_formats]
         default_timezone = UTC
-
+        [security]
+        allow_embedding = true
       EOT
     }
     "type" = "Opaque"

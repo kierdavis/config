@@ -52,9 +52,12 @@ def do_rook_ceph(args):
   git_checkout(git_clone_url, checkout, git_tag)
   src_dir = checkout / "deploy" / "examples"
   dest_dir = pathlib.Path(__file__).parent / "rook_ceph" / "upstream"
-  for stem in ["common", "crds", "operator", "toolbox"]:
+  for child in dest_dir.glob("*.tf"):
+    if child.name != "main.tf":
+      child.unlink()
+  for stem in ["common", "crds", "operator", "toolbox", "monitoring/rbac", "monitoring/service-monitor"]:
     src = src_dir / (stem + ".yaml")
-    dest = dest_dir / (stem + ".tf")
+    dest = dest_dir / (stem.replace("/", "-") + ".tf")
     print(src, "->", dest, file=sys.stderr)
     yaml_text = src.read_text()
     yaml_text = fixup_rook_ceph_yaml(yaml_text)
@@ -64,7 +67,7 @@ def do_rook_ceph(args):
     dest.write_text(tf_text)
 
 def fixup_prometheus_yaml(text):
-  resources = list(yaml.safe_load_all(text))
+  resources = [x for x in yaml.safe_load_all(text) if x is not None]
   for resource in resources:
     if resource["kind"] == "Deployment":
       fixup_pod_spec(resource.get("spec", {}).get("template", {}).get("spec", {}))
@@ -91,10 +94,14 @@ def fixup_prometheus_tf(text, depends_on_setup):
   return "\n".join(resource_blocks)
 
 def fixup_rook_ceph_yaml(text):
-  resources = list(yaml.safe_load_all(text))
+  resources = [x for x in yaml.safe_load_all(text) if x is not None]
   for resource in resources:
     if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "rook-ceph-operator":
       resource["spec"]["template"]["spec"]["priorityClassName"] = "system-cluster-critical"
+    if resource["kind"] == "RoleBinding":
+      for subject in resource["subjects"]:
+        if subject["kind"] == "ServiceAccount" and subject["name"] == "prometheus-k8s" and subject["namespace"] == "rook-ceph":
+          subject["namespace"] = "monitoring"
   return yaml.safe_dump_all(resources)
 
 def fixup_rook_ceph_tf(text):

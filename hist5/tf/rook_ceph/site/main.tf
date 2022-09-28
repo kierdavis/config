@@ -96,6 +96,7 @@ resource "kubernetes_manifest" "cluster" {
         "count" = 2
         "modules" = [
           { "name" = "pg_autoscaler", "enabled" = true },
+          { "name" = "prometheus", "enabled" = true },
           { "name" = "rook", "enabled" = true },
         ]
       }
