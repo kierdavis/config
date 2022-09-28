@@ -32,7 +32,7 @@ def do_prometheus(args):
       if child.name != "main.tf":
         child.unlink()
     for src in src_dir.glob("*.yaml"):
-      if src.match("*networkPolicy*") or src.match("*-prometheus.*") or src.match("*-alertmanager.*"):
+      if src.match("*networkPolicy*") or src.match("*-prometheus.*") or src.match("*-alertmanager.*") or src.match("*/grafana-config.*"):
         continue
       dest = dest_dir / src.with_suffix(".tf").name
       print(src, "->", dest, file=sys.stderr)
