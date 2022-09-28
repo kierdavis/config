@@ -197,6 +197,7 @@ resource "kubernetes_manifest" "deployment_monitoring_grafana" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
+          "priorityClassName" = "observability-critical"
           "securityContext" = {
             "fsGroup" = 65534
             "runAsNonRoot" = true

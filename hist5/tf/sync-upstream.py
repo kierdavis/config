@@ -53,6 +53,8 @@ def fixup_prometheus_yaml(text):
     if resource["kind"] == "Service" and resource["metadata"]["name"] == "grafana":
       [http_port] = [p for p in resource["spec"]["ports"] if p["name"] == "http"]
       http_port["port"] = 80
+    if resource["kind"] == "Deployment" and resource["metadata"]["name"] in ["grafana", "kube-state-metrics", "prometheus-operator"]:
+      resource["spec"]["template"]["spec"]["priorityClassName"] = "observability-critical"
   return yaml.safe_dump_all(resources)
 
 def fixup_prometheus_tf(text, depends_on_setup):

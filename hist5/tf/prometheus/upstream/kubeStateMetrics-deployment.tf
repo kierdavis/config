@@ -148,6 +148,7 @@ resource "kubernetes_manifest" "deployment_monitoring_kube_state_metrics" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
+          "priorityClassName" = "observability-critical"
           "serviceAccountName" = "kube-state-metrics"
         }
       }

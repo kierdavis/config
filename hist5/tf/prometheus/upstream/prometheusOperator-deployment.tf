@@ -113,6 +113,7 @@ resource "kubernetes_manifest" "deployment_monitoring_prometheus_operator" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
+          "priorityClassName" = "observability-critical"
           "securityContext" = {
             "runAsNonRoot" = true
             "runAsUser" = 65534
