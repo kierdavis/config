@@ -50,6 +50,9 @@ def fixup_prometheus_yaml(text):
       fixup_pod_spec(resource.get("spec", {}).get("template", {}).get("spec", {}))
     if resource["kind"] in ("ClusterRole", "ClusterRoleBinding"):
       resource.get("metadata", {}).pop("namespace", None)
+    if resource["kind"] == "Service" and resource["metadata"]["name"] == "grafana":
+      [http_port] = [p for p in resource["spec"]["ports"] if p["name"] == "http"]
+      http_port["port"] = 80
   return yaml.safe_dump_all(resources)
 
 def fixup_prometheus_tf(text, depends_on_setup):

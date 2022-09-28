@@ -18,7 +18,7 @@ resource "kubernetes_manifest" "service_monitoring_grafana" {
       "ports" = [
         {
           "name" = "http"
-          "port" = 3000
+          "port" = 80
           "targetPort" = "http"
         },
       ]
