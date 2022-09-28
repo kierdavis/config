@@ -1,13 +1,4 @@
-# From https://github.com/rook/rook/raw/v1.10.1/deploy/examples/crds.yaml
-
-terraform {
-  required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "~> 2.13"
-    }
-  }
-}
+# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/crds.yaml
 
 resource "kubernetes_manifest" "customresourcedefinition_cephblockpoolradosnamespaces_ceph_rook_io" {
   manifest = {

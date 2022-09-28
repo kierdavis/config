@@ -1,14 +1,5 @@
 # From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/common.yaml
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "~> 2.13"
-    }
-  }
-}
-
 resource "kubernetes_manifest" "namespace_rook_ceph" {
   manifest = {
     "apiVersion" = "v1"
@@ -17,14 +8,6 @@ resource "kubernetes_manifest" "namespace_rook_ceph" {
       "name" = "rook-ceph"
     }
   }
-}
-
-locals {
-  namespace = kubernetes_manifest.namespace_rook_ceph.manifest.metadata.name
-}
-
-output "namespace" {
-  value = local.namespace
 }
 
 resource "kubernetes_manifest" "clusterrole_cephfs_csi_nodeplugin" {
@@ -1101,7 +1084,7 @@ resource "kubernetes_manifest" "clusterrolebinding_cephfs_csi_provisioner_role" 
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-cephfs-provisioner-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1123,7 +1106,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rbd_csi_nodeplugin" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-rbd-plugin-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1145,7 +1128,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rbd_csi_provisioner_role" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-rbd-provisioner-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1172,7 +1155,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rook_ceph_global" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-system"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1194,7 +1177,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rook_ceph_mgr_cluster" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-mgr"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1216,7 +1199,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rook_ceph_object_bucket" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-system"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1238,7 +1221,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rook_ceph_osd" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-osd"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1265,7 +1248,7 @@ resource "kubernetes_manifest" "clusterrolebinding_rook_ceph_system" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-system"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1277,7 +1260,7 @@ resource "kubernetes_manifest" "role_rook_ceph_cephfs_external_provisioner_cfg" 
     "kind" = "Role"
     "metadata" = {
       "name" = "cephfs-external-provisioner-cfg"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1306,7 +1289,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rbd_csi_nodeplugin" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rbd-csi-nodeplugin"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1330,7 +1313,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rbd_external_provisioner_cfg" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rbd-external-provisioner-cfg"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1370,7 +1353,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_cmd_reporter" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rook-ceph-cmd-reporter"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1400,7 +1383,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_mgr" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rook-ceph-mgr"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1502,7 +1485,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_osd" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rook-ceph-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1558,7 +1541,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_purge_osd" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rook-ceph-purge-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1621,7 +1604,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_rgw" {
     "kind" = "Role"
     "metadata" = {
       "name" = "rook-ceph-rgw"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1650,7 +1633,7 @@ resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_system" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-system"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "rules" = [
       {
@@ -1726,7 +1709,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_cephfs_csi_provisioner_rol
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "cephfs-csi-provisioner-role-cfg"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1737,7 +1720,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_cephfs_csi_provisioner_rol
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-cephfs-provisioner-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1749,7 +1732,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rbd_csi_nodeplugin_role_cf
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rbd-csi-nodeplugin-role-cfg"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1760,7 +1743,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rbd_csi_nodeplugin_role_cf
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-rbd-plugin-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1772,7 +1755,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rbd_csi_provisioner_role_c
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rbd-csi-provisioner-role-cfg"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1783,7 +1766,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rbd_csi_provisioner_role_c
       {
         "kind" = "ServiceAccount"
         "name" = "rook-csi-rbd-provisioner-sa"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1795,7 +1778,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_cluster_mgmt" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-cluster-mgmt"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1806,7 +1789,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_cluster_mgmt" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-system"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1818,7 +1801,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_cmd_reporter" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-cmd-reporter"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1829,7 +1812,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_cmd_reporter" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-cmd-reporter"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1841,7 +1824,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_mgr" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-mgr"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1852,7 +1835,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_mgr" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-mgr"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1864,7 +1847,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_mgr_system" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-mgr-system"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1875,7 +1858,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_mgr_system" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-mgr"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1887,7 +1870,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_osd" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1898,7 +1881,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_osd" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-osd"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1910,7 +1893,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_purge_osd" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-purge-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1921,7 +1904,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_purge_osd" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-purge-osd"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1933,7 +1916,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_rgw" {
     "kind" = "RoleBinding"
     "metadata" = {
       "name" = "rook-ceph-rgw"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1944,7 +1927,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_rgw" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-rgw"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1961,7 +1944,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_system" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-system"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -1972,7 +1955,7 @@ resource "kubernetes_manifest" "rolebinding_rook_ceph_rook_ceph_system" {
       {
         "kind" = "ServiceAccount"
         "name" = "rook-ceph-system"
-        "namespace" = local.namespace
+        "namespace" = "rook-ceph"
       },
     ]
   }
@@ -1989,7 +1972,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_cmd_reporter"
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-cmd-reporter"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2005,7 +1988,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_mgr" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-mgr"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2021,7 +2004,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_osd" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2032,7 +2015,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_purge_osd" {
     "kind" = "ServiceAccount"
     "metadata" = {
       "name" = "rook-ceph-purge-osd"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2048,7 +2031,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_rgw" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-rgw"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2064,7 +2047,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_ceph_system" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-system"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2075,7 +2058,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_csi_cephfs_plugin_
     "kind" = "ServiceAccount"
     "metadata" = {
       "name" = "rook-csi-cephfs-plugin-sa"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2086,7 +2069,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_csi_cephfs_provisi
     "kind" = "ServiceAccount"
     "metadata" = {
       "name" = "rook-csi-cephfs-provisioner-sa"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2097,7 +2080,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_csi_rbd_plugin_sa"
     "kind" = "ServiceAccount"
     "metadata" = {
       "name" = "rook-csi-rbd-plugin-sa"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -2108,7 +2091,7 @@ resource "kubernetes_manifest" "serviceaccount_rook_ceph_rook_csi_rbd_provisione
     "kind" = "ServiceAccount"
     "metadata" = {
       "name" = "rook-csi-rbd-provisioner-sa"
-      "namespace" = local.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }

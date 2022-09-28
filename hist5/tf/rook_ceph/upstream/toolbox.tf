@@ -1,18 +1,5 @@
 # From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/toolbox.yaml
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "~> 2.13"
-    }
-  }
-}
-
-variable "namespace" {
-  type = string
-}
-
 resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_tools" {
   manifest = {
     "apiVersion" = "apps/v1"
@@ -22,7 +9,7 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_tools" {
         "app" = "rook-ceph-tools"
       }
       "name" = "rook-ceph-tools"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "replicas" = 1
@@ -102,6 +89,7 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_tools" {
                 watch_endpoints
                 
                 EOT
+                ,
               ]
               "env" = [
                 {

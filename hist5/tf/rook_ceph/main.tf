@@ -1,24 +1,10 @@
-module "common" {
-  source = "./common"
-}
-
-module "crds" {
-  source = "./crds"
-}
-
-module "operator" {
-  source = "./operator"
-  namespace = module.common.namespace
+module "upstream" {
+  source = "./upstream"
 }
 
 module "site" {
   source = "./site"
-  namespace = module.common.namespace
-}
-
-module "toolbox" {
-  source = "./toolbox"
-  namespace = module.common.namespace
+  #depends_on = [module.upstream]
 }
 
 output "storage_classes" {

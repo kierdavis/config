@@ -15,17 +15,13 @@ terraform {
   }
 }
 
-variable "namespace" {
-  type = string
-}
-
 resource "kubernetes_manifest" "cluster" {
   manifest = {
     "apiVersion" = "ceph.rook.io/v1"
     "kind" = "CephCluster"
     "metadata" = {
       "name" = "hist5"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "cephVersion" = {
@@ -144,7 +140,7 @@ resource "kubernetes_manifest" "cephblockpool_replicated_0_metadata" {
     "kind" = "CephBlockPool"
     "metadata" = {
       "name" = "blk-replicated-0-metadata"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "failureDomain" = "host"
@@ -163,7 +159,7 @@ resource "kubernetes_manifest" "cephblockpool_replicated_0_data" {
     "kind" = "CephBlockPool"
     "metadata" = {
       "name" = "blk-replicated-0-data"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "failureDomain" = "host"
@@ -180,20 +176,20 @@ resource "kubernetes_storage_class" "ceph_blk_replicated_0" {
   metadata {
     name = "ceph-blk-replicated-0"
   }
-  storage_provisioner = "${var.namespace}.rbd.csi.ceph.com"
+  storage_provisioner = "rook-ceph.rbd.csi.ceph.com"
   reclaim_policy = "Delete"
   allow_volume_expansion = true
   parameters = {
-    clusterID = var.namespace
+    clusterID = "rook-ceph"
     pool = kubernetes_manifest.cephblockpool_replicated_0_metadata.manifest.metadata.name
     dataPool = kubernetes_manifest.cephblockpool_replicated_0_data.manifest.metadata.name
     "csi.storage.k8s.io/fstype" = "ext4"
     "csi.storage.k8s.io/provisioner-secret-name" = "rook-csi-rbd-provisioner"
-    "csi.storage.k8s.io/provisioner-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/provisioner-secret-namespace" = "rook-ceph"
     "csi.storage.k8s.io/controller-expand-secret-name" = "rook-csi-rbd-provisioner"
-    "csi.storage.k8s.io/controller-expand-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/controller-expand-secret-namespace" = "rook-ceph"
     "csi.storage.k8s.io/node-stage-secret-name" = "rook-csi-rbd-node"
-    "csi.storage.k8s.io/node-stage-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/node-stage-secret-namespace" = "rook-ceph"
   }
 }
 
@@ -203,7 +199,7 @@ resource "kubernetes_manifest" "cephfilesystem_replicated_0" {
     "kind" = "CephFilesystem"
     "metadata" = {
       "name" = "fs-replicated-0"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "metadataPool" = {
@@ -249,18 +245,18 @@ resource "kubernetes_storage_class" "ceph_fs_replicated_0" {
   metadata {
     name = "ceph-fs-replicated-0"
   }
-  storage_provisioner = "${var.namespace}.cephfs.csi.ceph.com"
+  storage_provisioner = "rook-ceph.cephfs.csi.ceph.com"
   reclaim_policy = "Delete"
   parameters = {
-    clusterID = var.namespace
+    clusterID = "rook-ceph"
     fsName = kubernetes_manifest.cephfilesystem_replicated_0.manifest.metadata.name
     pool = "${kubernetes_manifest.cephfilesystem_replicated_0.manifest.metadata.name}-data"
     "csi.storage.k8s.io/provisioner-secret-name" = "rook-csi-cephfs-provisioner"
-    "csi.storage.k8s.io/provisioner-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/provisioner-secret-namespace" = "rook-ceph"
     "csi.storage.k8s.io/controller-expand-secret-name" = "rook-csi-cephfs-provisioner"
-    "csi.storage.k8s.io/controller-expand-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/controller-expand-secret-namespace" = "rook-ceph"
     "csi.storage.k8s.io/node-stage-secret-name" = "rook-csi-cephfs-node"
-    "csi.storage.k8s.io/node-stage-secret-namespace" = var.namespace
+    "csi.storage.k8s.io/node-stage-secret-namespace" = "rook-ceph"
   }
 }
 
@@ -270,7 +266,7 @@ resource "kubernetes_manifest" "cephobjectstore_nonvolatile_0" {
     "kind" = "CephObjectStore"
     "metadata" = {
       "name" = "obj-nonvolatile-0"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "metadataPool" = {
@@ -310,7 +306,7 @@ resource "kubernetes_storage_class" "ceph_obj_nonvolatile_0" {
   metadata {
     name = "ceph-obj-nonvolatile-0"
   }
-  storage_provisioner = "${var.namespace}.ceph.rook.io/bucket"
+  storage_provisioner = "rook-ceph.ceph.rook.io/bucket"
   reclaim_policy = "Delete"
   parameters = {
     objectStoreNamespace = kubernetes_manifest.cephobjectstore_nonvolatile_0.manifest.metadata.namespace

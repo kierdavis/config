@@ -1,18 +1,5 @@
 # From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/operator.yaml
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "~> 2.13"
-    }
-  }
-}
-
-variable "namespace" {
-  type = string
-}
-
 resource "kubernetes_manifest" "configmap_rook_ceph_rook_ceph_operator_config" {
   manifest = {
     "apiVersion" = "v1"
@@ -45,7 +32,7 @@ resource "kubernetes_manifest" "configmap_rook_ceph_rook_ceph_operator_config" {
     "kind" = "ConfigMap"
     "metadata" = {
       "name" = "rook-ceph-operator-config"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
   }
 }
@@ -64,7 +51,7 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_operator" {
         "storage-backend" = "ceph"
       }
       "name" = "rook-ceph-operator"
-      "namespace" = var.namespace
+      "namespace" = "rook-ceph"
     }
     "spec" = {
       "replicas" = 1

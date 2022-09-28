@@ -11,6 +11,7 @@ import yaml
 def main():
   components = {
     "prometheus": do_prometheus,
+    "rook-ceph": do_rook_ceph,
   }
   parser = argparse.ArgumentParser()
   parser.add_argument("component", choices=set(components.keys()))
@@ -43,6 +44,25 @@ def do_prometheus(args):
       tf_text = f"# From {git_browse_url}/blob/{git_tag}/{src.relative_to(checkout)}\n\n" + tf_text
       dest.write_text(tf_text)
 
+def do_rook_ceph(args):
+  git_clone_url = "git@github.com:rook/rook.git"
+  git_browse_url = "https://github.com/rook/rook"
+  git_tag = f"v{args.version}"
+  checkout = pathlib.Path("/tmp/rook")
+  git_checkout(git_clone_url, checkout, git_tag)
+  src_dir = checkout / "deploy" / "examples"
+  dest_dir = pathlib.Path(__file__).parent / "rook_ceph" / "upstream"
+  for stem in ["common", "crds", "operator", "toolbox"]:
+    src = src_dir / (stem + ".yaml")
+    dest = dest_dir / (stem + ".tf")
+    print(src, "->", dest, file=sys.stderr)
+    yaml_text = src.read_text()
+    yaml_text = fixup_rook_ceph_yaml(yaml_text)
+    tf_text = tfk8s(yaml_text)
+    tf_text = fixup_rook_ceph_tf(tf_text)
+    tf_text = f"# From {git_browse_url}/blob/{git_tag}/{src.relative_to(checkout)}\n\n" + tf_text
+    dest.write_text(tf_text)
+
 def fixup_prometheus_yaml(text):
   resources = list(yaml.safe_load_all(text))
   for resource in resources:
@@ -69,6 +89,17 @@ def fixup_prometheus_tf(text, depends_on_setup):
   resource_blocks = re.findall(r'(?ms)^resource.*?^\}\n', text)
   resource_blocks = map(subst_resource_block, resource_blocks)
   return "\n".join(resource_blocks)
+
+def fixup_rook_ceph_yaml(text):
+  resources = list(yaml.safe_load_all(text))
+  for resource in resources:
+    if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "rook-ceph-operator":
+      resource["spec"]["template"]["spec"]["priorityClassName"] = "system-cluster-critical"
+  return yaml.safe_dump_all(resources)
+
+def fixup_rook_ceph_tf(text):
+  text = re.sub(r"(?m)^( *)(EOT)(,)$", r"\g<1>\g<2>\n\g<1>\g<3>", text)
+  return text
 
 def fixup_pod_spec(spec):
   for container in spec.get("containers", []):
