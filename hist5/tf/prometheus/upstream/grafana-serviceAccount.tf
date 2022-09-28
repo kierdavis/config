@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-serviceAccount.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-serviceAccount.yaml
 
 resource "kubernetes_manifest" "serviceaccount_monitoring_grafana" {
   manifest = {

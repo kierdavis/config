@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./blackboxExporter-serviceAccount.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/blackboxExporter-serviceAccount.yaml
 
 resource "kubernetes_manifest" "serviceaccount_monitoring_blackbox_exporter" {
   manifest = {

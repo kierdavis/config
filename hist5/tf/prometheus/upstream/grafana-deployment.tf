@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-deployment.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-deployment.yaml
 
 resource "kubernetes_manifest" "deployment_monitoring_grafana" {
   manifest = {
@@ -41,7 +41,6 @@ resource "kubernetes_manifest" "deployment_monitoring_grafana" {
           "automountServiceAccountToken" = false
           "containers" = [
             {
-              # "env" = []
               "image" = "grafana/grafana:8.5.5"
               "name" = "grafana"
               "ports" = [
@@ -79,147 +78,118 @@ resource "kubernetes_manifest" "deployment_monitoring_grafana" {
                 {
                   "mountPath" = "/var/lib/grafana"
                   "name" = "grafana-storage"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/etc/grafana/provisioning/datasources"
                   "name" = "grafana-datasources"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/etc/grafana/provisioning/dashboards"
                   "name" = "grafana-dashboards"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/tmp"
                   "name" = "tmp-plugins"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/alertmanager-overview"
                   "name" = "grafana-dashboard-alertmanager-overview"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/apiserver"
                   "name" = "grafana-dashboard-apiserver"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/cluster-total"
                   "name" = "grafana-dashboard-cluster-total"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/controller-manager"
                   "name" = "grafana-dashboard-controller-manager"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/grafana-overview"
                   "name" = "grafana-dashboard-grafana-overview"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-cluster"
                   "name" = "grafana-dashboard-k8s-resources-cluster"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-namespace"
                   "name" = "grafana-dashboard-k8s-resources-namespace"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-node"
                   "name" = "grafana-dashboard-k8s-resources-node"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-pod"
                   "name" = "grafana-dashboard-k8s-resources-pod"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-workload"
                   "name" = "grafana-dashboard-k8s-resources-workload"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/k8s-resources-workloads-namespace"
                   "name" = "grafana-dashboard-k8s-resources-workloads-namespace"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/kubelet"
                   "name" = "grafana-dashboard-kubelet"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/namespace-by-pod"
                   "name" = "grafana-dashboard-namespace-by-pod"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/namespace-by-workload"
                   "name" = "grafana-dashboard-namespace-by-workload"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/node-cluster-rsrc-use"
                   "name" = "grafana-dashboard-node-cluster-rsrc-use"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/node-rsrc-use"
                   "name" = "grafana-dashboard-node-rsrc-use"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/nodes"
                   "name" = "grafana-dashboard-nodes"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/persistentvolumesusage"
                   "name" = "grafana-dashboard-persistentvolumesusage"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/pod-total"
                   "name" = "grafana-dashboard-pod-total"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/prometheus-remote-write"
                   "name" = "grafana-dashboard-prometheus-remote-write"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/prometheus"
                   "name" = "grafana-dashboard-prometheus"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/proxy"
                   "name" = "grafana-dashboard-proxy"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/scheduler"
                   "name" = "grafana-dashboard-scheduler"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/grafana-dashboard-definitions/0/workload-total"
                   "name" = "grafana-dashboard-workload-total"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/etc/grafana"
                   "name" = "grafana-config"
-                  # "readOnly" = false
                 },
               ]
             },

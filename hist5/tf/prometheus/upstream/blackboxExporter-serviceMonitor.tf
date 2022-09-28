@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./blackboxExporter-serviceMonitor.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/blackboxExporter-serviceMonitor.yaml
 
 resource "kubernetes_manifest" "servicemonitor_monitoring_blackbox_exporter" {
   manifest = {

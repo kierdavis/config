@@ -1,6 +1,6 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-clusterRoleBinding.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-clusterRoleBinding.yaml
 
-resource "kubernetes_manifest" "clusterrolebinding_monitoring_prometheus_adapter" {
+resource "kubernetes_manifest" "clusterrolebinding_prometheus_adapter" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
     "kind" = "ClusterRoleBinding"

@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-configMap.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-configMap.yaml
 
 resource "kubernetes_manifest" "configmap_monitoring_adapter_config" {
   manifest = {

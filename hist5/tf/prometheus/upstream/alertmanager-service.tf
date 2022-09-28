@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./alertmanager-service.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/alertmanager-service.yaml
 
 resource "kubernetes_manifest" "service_monitoring_alertmanager_main" {
   manifest = {

@@ -1,6 +1,6 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-clusterRoleAggregatedMetricsReader.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-clusterRoleAggregatedMetricsReader.yaml
 
-resource "kubernetes_manifest" "clusterrole_monitoring_system_aggregated_metrics_reader" {
+resource "kubernetes_manifest" "clusterrole_system_aggregated_metrics_reader" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
     "kind" = "ClusterRole"

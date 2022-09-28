@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheus-roleSpecificNamespaces.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheus-roleSpecificNamespaces.yaml
 
 resource "kubernetes_manifest" "role_prometheus_k8s" {
   manifest = {

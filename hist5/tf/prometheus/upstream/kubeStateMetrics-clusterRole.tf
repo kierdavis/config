@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./kubeStateMetrics-clusterRole.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/kubeStateMetrics-clusterRole.yaml
 
 resource "kubernetes_manifest" "clusterrole_kube_state_metrics" {
   manifest = {

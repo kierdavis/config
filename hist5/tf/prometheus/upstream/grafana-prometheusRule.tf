@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-prometheusRule.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-prometheusRule.yaml
 
 resource "kubernetes_manifest" "prometheusrule_monitoring_grafana_rules" {
   manifest = {

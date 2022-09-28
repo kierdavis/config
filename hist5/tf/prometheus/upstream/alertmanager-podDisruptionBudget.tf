@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./alertmanager-podDisruptionBudget.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/alertmanager-podDisruptionBudget.yaml
 
 resource "kubernetes_manifest" "poddisruptionbudget_monitoring_alertmanager_main" {
   manifest = {

@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-deployment.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-deployment.yaml
 
 resource "kubernetes_manifest" "deployment_monitoring_prometheus_adapter" {
   manifest = {
@@ -102,17 +102,14 @@ resource "kubernetes_manifest" "deployment_monitoring_prometheus_adapter" {
                 {
                   "mountPath" = "/tmp"
                   "name" = "tmpfs"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/var/run/serving-cert"
                   "name" = "volume-serving-cert"
-                  # "readOnly" = false
                 },
                 {
                   "mountPath" = "/etc/adapter"
                   "name" = "config"
-                  # "readOnly" = false
                 },
               ]
             },

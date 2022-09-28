@@ -1,6 +1,6 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./nodeExporter-clusterRoleBinding.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/nodeExporter-clusterRoleBinding.yaml
 
-resource "kubernetes_manifest" "clusterrolebinding_monitoring_node_exporter" {
+resource "kubernetes_manifest" "clusterrolebinding_node_exporter" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
     "kind" = "ClusterRoleBinding"

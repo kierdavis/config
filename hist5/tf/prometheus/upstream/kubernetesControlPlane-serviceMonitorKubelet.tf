@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./kubernetesControlPlane-serviceMonitorKubelet.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/kubernetesControlPlane-serviceMonitorKubelet.yaml
 
 resource "kubernetes_manifest" "servicemonitor_monitoring_kubelet" {
   manifest = {

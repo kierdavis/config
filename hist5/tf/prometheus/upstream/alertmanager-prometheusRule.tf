@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./alertmanager-prometheusRule.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/alertmanager-prometheusRule.yaml
 
 resource "kubernetes_manifest" "prometheusrule_monitoring_alertmanager_main_rules" {
   manifest = {

@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-roleBindingAuthReader.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-roleBindingAuthReader.yaml
 
 resource "kubernetes_manifest" "rolebinding_kube_system_resource_metrics_auth_reader" {
   manifest = {

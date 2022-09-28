@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusOperator-clusterRoleBinding.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusOperator-clusterRoleBinding.yaml
 
 resource "kubernetes_manifest" "clusterrolebinding_prometheus_operator" {
   manifest = {

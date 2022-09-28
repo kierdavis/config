@@ -1,6 +1,6 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-clusterRoleServerResources.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-clusterRoleServerResources.yaml
 
-resource "kubernetes_manifest" "clusterrole_monitoring_resource_metrics_server_resources" {
+resource "kubernetes_manifest" "clusterrole_resource_metrics_server_resources" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
     "kind" = "ClusterRole"

@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-config.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-config.yaml
 
 resource "kubernetes_manifest" "secret_monitoring_grafana_config" {
   manifest = {

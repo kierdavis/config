@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./blackboxExporter-configuration.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/blackboxExporter-configuration.yaml
 
 resource "kubernetes_manifest" "configmap_monitoring_blackbox_exporter_configuration" {
   manifest = {

@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-podDisruptionBudget.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-podDisruptionBudget.yaml
 
 resource "kubernetes_manifest" "poddisruptionbudget_monitoring_prometheus_adapter" {
   manifest = {

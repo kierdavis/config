@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-dashboardDatasources.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-dashboardDatasources.yaml
 
 resource "kubernetes_manifest" "secret_monitoring_grafana_datasources" {
   manifest = {

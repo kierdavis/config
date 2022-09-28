@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./grafana-dashboardDefinitions.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/grafana-dashboardDefinitions.yaml
 
 resource "kubernetes_manifest" "configmap_monitoring_grafana_dashboard_alertmanager_overview" {
   manifest = {

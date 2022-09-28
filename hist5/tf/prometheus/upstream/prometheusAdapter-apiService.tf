@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheusAdapter-apiService.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheusAdapter-apiService.yaml
 
 resource "kubernetes_manifest" "apiservice_v1beta1_metrics_k8s_io" {
   manifest = {

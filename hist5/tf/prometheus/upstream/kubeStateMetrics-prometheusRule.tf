@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./kubeStateMetrics-prometheusRule.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/kubeStateMetrics-prometheusRule.yaml
 
 resource "kubernetes_manifest" "prometheusrule_monitoring_kube_state_metrics_rules" {
   manifest = {

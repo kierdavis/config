@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./prometheus-roleConfig.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/prometheus-roleConfig.yaml
 
 resource "kubernetes_manifest" "role_monitoring_prometheus_k8s_config" {
   manifest = {

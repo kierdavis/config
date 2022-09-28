@@ -1,4 +1,4 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./kubernetesControlPlane-serviceMonitorKubeScheduler.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/kubernetesControlPlane-serviceMonitorKubeScheduler.yaml
 
 resource "kubernetes_manifest" "servicemonitor_monitoring_kube_scheduler" {
   manifest = {

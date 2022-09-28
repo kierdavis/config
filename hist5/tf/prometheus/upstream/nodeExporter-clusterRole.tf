@@ -1,6 +1,6 @@
-# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/./nodeExporter-clusterRole.yaml
+# From https://github.com/prometheus-operator/kube-prometheus/blob/v0.11.0/manifests/nodeExporter-clusterRole.yaml
 
-resource "kubernetes_manifest" "clusterrole_monitoring_node_exporter" {
+resource "kubernetes_manifest" "clusterrole_node_exporter" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
     "kind" = "ClusterRole"
