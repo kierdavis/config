@@ -117,6 +117,7 @@ resource "kubernetes_manifest" "deployment_monitoring_prometheus_adapter" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
+          "priorityClassName" = "observability-critical"
           "serviceAccountName" = "prometheus-adapter"
           "volumes" = [
             {

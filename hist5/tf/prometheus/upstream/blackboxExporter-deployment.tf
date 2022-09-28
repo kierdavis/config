@@ -160,6 +160,7 @@ resource "kubernetes_manifest" "deployment_monitoring_blackbox_exporter" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
+          "priorityClassName" = "observability-critical"
           "serviceAccountName" = "blackbox-exporter"
           "volumes" = [
             {

@@ -142,7 +142,7 @@ resource "kubernetes_manifest" "daemonset_monitoring_node_exporter" {
           "nodeSelector" = {
             "kubernetes.io/os" = "linux"
           }
-          "priorityClassName" = "system-cluster-critical"
+          "priorityClassName" = "observability-critical"
           "securityContext" = {
             "runAsNonRoot" = true
             "runAsUser" = 65534
