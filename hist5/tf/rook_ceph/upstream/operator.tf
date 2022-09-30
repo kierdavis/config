@@ -1,4 +1,4 @@
-# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/operator.yaml
+# From https://github.com/rook/rook/blob/v1.10.2/deploy/examples/operator.yaml
 
 resource "kubernetes_manifest" "configmap_rook_ceph_rook_ceph_operator_config" {
   manifest = {
@@ -11,6 +11,7 @@ resource "kubernetes_manifest" "configmap_rook_ceph_rook_ceph_operator_config" {
       "CSI_ENABLE_LIVENESS" = "false"
       "CSI_ENABLE_NFS_SNAPSHOTTER" = "true"
       "CSI_ENABLE_RBD_SNAPSHOTTER" = "true"
+      "CSI_ENABLE_TOPOLOGY" = "false"
       "CSI_FORCE_CEPHFS_KERNEL_CLIENT" = "true"
       "CSI_GRPC_TIMEOUT_SECONDS" = "150"
       "CSI_NFS_FSGROUPPOLICY" = "File"
@@ -138,7 +139,7 @@ resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_operator" {
                   }
                 },
               ]
-              "image" = "rook/ceph:v1.10.1"
+              "image" = "rook/ceph:v1.10.2"
               "name" = "rook-ceph-operator"
               "ports" = [
                 {

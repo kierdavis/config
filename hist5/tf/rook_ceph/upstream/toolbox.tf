@@ -1,4 +1,4 @@
-# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/toolbox.yaml
+# From https://github.com/rook/rook/blob/v1.10.2/deploy/examples/toolbox.yaml
 
 resource "kubernetes_manifest" "deployment_rook_ceph_rook_ceph_tools" {
   manifest = {

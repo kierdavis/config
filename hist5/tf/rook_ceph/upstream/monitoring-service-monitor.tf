@@ -1,4 +1,4 @@
-# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/monitoring/service-monitor.yaml
+# From https://github.com/rook/rook/blob/v1.10.2/deploy/examples/monitoring/service-monitor.yaml
 
 resource "kubernetes_manifest" "servicemonitor_rook_ceph_rook_ceph_mgr" {
   manifest = {

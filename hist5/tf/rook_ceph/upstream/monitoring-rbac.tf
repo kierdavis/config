@@ -1,4 +1,4 @@
-# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/monitoring/rbac.yaml
+# From https://github.com/rook/rook/blob/v1.10.2/deploy/examples/monitoring/rbac.yaml
 
 resource "kubernetes_manifest" "role_rook_ceph_rook_ceph_monitor" {
   manifest = {

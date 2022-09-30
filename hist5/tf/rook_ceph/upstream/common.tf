@@ -1,4 +1,4 @@
-# From https://github.com/rook/rook/blob/v1.10.1/deploy/examples/common.yaml
+# From https://github.com/rook/rook/blob/v1.10.2/deploy/examples/common.yaml
 
 resource "kubernetes_manifest" "namespace_rook_ceph" {
   manifest = {
@@ -285,6 +285,17 @@ resource "kubernetes_manifest" "clusterrole_rbd_csi_nodeplugin" {
           "create",
         ]
       },
+      {
+        "apiGroups" = [
+          "",
+        ]
+        "resources" = [
+          "nodes",
+        ]
+        "verbs" = [
+          "get",
+        ]
+      },
     ]
   }
 }
@@ -514,6 +525,32 @@ resource "kubernetes_manifest" "clusterrole_rbd_external_provisioner_runner" {
         ]
         "verbs" = [
           "create",
+        ]
+      },
+      {
+        "apiGroups" = [
+          "",
+        ]
+        "resources" = [
+          "nodes",
+        ]
+        "verbs" = [
+          "get",
+          "list",
+          "watch\"",
+        ]
+      },
+      {
+        "apiGroups" = [
+          "storage.k8s.io",
+        ]
+        "resources" = [
+          "csinodes",
+        ]
+        "verbs" = [
+          "get",
+          "list",
+          "watch",
         ]
       },
     ]
