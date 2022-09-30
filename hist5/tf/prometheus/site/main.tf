@@ -179,6 +179,8 @@ resource "kubernetes_manifest" "secret_monitoring_grafana_config" {
         [date_formats]
         default_timezone = UTC
         [security]
+        admin_user = anon
+        admin_password = anon
         allow_embedding = true
       EOT
     }
