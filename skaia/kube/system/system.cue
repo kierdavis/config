@@ -1,6 +1,7 @@
 package system
 
 import (
+	"cue.skaia/hosts"
 	"cue.skaia/kube/schema"
 	"cue.skaia/kube/system/calico"
 	"cue.skaia/kube/system/debug"
@@ -15,3 +16,11 @@ resources: debug.resources
 resources: prometheus.resources
 resources: rookceph.resources
 resources: theila.resources
+
+resources: nodes: "": {
+	for hostName, host in hosts.hosts
+	if host.isKubeNode
+	{
+		"\(hostName)": metadata: labels: host.kubeNodeLabels
+	}
+}
