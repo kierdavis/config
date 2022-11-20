@@ -1,2 +1,0 @@
-package hist5
-{"machines":{"talosgcp1":{"addresses":{"gcpMachines":"10.181.1.14","internet":"35.210.71.213"}},"talosgcp2":{"addresses":{"gcpMachines":"10.181.1.16","internet":"35.210.254.224"}},"talosgcp3":{"addresses":{"gcpMachines":"10.181.1.15","internet":"35.210.139.131"}}}}

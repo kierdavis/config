@@ -69,4 +69,37 @@
     };
     wantedBy = ["multi-user.target"];
   };
+
+  services.bird2.enable = true;
+  services.bird2.config = ''
+    log syslog all;
+    router id 192.168.178.135;
+    debug protocols all;
+    protocol device {}
+    protocol direct {
+      ipv4;
+      ipv6;
+    }
+    protocol kernel kernelipv4 {
+      ipv4 { export all; };
+    }
+    protocol kernel kernelipv6 {
+      ipv6 { export all; };
+    }
+    protocol bgp bgpprospit {
+      description "BGP with prospit";
+      local as 64604;
+      neighbor 192.168.178.2 as 64600;
+      direct;
+      hold time 10;
+      ipv4 {
+        import all;
+        export all;
+      };
+      ipv6 {
+        import all;
+        export all;
+      };
+    }
+  '';
 }

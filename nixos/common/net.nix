@@ -2,7 +2,7 @@
 
 {
   networking.hostName = config.machine.name;
-  networking.domain = "hist5";
+  networking.domain = "skaia";
 
   networking.iproute2.enable = true;
 
@@ -23,37 +23,6 @@
   # TODO: can probably be removed once fingerbib is killed off.
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
 
-  networking.wireguard = {
-    enable = true;
-    interfaces.wg-hist5 = {
-      ips = ["${config.hist5.machines."${config.networking.hostName}".addresses.wireguard}/${builtins.toString config.hist5.networks.wireguard.prefixLength}"];
-      listenPort = config.hist5.networks.wireguard.listenPort;
-      privateKey = config.hist5.machines."${config.networking.hostName}".wireguardKey.private;
-      peers = builtins.map (peer: {
-        allowedIPs = [
-          "${peer.addresses.wireguard}/32"
-        ] ++ lib.optionals (peer.name == "talosgcp1") [
-          config.hist5.networks.services.cidr
-          config.hist5.networks.pods.cidr
-        ];
-        publicKey = peer.wireguardKey.public;
-        persistentKeepalive = 25;
-      } // lib.optionalAttrs (peer.addresses.internet != null) {
-        endpoint = "${peer.addresses.internet}:${builtins.toString config.hist5.networks.wireguard.listenPort}";
-      }) (builtins.filter (peer: peer.name != config.networking.hostName) (lib.attrsets.attrValues config.hist5.machines));
-      postSetup = ''
-        ip link set dev wg-hist5 mtu ${builtins.toString config.hist5.networks.wireguard.mtu}
-      '';
-      # postSetup = ''
-      #   ${pkgs.openresolv}/bin/resolvconf -a wg-hist5 -m 10 <<EOF
-      #   nameserver 10.171.8.10
-      #   EOF
-      # '';
-      # postShutdown = ''
-      #   ${pkgs.openresolv}/bin/resolvconf -d wg-hist5
-      # '';
-    };
-  };
 
   # resolvconf prioritises interfaces according to a metric (lower is better).
   # This metric is provided via -m or IFMETRIC when resolvconf -a is called.
