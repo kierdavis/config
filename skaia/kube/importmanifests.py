@@ -58,6 +58,8 @@ def patch_resource(resource):
     # I want to override these fields.
     del resource["spec"]["alerting"]
     del resource["spec"]["replicas"]
+  if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
+    del resource["data"]["CSI_PROVISIONER_REPLICAS"]
   return resource
 
 def set_env(container, name, value):

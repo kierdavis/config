@@ -7,6 +7,8 @@ import (
 
 resources: schema.resources
 
+resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVISIONER_REPLICAS: "1"
+
 resources: nodes: "": {
 	for hostName, host in hosts.hosts
 	if host.isKubeNode

@@ -878,14 +878,6 @@ resources: {
 			// Supported values from 0 to 5. 0 for general useful logs (the default), 5 for trace level verbosity.
 			// CSI_SIDECAR_LOG_LEVEL: "0"
 			// Set replicas for csi provisioner deployment.
-			CSI_PROVISIONER_REPLICAS: "2"
-
-			// OMAP generator will generate the omap mapping between the PV name and the RBD image.
-			// CSI_ENABLE_OMAP_GENERATOR need to be enabled when we are using rbd mirroring feature.
-			// By default OMAP generator sidecar is deployed with CSI provisioner pod, to disable
-			// it set it to false.
-			// CSI_ENABLE_OMAP_GENERATOR: "false"
-			// set to false to disable deployment of snapshotter container in CephFS provisioner pod.
 			CSI_ENABLE_CEPHFS_SNAPSHOTTER: "true"
 
 			// set to false to disable deployment of snapshotter container in NFS provisioner pod.
