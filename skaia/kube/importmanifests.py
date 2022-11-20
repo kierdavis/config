@@ -10,13 +10,64 @@ import urllib.request
 from ruamel.yaml import YAML
 
 components = {
+  "calico": {
+    "version": "3.24.3",
+    "yaml_url": "https://github.com/projectcalico/calico/raw/v{version}/manifests/calico.yaml",
+    "dest_dir": "system/calico",
+  },
+  "metrics-server": {
+    "version": "0.6.1",
+    "yaml_url": "https://github.com/kubernetes-sigs/metrics-server/releases/download/v{version}/components.yaml",
+    "dest_dir": "system/metricsserver",
+  },
   "prometheus": {
     "version": "0.11.0",
     "tar_url": "https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v{version}.tar.gz",
     "tar_member_regexp": r"^[^/]*/manifests/",
     "dest_dir": "system/prometheus",
   },
+  "rook-ceph": {
+    "version": "1.10.6",
+    "tar_url": "https://github.com/rook/rook/archive/refs/tags/v{version}.tar.gz",
+    "tar_member_regexp": r"^[^/]*/deploy/examples/(common|crds|operator|toolbox)\.yaml$",
+    "dest_dir": "system/rookceph",
+  },
 }
+
+def patch_resource(resource):
+  if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "calico-node":
+    assert resource["spec"]["template"]["spec"]["initContainers"][0]["name"] == "upgrade-ipam"
+    del resource["spec"]["template"]["spec"]["initContainers"][0]
+    node_container = resource["spec"]["template"]["spec"]["containers"][0]
+    assert node_container["name"] == "calico-node"
+    set_env(node_container, "CALICO_IPV4POOL_BLOCK_SIZE", "26")
+    set_env(node_container, "CALICO_IPV4POOL_IPIP", "Never")
+    set_env(node_container, "CALICO_IPV4POOL_VXLAN", "Never")
+    set_env(node_container, "CALICO_IPV4POOL_NAT_OUTGOING", "true")
+    set_env(node_container, "CALICO_IPV4POOL_NODE_SELECTOR", "all()")
+    set_env(node_container, "CALICO_IPV4POOL_DISABLE_BGP_EXPORT", "false")
+    setup_dynamic_env(node_container, "CALICO_IPV4POOL_CIDR", desired_index=0)
+  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "metrics-server":
+    # x509: cannot validate certificate for 10.88.1.2 because it doesn't contain any IP SANs
+    # Unfortunately Talos doesn't seem to have an option to add SANs to the kubelet's certificate.
+    assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "metrics-server"
+    resource["spec"]["template"]["spec"]["containers"][0]["args"].append("--kubelet-insecure-tls")
+
+def set_env(container, name, value):
+  lookup_env(container, name)["value"] = value
+
+def setup_dynamic_env(container, name, *, desired_index):
+  env = lookup_env(container, name)
+  container["env"].remove(env)
+  container["env"].insert(desired_index, env)
+
+def lookup_env(container, name):
+  for env in container["env"]:
+    if env["name"] == name:
+      return env
+  env = {"name": name}
+  container["env"].append(env)
+  return env
 
 def main():
   component = components[sys.argv[1]]
@@ -28,6 +79,7 @@ def main():
       resources = {}
       print("fetch...", file=sys.stderr)
       for resource in flatten_resource_lists(fetch_resources(component, yaml)):
+        patch_resource(resource)
         kind = kind_to_plural(resource["kind"])
         ns = resource["metadata"].get("namespace", "")  # TODO: change to clusterWide
         name = resource["metadata"]["name"]
@@ -59,6 +111,10 @@ def fetch_resources(component, yaml):
         for tar_member in tar:
           if tar_member.isreg() and re.match(component["tar_member_regexp"], tar_member.name):
             yield from yaml.load_all(tar.extractfile(tar_member))
+  elif "yaml_url" in component:
+    yaml_url = component["yaml_url"].format(**component)
+    with urllib.request.urlopen(yaml_url) as yaml_fileobj:
+      yield from yaml.load_all(yaml_fileobj)
   else:
     raise Exception("component doesn't specify how to fetch its resources")
 

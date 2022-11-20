@@ -8,7 +8,13 @@ import (
 
 resources: schema.resources
 
-podNetworkCidr: networks.networks.pods.cidr
+resources: daemonsets: "kube-system": "calico-node": spec: template: spec: containers: [{
+	name: "calico-node"  // assert we're operating on the expected element of the list
+	env: [{
+		name: "CALICO_IPV4POOL_CIDR"  // assert we're operating on the expected element of the list
+		value: networks.networks.pods.cidr
+	}, ...]
+}, ...]
 
 resources: nodes: "": {
 	for hostName, host in hosts.hosts
