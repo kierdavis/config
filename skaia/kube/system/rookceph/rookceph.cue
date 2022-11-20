@@ -1,10 +1,24 @@
 package rookceph
 
 import (
+	"cue.skaia/hosts"
 	"cue.skaia/kube/schema"
 )
 
 resources: schema.resources
+
+resources: nodes: "": {
+	for hostName, host in hosts.hosts
+	if host.isKubeNode
+	{
+		"\(hostName)": metadata: labels: {
+			for key, value in host.cephCrushLabels
+			{
+				"topology.rook.io/\(key)": value
+			}
+		}
+	}
+}
 
 resources: cephclusters: "rook-ceph": "default": spec: {
 	cephVersion: {

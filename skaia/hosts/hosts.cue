@@ -8,7 +8,7 @@ package hosts
 	bgpASNumber: >=64512 & <=65534
 	isKubeMaster: bool | *false
 	isKubeNode:   isKubeMaster
-	kubeNodeLabels: [string]: string
+	cephCrushLabels: [string]: string
 }
 
 hosts: [string]: #schema
@@ -27,9 +27,9 @@ hosts: {
 		}
 		bgpASNumber: 64601
 		isKubeMaster: true
-		kubeNodeLabels: {
-			"topology.rook.io/chassis": "prospit"
-			"topology.rook.io/zone": "advent-way"
+		cephCrushLabels: {
+			chassis: "prospit"
+			zone: "advent-way"
 		}
 	}
 	pyrope: {
@@ -39,9 +39,9 @@ hosts: {
 		}
 		bgpASNumber: 64602
 		isKubeMaster: true
-		kubeNodeLabels: {
-			"topology.rook.io/chassis": "prospit"
-			"topology.rook.io/zone": "advent-way"
+		cephCrushLabels: {
+			chassis: "prospit"
+			zone: "advent-way"
 		}
 	}
 	serket: {
@@ -51,9 +51,9 @@ hosts: {
 		}
 		bgpASNumber: 64603
 		isKubeMaster: true
-		kubeNodeLabels: {
-			"topology.rook.io/chassis": "prospit"
-			"topology.rook.io/zone": "advent-way"
+		cephCrushLabels: {
+			chassis: "prospit"
+			zone: "advent-way"
 		}
 	}
 	coloris: {
