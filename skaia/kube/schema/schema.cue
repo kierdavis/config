@@ -8,6 +8,7 @@ import (
 	k8snetworkingv1 "k8s.io/api/networking/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
 	k8srbacv1 "k8s.io/api/rbac/v1"
+	k8sstoragev1 "k8s.io/api/storage/v1"
 	prometheusv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
 )
@@ -75,6 +76,12 @@ resources: close({
 			updatePeriodSeconds?: uint
 		})
 	})
+	cephblockpools: [Namespace=string]: [Name=string]: rookcephv1.#CephBlockPool & {
+		apiVersion: "ceph.rook.io/v1"
+		kind: "CephBlockPool"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	cephclusters: [Namespace=string]: [Name=string]: rookcephv1.#CephCluster & {
 		apiVersion: "ceph.rook.io/v1"
 		kind: "CephCluster"
@@ -181,6 +188,11 @@ resources: close({
 		kind:       "Service"
 		metadata: name:      Name
 		metadata: namespace: Namespace
+	}
+	storageclasses: [""]: [Name=string]: k8sstoragev1.#StorageClass & {
+		apiVersion: "storage.k8s.io/v1"
+		kind: "StorageClass"
+		metadata: name: Name
 	}
 	talosserviceaccounts: [Namespace=string]: [Name=string]: {
 		apiVersion: "talos.dev/v1alpha1"

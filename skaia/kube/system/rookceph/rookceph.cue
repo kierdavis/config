@@ -64,3 +64,39 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		manageMachineDisruptionBudgets: false
 	}
 }
+
+resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: {
+	failureDomain: "host"
+	replicated: size: 2
+	parameters: {
+		bulk: "0"
+		pg_num_min: "1"
+	}
+}
+
+resources: cephblockpools: "rook-ceph": "blk-replicated-data": spec: {
+	failureDomain: "host"
+	replicated: size: 2
+	parameters: {
+		bulk: "1"
+		pg_num_min: "1"
+	}
+}
+
+resources: storageclasses: "": "ceph-blk-replicated": {
+	provisioner: "rook-ceph.rbd.csi.ceph.com"
+	reclaimPolicy: "Delete"
+	allowVolumeExpansion: true
+	parameters: {
+		clusterID: "rook-ceph"
+		pool: "blk-replicated-metadata"
+		dataPool: "blk-replicated-data"
+		"csi.storage.k8s.io/fstype": "ext4"
+		"csi.storage.k8s.io/provisioner-secret-name": "rook-csi-rbd-provisioner"
+		"csi.storage.k8s.io/provisioner-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/controller-expand-secret-name": "rook-csi-rbd-provisioner"
+		"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/node-stage-secret-name": "rook-csi-rbd-node"
+		"csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
+	}
+}

@@ -52,6 +52,13 @@ def patch_resource(resource):
     # Unfortunately Talos doesn't seem to have an option to add SANs to the kubelet's certificate.
     assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "metrics-server"
     resource["spec"]["template"]["spec"]["containers"][0]["args"].append("--kubelet-insecure-tls")
+  if resource["kind"] in {"Alertmanager"}:
+    return None
+  if resource["kind"] == "Prometheus":
+    # I want to override these fields.
+    del resource["spec"]["alerting"]
+    del resource["spec"]["replicas"]
+  return resource
 
 def set_env(container, name, value):
   lookup_env(container, name)["value"] = value
@@ -79,7 +86,9 @@ def main():
       resources = {}
       print("fetch...", file=sys.stderr)
       for resource in flatten_resource_lists(fetch_resources(component, yaml)):
-        patch_resource(resource)
+        resource = patch_resource(resource)
+        if resource is None:
+          continue
         kind = kind_to_plural(resource["kind"])
         ns = resource["metadata"].get("namespace", "")  # TODO: change to clusterWide
         name = resource["metadata"]["name"]
