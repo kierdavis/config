@@ -2,6 +2,7 @@ package schema
 
 import (
 	k8sapiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	k8sapiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
 	k8sappsv1 "k8s.io/api/apps/v1"
 	k8scorev1 "k8s.io/api/core/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
@@ -10,6 +11,11 @@ import (
 )
 
 resources: close({
+	apiservices: [""]: [Name=string]: k8sapiregistrationv1.#APIService & {
+		apiVersion: "apiregistration.k8s.io/v1"
+		kind:       "APIService"
+		metadata: name: Name
+	}
 	bgpconfigurations: [""]: [Name=string]: close({
 		apiVersion: "crd.projectcalico.org/v1"
 		kind:       "BGPConfiguration"
