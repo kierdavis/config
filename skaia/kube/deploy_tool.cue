@@ -33,6 +33,23 @@ command: deploy: {
 		contents:    yaml.MarshalStream(resourceList)
 	}
 	applyResources: exec.Run & {
-		cmd: ["kubectl", "--kubeconfig", writeKubeConfig.filename, "apply", "--server-side=true", "--filename", writeResources.filename]
+		cmd: [
+			"kubectl",
+			"--kubeconfig", writeKubeConfig.filename,
+			"apply",
+			"--server-side",
+			// Pending resolution of https://github.com/kubernetes/kubernetes/issues/110893
+			//"--prune",
+			//"--all",
+			"--filename", writeResources.filename,
+		]
+	}
+}
+
+command: export: {
+	writeResources: file.Create & {
+		filename:    "/tmp/kube-resources.yaml"
+		permissions: 0o600
+		contents:    yaml.MarshalStream(resourceList)
 	}
 }
