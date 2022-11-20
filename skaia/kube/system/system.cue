@@ -17,3 +17,6 @@ resources: rookceph.resources
 resources: theila.resources
 
 resources: namespaces: "": "talos-system": {}
+
+resources: priorityclasses: "": "observability": value: 1000
+resources: priorityclasses: "": "personal-critical": value: 2000

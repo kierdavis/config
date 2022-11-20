@@ -65299,7 +65299,6 @@ resources: {
 					hostNetwork: true
 					hostPID:     true
 					nodeSelector: "kubernetes.io/os": "linux"
-					priorityClassName: "system-cluster-critical"
 					securityContext: {
 						runAsNonRoot: true
 						runAsUser:    65534

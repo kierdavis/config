@@ -8,6 +8,8 @@ import (
 resources: schema.resources
 
 resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVISIONER_REPLICAS: "1"
+resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
+resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: priorityClassName: "system-cluster-critical"
 
 resources: nodes: "": {
 	for hostName, host in hosts.hosts
@@ -65,9 +67,10 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 	}
 	removeOSDsIfOutAndSafeToRemove: false
 	priorityClassNames: {
+		crashcollector: "observability"
+		mgr: "system-cluster-critical"
 		mon: "system-node-critical"
 		osd: "system-node-critical"
-		mgr: "system-cluster-critical"
 	}
 	storage: {
 		useAllNodes: true

@@ -8,6 +8,7 @@ import (
 	k8snetworkingv1 "k8s.io/api/networking/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
 	k8srbacv1 "k8s.io/api/rbac/v1"
+	k8sschedulingv1 "k8s.io/api/scheduling/v1"
 	k8sstoragev1 "k8s.io/api/storage/v1"
 	prometheusv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
@@ -142,6 +143,11 @@ resources: close({
 		kind:       "PodDisruptionBudget"
 		metadata: name:      Name
 		metadata: namespace: Namespace
+	}
+	priorityclasses: [""]: [Name=string]: k8sschedulingv1.#PriorityClass & {
+		apiVersion: "scheduling.k8s.io/v1"
+		kind: "PriorityClass"
+		metadata: name: Name
 	}
 	prometheuses: [Namespace=string]: [Name=string]: prometheusv1.#Prometheus & {
 		apiVersion: "monitoring.coreos.com/v1"

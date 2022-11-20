@@ -40,6 +40,7 @@ resources: daemonsets: "talos-system": "host-shell": {
 					effect:   "NoSchedule"
 					operator: "Exists"
 				}]
+				priorityClassName: "system-node-critical"
 			}
 		}
 	}

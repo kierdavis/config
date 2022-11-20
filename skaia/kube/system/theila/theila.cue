@@ -48,6 +48,7 @@ resources: deployments: "talos-system": "theila": {
 						hostnames: ["kubeapi.skaia"]
 					},
 				]
+				priorityClassName: "observability"
 			}
 		}
 	}
