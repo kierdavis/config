@@ -6,7 +6,7 @@ import (
 
 resources: schema.resources
 
-resources: daemonsets: "default": "host-shell": {
+resources: daemonsets: "talos-system": "host-shell": {
 	metadata: labels: app: "host-shell"
 	spec: {
 		updateStrategy: {

@@ -7,8 +7,6 @@ import (
 
 resources: schema.resources
 
-resources: namespaces: "": "talos-system": {}
-
 resources: talosserviceaccounts: "talos-system": "theila": {
 	metadata: labels: "app": "theila"
 	spec: roles: ["os:admin"]

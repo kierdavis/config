@@ -16,3 +16,4 @@ resources: prometheus.resources
 resources: rookceph.resources
 resources: theila.resources
 
+resources: namespaces: "": "talos-system": {}
