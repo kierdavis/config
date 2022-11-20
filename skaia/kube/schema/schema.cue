@@ -6,6 +6,7 @@ import (
 	k8scorev1 "k8s.io/api/core/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
 	k8srbacv1 "k8s.io/api/rbac/v1"
+	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
 )
 
 resources: close({
@@ -60,6 +61,12 @@ resources: close({
 			updatePeriodSeconds?: uint
 		})
 	})
+	cephclusters: [Namespace=string]: [Name=string]: rookcephv1.#CephCluster & {
+		apiVersion: "ceph.rook.io/v1"
+		kind: "CephCluster"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	clusterrolebindings: [""]: [Name=string]: k8srbacv1.#ClusterRoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "ClusterRoleBinding"
@@ -108,6 +115,16 @@ resources: close({
 		kind:       "PodDisruptionBudget"
 		metadata: name:      Name
 		metadata: namespace: Namespace
+	}
+	rolebindings: [""]: [Name=string]: k8srbacv1.#RoleBinding & {
+		apiVersion: "rbac.authorization.k8s.io/v1"
+		kind:       "RoleBinding"
+		metadata: name: Name
+	}
+	roles: [""]: [Name=string]: k8srbacv1.#Role & {
+		apiVersion: "rbac.authorization.k8s.io/v1"
+		kind:       "Role"
+		metadata: name: Name
 	}
 	serviceaccounts: [Namespace=string]: [Name=string]: k8scorev1.#ServiceAccount & {
 		apiVersion: "v1"
