@@ -5,12 +5,20 @@ import (
 	k8sapiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
 	k8sappsv1 "k8s.io/api/apps/v1"
 	k8scorev1 "k8s.io/api/core/v1"
+	k8snetworkingv1 "k8s.io/api/networking/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
 	k8srbacv1 "k8s.io/api/rbac/v1"
+	prometheusv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
 )
 
 resources: close({
+	alertmanagers: [Namespace=string]: [Name=string]: prometheusv1.#Alertmanager & {
+		apiVersion: "monitoring.coreos.com/v1"
+		kind: "Alertmanager"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
 	apiservices: [""]: [Name=string]: k8sapiregistrationv1.#APIService & {
 		apiVersion: "apiregistration.k8s.io/v1"
 		kind:       "APIService"
@@ -111,6 +119,12 @@ resources: close({
 		kind:       "Namespace"
 		metadata: name: Name
 	}
+	networkpolicies: [Namespace=string]: [Name=string]: k8snetworkingv1.#NetworkPolicy & {
+		apiVersion: "networking.k8s.io/v1"
+		kind: "NetworkPolicy"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	nodes: [""]: [Name=string]: k8scorev1.#Node & {
 		apiVersion: "v1"
 		kind:       "Node"
@@ -119,6 +133,18 @@ resources: close({
 	poddisruptionbudgets: [Namespace=string]: [Name=string]: k8spolicyv1.#PodDisruptionBudget & {
 		apiVersion: "policy/v1"
 		kind:       "PodDisruptionBudget"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
+	prometheuses: [Namespace=string]: [Name=string]: prometheusv1.#Prometheus & {
+		apiVersion: "monitoring.coreos.com/v1"
+		kind: "Prometheus"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
+	prometheusrules: [Namespace=string]: [Name=string]: prometheusv1.#PrometheusRule & {
+		apiVersion: "monitoring.coreos.com/v1"
+		kind: "PrometheusRule"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
@@ -132,9 +158,21 @@ resources: close({
 		kind:       "Role"
 		metadata: name: Name
 	}
+	secrets: [Namespace=string]: [Name=string]: k8scorev1.#Secret & {
+		apiVersion: "v1"
+		kind:       "Secret"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
 	serviceaccounts: [Namespace=string]: [Name=string]: k8scorev1.#ServiceAccount & {
 		apiVersion: "v1"
 		kind:       "ServiceAccount"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
+	servicemonitors: [Namespace=string]: [Name=string]: prometheusv1.#ServiceMonitor & {
+		apiVersion: "monitoring.coreos.com/v1"
+		kind: "ServiceMonitor"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
