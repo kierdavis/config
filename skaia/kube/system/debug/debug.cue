@@ -1,11 +1,5 @@
 package debug
 
-import (
-	"cue.skaia/kube/schema"
-)
-
-resources: schema.resources
-
 resources: daemonsets: "talos-system": "host-shell": {
 	metadata: labels: app: "host-shell"
 	spec: {

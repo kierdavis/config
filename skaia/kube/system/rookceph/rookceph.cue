@@ -2,10 +2,7 @@ package rookceph
 
 import (
 	"cue.skaia/hosts"
-	"cue.skaia/kube/schema"
 )
-
-resources: schema.resources
 
 resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVISIONER_REPLICAS: "1"
 resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"

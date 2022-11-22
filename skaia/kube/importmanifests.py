@@ -112,9 +112,6 @@ def main():
   gitignore_path = dest_dir / ".gitignore"
   if not gitignore_path.exists():
     gitignore_path.write_text(dest_yaml_path.name + "\n")
-  manual_cue_path = dest_dir / f"{cue_package}.cue"
-  if not manual_cue_path.exists():
-    manual_cue_path.write_text(MANUAL_CUE_TEMPLATE.format(cue_package=cue_package).lstrip("\n"))
 
 def fetch_resources(component, yaml):
   if "tar_url" in component:
@@ -154,16 +151,6 @@ def sort_dicts(d, *, depth=1):
       sort_dicts(value, depth=depth-1)
   for key in sorted(d.keys()):
     d[key] = d.pop(key)
-
-MANUAL_CUE_TEMPLATE = """
-package {cue_package}
-
-import (
-\t"cue.skaia/kube/schema"
-)
-
-resources: schema.resources
-"""
 
 if __name__ == "__main__":
   main()

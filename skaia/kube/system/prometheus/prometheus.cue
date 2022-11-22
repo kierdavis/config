@@ -1,11 +1,5 @@
 package prometheus
 
-import (
-	"cue.skaia/kube/schema"
-)
-
-resources: schema.resources
-
 resources: deployments: monitoring: {
 	"blackbox-exporter": spec: template: spec: priorityClassName: "observability"
 	"grafana": spec: template: spec: priorityClassName: "observability"

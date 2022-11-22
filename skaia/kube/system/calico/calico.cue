@@ -1,12 +1,9 @@
 package calico
 
 import (
-	"cue.skaia/kube/schema"
 	"cue.skaia/networks"
 	"cue.skaia/hosts"
 )
-
-resources: schema.resources
 
 resources: daemonsets: "kube-system": "calico-node": spec: template: spec: containers: [{
 	name: "calico-node"  // assert we're operating on the expected element of the list

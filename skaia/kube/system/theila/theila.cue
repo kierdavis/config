@@ -1,11 +1,8 @@
 package theila
 
 import (
-	"cue.skaia/kube/schema"
 	"cue.skaia/hosts"
 )
-
-resources: schema.resources
 
 resources: talosserviceaccounts: "talos-system": "theila": {
 	metadata: labels: "app": "theila"
