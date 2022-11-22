@@ -38,7 +38,7 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		allowMultiplePerNode: false
 	}
 	mgr: {
-		count: 1
+		count: 2
 		allowMultiplePerNode: false
 		modules: [
 			{ name: "pg_autoscaler", enabled: true },
