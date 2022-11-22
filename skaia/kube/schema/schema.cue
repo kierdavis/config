@@ -89,6 +89,12 @@ resources: close({
 		metadata: name: Name
 		metadata: namespace: Namespace
 	}
+	cephfilesystems: [Namespace=string]: [Name=string]: rookcephv1.#CephFilesystem & {
+		apiVersion: "ceph.rook.io/v1"
+		kind: "CephFilesystem"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	clusterrolebindings: [""]: [Name=string]: k8srbacv1.#ClusterRoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "ClusterRoleBinding"
@@ -137,6 +143,12 @@ resources: close({
 		apiVersion: "v1"
 		kind:       "Node"
 		metadata: name: Name
+	}
+	persistentvolumeclaims: [Namespace=string]: [Name=string]: k8scorev1.#PersistentVolumeClaim & {
+		apiVersion: "v1"
+		kind:       "PersistentVolumeClaim"
+		metadata: name: Name
+		metadata: namespace: Namespace
 	}
 	poddisruptionbudgets: [Namespace=string]: [Name=string]: k8spolicyv1.#PodDisruptionBudget & {
 		apiVersion: "policy/v1"
@@ -192,6 +204,12 @@ resources: close({
 	services: [Namespace=string]: [Name=string]: k8scorev1.#Service & {
 		apiVersion: "v1"
 		kind:       "Service"
+		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
+	statefulsets: [Namespace=string]: [Name=string]: k8sappsv1.#StatefulSet & {
+		apiVersion: "apps/v1"
+		kind:       "StatefulSet"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}

@@ -84,6 +84,32 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 	}
 }
 
+defaultMetadataPoolSpec: {
+	replicated: size: 2
+	failureDomain: "osd"
+	parameters: {
+		bulk: "0"
+		pg_num_min: "1"
+	}
+}
+
+defaultDataPoolSpec: {
+	replicated: size: 2
+	failureDomain: "osd"
+	parameters: {
+		bulk: "1"
+		pg_num_min: "1"
+	}
+}
+
+dummyStuffToMakeServerSideApplyHappy: {
+	erasureCoded: codingChunks: 0
+	erasureCoded: dataChunks: 0
+	mirroring: {}
+	quotas: {}
+	statusCheck: mirror: {}
+}
+
 resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: {
 	failureDomain: "host"
 	replicated: size: 2
@@ -119,3 +145,35 @@ resources: storageclasses: "": "ceph-blk-replicated": {
 		"csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
 	}
 }
+
+resources: cephfilesystems: "rook-ceph": "fs-replicated": spec: {
+	metadataPool: defaultMetadataPoolSpec
+	dataPools: [
+		// https://tracker.ceph.com/issues/42450
+		// The first (default) pool contains gluey inode backtrace stuff and must be replicated.
+		// All the file contents will actually be stored in the second pool.
+		{ name: "inode-backtraces" } & defaultMetadataPoolSpec & dummyStuffToMakeServerSideApplyHappy,
+		{ name: "data" } & defaultDataPoolSpec & dummyStuffToMakeServerSideApplyHappy,
+	]
+	metadataServer: {
+		activeCount: 1  // Controls sharding, not redundancy.
+		priorityClassName: "system-cluster-critical"
+	}
+}
+resources: storageclasses: "": "ceph-fs-replicated": {
+	provisioner: "rook-ceph.cephfs.csi.ceph.com"
+	reclaimPolicy: "Delete"
+	parameters: {
+		clusterID: "rook-ceph"
+		fsName: "fs-replicated"
+		pool: "fs-replicated-data"
+		"csi.storage.k8s.io/provisioner-secret-name": "rook-csi-cephfs-provisioner"
+		"csi.storage.k8s.io/provisioner-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/controller-expand-secret-name": "rook-csi-cephfs-provisioner"
+		"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/node-stage-secret-name": "rook-csi-cephfs-node"
+		"csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
+	}
+}
+// UID/GID used for files on CephFS filesystems where permissioning doesn't matter.
+sharedFilesystemUid: 2000
