@@ -82,6 +82,24 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		pgHealthCheckTimeout: 0
 		manageMachineDisruptionBudgets: false
 	}
+	healthCheck: {
+		[string]: [string]: {
+			disabled: false
+			probe: {
+				initialDelaySeconds: 10
+				periodSeconds: 30
+				timeoutSeconds: 25
+				failureThreshold: >=0
+				successThreshold: 1
+				terminationGracePeriodSeconds: 60
+			}
+		}
+		[string]: mgr: {}
+		[string]: mon: {}
+		[string]: osd: {}
+		livenessProbe: [string]: probe: failureThreshold: 3
+		startupProbe: [string]: probe: failureThreshold: 720
+	}
 }
 
 defaultMetadataPoolSpec: {
