@@ -110,24 +110,8 @@ dummyStuffToMakeServerSideApplyHappy: {
 	statusCheck: mirror: {}
 }
 
-resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: {
-	failureDomain: "host"
-	replicated: size: 2
-	parameters: {
-		bulk: "0"
-		pg_num_min: "1"
-	}
-}
-
-resources: cephblockpools: "rook-ceph": "blk-replicated-data": spec: {
-	failureDomain: "host"
-	replicated: size: 2
-	parameters: {
-		bulk: "1"
-		pg_num_min: "1"
-	}
-}
-
+resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: defaultMetadataPoolSpec
+resources: cephblockpools: "rook-ceph": "blk-replicated-data": spec: defaultDataPoolSpec
 resources: storageclasses: "": "ceph-blk-replicated": {
 	provisioner: "rook-ceph.rbd.csi.ceph.com"
 	reclaimPolicy: "Delete"
