@@ -14,7 +14,7 @@ resources: daemonsets: "talos-system": "host-shell": {
 				hostNetwork: true
 				containers: [{
 					name:  "shell"
-					image: "centos:8"
+					image: "rockylinux:9"
 					command: ["sleep", "infinity"]
 					securityContext: privileged: true
 					volumeMounts: [{
