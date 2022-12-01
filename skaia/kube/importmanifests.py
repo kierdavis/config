@@ -60,6 +60,11 @@ def patch_resource(resource):
     del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
+  if resource["kind"] == "Service" and resource["metadata"]["name"] == "grafana":
+    assert resource["spec"]["ports"][0]["name"] == "http"
+    del resource["spec"]["ports"][0]["port"]
+  if resource["kind"] == "NetworkPolicy" and resource["metadata"]["name"] == "grafana":
+    del resource["spec"]["ingress"][0]["ports"][0]["port"]
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
     del resource["data"]["CSI_PROVISIONER_REPLICAS"]
   return resource

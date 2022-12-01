@@ -9,6 +9,9 @@ resources: deployments: monitoring: {
 }
 resources: daemonsets: monitoring: "node-exporter": spec: template: spec: priorityClassName: "observability"
 
+resources: services: monitoring: grafana: spec: ports: [{ port: 80 }, ...]
+resources: networkpolicies: monitoring: grafana: spec: ingress: [{ ports: [{ port: 80 }, ...] }, ...]
+
 resources: prometheuses: monitoring: k8s: spec: {
 	priorityClassName: "observability"
 	replicas: 1
