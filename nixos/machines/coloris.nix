@@ -43,8 +43,7 @@
     fsType = "ext4";
     options = ["noatime" "nodiratime"];
   };
-  swapDevices = [ { device = "/dev/disk/by-uuid/afd2e652-b34e-4543-95c3-e2fc5df22201"; } ];
-  fileSystems.efi.device = "/dev/disk/by-uuid/6F09-65AE";
+  fileSystems.efi.device = "/dev/disk/by-uuid/05BB-9C39";
   systemd.services.boinc.after = [ "var-lib-boinc.mount" ];
   systemd.services.boinc.requires = [ "var-lib-boinc.mount" ];
 
