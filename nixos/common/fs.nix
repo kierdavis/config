@@ -43,4 +43,7 @@
     useDefaultShell = true;
   };
   users.users.kier.extraGroups = ["cephfsdata"];
+
+  # For the partprobe command.
+  environment.systemPackages = [ pkgs.parted ];
 }
