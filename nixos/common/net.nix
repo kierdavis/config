@@ -45,4 +45,35 @@
       ${pkgs.openresolv}/sbin/resolvconf -d static-fallback
     '';
   };
+
+  systemd.services.skaia-dns-config = {
+    wants = ["network-pre.target"];
+    after = ["network-pre.target"];
+    wantedBy = ["network-online.target" "multi-user.target"];
+    path = [ pkgs.bind.host pkgs.openresolv ];
+    environment = {
+      server = "10.88.219.142";
+      testHost = "dns.skaia";
+      resolvconfName = "skaia";
+      resolvconfMetric = "400";
+    };
+    script = ''
+      while true; do
+        if host "$testHost" "$server" &>/dev/null; then
+          if [[ ! -e "/run/resolvconf/interfaces/$resolvconfName" ]]; then
+            echo nameserver "$server" | resolvconf -a "$resolvconfName" -m "$resolvconfMetric"
+          fi
+        else
+          if [[ -e "/run/resolvconf/interfaces/$resolvconfName" ]]; then
+            resolvconf -d "$resolvconfName"
+          fi
+        fi
+        sleep 15
+      done
+    '';
+    preStop = ''
+      resolvconf -d "$resolvconfName"
+    '';
+    serviceConfig.Restart = "always";
+  };
 }

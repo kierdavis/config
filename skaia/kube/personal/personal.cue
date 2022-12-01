@@ -1,9 +1,11 @@
 package personal
 
 import (
+	"cue.skaia/kube/personal/nameserver"
 	"cue.skaia/kube/personal/transmission"
 )
 
+resources: nameserver.resources
 resources: transmission.resources
 
 resources: namespaces: "": "personal": {}
