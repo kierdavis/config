@@ -23,7 +23,7 @@ resources: networkpolicies: monitoring: "grafana-access": spec: {
 resources: prometheuses: monitoring: k8s: spec: {
 	priorityClassName: "observability"
 	replicas: 1
-	retentionSize: "3.8GiB"
+	retentionSize: "3GiB"
 	storage: volumeClaimTemplate: spec: {
 		storageClassName: "ceph-blk-replicated"
 		accessModes: ["ReadWriteOnce"]
