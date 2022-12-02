@@ -11,6 +11,14 @@ resources: daemonsets: monitoring: "node-exporter": spec: template: spec: priori
 
 resources: services: monitoring: grafana: spec: ports: [{ port: 80 }, ...]
 resources: networkpolicies: monitoring: grafana: spec: ingress: [{ ports: [{ port: 80 }, ...] }, ...]
+resources: networkpolicies: monitoring: "grafana-access": spec: {
+	podSelector: resources.networkpolicies.monitoring.grafana.spec.podSelector
+	policyTypes: ["Ingress"]
+	ingress: [{
+		from: [{ ipBlock: cidr: "0.0.0.0/0" }]
+		ports: [{ protocol: "TCP", port: 3000 }]
+	}]
+}
 
 resources: prometheuses: monitoring: k8s: spec: {
 	priorityClassName: "observability"
