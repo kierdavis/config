@@ -1,10 +1,12 @@
 package personal
 
 import (
+	"cue.skaia/kube/personal/jellyfin"
 	"cue.skaia/kube/personal/nameserver"
 	"cue.skaia/kube/personal/transmission"
 )
 
+resources: jellyfin.resources
 resources: nameserver.resources
 resources: transmission.resources
 

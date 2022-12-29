@@ -58,6 +58,7 @@ config: util.HashedConfigMap & {
 		@ 3600 IN NS nameserver.personal.svc.kube.skaia.
 		ceph IN CNAME rook-ceph-mgr-dashboard.rook-ceph.svc.kube.skaia.
 		dns IN CNAME nameserver.personal.svc.kube.skaia.
+		media IN CNAME jellyfin.personal.svc.kube.skaia.
 		metrics IN CNAME grafana.monitoring.svc.kube.skaia.
 		talos IN CNAME theila.talos-system.svc.kube.skaia.
 		torrents IN CNAME transmission.personal.svc.kube.skaia.
