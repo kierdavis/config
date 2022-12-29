@@ -38,6 +38,7 @@ command: deploy: {
 			"--kubeconfig", writeKubeConfig.filename,
 			"apply",
 			"--server-side",
+			"--field-manager=skaia-config",
 			// Pending resolution of https://github.com/kubernetes/kubernetes/issues/110893
 			//"--prune",
 			//"--all",
