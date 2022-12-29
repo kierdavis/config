@@ -38,9 +38,6 @@ in {
     [mem]
     interval=5
 
-    [swap]
-    interval=5
-
     [cpu]
     interval=5
     instance=${config.machine.i3blocks.cpuThermalZone}
