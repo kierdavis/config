@@ -46,6 +46,7 @@
     file
     fzf
     gptfdisk
+    iftop
     jq
     kakoune
     man-pages
