@@ -47,8 +47,9 @@
     ];
   };
 
+  # UID/GID used for files on CephFS filesystems where permissioning doesn't matter.
   users.groups.cephfsdata = {
-    #gid = config.hist5.sharedFilesystemUid;
+    gid = 2000;
   };
   users.users.cephfsdata = {
     createHome = false;
@@ -56,7 +57,7 @@
     group = "cephfsdata";
     isNormalUser = false;
     isSystemUser = true;
-    #uid = config.hist5.sharedFilesystemUid;
+    uid = 2000;
     useDefaultShell = true;
   };
   users.users.kier.extraGroups = ["cephfsdata"];
