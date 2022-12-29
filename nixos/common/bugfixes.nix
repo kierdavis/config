@@ -57,4 +57,12 @@
 
   # Default value of "pause:latest" doesn't exist on Docker Hub???
   virtualisation.containerd.settings.plugins."io.containerd.grpc.v1.cri".sandbox_image = "kubernetes/pause";
+
+  # https://discourse.nixos.org/t/while-mounting-ceph-filesystem-got-a-modprobe-not-found/23465
+  system.fsPackages = let
+    cephMountShim = pkgs.writeShellScriptBin "mount.ceph" ''
+      export PATH=${pkgs.kmod}/bin:$PATH
+      exec ${pkgs.ceph-client}/bin/mount.ceph "$@"
+    '';
+  in lib.optional (builtins.elem "ceph" config.boot.supportedFilesystems) cephMountShim;
 }

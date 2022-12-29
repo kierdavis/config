@@ -29,6 +29,15 @@
   # By default this is in /etc, which is not very NixOS-friendly.
   environment.variables.LVM_SYSTEM_DIR = "/var/lvm";
 
+  fileSystems."/net/skaia/torrent-downloads" = {
+    fsType = "ceph";
+    device = "10.88.234.14,10.88.200.103,10.88.225.6:/volumes/csi/csi-vol-d2f2e43d-6926-11ed-b262-a6adf78fc049/7ab73f0e-d778-4c28-ac8b-041f63381ff1";
+    options = [
+      "name=${config.networking.hostName}"
+      "secretfile=/etc/ceph-client-secret"
+      "ro"
+    ];
+  };
 
   users.groups.cephfsdata = {
     #gid = config.hist5.sharedFilesystemUid;
