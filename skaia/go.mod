@@ -1,6 +1,6 @@
 module cue.skaia
 
-go 1.17
+go 1.18
 
 replace (
 	github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.4.1

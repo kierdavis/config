@@ -1,9 +1,11 @@
 package schema
 
 import (
+	k8sadmissionregistrationv1 "k8s.io/api/admissionregistration/v1"
 	k8sapiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	k8sapiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
 	k8sappsv1 "k8s.io/api/apps/v1"
+	k8sbatchv1 "k8s.io/api/batch/v1"
 	k8scorev1 "k8s.io/api/core/v1"
 	k8snetworkingv1 "k8s.io/api/networking/v1"
 	k8spolicyv1 "k8s.io/api/policy/v1"
@@ -128,6 +130,17 @@ resources: close({
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
+	jobs: [Namespace=string]: [Name=string]: k8sbatchv1.#Job & {
+		apiVersion: "batch/v1"
+		kind: "Job"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
+	mutatingwebhookconfigurations: [""]: [Name=string]: k8sadmissionregistrationv1.#MutatingWebhookConfiguration & {
+		apiVersion: "admissionregistration.k8s.io/v1"
+		kind: "MutatingWebhookConfiguration"
+		metadata: name: Name
+	}
 	namespaces: [""]: [Name=string]: k8scorev1.#Namespace & {
 		apiVersion: "v1"
 		kind:       "Namespace"
@@ -226,5 +239,10 @@ resources: close({
 		spec: {
 			roles: [...string]
 		}
+	}
+	validatingwebhookconfigurations: [""]: [Name=string]: k8sadmissionregistrationv1.#ValidatingWebhookConfiguration & {
+		apiVersion: "admissionregistration.k8s.io/v1"
+		kind: "ValidatingWebhookConfiguration"
+		metadata: name: Name
 	}
 })
