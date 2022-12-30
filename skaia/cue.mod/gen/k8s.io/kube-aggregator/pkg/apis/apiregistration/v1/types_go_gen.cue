@@ -54,11 +54,11 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	// This is strongly discouraged.  You should use the CABundle instead.
 	insecureSkipTLSVerify?: bool @go(InsecureSkipTLSVerify) @protobuf(4,varint,opt)
 
-	// CABundle is a PEM encoded CA bundle which will be used to validate an API server's serving certificate.
+	// CABundle is a base64-wrapped PEM encoded CA bundle which will be used to validate an API server's serving certificate.
 	// If unspecified, system trust roots on the apiserver are used.
 	// +listType=atomic
 	// +optional
-	caBundle?: bytes @go(CABundle,[]byte) @protobuf(5,bytes,opt)
+	caBundle?: string @go(CABundle,[]byte) @protobuf(5,bytes,opt)
 
 	// GroupPriorityMininum is the priority this group should have at least. Higher priority means that the group is preferred by clients over lower priority ones.
 	// Note that other versions of this group might specify even higher GroupPriorityMininum values such that the whole group gets a higher priority.

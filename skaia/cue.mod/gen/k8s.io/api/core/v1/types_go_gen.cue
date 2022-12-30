@@ -6768,7 +6768,7 @@ import (
 	// base64 encoded string, representing the arbitrary (possibly non-string)
 	// data value here. Described in https://tools.ietf.org/html/rfc4648#section-4
 	// +optional
-	data?: {[string]: bytes} @go(Data,map[string][]byte) @protobuf(2,bytes,rep)
+	data?: {[string]: string} @go(Data,map[string][]byte) @protobuf(2,bytes,rep)
 
 	// stringData allows specifying non-binary secret data in string form.
 	// It is provided as a write-only input field for convenience.

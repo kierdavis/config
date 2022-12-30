@@ -543,10 +543,10 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	// +optional
 	service?: null | #ServiceReference @go(Service,*ServiceReference) @protobuf(1,bytes,opt)
 
-	// `caBundle` is a PEM encoded CA bundle which will be used to validate the webhook's server certificate.
+	// `caBundle` is a base64-wrapped PEM encoded CA bundle which will be used to validate the webhook's server certificate.
 	// If unspecified, system trust roots on the apiserver are used.
 	// +optional
-	caBundle?: bytes @go(CABundle,[]byte) @protobuf(2,bytes,opt)
+	caBundle?: string @go(CABundle,[]byte) @protobuf(2,bytes,opt)
 }
 
 // ServiceReference holds a reference to Service.legacy.k8s.io
