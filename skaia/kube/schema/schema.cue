@@ -14,6 +14,8 @@ import (
 	k8sstoragev1 "k8s.io/api/storage/v1"
 	prometheusv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
+	stashv1alpha1 "stash.appscode.dev/apimachinery/apis/stash/v1alpha1"
+	stashv1beta1 "stash.appscode.dev/apimachinery/apis/stash/v1beta1"
 )
 
 resources: close({
@@ -27,6 +29,18 @@ resources: close({
 		apiVersion: "apiregistration.k8s.io/v1"
 		kind:       "APIService"
 		metadata: name: Name
+	}
+	backupconfigurations: [Namespace=string]: [Name=string]: stashv1beta1.#BackupConfiguration & {
+		apiVersion: "stash.appscode.com/v1beta1"
+		kind: "BackupConfiguration"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
+	backuprepositories: [Namespace=string]: [Name=string]: stashv1alpha1.#Repository & {
+		apiVersion: "stash.appscode.com/v1alpha1"
+		kind: "Repository"
+		metadata: name: Name
+		metadata: namespace: Namespace
 	}
 	bgpconfigurations: [""]: [Name=string]: close({
 		apiVersion: "crd.projectcalico.org/v1"

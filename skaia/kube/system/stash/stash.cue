@@ -7,3 +7,5 @@ import (
 resources: namespaces: "": "stash": {}
 
 resources: secrets: "stash": "stash-license": stringData: "key.txt": secret.stashLicense
+
+resources: secrets: "stash": "b2": {}
