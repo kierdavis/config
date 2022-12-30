@@ -15,7 +15,7 @@ resources: namespaces: "": "personal": {}
 resources: persistentvolumeclaims: "personal": "torrent-downloads": spec: {
 	storageClassName: "ceph-fs-replicated"
 	accessModes: ["ReadWriteMany"]
-	resources: requests: storage: "300Gi"
+	resources: requests: storage: "500Gi"
 }
 
 resources: persistentvolumeclaims: "personal": "media": spec: {

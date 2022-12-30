@@ -162,6 +162,7 @@ resources: cephfilesystems: "rook-ceph": "fs-replicated": spec: {
 resources: storageclasses: "": "ceph-fs-replicated": {
 	provisioner: "rook-ceph.cephfs.csi.ceph.com"
 	reclaimPolicy: "Delete"
+	allowVolumeExpansion: true
 	parameters: {
 		clusterID: "rook-ceph"
 		fsName: "fs-replicated"
