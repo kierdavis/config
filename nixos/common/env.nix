@@ -10,8 +10,5 @@
     TMUX_TMPDIR = lib.mkForce "/tmp";
 
     EDITOR = "kak";
-
-    CUPS_SERVER = "printing.hist:80";
-    PRINTER = "HP_Envy_5640";
   };
 }
