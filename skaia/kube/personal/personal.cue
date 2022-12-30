@@ -66,9 +66,3 @@ resources: backuprepositories: "stash": "personal-media-b2": spec: {
 		}]
 	}
 }
-
-resources: persistentvolumeclaims: "personal": "coloris-home-20221121": spec: {
-	storageClassName: "ceph-blk-replicated"
-	accessModes: ["ReadWriteOnce"]
-	resources: requests: storage: "51Gi"
-}
