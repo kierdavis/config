@@ -86,6 +86,11 @@ def patch_resource(resource):
   if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
     assert base64.b64decode(resource["data"]["key.txt"]) == b"PLACEHOLDER"
     del resource["data"]["key.txt"]
+  if resource["kind"] in ("ValidatingWebhookConfiguration", "MutatingWebhookConfiguration"):
+    for webhook in resource.get("webhooks", []):
+      ca_bundle = webhook.get("clientConfig", {}).get("caBundle")
+      if ca_bundle and base64.b64decode(ca_bundle) == b"not-ca-cert":
+        del webhook["clientConfig"]["caBundle"]
   return resource
 
 def set_env(container, name, value):
