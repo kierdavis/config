@@ -1,11 +1,13 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p cue -p "python3.withPackages(py: with py; [ruamel-yaml])" -i python3
+#!nix-shell -p cue -p kubernetes-helm -p "python3.withPackages(py: with py; [ruamel-yaml])" -i python3
 
+import base64
 import pathlib
 import re
 import subprocess
 import sys
 import tarfile
+import tempfile
 import urllib.request
 from ruamel.yaml import YAML
 
@@ -31,6 +33,20 @@ components = {
     "tar_url": "https://github.com/rook/rook/archive/refs/tags/v{version}.tar.gz",
     "tar_member_regexp": r"^[^/]*/deploy/examples/(common|crds|operator|toolbox)\.yaml$",
     "dest_dir": "system/rookceph",
+  },
+  "stash": {
+    "version": "2022.12.11",
+    "helm_repo_url": "https://charts.appscode.com/stable/",
+    "helm_chart": "stash",
+    "helm_version_template": "v{}",
+    "helm_dest_namespace": "stash",
+    "helm_vars": {
+      "features.community": "true",
+      "global.license": "PLACEHOLDER",
+      "global.skipCleaner": "true",
+      "stash-community.nameOverride": "stash",
+    },
+    "dest_dir": "system/stash",
   },
 }
 
@@ -67,6 +83,9 @@ def patch_resource(resource):
     del resource["spec"]["ingress"][0]["ports"][0]["port"]
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
     del resource["data"]["CSI_PROVISIONER_REPLICAS"]
+  if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
+    assert base64.b64decode(resource["data"]["key.txt"]) == b"PLACEHOLDER"
+    del resource["data"]["key.txt"]
   return resource
 
 def set_env(container, name, value):
@@ -86,7 +105,9 @@ def lookup_env(container, name):
   return env
 
 def main():
-  component = components[sys.argv[1]]
+  component_name = sys.argv[1]
+  component = components[component_name]
+  component["name"] = component_name
   dest_dir = pathlib.Path(__file__).parent / component["dest_dir"]
   dest_dir.mkdir(parents=True, exist_ok=True)
   dest_yaml_path = dest_dir / "imported.yaml"
@@ -130,6 +151,31 @@ def fetch_resources(component, yaml):
     yaml_url = component["yaml_url"].format(**component)
     with urllib.request.urlopen(yaml_url) as yaml_fileobj:
       yield from yaml.load_all(yaml_fileobj)
+  elif "helm_chart" in component:
+    with tempfile.TemporaryDirectory(suffix="-helm") as temp_dir:
+      temp_dir = pathlib.Path(temp_dir)
+      repository_cache_path = temp_dir / "repository-cache"
+      repository_config_path = temp_dir / "repositories.yaml"
+      with open(repository_config_path, "w") as f:
+        YAML().dump({"repositories": [{"name": "myrepo", "url": component["helm_repo_url"]}]}, f)
+      base_command = [
+        "helm",
+        "--kubeconfig=/dev/null",
+        f"--repository-config={repository_config_path}",
+        f"--repository-cache={repository_cache_path}",
+      ]
+      subprocess.run(base_command + ["repo", "update"], check=True)
+      template_command = base_command + [
+        "template",
+        component["name"],
+        f"myrepo/{component['helm_chart']}",
+        f"--version={component['helm_version_template'].format(component['version'])}",
+        f"--namespace={component['helm_dest_namespace']}",
+      ]
+      for key, value in component.get("helm_vars", {}).items():
+        template_command.append(f"--set={key}={value}")
+      with subprocess.Popen(template_command, stdout=subprocess.PIPE) as process:
+        yield from yaml.load_all(process.stdout)
   else:
     raise Exception("component doesn't specify how to fetch its resources")
 
