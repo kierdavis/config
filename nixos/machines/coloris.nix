@@ -106,4 +106,6 @@
     enable = true;
     drivers = with pkgs; [ hplip ];
   };
+
+  virtualisation.virtualbox.host.enable = true;
 }
