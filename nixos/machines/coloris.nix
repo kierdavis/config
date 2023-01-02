@@ -73,7 +73,7 @@
   services.bird2.config = ''
     log syslog all;
     router id 192.168.178.135;
-    debug protocols all;
+    debug protocols { states, routes, filters, interfaces, events };
     protocol device {}
     protocol direct {
       ipv4;
