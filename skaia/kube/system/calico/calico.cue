@@ -5,12 +5,26 @@ import (
 	"cue.skaia/hosts"
 )
 
+resources: deployments: "kube-system": "calico-kube-controllers": spec: template: spec: containers: [{
+	name: "calico-kube-controllers"  // assert we're operating on the expected element of the list
+	resources: {
+		requests: cpu: "5m"
+		requests: memory: "30Mi"
+		limits: requests
+	}
+}, ...]
+
 resources: daemonsets: "kube-system": "calico-node": spec: template: spec: containers: [{
 	name: "calico-node"  // assert we're operating on the expected element of the list
 	env: [{
 		name: "CALICO_IPV4POOL_CIDR"  // assert we're operating on the expected element of the list
 		value: networks.networks.pods.cidr
 	}, ...]
+	resources: {
+		requests: cpu: "75m"
+		requests: memory: "180Mi"
+		limits: requests
+	}
 }, ...]
 
 resources: nodes: "": {

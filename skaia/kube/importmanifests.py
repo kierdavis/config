@@ -56,6 +56,7 @@ def patch_resource(resource):
     del resource["spec"]["template"]["spec"]["initContainers"][0]
     node_container = resource["spec"]["template"]["spec"]["containers"][0]
     assert node_container["name"] == "calico-node"
+    del node_container["resources"]["requests"]["cpu"]
     set_env(node_container, "CALICO_IPV4POOL_BLOCK_SIZE", "26")
     set_env(node_container, "CALICO_IPV4POOL_IPIP", "Never")
     set_env(node_container, "CALICO_IPV4POOL_VXLAN", "Never")

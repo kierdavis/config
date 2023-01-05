@@ -4648,7 +4648,7 @@ resources: {
 							value: "false"
 						}]
 						securityContext: privileged: true
-						resources: requests: cpu: "250m"
+						resources: requests: {}
 						lifecycle: preStop: exec: command: [
 							"/bin/calico-node",
 							"-shutdown",
