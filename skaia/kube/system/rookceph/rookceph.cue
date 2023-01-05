@@ -99,6 +99,24 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 	}
 }
 
+defaultScratchMetadataPoolSpec: {
+	replicated: size: 1
+	failureDomain: "osd"
+	parameters: {
+		bulk: "0"
+		pg_num_min: "1"
+	}
+}
+
+defaultScratchDataPoolSpec: {
+	replicated: size: 1
+	failureDomain: "osd"
+	parameters: {
+		bulk: "1"
+		pg_num_min: "1"
+	}
+}
+
 defaultMetadataPoolSpec: {
 	replicated: size: 2
 	failureDomain: "osd"
@@ -123,6 +141,26 @@ dummyStuffToMakeServerSideApplyHappy: {
 	mirroring: {}
 	quotas: {}
 	statusCheck: mirror: {}
+}
+
+resources: cephblockpools: "rook-ceph": "blk-scratch-metadata": spec: defaultScratchMetadataPoolSpec
+resources: cephblockpools: "rook-ceph": "blk-scratch-data": spec: defaultScratchDataPoolSpec
+resources: storageclasses: "": "ceph-blk-scratch": {
+	provisioner: "rook-ceph.rbd.csi.ceph.com"
+	reclaimPolicy: "Delete"
+	allowVolumeExpansion: true
+	parameters: {
+		clusterID: "rook-ceph"
+		pool: "blk-scratch-metadata"
+		dataPool: "blk-scratch-data"
+		"csi.storage.k8s.io/fstype": "ext4"
+		"csi.storage.k8s.io/provisioner-secret-name": "rook-csi-rbd-provisioner"
+		"csi.storage.k8s.io/provisioner-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/controller-expand-secret-name": "rook-csi-rbd-provisioner"
+		"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
+		"csi.storage.k8s.io/node-stage-secret-name": "rook-csi-rbd-node"
+		"csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
+	}
 }
 
 resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: defaultMetadataPoolSpec

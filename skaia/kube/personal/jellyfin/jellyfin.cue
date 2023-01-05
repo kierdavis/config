@@ -22,6 +22,7 @@ resources: statefulsets: personal: jellyfin: {
 					]
 					volumeMounts: [
 						{ name: "database", mountPath: "/config", readOnly: false },
+						{ name: "transcodes", mountPath: "/config/data/transcodes", readOnly: false },
 						{ name: "media", mountPath: "/net/skaia/media", readOnly: true },
 						{ name: "torrent-downloads", mountPath: "/net/skaia/torrent-downloads", readOnly: true },
 					]
@@ -37,14 +38,24 @@ resources: statefulsets: personal: jellyfin: {
 				]
 			}
 		}
-		volumeClaimTemplates: [{
-			metadata: name: "database"
-			spec: {
-				accessModes: ["ReadWriteOnce"]
-				storageClassName: "ceph-blk-replicated"
-				resources: requests: storage: "1Gi"
-			}
-		}]
+		volumeClaimTemplates: [
+			{
+				metadata: name: "database"
+				spec: {
+					accessModes: ["ReadWriteOnce"]
+					storageClassName: "ceph-blk-replicated"
+					resources: requests: storage: "2Gi"
+				}
+			},
+			{
+				metadata: name: "transcodes"
+				spec: {
+					accessModes: ["ReadWriteOnce"]
+					storageClassName: "ceph-blk-scratch"
+					resources: requests: storage: "20Gi"
+				}
+			},
+		]
 	}
 }
 
