@@ -39,6 +39,7 @@ command: deploy: {
 			"apply",
 			"--server-side",
 			"--field-manager=skaia-config",
+			"--validate=false",
 			// Pending resolution of https://github.com/kubernetes/kubernetes/issues/110893
 			//"--prune",
 			//"--all",

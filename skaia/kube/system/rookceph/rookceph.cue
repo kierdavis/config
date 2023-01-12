@@ -69,6 +69,33 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		mon: "system-node-critical"
 		osd: "system-node-critical"
 	}
+	resources: {
+		crashcollector: {
+			requests: cpu: "1m"
+			requests: memory: "10Mi"
+			limits: memory: "60Mi"
+		}
+		mgr: {
+			requests: cpu: "50m"
+			requests: memory: "600Mi"
+			limits: memory: "600Mi"
+		}
+		"mgr-sidecar": {
+			requests: cpu: "50m"
+			requests: memory: "40Mi"
+			limits: memory: "100Mi"
+		}
+		mon: {
+			requests: cpu: "50m"
+			requests: memory: "1024Mi"
+			limits: memory: "1024Mi"
+		}
+		osd: {
+			requests: cpu: "100m"
+			requests: memory: "2048Mi"
+			limits: memory: "2048Mi"
+		}
+	}
 	storage: {
 		useAllNodes: true
 		useAllDevices: true
@@ -195,6 +222,11 @@ resources: cephfilesystems: "rook-ceph": "fs-replicated": spec: {
 	metadataServer: {
 		activeCount: 1  // Controls sharding, not redundancy.
 		priorityClassName: "system-cluster-critical"
+		resources: {
+			requests: cpu: "150m"
+			requests: memory: "100Mi"
+			limits: memory: "150Mi"
+		}
 	}
 }
 resources: storageclasses: "": "ceph-fs-replicated": {

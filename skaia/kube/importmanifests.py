@@ -75,6 +75,7 @@ def patch_resource(resource):
     # I want to override these fields.
     del resource["spec"]["alerting"]
     del resource["spec"]["replicas"]
+    del resource["spec"]["resources"]["requests"]["memory"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
   if resource["kind"] == "Service" and resource["metadata"]["name"] == "grafana":

@@ -66486,7 +66486,8 @@ resources: {
 			podMonitorSelector: {}
 			probeNamespaceSelector: {}
 			probeSelector: {}
-			resources: requests: memory: "400Mi", ruleNamespaceSelector: {}
+			resources: requests: {}
+			ruleNamespaceSelector: {}
 			ruleSelector: {}
 			securityContext: {
 				fsGroup:

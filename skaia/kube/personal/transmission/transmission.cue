@@ -130,6 +130,7 @@ resources: statefulsets: personal: transmission: {
 		template: {
 			metadata: labels: app: "transmission"
 			spec: {
+				priorityClassName: "best-effort"
 				initContainers: [{
 					name: "setup-routes-to-cluster"
 					image: "alpine"

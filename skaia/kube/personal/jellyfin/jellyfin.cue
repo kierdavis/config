@@ -11,6 +11,7 @@ resources: statefulsets: personal: jellyfin: {
 		template: {
 			metadata: "labels": labels
 			spec: {
+				priorityClassName: "personal-critical"
 				containers: [{
 					name: "jellyfin"
 					image: "linuxserver/jellyfin"
