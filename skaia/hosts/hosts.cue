@@ -19,20 +19,6 @@ hosts: {
 		}
 		bgpASNumber: 64600
 	}
-	vantas: {
-		addresses: {
-			prospitHosts: "10.88.1.2"
-			kubeHosts:    prospitHosts
-			talosDeploy: prospitHosts
-			talosInitialDeploy: prospitHosts
-		}
-		bgpASNumber: 64601
-		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "prospit"
-			zone: "advent-way"
-		}
-	}
 	pyrope: {
 		addresses: {
 			prospitHosts: "10.88.1.3"

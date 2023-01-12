@@ -13,7 +13,6 @@ import (
 			dhcp: true
 		},
 	]
-	vantas: #prospitHost
 	pyrope: #prospitHost
 	serket: #prospitHost
 	megido: [
