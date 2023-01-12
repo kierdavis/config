@@ -8,7 +8,7 @@ import (
 )
 
 hostName: string                                              @tag(host)
-address:  string | *hosts.hosts[hostName].addresses.kubeHosts @tag(address)
+address:  string @tag(address)
 
 command: deploy: {
 	writeTalosConfig: file.Create & {
@@ -22,7 +22,7 @@ command: deploy: {
 		contents:    yaml.Marshal(byHost[hostName])
 	}
 	talosctl: exec.Run & {
-		cmd: ["talosctl", "apply-config", "--talosconfig", writeTalosConfig.filename, "--nodes", address, "--file", writeHostConfig.filename]
+		cmd: ["talosctl", "apply-config", "--talosconfig", writeTalosConfig.filename, "--nodes", address | *hosts.hosts[hostName].addresses.talosDeploy, "--file", writeHostConfig.filename]
 	}
 }
 
@@ -33,7 +33,7 @@ command: initialDeploy: {
 		contents:    yaml.Marshal(byHost[hostName])
 	}
 	talosctl: exec.Run & {
-		cmd: ["talosctl", "apply-config", "--nodes", address, "--file", writeHostConfig.filename, "--insecure"]
+		cmd: ["talosctl", "apply-config", "--nodes", address | *hosts.hosts[hostName].addresses.talosInitialDeploy, "--file", writeHostConfig.filename, "--insecure"]
 	}
 }
 

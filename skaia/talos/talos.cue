@@ -6,6 +6,78 @@ import (
 	"secret.cue.skaia:secret"
 )
 
+#networkInterfaces: {
+	#prospitHost: [
+		{
+			deviceSelector: driver: "virtio_net"
+			dhcp: true
+		},
+	]
+	vantas: #prospitHost
+	pyrope: #prospitHost
+	serket: #prospitHost
+	megido: [
+		{
+			interface: "eth0"
+			dhcp: true
+		},
+		{
+			interface: "eth1"
+			dhcp: false
+			addresses: ["\(hosts.hosts.megido.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
+		},
+		{
+			interface: "wg-prospit"
+			addresses: ["\(hosts.hosts.megido.addresses.wgMegidoProspit)/\(networks.networks.wgMegidoProspit.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.megido.facing.prospit.private
+				listenPort: networks.networks.wgMegidoProspit.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.prospit.facing.megido.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{
+					network: networks.networks.prospitHosts.cidr
+					gateway: hosts.hosts.prospit.addresses.wgMegidoProspit
+				},
+			]
+		},
+	]
+	captor: [
+		{
+			interface: "eth0"
+			dhcp: true
+		},
+		{
+			interface: "eth1"
+			dhcp: false
+			addresses: ["\(hosts.hosts.captor.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
+		},
+		{
+			interface: "wg-prospit"
+			addresses: ["\(hosts.hosts.captor.addresses.wgCaptorProspit)/\(networks.networks.wgCaptorProspit.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.captor.facing.prospit.private
+				listenPort: networks.networks.wgCaptorProspit.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.prospit.facing.captor.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{
+					network: networks.networks.prospitHosts.cidr
+					gateway: hosts.hosts.prospit.addresses.wgCaptorProspit
+				},
+			]
+		},
+	]
+}
+
 #common: secret.talos & {
 	version: "v1alpha1"
 	debug:   false
@@ -29,12 +101,7 @@ import (
 		}
 		network: {
 			hostname: string
-			interfaces: [
-				{
-					deviceSelector: driver: "virtio_net"
-					dhcp: true
-				},
-			]
+			interfaces: #networkInterfaces[hostname]
 			nameservers: ["1.1.1.1", "1.0.0.1"]
 			extraHostEntries: [
 				for host in hosts.hosts
@@ -82,7 +149,9 @@ import (
 }
 
 byHost: {
-	for hostName, _ in hosts.hosts {
+	for hostName, host in hosts.hosts
+	if host.isKubeNode
+	{
 		"\(hostName)": #common & {
 			machine: network: hostname: hostName
 		}
@@ -95,7 +164,7 @@ talosconfig: secret.talosconfig & {
 		endpoints: [
 			for host in hosts.hosts
 			if host.isKubeNode {
-				host.addresses.kubeHosts
+				host.addresses.talosDeploy
 			},
 		]
 		nodes: endpoints

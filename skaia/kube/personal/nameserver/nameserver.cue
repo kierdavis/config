@@ -56,9 +56,13 @@ config: util.HashedConfigMap & {
 		$ORIGIN skaia.
 		@ 3600 IN SOA nameserver.personal.svc.kube.skaia. me.kierdavis.com. 2022112300 7200 3600 1209600 3600
 		@ 3600 IN NS nameserver.personal.svc.kube.skaia.
+		captor IN A 172.105.133.104
+		captor IN AAAA 2a01:7e00::f03c:93ff:fe36:8f02
 		ceph IN CNAME rook-ceph-mgr-dashboard.rook-ceph.svc.kube.skaia.
 		dns IN CNAME nameserver.personal.svc.kube.skaia.
 		media IN CNAME jellyfin.personal.svc.kube.skaia.
+		megido IN A 151.236.219.214
+		megido IN AAAA 2a01:7e00::f03c:93ff:fea2:7b7e
 		metrics IN CNAME grafana.monitoring.svc.kube.skaia.
 		talos IN CNAME theila.talos-system.svc.kube.skaia.
 		torrents IN CNAME transmission.personal.svc.kube.skaia.
