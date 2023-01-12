@@ -66,7 +66,7 @@ hosts: {
 			internet: "151.236.219.214"
 			linodeHosts: "10.88.1.9"
 			kubeHosts: linodeHosts
-			talosDeploy: internet
+			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
 			wgMegidoProspit: "10.88.2.1"
 		}
@@ -82,7 +82,7 @@ hosts: {
 			internet: "172.105.133.104"
 			linodeHosts: "10.88.1.10"
 			kubeHosts: linodeHosts
-			talosDeploy: internet
+			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
 			wgCaptorProspit: "10.88.2.5"
 		}
