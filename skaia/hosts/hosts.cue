@@ -62,8 +62,8 @@ hosts: {
 		bgpASNumber: 64605
 		isKubeMaster: true
 		cephCrushLabels: {
-			chassis: "megido"
-			zone: "linode-london"
+			chassis: "chassis-megido"
+			zone: "zone-linode-london"
 		}
 	}
 	captor: {
@@ -79,8 +79,8 @@ hosts: {
 		bgpASNumber: 64606
 		isKubeMaster: true
 		cephCrushLabels: {
-			chassis: "captor"
-			zone: "linode-london"
+			chassis: "chassis-captor"
+			zone: "zone-linode-london"
 		}
 	}
 	coloris: {
