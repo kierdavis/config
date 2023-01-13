@@ -126,7 +126,7 @@ resources: statefulsets: personal: transmission: {
 	spec: {
 		selector: matchLabels: app: "transmission"
 		serviceName: "transmission"
-		replicas: 1
+		replicas: 0
 		template: {
 			metadata: labels: app: "transmission"
 			spec: {
