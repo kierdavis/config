@@ -52,7 +52,7 @@ resources: statefulsets: personal: jellyfin: {
 				metadata: name: "transcodes"
 				spec: {
 					accessModes: ["ReadWriteOnce"]
-					storageClassName: "ceph-blk-scratch"
+					storageClassName: "ceph-blk-replicated"
 					resources: requests: storage: "20Gi"
 				}
 			},
