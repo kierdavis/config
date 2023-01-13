@@ -63,6 +63,8 @@ def patch_resource(resource):
     set_env(node_container, "CALICO_IPV4POOL_NAT_OUTGOING", "true")
     set_env(node_container, "CALICO_IPV4POOL_NODE_SELECTOR", "all()")
     set_env(node_container, "CALICO_IPV4POOL_DISABLE_BGP_EXPORT", "false")
+    set_env(node_container, "IP_AUTODETECTION_METHOD", "kubernetes-internal-ip")
+    set_env(node_container, "IP6_AUTODETECTION_METHOD", "kubernetes-internal-ip")
     setup_dynamic_env(node_container, "CALICO_IPV4POOL_CIDR", desired_index=0)
   if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "metrics-server":
     # x509: cannot validate certificate for 10.88.1.2 because it doesn't contain any IP SANs

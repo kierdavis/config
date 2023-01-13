@@ -85,11 +85,11 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 			requests: memory: "40Mi"
 			limits: memory: "100Mi"
 		}
-		mon: {
-			requests: cpu: "50m"
-			requests: memory: "1024Mi"
-			limits: memory: "1024Mi"
-		}
+		//mon: {
+		//	requests: cpu: "50m"
+		//	requests: memory: "1024Mi"
+		//	limits: memory: "1024Mi"
+		//}
 		osd: {
 			requests: cpu: "100m"
 			requests: memory: "2048Mi"

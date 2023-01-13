@@ -4646,6 +4646,12 @@ resources: {
 						}, {
 							name:  "CALICO_IPV4POOL_DISABLE_BGP_EXPORT"
 							value: "false"
+						}, {
+							name:  "IP_AUTODETECTION_METHOD"
+							value: "kubernetes-internal-ip"
+						}, {
+							name:  "IP6_AUTODETECTION_METHOD"
+							value: "kubernetes-internal-ip"
 						}]
 						securityContext: privileged: true
 						resources: requests: {}

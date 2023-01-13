@@ -24,16 +24,28 @@ networks: linodeHosts: {
 	prefixLength: 29
 }
 
-networks: wgMegidoProspit: {
+networks: wgMegidoPyrope: {
 	firstAddress: "10.88.2.0"
 	prefixLength: 30
 	listenPort: 14980
 }
 
-networks: wgCaptorProspit: {
+networks: wgMegidoSerket: {
 	firstAddress: "10.88.2.4"
 	prefixLength: 30
 	listenPort: 14981
+}
+
+networks: wgCaptorPyrope: {
+	firstAddress: "10.88.2.8"
+	prefixLength: 30
+	listenPort: 14982
+}
+
+networks: wgCaptorSerket: {
+	firstAddress: "10.88.2.12"
+	prefixLength: 30
+	listenPort: 14983
 }
 
 networks: pods: {

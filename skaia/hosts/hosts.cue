@@ -14,8 +14,6 @@ hosts: {
 	prospit: {
 		addresses: {
 			prospitHosts: "10.88.1.1"
-			wgMegidoProspit: "10.88.2.2"
-			wgCaptorProspit: "10.88.2.6"
 		}
 		bgpASNumber: 64600
 	}
@@ -25,6 +23,8 @@ hosts: {
 			kubeHosts:    prospitHosts
 			talosDeploy: prospitHosts
 			talosInitialDeploy: prospitHosts
+			wgMegidoPyrope: "10.88.2.2"
+			wgCaptorPyrope: "10.88.2.10"
 		}
 		bgpASNumber: 64602
 		isKubeMaster: true
@@ -39,6 +39,8 @@ hosts: {
 			kubeHosts:    prospitHosts
 			talosDeploy: prospitHosts
 			talosInitialDeploy: prospitHosts
+			wgMegidoSerket: "10.88.2.6"
+			wgCaptorSerket: "10.88.2.14"
 		}
 		bgpASNumber: 64603
 		isKubeMaster: true
@@ -54,7 +56,8 @@ hosts: {
 			kubeHosts: linodeHosts
 			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
-			wgMegidoProspit: "10.88.2.1"
+			wgMegidoPyrope: "10.88.2.1"
+			wgMegidoSerket: "10.88.2.5"
 		}
 		bgpASNumber: 64605
 		isKubeMaster: true
@@ -70,7 +73,8 @@ hosts: {
 			kubeHosts: linodeHosts
 			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
-			wgCaptorProspit: "10.88.2.5"
+			wgCaptorPyrope: "10.88.2.9"
+			wgCaptorSerket: "10.88.2.13"
 		}
 		bgpASNumber: 64606
 		isKubeMaster: true

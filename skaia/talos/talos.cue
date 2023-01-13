@@ -7,14 +7,98 @@ import (
 )
 
 #networkInterfaces: {
-	#prospitHost: [
+	pyrope: [
 		{
 			deviceSelector: driver: "virtio_net"
 			dhcp: true
 		},
+		{
+			interface: "wg-megido"
+			addresses: ["\(hosts.hosts.pyrope.addresses.wgMegidoPyrope)/\(networks.networks.wgMegidoPyrope.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.pyrope.facing.megido.private
+				listenPort: networks.networks.wgMegidoPyrope.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.megido.facing.pyrope.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.megido.addresses.internet):\(networks.networks.wgMegidoPyrope.listenPort)"
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.megido.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.megido.addresses.wgMegidoPyrope
+				},
+			]
+		},
+		{
+			interface: "wg-captor"
+			addresses: ["\(hosts.hosts.pyrope.addresses.wgCaptorPyrope)/\(networks.networks.wgCaptorPyrope.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.pyrope.facing.captor.private
+				listenPort: networks.networks.wgCaptorPyrope.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.captor.facing.pyrope.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.captor.addresses.internet):\(networks.networks.wgCaptorPyrope.listenPort)"
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.captor.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.captor.addresses.wgCaptorPyrope
+				},
+			]
+		},
 	]
-	pyrope: #prospitHost
-	serket: #prospitHost
+	serket: [
+		{
+			deviceSelector: driver: "virtio_net"
+			dhcp: true
+		},
+		{
+			interface: "wg-megido"
+			addresses: ["\(hosts.hosts.serket.addresses.wgMegidoSerket)/\(networks.networks.wgMegidoSerket.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.serket.facing.megido.private
+				listenPort: networks.networks.wgMegidoSerket.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.megido.facing.serket.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.megido.addresses.internet):\(networks.networks.wgMegidoSerket.listenPort)"
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.megido.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.megido.addresses.wgMegidoSerket
+				},
+			]
+		},
+		{
+			interface: "wg-captor"
+			addresses: ["\(hosts.hosts.serket.addresses.wgCaptorSerket)/\(networks.networks.wgCaptorSerket.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.serket.facing.captor.private
+				listenPort: networks.networks.wgCaptorSerket.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.captor.facing.serket.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.captor.addresses.internet):\(networks.networks.wgCaptorSerket.listenPort)"
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.captor.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.captor.addresses.wgCaptorSerket
+				},
+			]
+		},
+	]
 	megido: [
 		{
 			interface: "eth0"
@@ -26,21 +110,40 @@ import (
 			addresses: ["\(hosts.hosts.megido.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
 		},
 		{
-			interface: "wg-prospit"
-			addresses: ["\(hosts.hosts.megido.addresses.wgMegidoProspit)/\(networks.networks.wgMegidoProspit.prefixLength)"]
+			interface: "wg-pyrope"
+			addresses: ["\(hosts.hosts.megido.addresses.wgMegidoPyrope)/\(networks.networks.wgMegidoPyrope.prefixLength)"]
 			wireguard: {
-				privateKey: secret.wireguardKeys.megido.facing.prospit.private
-				listenPort: networks.networks.wgMegidoProspit.listenPort
+				privateKey: secret.wireguardKeys.megido.facing.pyrope.private
+				listenPort: networks.networks.wgMegidoPyrope.listenPort
 				peers: [{
-					publicKey: secret.wireguardKeys.prospit.facing.megido.public
+					publicKey: secret.wireguardKeys.pyrope.facing.megido.public
 					persistentKeepaliveInterval: "59s"
 					allowedIPs: ["0.0.0.0/0"]
 				}]
 			}
 			routes: [
 				{
-					network: networks.networks.prospitHosts.cidr
-					gateway: hosts.hosts.prospit.addresses.wgMegidoProspit
+					network: "\(hosts.hosts.pyrope.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.pyrope.addresses.wgMegidoPyrope
+				},
+			]
+		},
+		{
+			interface: "wg-serket"
+			addresses: ["\(hosts.hosts.megido.addresses.wgMegidoSerket)/\(networks.networks.wgMegidoSerket.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.megido.facing.serket.private
+				listenPort: networks.networks.wgMegidoSerket.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.serket.facing.megido.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.serket.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.serket.addresses.wgMegidoSerket
 				},
 			]
 		},
@@ -56,21 +159,40 @@ import (
 			addresses: ["\(hosts.hosts.captor.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
 		},
 		{
-			interface: "wg-prospit"
-			addresses: ["\(hosts.hosts.captor.addresses.wgCaptorProspit)/\(networks.networks.wgCaptorProspit.prefixLength)"]
+			interface: "wg-pyrope"
+			addresses: ["\(hosts.hosts.captor.addresses.wgCaptorPyrope)/\(networks.networks.wgCaptorPyrope.prefixLength)"]
 			wireguard: {
-				privateKey: secret.wireguardKeys.captor.facing.prospit.private
-				listenPort: networks.networks.wgCaptorProspit.listenPort
+				privateKey: secret.wireguardKeys.captor.facing.pyrope.private
+				listenPort: networks.networks.wgCaptorPyrope.listenPort
 				peers: [{
-					publicKey: secret.wireguardKeys.prospit.facing.captor.public
+					publicKey: secret.wireguardKeys.pyrope.facing.captor.public
 					persistentKeepaliveInterval: "59s"
 					allowedIPs: ["0.0.0.0/0"]
 				}]
 			}
 			routes: [
 				{
-					network: networks.networks.prospitHosts.cidr
-					gateway: hosts.hosts.prospit.addresses.wgCaptorProspit
+					network: "\(hosts.hosts.pyrope.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.pyrope.addresses.wgCaptorPyrope
+				},
+			]
+		},
+		{
+			interface: "wg-serket"
+			addresses: ["\(hosts.hosts.captor.addresses.wgCaptorSerket)/\(networks.networks.wgCaptorSerket.prefixLength)"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.captor.facing.serket.private
+				listenPort: networks.networks.wgCaptorSerket.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.serket.facing.captor.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{
+					network: "\(hosts.hosts.serket.addresses.kubeHosts)/32"
+					gateway: hosts.hosts.serket.addresses.wgCaptorSerket
 				},
 			]
 		},
