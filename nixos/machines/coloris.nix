@@ -69,10 +69,43 @@
     wantedBy = ["multi-user.target"];
   };
 
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ hplip ];
+  };
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg-megido = {
+      allowedIPsAsRoutes = false;
+      ips = ["10.88.3.1/32"];
+      listenPort = 14984;
+      privateKey = REDACTED;
+      peers = [{
+        allowedIPs = ["0.0.0.0/0"];
+        endpoint = "151.236.219.214:14984";
+        publicKey = REDACTED;
+        persistentKeepalive = 59;
+      }];
+    };
+    interfaces.wg-captor = {
+      allowedIPsAsRoutes = false;
+      ips = ["10.88.3.1/32"];
+      listenPort = 14985;
+      privateKey = REDACTED;
+      peers = [{
+        allowedIPs = ["0.0.0.0/0"];
+        endpoint = "172.105.133.104:14985";
+        publicKey = REDACTED;
+        persistentKeepalive = 59;
+      }];
+    };
+  };
+
   services.bird2.enable = true;
   services.bird2.config = ''
     log syslog all;
-    router id 192.168.178.135;
+    router id 10.88.3.1;
     debug protocols { states, routes, filters, interfaces, events };
     protocol device {}
     protocol direct {
@@ -85,27 +118,32 @@
     protocol kernel kernelipv6 {
       ipv6 { export all; };
     }
-    protocol bgp bgpprospit {
-      description "BGP with prospit";
-      local as 64604;
-      neighbor 192.168.178.2 as 64600;
-      direct;
+    protocol static {
+      ipv4;
+      route 10.88.1.9/32 via "wg-megido";
+      route 10.88.1.10/32 via "wg-captor";
+    }
+    protocol bgp bgpmegido {
+      description "BGP with megido";
+      local 10.88.3.1 as 64604;
+      neighbor 10.88.1.9 as 64605;
+      multihop;
       hold time 10;
       ipv4 {
         import all;
-        export all;
+        export none;
       };
-      ipv6 {
+    }
+    protocol bgp bgpcaptor {
+      description "BGP with captor";
+      local 10.88.3.1 as 64604;
+      neighbor 10.88.1.10 as 64606;
+      multihop;
+      hold time 10;
+      ipv4 {
         import all;
-        export all;
+        export none;
       };
     }
   '';
-
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [ hplip ];
-  };
-
-  virtualisation.virtualbox.host.enable = true;
 }

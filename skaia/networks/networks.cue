@@ -4,7 +4,6 @@ package networks
 	firstAddress: string
 	prefixLength: uint8
 	cidr:         "\(firstAddress)/\(prefixLength)"
-	listenPort: (>=14980 & <14990) | *null
 }
 
 networks: [string]: #schema
@@ -14,38 +13,14 @@ networks: kubeHosts: {
 	prefixLength: 24
 }
 
-networks: prospitHosts: {
-	firstAddress: "10.88.1.0"
-	prefixLength: 29
-}
-
 networks: linodeHosts: {
 	firstAddress: "10.88.1.8"
 	prefixLength: 29
 }
 
-networks: wgMegidoPyrope: {
-	firstAddress: "10.88.2.0"
-	prefixLength: 30
-	listenPort: 14980
-}
-
-networks: wgMegidoSerket: {
-	firstAddress: "10.88.2.4"
-	prefixLength: 30
-	listenPort: 14981
-}
-
-networks: wgCaptorPyrope: {
-	firstAddress: "10.88.2.8"
-	prefixLength: 30
-	listenPort: 14982
-}
-
-networks: wgCaptorSerket: {
-	firstAddress: "10.88.2.12"
-	prefixLength: 30
-	listenPort: 14983
+networks: peers: {
+	firstAddress: "10.88.3.0"
+	prefixLength: 24
 }
 
 networks: pods: {
@@ -57,3 +32,6 @@ networks: services: {
 	firstAddress: "10.88.192.0"
 	prefixLength: 18
 }
+
+wireguard: colorisAndMegido: listenPort: 14984
+wireguard: captorAndColoris: listenPort: 14985

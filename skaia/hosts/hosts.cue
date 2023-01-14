@@ -11,44 +11,6 @@ package hosts
 hosts: [string]: #schema
 
 hosts: {
-	prospit: {
-		addresses: {
-			prospitHosts: "10.88.1.1"
-		}
-		bgpASNumber: 64600
-	}
-	pyrope: {
-		addresses: {
-			prospitHosts: "10.88.1.3"
-			kubeHosts:    prospitHosts
-			talosDeploy: prospitHosts
-			talosInitialDeploy: prospitHosts
-			wgMegidoPyrope: "10.88.2.2"
-			wgCaptorPyrope: "10.88.2.10"
-		}
-		bgpASNumber: 64602
-		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "prospit"
-			zone: "advent-way"
-		}
-	}
-	serket: {
-		addresses: {
-			prospitHosts: "10.88.1.4"
-			kubeHosts:    prospitHosts
-			talosDeploy: prospitHosts
-			talosInitialDeploy: prospitHosts
-			wgMegidoSerket: "10.88.2.6"
-			wgCaptorSerket: "10.88.2.14"
-		}
-		bgpASNumber: 64603
-		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "prospit"
-			zone: "advent-way"
-		}
-	}
 	megido: {
 		addresses: {
 			internet: "151.236.219.214"
@@ -56,8 +18,7 @@ hosts: {
 			kubeHosts: linodeHosts
 			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
-			wgMegidoPyrope: "10.88.2.1"
-			wgMegidoSerket: "10.88.2.5"
+			bgp: linodeHosts
 		}
 		bgpASNumber: 64605
 		isKubeMaster: true
@@ -73,8 +34,7 @@ hosts: {
 			kubeHosts: linodeHosts
 			talosDeploy: linodeHosts
 			talosInitialDeploy: internet
-			wgCaptorPyrope: "10.88.2.9"
-			wgCaptorSerket: "10.88.2.13"
+			bgp: linodeHosts
 		}
 		bgpASNumber: 64606
 		isKubeMaster: true
@@ -84,6 +44,11 @@ hosts: {
 		}
 	}
 	coloris: {
+		addresses: {
+			peerHosts: "10.88.3.1"
+			adventWay: "192.168.178.4"
+			bgp: peerHosts
+		}
 		bgpASNumber: 64604
 	}
 }

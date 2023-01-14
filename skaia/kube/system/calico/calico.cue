@@ -49,7 +49,7 @@ resources: bgpconfigurations: "": "default": spec: {
 	serviceClusterIPs: [{cidr: networks.networks.services.cidr}]
 }
 
-resources: bgppeers: "": "prospit": spec: {
-	peerIP:   hosts.hosts.prospit.addresses.prospitHosts
-	asNumber: hosts.hosts.prospit.bgpASNumber
+resources: bgppeers: "": "coloris": spec: {
+	peerIP:   hosts.hosts.coloris.addresses.bgp
+	asNumber: hosts.hosts.coloris.bgpASNumber
 }
