@@ -10,7 +10,7 @@ resources: deployments: "kube-system": "calico-kube-controllers": spec: template
 	resources: {
 		requests: cpu: "5m"
 		requests: memory: "30Mi"
-		limits: requests
+		limits: memory: "30Mi"
 	}
 }, ...]
 
@@ -23,7 +23,7 @@ resources: daemonsets: "kube-system": "calico-node": spec: template: spec: conta
 	resources: {
 		requests: cpu: "75m"
 		requests: memory: "180Mi"
-		limits: requests
+		limits: memory: "180Mi"
 	}
 }, ...]
 
