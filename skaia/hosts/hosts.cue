@@ -43,10 +43,25 @@ hosts: {
 			zone: "zone-linode-london"
 		}
 	}
+	maryam: {
+		addresses: {
+			lan: "192.168.178.2"
+			kubeHosts: "10.88.1.1"
+			talosDeploy: kubeHosts
+			talosInitialDeploy: lan
+			bgp: kubeHosts
+		}
+		bgpASNumber: 64607
+		isKubeMaster: true
+		cephCrushLabels: {
+			chassis: "chassis-maryam"
+			zone: "zone-advent-way"
+		}
+	}
 	coloris: {
 		addresses: {
+			lan: "192.168.178.4"
 			peerHosts: "10.88.3.1"
-			adventWay: "192.168.178.4"
 			bgp: peerHosts
 		}
 		bgpASNumber: 64604

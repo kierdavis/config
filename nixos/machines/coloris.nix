@@ -120,6 +120,7 @@
     }
     protocol static {
       ipv4;
+      route 10.88.1.1/32 via 192.168.178.2;
       route 10.88.1.9/32 via "wg-megido";
       route 10.88.1.10/32 via "wg-captor";
     }
@@ -138,6 +139,17 @@
       description "BGP with captor";
       local 10.88.3.1 as 64604;
       neighbor 10.88.1.10 as 64606;
+      multihop;
+      hold time 10;
+      ipv4 {
+        import all;
+        export none;
+      };
+    }
+    protocol bgp bgpmaryam {
+      description "BGP with maryam";
+      local 10.88.3.1 as 64604;
+      neighbor 10.88.1.1 as 64607;
       multihop;
       hold time 10;
       ipv4 {

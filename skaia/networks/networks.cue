@@ -18,7 +18,7 @@ networks: linodeHosts: {
 	prefixLength: 29
 }
 
-networks: peers: {
+networks: peerHosts: {
 	firstAddress: "10.88.3.0"
 	prefixLength: 24
 }
@@ -35,3 +35,5 @@ networks: services: {
 
 wireguard: colorisAndMegido: listenPort: 14984
 wireguard: captorAndColoris: listenPort: 14985
+wireguard: maryamAndMegido: listenPort: 14986
+wireguard: captorAndMaryam: listenPort: 14987

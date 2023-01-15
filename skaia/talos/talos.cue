@@ -18,8 +18,24 @@ import (
 			addresses: ["\(hosts.hosts.megido.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
 		},
 		{
+			interface: "wg-maryam"
+			addresses: ["\(hosts.hosts.megido.addresses.kubeHosts)/32"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.megido.facing.maryam.private
+				listenPort: networks.wireguard.maryamAndMegido.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.maryam.facing.megido.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.maryam.addresses.kubeHosts)/32" }
+			]
+		},
+		{
 			interface: "wg-coloris"
-			addresses: ["\(hosts.hosts.megido.addresses.linodeHosts)/32"]
+			addresses: ["\(hosts.hosts.megido.addresses.kubeHosts)/32"]
 			wireguard: {
 				privateKey: secret.wireguardKeys.megido.facing.coloris.private
 				listenPort: networks.wireguard.colorisAndMegido.listenPort
@@ -45,8 +61,24 @@ import (
 			addresses: ["\(hosts.hosts.captor.addresses.linodeHosts)/\(networks.networks.linodeHosts.prefixLength)"]
 		},
 		{
+			interface: "wg-maryam"
+			addresses: ["\(hosts.hosts.captor.addresses.kubeHosts)/32"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.captor.facing.maryam.private
+				listenPort: networks.wireguard.captorAndMaryam.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.maryam.facing.captor.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.maryam.addresses.kubeHosts)/32" }
+			]
+		},
+		{
 			interface: "wg-coloris"
-			addresses: ["\(hosts.hosts.captor.addresses.linodeHosts)/32"]
+			addresses: ["\(hosts.hosts.captor.addresses.kubeHosts)/32"]
 			wireguard: {
 				privateKey: secret.wireguardKeys.captor.facing.coloris.private
 				listenPort: networks.wireguard.captorAndColoris.listenPort
@@ -58,6 +90,49 @@ import (
 			}
 			routes: [
 				{ network: "\(hosts.hosts.coloris.addresses.peerHosts)/32" },
+			]
+		},
+	]
+	maryam: [
+		{
+			interface: "eth0"
+			dhcp: true
+			routes: [
+				{ network: "\(hosts.hosts.coloris.addresses.peerHosts)/32", gateway: hosts.hosts.coloris.addresses.lan },
+			]
+		},
+		{
+			interface: "wg-megido"
+			addresses: ["\(hosts.hosts.maryam.addresses.kubeHosts)/32"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.maryam.facing.megido.private
+				listenPort: networks.wireguard.maryamAndMegido.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.megido.facing.maryam.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.megido.addresses.internet):\(networks.wireguard.maryamAndMegido.listenPort)"
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.megido.addresses.kubeHosts)/32" },
+			]
+		},
+		{
+			interface: "wg-captor"
+			addresses: ["\(hosts.hosts.maryam.addresses.kubeHosts)/32"],
+			wireguard: {
+				privateKey: secret.wireguardKeys.maryam.facing.captor.private
+				listenPort: networks.wireguard.captorAndMaryam.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.captor.facing.maryam.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+					endpoint: "\(hosts.hosts.captor.addresses.internet):\(networks.wireguard.captorAndMaryam.listenPort)"
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.captor.addresses.kubeHosts)/32" },
 			]
 		},
 	]
