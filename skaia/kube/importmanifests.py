@@ -71,18 +71,22 @@ def patch_resource(resource):
     # Unfortunately Talos doesn't seem to have an option to add SANs to the kubelet's certificate.
     assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "metrics-server"
     resource["spec"]["template"]["spec"]["containers"][0]["args"].append("--kubelet-insecure-tls")
-  if resource["kind"] in {"Alertmanager"}:
-    return None
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
-    del resource["spec"]["alerting"]
     del resource["spec"]["replicas"]
     del resource["spec"]["resources"]["requests"]["memory"]
+  if resource["kind"] == "Alertmanager":
+    del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
+  if resource["kind"] == "Service" and resource["metadata"]["name"] == "alertmanager-main":
+    assert resource["spec"]["ports"][0]["name"] == "web"
+    del resource["spec"]["ports"][0]["port"]
   if resource["kind"] == "Service" and resource["metadata"]["name"] == "grafana":
     assert resource["spec"]["ports"][0]["name"] == "http"
     del resource["spec"]["ports"][0]["port"]
+  if resource["kind"] == "NetworkPolicy" and resource["metadata"]["name"] == "alertmanager-main":
+    del resource["spec"]["ingress"][0]["ports"][0]["port"]
   if resource["kind"] == "NetworkPolicy" and resource["metadata"]["name"] == "grafana":
     del resource["spec"]["ingress"][0]["ports"][0]["port"]
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":

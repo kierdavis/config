@@ -1,6 +1,49 @@
 package prometheus
 
 resources: {
+	alertmanagers: monitoring: main: {
+		apiVersion: "monitoring.coreos.com/v1"
+		kind:       "Alertmanager"
+		metadata: {
+			labels: {
+				"app.kubernetes.io/component": "alert-router"
+				"app.kubernetes.io/instance":  "main"
+				"app.kubernetes.io/name":      "alertmanager"
+				"app.kubernetes.io/part-of":   "kube-prometheus"
+				"app.kubernetes.io/version":   "0.24.0"
+			}
+			name:      "main"
+			namespace: "monitoring"
+		}
+		spec: {
+			image: "quay.io/prometheus/alertmanager:v0.24.0"
+			nodeSelector: "kubernetes.io/os": "linux"
+			podMetadata: labels: {
+				"app.kubernetes.io/component": "alert-router"
+				"app.kubernetes.io/instance":  "main"
+				"app.kubernetes.io/name":      "alertmanager"
+				"app.kubernetes.io/part-of":   "kube-prometheus"
+				"app.kubernetes.io/version":   "0.24.0"
+			}
+			resources: {
+				limits: {
+					cpu:    "100m"
+					memory: "100Mi"
+				}
+				requests: {
+					cpu:    "4m"
+					memory: "100Mi"
+				}
+			}
+			securityContext: {
+				fsGroup:      2000
+				runAsNonRoot: true
+				runAsUser:    1000
+			}
+			serviceAccountName: "alertmanager-main"
+			version:            "0.24.0"
+		}
+	}
 	apiservices: "": "v1beta1.metrics.k8s.io": {
 		apiVersion: "apiregistration.k8s.io/v1"
 		kind:       "APIService"
@@ -66106,7 +66149,6 @@ resources: {
 					from: [{
 						podSelector: matchLabels: "app.kubernetes.io/name": "prometheus"
 					}], ports: [{
-						port:     9093
 						protocol: "TCP"
 					}, {
 						port:     8080
@@ -66472,7 +66514,12 @@ resources: {
 				"k8s", namespace:
 				"monitoring"
 		}, spec: {
-			enableFeatures: [], externalLabels: {}
+			alerting: alertmanagers: [{
+				apiVersion: "v2"
+				name:       "alertmanager-main"
+				namespace:  "monitoring"
+				port:       "web"
+			}], enableFeatures: [], externalLabels: {}
 			image:
 				"quay.io/prometheus/prometheus:v2.36.1", nodeSelector: "kubernetes.io/os":
 				"linux", podMetadata: labels: {
@@ -70997,8 +71044,7 @@ resources: {
 			}, spec: {
 				ports: [{
 					name:
-						"web", port:
-						9093, targetPort:
+						"web", targetPort:
 						"web"
 				}, {
 					name:
