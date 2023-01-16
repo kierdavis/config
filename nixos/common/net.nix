@@ -23,7 +23,6 @@
   # TODO: can probably be removed once fingerbib is killed off.
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
 
-
   # resolvconf prioritises interfaces according to a metric (lower is better).
   # This metric is provided via -m or IFMETRIC when resolvconf -a is called.
   # NixOS static configuration (networking.nameservers) option has metric 1.
@@ -46,10 +45,31 @@
     '';
   };
 
-  systemd.services.skaia-dns-config = {
+  systemd.targets.skaia-online.wantedBy = ["multi-user.target" "network-online.target"];
+
+  systemd.services.skaia-connectivity-test = {
     wants = ["network-pre.target"];
     after = ["network-pre.target"];
-    wantedBy = ["network-online.target" "multi-user.target"];
+    wantedBy = ["skaia-online.target"];
+    serviceConfig.Type = "oneshot";
+    serviceConfig.RemainAfterExit = true;
+    script = ''
+      for i in $(${pkgs.coreutils}/bin/seq 30); do
+        if ${pkgs.curl}/bin/curl --connect-timeout 2 --insecure https://10.88.192.1/ > /dev/null; then
+          exit 0
+        fi
+        sleep 2
+      done
+      echo >&2 "failed to connect to skaia"
+      exit 1
+    '';
+  };
+
+  systemd.services.skaia-dns-config = {
+    wants = ["network-pre.target"];
+    requires = ["skaia-connectivity-test.service"];
+    after = ["network-pre.target" "skaia-connectivity-test.service"];
+    wantedBy = ["skaia-online.target"];
     path = [ pkgs.bind.host pkgs.openresolv ];
     environment = {
       server = "10.88.219.142";

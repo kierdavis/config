@@ -158,4 +158,6 @@
       };
     }
   '';
+  systemd.services.skaia-connectivity-test.requires = ["bird2.service"];
+  systemd.services.skaia-connectivity-test.after = ["bird2.service"];
 }

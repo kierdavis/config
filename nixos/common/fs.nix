@@ -29,23 +29,27 @@
   # By default this is in /etc, which is not very NixOS-friendly.
   environment.variables.LVM_SYSTEM_DIR = "/var/lvm";
 
-  fileSystems."/net/skaia/media" = {
-    fsType = "ceph";
-    device = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-a1eb5fea-8788-11ed-96c1-aaf4d0a0d0ed/4321c932-e5cd-4b2b-ad0f-56d57379f7c6";
-    options = [
-      "name=${config.networking.hostName}"
-      "secretfile=/etc/ceph-client-secret"
-    ];
-  };
-  fileSystems."/net/skaia/torrent-downloads" = {
-    fsType = "ceph";
-    device = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-cafbb089-9385-11ed-8c0c-aabb135b14ca/bc3d7cd7-1f6d-447b-b659-53dc9f0f401a";
-    options = [
-      "name=${config.networking.hostName}"
-      "secretfile=/etc/ceph-client-secret"
-      "ro"
-    ];
-  };
+  boot.supportedFilesystems = ["ceph"];
+  systemd.mounts = [
+    {
+      what = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-a1eb5fea-8788-11ed-96c1-aaf4d0a0d0ed/4321c932-e5cd-4b2b-ad0f-56d57379f7c6";
+      where = "/net/skaia/media";
+      type = "ceph";
+      options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
+      requires = ["skaia-online.target"];
+      after = ["skaia-online.target"];
+      wantedBy = ["remote-fs.target"];
+    }
+    {
+      what = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-cafbb089-9385-11ed-8c0c-aabb135b14ca/bc3d7cd7-1f6d-447b-b659-53dc9f0f401a";
+      where = "/net/skaia/torrent-downloads";
+      type = "ceph";
+      options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret,ro";
+      requires = ["skaia-online.target"];
+      after = ["skaia-online.target"];
+      wantedBy = ["remote-fs.target"];
+    }
+  ];
 
   # UID/GID used for files on CephFS filesystems where permissioning doesn't matter.
   users.groups.cephfsdata = {
