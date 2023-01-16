@@ -4,6 +4,7 @@ import (
 	"cue.skaia/kube/personal/jellyfin"
 	"cue.skaia/kube/personal/nameserver"
 	"cue.skaia/kube/personal/transmission"
+	"cue.skaia/kube/system/stash"
 )
 
 resources: jellyfin.resources
@@ -51,19 +52,4 @@ resources: backupconfigurations: "personal": "media": spec: {
 	task: name: "pvc-backup"
 	timeOut: "6h"
 }
-resources: backuprepositories: "stash": "personal-media-b2": spec: {
-	backend: b2: {
-		bucket: "KierArchive"
-		prefix: "/skaia/stash-0/personal/media"
-	}
-	backend: storageSecretName: "b2"
-	wipeOut: false
-	usagePolicy: allowedNamespaces: {
-		from: "Selector"
-		selector: matchExpressions: [{
-			key: "kubernetes.io/metadata.name"
-			operator: "In"
-			values: ["personal"]
-		}]
-	}
-}
+resources: (stash.repositoryTemplate & { namespace: "personal", name: "media" }).resources
