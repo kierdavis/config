@@ -26,11 +26,6 @@ resources: persistentvolumeclaims: "personal": "media": spec: {
 }
 resources: backupconfigurations: "personal": "media": spec: {
 	driver: "Restic"
-	interimVolumeTemplate: spec: {
-		storageClassName: "ceph-blk-replicated"
-		accessModes: ["ReadWriteOnce"]
-		"resources": requests: storage: resources.persistentvolumeclaims.personal.media.spec.resources.requests.storage
-	}
 	repository: {
 		name: "personal-media-b2"
 		namespace: "stash"
