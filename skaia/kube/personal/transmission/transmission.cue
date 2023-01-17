@@ -3,6 +3,7 @@ package transmission
 import (
 	"secret.cue.skaia:secret"
 	"cue.skaia/kube/system/rookceph"
+	"cue.skaia/kube/system/stash"
 )
 
 // https://nordvpn.com/servers/tools/
@@ -168,7 +169,7 @@ resources: statefulsets: personal: transmission: {
 						{ name: "PGID", value: "\(rookceph.sharedFilesystemUid)" },
 					]
 					volumeMounts: [
-						{ name: "settings", mountPath: "/config" },
+						{ name: "state", mountPath: "/config" },
 						{ name: "downloads", mountPath: "/downloads" },
 					]
 					ports: [
@@ -200,11 +201,15 @@ resources: statefulsets: personal: transmission: {
 			}
 		}
 		volumeClaimTemplates: [{
-			metadata: name: "settings"
+			metadata: name: "state"
 			spec: {
-				accessModes: ["ReadWriteOnce"]
-				storageClassName: "ceph-blk-replicated"
-				resources: requests: storage: "50Mi"
+				// Ideally, we could use ceph block storage for transmission's state since there's only one pod that uses it.
+				// However, we want to back it up with stash, and we can't run this backup in a sidecar of the transmission pod
+				// since it needs access to the rest of the cluster (without going through openvpn etc).
+				// So we use cephfs, allowing it to be mounted in two pods simultaneously.
+				accessModes: ["ReadWriteMany"]
+				storageClassName: "ceph-fs-replicated"
+				resources: requests: storage: "100Mi"
 			}
 		}]
 	}
@@ -224,3 +229,31 @@ resources: services: personal: transmission: {
 		]
 	}
 }
+
+resources: backupconfigurations: "personal": "transmission-state": spec: {
+	driver: "Restic"
+	repository: {
+		name: "personal-transmission-state-b2"
+		namespace: "stash"
+	}
+	retentionPolicy: {
+		name: "personal-transmission-state-b2"
+		prune: false
+		dryRun: true
+	}
+	runtimeSettings: pod: priorityClassName: "personal-critical"
+	runtimeSettings: container: securityContext: {
+		runAsUser: rookceph.sharedFilesystemUid
+		runAsGroup: rookceph.sharedFilesystemUid
+	}
+	schedule: "0 2 * * 0"
+	target: ref: {
+		apiVersion: "v1"
+		kind: "PersistentVolumeClaim"
+		name: "state-transmission-0"
+	}
+	task: name: "pvc-backup"
+	timeOut: "6h"
+}
+
+resources: (stash.repositoryTemplate & { namespace: "personal", name: "transmission-state" }).resources
