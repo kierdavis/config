@@ -151,8 +151,8 @@ resources: statefulsets: personal: transmission: {
 					args: ["--config", "/config/openvpn.conf", "--auth-user-pass", "/secret/auth-user-pass"]
 					volumeMounts: [
 						{ name: "dev-net-tun", mountPath: "/dev/net/tun" },
-						{ name: "openvpn-config", mountPath: "/config" },
-						{ name: "openvpn-secret", mountPath: "/secret" },
+						{ name: "openvpn-config", mountPath: "/config", readOnly: true },
+						{ name: "openvpn-secret", mountPath: "/secret", readOnly: true },
 					]
 					securityContext: capabilities: add: ["NET_ADMIN"]
 					resources: {
