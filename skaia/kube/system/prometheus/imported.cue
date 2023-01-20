@@ -25,16 +25,6 @@ resources: {
 				"app.kubernetes.io/part-of":   "kube-prometheus"
 				"app.kubernetes.io/version":   "0.24.0"
 			}
-			resources: {
-				limits: {
-					cpu:    "100m"
-					memory: "100Mi"
-				}
-				requests: {
-					cpu:    "4m"
-					memory: "100Mi"
-				}
-			}
 			securityContext: {
 				fsGroup:      2000
 				runAsNonRoot: true
@@ -66232,7 +66222,6 @@ resources: {
 			podMonitorSelector: {}
 			probeNamespaceSelector: {}
 			probeSelector: {}
-			resources: requests: {}
 			ruleNamespaceSelector: {}
 			ruleSelector: {}
 			securityContext: {

@@ -155,10 +155,9 @@ resources: statefulsets: personal: transmission: {
 						{ name: "openvpn-secret", mountPath: "/secret", readOnly: true },
 					]
 					securityContext: capabilities: add: ["NET_ADMIN"]
-					resources: {
-						requests: cpu: "200m"
-						requests: memory: "20Mi"
-						limits: requests
+					resources: requests: {
+						cpu: "50m"
+						memory: "5Mi"
 					}
 				}, {
 					name: "transmission"
@@ -175,10 +174,9 @@ resources: statefulsets: personal: transmission: {
 					ports: [
 						{ name: "ui", containerPort: 9091, protocol: "TCP" },
 					]
-					resources: {
-						requests: cpu: "200m"
-						requests: memory: "1Gi"
-						limits: requests
+					resources: requests: {
+						cpu: "50m"
+						memory: "700Mi"
 					}
 				}]
 				volumes: [{

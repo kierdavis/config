@@ -43,8 +43,7 @@ resources: prometheuses: monitoring: k8s: spec: {
 	replicas: 1
 	resources: {
 		requests: cpu: "250m"
-		requests: memory: "1.2Gi"
-		limits: memory: "1.8Gi"
+		requests: memory: "1Gi"
 	}
 	retentionSize: "3GiB"
 	storage: volumeClaimTemplate: spec: {
@@ -57,6 +56,10 @@ resources: prometheuses: monitoring: k8s: spec: {
 resources: alertmanagers: monitoring: main: spec: {
 	priorityClassName: "observability"
 	replicas: 1
+	resources: {
+		requests: cpu: "1m"
+		requests: memory: "25Mi"
+	}
 	storage: volumeClaimTemplate: spec: {
 		storageClassName: "ceph-blk-replicated"
 		accessModes: ["ReadWriteOnce"]

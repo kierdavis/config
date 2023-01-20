@@ -8,8 +8,8 @@ import (
 resources: deployments: "kube-system": "calico-kube-controllers": spec: template: spec: containers: [{
 	name: "calico-kube-controllers"  // assert we're operating on the expected element of the list
 	resources: {
-		requests: cpu: "5m"
-		requests: memory: "30Mi"
+		requests: cpu: "3m"
+		requests: memory: "20Mi"
 	}
 }, ...]
 
@@ -21,7 +21,7 @@ resources: daemonsets: "kube-system": "calico-node": spec: template: spec: conta
 	}, ...]
 	resources: {
 		requests: cpu: "75m"
-		requests: memory: "180Mi"
+		requests: memory: "135Mi"
 	}
 }, ...]
 

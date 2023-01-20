@@ -92,10 +92,9 @@ resources: deployments: personal: nameserver: spec: {
 				volumeMounts: [
 					{ name: "config", mountPath: "/etc/coredns", readOnly: true },
 				]
-				resources: {
-					requests: cpu: "100m"
-					requests: memory: "70Mi"
-					limits: memory: "170Mi"
+				resources: requests: {
+					cpu: "5m"
+					memory: "22Mi"
 				}
 				securityContext: {
 					allowPrivilegeEscalation: false

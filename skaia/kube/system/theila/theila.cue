@@ -33,6 +33,10 @@ resources: deployments: "talos-system": "theila": {
 						name:      "talos-service-account"
 						mountPath: "/var/run/secrets/talos.dev"
 					}]
+					resources: requests: {
+						cpu: "1m"
+						memory: "22Mi"
+					}
 				}]
 				volumes: [{
 					name: "talos-service-account"

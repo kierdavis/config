@@ -76,9 +76,10 @@ def patch_resource(resource):
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]
-    del resource["spec"]["resources"]["requests"]["memory"]
+    del resource["spec"]["resources"]
   if resource["kind"] == "Alertmanager":
     del resource["spec"]["replicas"]
+    del resource["spec"]["resources"]
   if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "prometheus-adapter":
     del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":

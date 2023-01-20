@@ -22,6 +22,10 @@ resources: daemonsets: "talos-system": "host-shell": {
 						mountPath: "/host"
 						readOnly:  true
 					}]
+					resources: requests: {
+						cpu: "1m"
+						memory: "1Mi"
+					}
 				}]
 				volumes: [{
 					name: "host"

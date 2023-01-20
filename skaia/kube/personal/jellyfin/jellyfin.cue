@@ -27,10 +27,9 @@ resources: statefulsets: personal: jellyfin: {
 						{ name: "media", mountPath: "/net/skaia/media", readOnly: true },
 						{ name: "torrent-downloads", mountPath: "/net/skaia/torrent-downloads", readOnly: true },
 					]
-					resources: {
-						requests: cpu: "1"
-						requests: memory: "2Gi"
-						limits: requests
+					resources: requests: {
+						cpu: "500m"
+						memory: "2.5Gi"
 					}
 				}]
 				volumes: [

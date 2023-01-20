@@ -9,62 +9,62 @@ resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: {
 	CSI_CEPHFS_PLUGIN_RESOURCE: yaml.Marshal([{
 		name: "csi-cephfsplugin"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "16Mi"
+		resource: requests: memory: "50Mi"
 	}, {
 		name: "driver-registrar"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "5Mi"
+		resource: requests: memory: "6Mi"
 	}])
 	CSI_CEPHFS_PROVISIONER_RESOURCE: yaml.Marshal([{
 		name: "csi-attacher"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "9Mi"
+		resource: requests: memory: "15Mi"
 	}, {
 		name: "csi-cephfsplugin"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "16Mi"
+		resource: requests: memory: "18Mi"
 	}, {
 		name: "csi-provisioner"
 		resource: requests: cpu: "2m"
-		resource: requests: memory: "11Mi"
+		resource: requests: memory: "18Mi"
 	}, {
 		name: "csi-resizer"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "9Mi"
+		resource: requests: memory: "15Mi"
 	}, {
 		name: "csi-snapshotter"
 		resource: requests: cpu: "8m"
-		resource: requests: memory: "9Mi"
+		resource: requests: memory: "15Mi"
 	}])
 	CSI_RBD_PLUGIN_RESOURCE: yaml.Marshal([{
 		name: "csi-rbdplugin"
 		resource: requests: cpu: "2m"
-		resource: requests: memory: "30Mi"
+		resource: requests: memory: "60Mi"
 	}, {
 		name: "driver-registrar"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "5Mi"
+		resource: requests: memory: "9Mi"
 	}])
 	CSI_RBD_PROVISIONER_RESOURCE: yaml.Marshal([{
 		name: "csi-attacher"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "9Mi"
+		resource: requests: memory: "15Mi"
 	}, {
 		name: "csi-provisioner"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "11Mi"
+		resource: requests: memory: "18Mi"
 	}, {
 		name: "csi-rbdplugin"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "30Mi"
+		resource: requests: memory: "32Mi"
 	}, {
 		name: "csi-resizer"
 		resource: requests: cpu: "1m"
-		resource: requests: memory: "9Mi"
+		resource: requests: memory: "15Mi"
 	}, {
 		name: "csi-snapshotter"
-		resource: requests: cpu: "2m"
-		resource: requests: memory: "9Mi"
+		resource: requests: cpu: "3m"
+		resource: requests: memory: "15Mi"
 	}])
 }
 resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
@@ -132,18 +132,18 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		}
 		mgr: {
 			requests: cpu: "50m"
-			requests: memory: "470Mi"
+			requests: memory: "500Mi"
 		}
 		"mgr-sidecar": {
 			requests: cpu: "80m"
 			requests: memory: "35Mi"
 		}
 		mon: {
-			requests: cpu: "50m"
-			requests: memory: "120Mi"
+			requests: cpu: "60m"
+			requests: memory: "400Mi"
 		}
 		osd: {
-			requests: cpu: "100m"
+			requests: cpu: "50m"
 			requests: memory: "1Gi"
 		}
 	}
@@ -254,9 +254,8 @@ resources: cephfilesystems: "rook-ceph": "fs-replicated": spec: {
 		activeCount: 1  // Controls sharding, not redundancy.
 		priorityClassName: "system-cluster-critical"
 		resources: {
-			requests: cpu: "150m"
-			requests: memory: "100Mi"
-			limits: memory: "150Mi"
+			requests: cpu: "80m"
+			requests: memory: "80Mi"
 		}
 	}
 }
