@@ -1,6 +1,72 @@
 package rookceph
 
-resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVISIONER_REPLICAS: "1"
+import (
+	"encoding/yaml"
+)
+
+resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: {
+	CSI_PROVISIONER_REPLICAS: "1"
+	CSI_CEPHFS_PLUGIN_RESOURCE: yaml.Marshal([{
+		name: "csi-cephfsplugin"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "16Mi"
+	}, {
+		name: "driver-registrar"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "5Mi"
+	}])
+	CSI_CEPHFS_PROVISIONER_RESOURCE: yaml.Marshal([{
+		name: "csi-attacher"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "9Mi"
+	}, {
+		name: "csi-cephfsplugin"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "16Mi"
+	}, {
+		name: "csi-provisioner"
+		resource: requests: cpu: "2m"
+		resource: requests: memory: "11Mi"
+	}, {
+		name: "csi-resizer"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "9Mi"
+	}, {
+		name: "csi-snapshotter"
+		resource: requests: cpu: "8m"
+		resource: requests: memory: "9Mi"
+	}])
+	CSI_RBD_PLUGIN_RESOURCE: yaml.Marshal([{
+		name: "csi-rbdplugin"
+		resource: requests: cpu: "2m"
+		resource: requests: memory: "30Mi"
+	}, {
+		name: "driver-registrar"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "5Mi"
+	}])
+	CSI_RBD_PROVISIONER_RESOURCE: yaml.Marshal([{
+		name: "csi-attacher"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "9Mi"
+	}, {
+		name: "csi-provisioner"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "11Mi"
+	}, {
+		name: "csi-rbdplugin"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "30Mi"
+	}, {
+		name: "csi-resizer"
+		resource: requests: cpu: "1m"
+		resource: requests: memory: "9Mi"
+	}, {
+		name: "csi-snapshotter"
+		resource: requests: cpu: "2m"
+		resource: requests: memory: "9Mi"
+	}])
+}
 resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
 resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: priorityClassName: "system-cluster-critical"
 
