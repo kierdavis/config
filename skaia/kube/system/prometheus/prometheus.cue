@@ -98,6 +98,11 @@ resources: prometheuses: monitoring: k8s: spec: {
 resources: alertmanagers: monitoring: main: spec: {
 	priorityClassName: "observability"
 	replicas: 1
+	storage: volumeClaimTemplate: spec: {
+		storageClassName: "ceph-blk-replicated"
+		accessModes: ["ReadWriteOnce"]
+		resources: requests: storage: "2Gi"
+	}
 }
 
 resources: deployments: monitoring: "prometheus-adapter": spec: replicas: 1
