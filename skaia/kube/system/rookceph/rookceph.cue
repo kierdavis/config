@@ -4,6 +4,13 @@ resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVI
 resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
 resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: priorityClassName: "system-cluster-critical"
 
+// The blank line before the closing triple quote is important.
+resources: configmaps: "rook-ceph": "rook-config-override": data: config: """
+	[global]
+	osd_pool_default_size = 2
+
+	"""
+
 resources: cephclusters: "rook-ceph": "default": spec: {
 	cephVersion: {
 		image: "quay.io/ceph/ceph:v17.2.5"
