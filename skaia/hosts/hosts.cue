@@ -5,7 +5,7 @@ package hosts
 	bgpASNumber: >=64512 & <=65534
 	isKubeMaster: bool | *false
 	isKubeNode:   isKubeMaster
-	cephCrushLabels: [string]: string
+	nodeLabels: [string]: string
 }
 
 hosts: [string]: #schema
@@ -22,9 +22,9 @@ hosts: {
 		}
 		bgpASNumber: 64605
 		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "chassis-megido"
-			zone: "zone-linode-london"
+		nodeLabels: {
+			"topology.rook.io/chassis": "chassis-megido"
+			"topology.kubernetes.io/zone": "zone-linode-london"
 		}
 	}
 	captor: {
@@ -38,9 +38,9 @@ hosts: {
 		}
 		bgpASNumber: 64606
 		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "chassis-captor"
-			zone: "zone-linode-london"
+		nodeLabels: {
+			"topology.rook.io/chassis": "chassis-captor"
+			"topology.kubernetes.io/zone": "zone-linode-london"
 		}
 	}
 	maryam: {
@@ -53,9 +53,9 @@ hosts: {
 		}
 		bgpASNumber: 64607
 		isKubeMaster: true
-		cephCrushLabels: {
-			chassis: "chassis-maryam"
-			zone: "zone-advent-way"
+		nodeLabels: {
+			"topology.rook.io/chassis": "chassis-maryam"
+			"topology.kubernetes.io/zone": "zone-advent-way"
 		}
 	}
 	coloris: {

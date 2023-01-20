@@ -7,6 +7,7 @@ import (
 	"cue.skaia/kube/system/rookceph"
 	"cue.skaia/kube/system/stash"
 	"cue.skaia/kube/system/theila"
+	"cue.skaia/hosts"
 )
 
 resources: calico.resources
@@ -28,3 +29,11 @@ resources: namespaces: "": "talos-system": {}
 resources: priorityclasses: "": "best-effort": value: 100
 resources: priorityclasses: "": "observability": value: 1000
 resources: priorityclasses: "": "personal-critical": value: 2000
+
+resources: nodes: "": {
+	for hostName, host in hosts.hosts
+	if host.isKubeNode
+	{
+		"\(hostName)": metadata: labels: host.nodeLabels
+	}
+}

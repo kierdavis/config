@@ -1,25 +1,8 @@
 package rookceph
 
-import (
-	"cue.skaia/hosts"
-)
-
 resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: CSI_PROVISIONER_REPLICAS: "1"
 resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
 resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: priorityClassName: "system-cluster-critical"
-
-resources: nodes: "": {
-	for hostName, host in hosts.hosts
-	if host.isKubeNode
-	{
-		"\(hostName)": metadata: labels: {
-			for key, value in host.cephCrushLabels
-			{
-				"topology.rook.io/\(key)": value
-			}
-		}
-	}
-}
 
 resources: cephclusters: "rook-ceph": "default": spec: {
 	cephVersion: {
