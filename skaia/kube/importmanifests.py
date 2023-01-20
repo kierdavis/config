@@ -77,6 +77,8 @@ def patch_resource(resource):
     del resource["spec"]["resources"]["requests"]["memory"]
   if resource["kind"] == "Alertmanager":
     del resource["spec"]["replicas"]
+  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "prometheus-adapter":
+    del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
   if resource["kind"] == "Service" and resource["metadata"]["name"] == "alertmanager-main":

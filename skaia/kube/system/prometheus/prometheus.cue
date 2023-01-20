@@ -76,3 +76,5 @@ resources: alertmanagers: monitoring: main: spec: {
 	priorityClassName: "observability"
 	replicas: 1
 }
+
+resources: deployments: monitoring: "prometheus-adapter": spec: replicas: 1

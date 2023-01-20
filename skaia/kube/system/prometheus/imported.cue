@@ -65922,8 +65922,7 @@ resources: {
 					"prometheus-adapter", namespace:
 					"monitoring"
 			}, spec: {
-				replicas:
-					2, selector: matchLabels: {
+				selector: matchLabels: {
 
 					"app.kubernetes.io/component": "metrics-adapter"
 					"app.kubernetes.io/name":      "prometheus-adapter"
