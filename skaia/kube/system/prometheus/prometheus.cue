@@ -65,3 +65,26 @@ resources: alertmanagers: monitoring: main: spec: {
 }
 
 resources: deployments: monitoring: "prometheus-adapter": spec: replicas: 1
+
+resources: prometheusrules: monitoring: "my-rules": spec: groups: [{
+	name: "scheduling-sanity",
+	rules: [{
+		alert: "ContainerWithoutCPURequest"
+		expr: "kube_pod_container_info unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"cpu\"}"
+		labels: severity: "warning"
+		annotations: summary: "Container does not define a CPU resource request."
+		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} does not define a CPU resource request, so it may be scheduled onto a node with insufficient available CPU time."
+	}, {
+		alert: "ContainerWithoutMemoryRequest"
+		expr: "kube_pod_container_info unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"memory\"}"
+		labels: severity: "warning"
+		annotations: summary: "Container does not define a memory resource request."
+		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} does not define a memory resource request, so it may be scheduled onto a node with insufficient available memory."
+	}, {
+		alert: "ContainerWithCPULimit"
+		expr: "kube_pod_container_info and on(namespace, pod, container) kube_pod_container_resource_limits{resource=\"cpu\"}"
+		labels: severity: "warning"
+		annotations: summary: "Container defines a CPU resource limit."
+		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} defines a CPU resource limit. Assuming all containers define a suitable CPU request, there's generally no reason to use CPU limits since they introduce pointless throttling."
+	}]
+}]
