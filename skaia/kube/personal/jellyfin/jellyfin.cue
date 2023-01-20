@@ -7,7 +7,7 @@ resources: statefulsets: personal: jellyfin: {
 	spec: {
 		selector: matchLabels: labels
 		serviceName: "jellyfin"
-		replicas: 0
+		replicas: 1
 		template: {
 			metadata: "labels": labels
 			spec: {
