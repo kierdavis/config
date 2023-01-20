@@ -128,28 +128,23 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 	resources: {
 		crashcollector: {
 			requests: cpu: "1m"
-			requests: memory: "10Mi"
-			limits: memory: "60Mi"
+			requests: memory: "8Mi"
 		}
 		mgr: {
 			requests: cpu: "50m"
-			requests: memory: "600Mi"
-			limits: memory: "600Mi"
+			requests: memory: "470Mi"
 		}
 		"mgr-sidecar": {
-			requests: cpu: "50m"
-			requests: memory: "40Mi"
-			limits: memory: "100Mi"
+			requests: cpu: "80m"
+			requests: memory: "35Mi"
 		}
-		//mon: {
-		//	requests: cpu: "50m"
-		//	requests: memory: "1024Mi"
-		//	limits: memory: "1024Mi"
-		//}
+		mon: {
+			requests: cpu: "50m"
+			requests: memory: "120Mi"
+		}
 		osd: {
 			requests: cpu: "100m"
-			requests: memory: "1536Mi"
-			limits: memory: "1536Mi"
+			requests: memory: "1Gi"
 		}
 	}
 	storage: {
