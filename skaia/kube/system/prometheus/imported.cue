@@ -66148,6 +66148,7 @@ resources: {
 					from: [{
 						podSelector: matchLabels: "app.kubernetes.io/name": "prometheus"
 					}], ports: [{
+						port:     9093
 						protocol: "TCP"
 					}, {
 						port:     8080
@@ -66232,6 +66233,7 @@ resources: {
 					from: [{
 						podSelector: matchLabels: "app.kubernetes.io/name": "prometheus"
 					}], ports: [{
+						port:     3000
 						protocol: "TCP"
 					}]
 				}], podSelector: matchLabels: {
@@ -71043,7 +71045,8 @@ resources: {
 			}, spec: {
 				ports: [{
 					name:
-						"web", targetPort:
+						"web", port:
+						9093, targetPort:
 						"web"
 				}, {
 					name:
@@ -71106,7 +71109,8 @@ resources: {
 			}, spec: {
 				ports: [{
 					name:
-						"http", targetPort:
+						"http", port:
+						3000, targetPort:
 						"http"
 				}], selector: {
 					"app.kubernetes.io/component":

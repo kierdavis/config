@@ -14,11 +14,34 @@ resources: deployments: monitoring: {
 }
 resources: daemonsets: monitoring: "node-exporter": spec: template: spec: priorityClassName: "observability"
 
-resources: services: monitoring: "alertmanager-main": spec: ports: [{ port: 80 }, ...]
-resources: networkpolicies: monitoring: "alertmanager-main": spec: ingress: [{ ports: [{ port: 80 }, ...] }, ...]
+resources: services: monitoring: "prometheus-k8s-ui": spec: {
+	ports: [{
+		name: "ui"
+		port: 80
+		targetPort: "web"
+	}]
+	selector: resources.services.monitoring."prometheus-k8s".spec.selector
+	sessionAffinity: resources.services.monitoring."prometheus-k8s".spec.sessionAffinity
+}
 
-resources: services: monitoring: grafana: spec: ports: [{ port: 80 }, ...]
-resources: networkpolicies: monitoring: grafana: spec: ingress: [{ ports: [{ port: 80 }, ...] }, ...]
+resources: services: monitoring: "alertmanager-main-ui": spec: {
+	ports: [{
+		name: "ui"
+		port: 80
+		targetPort: "web"
+	}]
+	selector: resources.services.monitoring."alertmanager-main".spec.selector
+	sessionAffinity: resources.services.monitoring."alertmanager-main".spec.sessionAffinity
+}
+
+resources: services: monitoring: "grafana-ui": spec: {
+	ports: [{
+		name: "ui"
+		port: 80
+		targetPort: "http"
+	}]
+	selector: resources.services.monitoring.grafana.spec.selector
+}
 
 resources: networkpolicies: monitoring: "prometheus-from-workstation": spec: {
 	podSelector: resources.networkpolicies.monitoring["prometheus-k8s"].spec.podSelector
