@@ -67151,7 +67151,7 @@ resources: {
 						"""
 
 					for: "15m"
-					labels: severity: "info"
+					labels: severity: "warning"
 				}]
 			}, {
 				name:

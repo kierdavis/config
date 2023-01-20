@@ -83,6 +83,12 @@ def patch_resource(resource):
     del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
+  if resource["kind"] == "PrometheusRule" and resource["metadata"]["name"] == "kubernetes-monitoring-rules":
+    for group in resource["spec"]["groups"]:
+      if group["name"] == "kubernetes-resources":
+        for rule in group["rules"]:
+          if rule["alert"] == "CPUThrottlingHigh":
+            rule["labels"]["severity"] = "warning"
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
     del resource["data"]["CSI_PROVISIONER_REPLICAS"]
   if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
