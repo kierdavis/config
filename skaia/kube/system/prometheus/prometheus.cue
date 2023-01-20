@@ -81,10 +81,10 @@ resources: prometheusrules: monitoring: "my-rules": spec: groups: [{
 		annotations: summary: "Container does not define a memory resource request."
 		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} does not define a memory resource request, so it may be scheduled onto a node with insufficient available memory."
 	}, {
-		alert: "ContainerWithCPULimit"
-		expr: "kube_pod_container_info and on(namespace, pod, container) kube_pod_container_resource_limits{resource=\"cpu\"}"
+		alert: "ContainerWithResourceLimit"
+		expr: "kube_pod_container_resource_limits"
 		labels: severity: "warning"
-		annotations: summary: "Container defines a CPU resource limit."
-		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} defines a CPU resource limit. Assuming all containers define a suitable CPU request, there's generally no reason to use CPU limits since they introduce pointless throttling."
+		annotations: summary: "Container defines a resource limit."
+		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} defines a resource limit. Assuming all containers define appropriate resource requests, there's generally no reason to use limits since they introduce pointless CPU throttling or OOM killing. The kernel will still throttle/kill offending processes when it's short on resources."
 	}]
 }]
