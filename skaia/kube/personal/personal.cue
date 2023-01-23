@@ -22,7 +22,7 @@ resources: persistentvolumeclaims: "personal": "torrent-downloads": spec: {
 resources: persistentvolumeclaims: "personal": "media": spec: {
 	storageClassName: "ceph-fs-replicated"
 	accessModes: ["ReadWriteMany"]
-	resources: requests: storage: "10Gi"
+	resources: requests: storage: "150Gi"
 }
 resources: backupconfigurations: "personal": "media": spec: {
 	driver: "Restic"
@@ -46,3 +46,9 @@ resources: backupconfigurations: "personal": "media": spec: {
 	timeOut: "6h"
 }
 resources: (stash.repositoryTemplate & { namespace: "personal", name: "media" }).resources
+
+resources: persistentvolumeclaims: "personal": "archive-tmp": spec: {
+	storageClassName: "ceph-fs-replicated"
+	accessModes: ["ReadWriteMany"]
+	resources: requests: storage: "250G"
+}
