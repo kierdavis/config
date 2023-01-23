@@ -36,18 +36,20 @@
       where = "/net/skaia/media";
       type = "ceph";
       options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
-      requires = ["skaia-online.target"];
-      after = ["skaia-online.target"];
+      requires = ["skaia-connectivity-test.service"];
+      after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
+      before = ["remote-fs.target"];
     }
     {
       what = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-cafbb089-9385-11ed-8c0c-aabb135b14ca/bc3d7cd7-1f6d-447b-b659-53dc9f0f401a";
       where = "/net/skaia/torrent-downloads";
       type = "ceph";
       options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret,ro";
-      requires = ["skaia-online.target"];
-      after = ["skaia-online.target"];
+      requires = ["skaia-connectivity-test.service"];
+      after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
+      before = ["remote-fs.target"];
     }
   ];
 

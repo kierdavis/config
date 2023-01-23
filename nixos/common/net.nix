@@ -45,17 +45,16 @@
     '';
   };
 
-  systemd.targets.skaia-online.wantedBy = ["multi-user.target" "network-online.target"];
-
   systemd.services.skaia-connectivity-test = {
-    wants = ["network-pre.target"];
-    after = ["network-pre.target"];
-    wantedBy = ["skaia-online.target"];
+    wants = ["network-online.target"];
+    after = ["network-online.target"];
+    wantedBy = ["multi-user.target"];
+    before = ["multi-user.target"];
     serviceConfig.Type = "oneshot";
     serviceConfig.RemainAfterExit = true;
     script = ''
       for i in $(${pkgs.coreutils}/bin/seq 30); do
-        if ${pkgs.curl}/bin/curl --connect-timeout 2 --insecure https://10.88.192.1/ > /dev/null; then
+        if ${pkgs.curl}/bin/curl --connect-timeout 2 --insecure https://10.88.192.1/; then
           exit 0
         fi
         sleep 2
@@ -66,10 +65,10 @@
   };
 
   systemd.services.skaia-dns-config = {
-    wants = ["network-pre.target"];
-    requires = ["skaia-connectivity-test.service"];
-    after = ["network-pre.target" "skaia-connectivity-test.service"];
-    wantedBy = ["skaia-online.target"];
+    wants = ["skaia-connectivity-test.service"];
+    after = ["skaia-connectivity-test.service"];
+    wantedBy = ["multi-user.target"];
+    before = ["multi-user.target"];
     path = [ pkgs.bind.host pkgs.openresolv ];
     environment = {
       server = "10.88.219.142";
