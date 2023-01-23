@@ -79,11 +79,11 @@
     interfaces.wg-megido = {
       allowedIPsAsRoutes = false;
       ips = ["10.88.3.1/32"];
-      listenPort = 14984;
+      listenPort = 5350;
       privateKey = REDACTED;
       peers = [{
         allowedIPs = ["0.0.0.0/0"];
-        endpoint = "151.236.219.214:14984";
+        endpoint = "151.236.219.214:5350";
         publicKey = REDACTED;
         persistentKeepalive = 59;
       }];
@@ -91,11 +91,11 @@
     interfaces.wg-captor = {
       allowedIPsAsRoutes = false;
       ips = ["10.88.3.1/32"];
-      listenPort = 14985;
+      listenPort = 5351;
       privateKey = REDACTED;
       peers = [{
         allowedIPs = ["0.0.0.0/0"];
-        endpoint = "172.105.133.104:14985";
+        endpoint = "172.105.133.104:5351";
         publicKey = REDACTED;
         persistentKeepalive = 59;
       }];

@@ -33,7 +33,7 @@ networks: services: {
 	prefixLength: 18
 }
 
-wireguard: colorisAndMegido: listenPort: 14984
-wireguard: captorAndColoris: listenPort: 14985
-wireguard: maryamAndMegido: listenPort: 14986
-wireguard: captorAndMaryam: listenPort: 14987
+wireguard: colorisAndMegido: listenPort: 5350
+wireguard: captorAndColoris: listenPort: 5351
+wireguard: maryamAndMegido: listenPort: 5352
+wireguard: captorAndMaryam: listenPort: 5353
