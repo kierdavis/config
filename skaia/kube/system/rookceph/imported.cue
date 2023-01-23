@@ -23751,5 +23751,33 @@ resources: {
 				namespace: "rook-ceph"
 			}
 		}
+	} // namespace:operator
+	// imagePullSecrets:
+	//   - name: my-registry-secret
+	servicemonitors: {
+		"rook-ceph": "rook-ceph-mgr": {
+			apiVersion: "monitoring.coreos.com/v1"
+			kind:       "ServiceMonitor"
+			metadata: {
+				name:      "rook-ceph-mgr"
+				namespace: "rook-ceph"
+				labels: team: "rook"
+			}
+			spec: {
+				namespaceSelector: matchNames: [
+					"rook-ceph",
+				]
+				selector: matchLabels: {
+					app:            "rook-ceph-mgr"
+					rook_cluster:   "rook-ceph"
+					ceph_daemon_id: "a"
+				}
+				endpoints: [{
+					port:     "http-metrics"
+					path:     "/metrics"
+					interval: "5s"
+				}]
+			}
+		}
 	}
 }

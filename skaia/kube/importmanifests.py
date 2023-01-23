@@ -31,7 +31,7 @@ components = {
   "rook-ceph": {
     "version": "1.10.6",
     "tar_url": "https://github.com/rook/rook/archive/refs/tags/v{version}.tar.gz",
-    "tar_member_regexp": r"^[^/]*/deploy/examples/(common|crds|operator|toolbox)\.yaml$",
+    "tar_member_regexp": r"^[^/]*/deploy/examples/(common|crds|monitoring/service-monitor|operator|toolbox)\.yaml$",
     "dest_dir": "system/rookceph",
   },
   "stash": {
