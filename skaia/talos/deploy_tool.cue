@@ -22,7 +22,7 @@ command: deploy: {
 		contents:    yaml.Marshal(byHost[hostName])
 	}
 	talosctl: exec.Run & {
-		cmd: ["talosctl", "apply-config", "--talosconfig", writeTalosConfig.filename, "--nodes", address | *hosts.hosts[hostName].addresses.talosDeploy, "--file", writeHostConfig.filename]
+		cmd: ["talosctl", "apply-config", "--talosconfig", writeTalosConfig.filename, "--endpoints", address | *hosts.hosts[hostName].addresses.talosDeploy, "--nodes", address | *hosts.hosts[hostName].addresses.talosDeploy, "--file", writeHostConfig.filename]
 	}
 }
 
