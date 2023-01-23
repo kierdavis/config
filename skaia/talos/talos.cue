@@ -158,6 +158,7 @@ import (
 		install: {
 			disk:       "/dev/sda"
 			bootloader: true
+			legacyBIOSSupport: true
 		}
 		network: {
 			hostname: string
