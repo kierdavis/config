@@ -772,7 +772,6 @@ resources: {
 							name: "POD_NAMESPACE"
 							valueFrom: fieldRef: fieldPath: "metadata.namespace"
 						}]
-						resources: requests: cpu: "100m"
 						volumeMounts: [{
 							mountPath: "/var/serving-cert"
 							name:      "serving-cert"

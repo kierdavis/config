@@ -10,6 +10,20 @@ resources: secrets: "stash": "stash-license": stringData: "key.txt": secret.stas
 
 resources: secrets: "stash": "b2": {}
 
+resources: deployments: "stash": "stash": spec: template: spec: containers: [{
+	name: "operator"
+	resources: requests: {
+		cpu: "10m"
+		memory: "60Mi"
+	}
+}, {
+	name: "pushgateway"
+	resources: requests: {
+		cpu: "10m"
+		memory: "20Mi"
+	}
+}, ...]
+
 repositoryTemplate: {
 	namespace: string
 	name: string

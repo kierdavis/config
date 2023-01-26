@@ -86,6 +86,10 @@ def patch_resource(resource):
   if resource["kind"] == "Alertmanager":
     del resource["spec"]["replicas"]
     del resource["spec"]["resources"]
+  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "prometheus-operator":
+    for container in resource["spec"]["template"]["spec"]["containers"]:
+      if container["name"] == "prometheus-operator":
+        container["args"] += ["--config-reloader-cpu-limit=0", "--config-reloader-memory-limit=0"]
   if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "prometheus-adapter":
     del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
@@ -106,6 +110,9 @@ def patch_resource(resource):
   if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
     assert base64.b64decode(resource["data"]["key.txt"]) == b"PLACEHOLDER"
     del resource["data"]["key.txt"]
+  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "stash":
+    assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "operator"
+    del resource["spec"]["template"]["spec"]["containers"][0]["resources"]
   if resource["kind"] in ("ValidatingWebhookConfiguration", "MutatingWebhookConfiguration"):
     for webhook in resource.get("webhooks", []):
       ca_bundle = webhook.get("clientConfig", {}).get("caBundle")

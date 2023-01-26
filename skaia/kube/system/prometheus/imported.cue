@@ -65987,6 +65987,8 @@ resources: {
 							args: [
 								"--kubelet-service=kube-system/kubelet",
 								"--prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.57.0",
+								"--config-reloader-cpu-limit=0",
+								"--config-reloader-memory-limit=0",
 							]
 							image: "quay.io/prometheus-operator/prometheus-operator:v0.57.0"
 							name:  "prometheus-operator"

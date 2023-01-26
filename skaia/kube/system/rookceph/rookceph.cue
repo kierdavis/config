@@ -67,8 +67,24 @@ resources: configmaps: "rook-ceph": "rook-ceph-operator-config": data: {
 		resource: requests: memory: "15Mi"
 	}])
 }
-resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: priorityClassName: "system-cluster-critical"
-resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: priorityClassName: "system-cluster-critical"
+
+resources: deployments: "rook-ceph": "rook-ceph-operator": spec: template: spec: {
+	priorityClassName: "system-cluster-critical"
+	containers: [{
+		name: "rook-ceph-operator"  // assert we're operating on the expected element of the list
+		resources: requests: cpu: "150m"
+		resources: requests: memory: "80Mi"
+	}]
+}
+
+resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: {
+	priorityClassName: "system-cluster-critical"
+	containers: [{
+		name: "rook-ceph-tools"  // assert we're operating on the expected element of the list
+		resources: requests: cpu: "5m"
+		resources: requests: memory: "50Mi"
+	}]
+}
 
 // The blank line before the closing triple quote is important.
 resources: configmaps: "rook-ceph": "rook-config-override": data: config: """
@@ -143,6 +159,10 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 			requests: memory: "400Mi"
 		}
 		osd: {
+			requests: cpu: "50m"
+			requests: memory: "1Gi"
+		}
+		prepareosd: {
 			requests: cpu: "50m"
 			requests: memory: "1Gi"
 		}
