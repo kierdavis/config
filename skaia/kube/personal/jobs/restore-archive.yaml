@@ -30,7 +30,7 @@ spec:
         command:
         - bash
         - -c
-        - 'mkdir -p /dest/{cache,tmp,data} && nix-env -i -A nixpkgs.duplicity -A nixpkgs.gnupg23 && gpg --batch --import /gpgkey/publickeys.gpg && gpg --batch --import /gpgkey/secretkey.gpg && echo "trusted-key 0x8139C5FCEDA73ABF" >> ~/.gnupg/gpg.conf && gpg --list-keys && gpg --list-secret-keys && exec duplicity restore --verbosity 6 --archive-dir /dest/cache --tempdir /dest/tmp b2://$B2_ACCOUNT_ID:$B2_ACCOUNT_KEY@KierBackup/duplicity-0/archive-0 /dest/data'
+        - 'rm -rf /dest/data && mkdir -p /dest/{cache,tmp,data} && nix-env -i -A nixpkgs.duplicity -A nixpkgs.gnupg23 && gpg --batch --import /gpgkey/publickeys.gpg && gpg --batch --import /gpgkey/secretkey.gpg && echo "trusted-key 0x8139C5FCEDA73ABF" >> ~/.gnupg/gpg.conf && gpg --list-keys && gpg --list-secret-keys && exec duplicity restore --verbosity 6 --archive-dir /dest/cache --tempdir /dest/tmp b2://$B2_ACCOUNT_ID:$B2_ACCOUNT_KEY@KierBackup/duplicity-0/archive-0 /dest/data'
         envFrom:
         - secretRef:
             name: old-backblaze
