@@ -67216,6 +67216,16 @@ resources: {
 						kube_persistentvolumeclaim_access_mode{ access_mode=\"ReadOnlyMany\"} == 1
 						unless on(namespace, persistentvolumeclaim)
 						kube_persistentvolumeclaim_labels{label_excluded_from_alerts=\"true\"} == 1
+						unless on(namespace, persistentvolumeclaim)
+						(
+						  kube_persistentvolumeclaim_info
+						  and on(volumename)
+						  label_replace(
+						    kube_persistentvolume_info{csi_driver=\"rook-ceph.cephfs.csi.ceph.com\"},
+						    \"volumename\", \"$1\",
+						    \"persistentvolume\", \"(.*)\"
+						  )
+						)
 
 						"""
 
@@ -67243,6 +67253,16 @@ resources: {
 						kube_persistentvolumeclaim_access_mode{ access_mode=\"ReadOnlyMany\"} == 1
 						unless on(namespace, persistentvolumeclaim)
 						kube_persistentvolumeclaim_labels{label_excluded_from_alerts=\"true\"} == 1
+						unless on(namespace, persistentvolumeclaim)
+						(
+						  kube_persistentvolumeclaim_info
+						  and on(volumename)
+						  label_replace(
+						    kube_persistentvolume_info{csi_driver=\"rook-ceph.cephfs.csi.ceph.com\"},
+						    \"volumename\", \"$1\",
+						    \"persistentvolume\", \"(.*)\"
+						  )
+						)
 
 						"""
 

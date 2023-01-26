@@ -94,6 +94,10 @@ def patch_resource(resource):
       # and KubeSchedulerDown alerts.
       # Some day I might create a microservice that manages Endpoints resources like these.
       group["rules"] = [rule for rule in group["rules"] if rule.get("alert") not in ("KubeControllerManagerDown", "KubeSchedulerDown")]
+      for rule in group["rules"]:
+        if rule.get("alert") == "KubePersistentVolumeInodesFillingUp":
+          # cephfs volumes aren't able to report the number of available inodes, so kubelet_volume_stats_inodes_free always reads as 0.
+          rule["expr"] += """unless on(namespace, persistentvolumeclaim)\n(\n  kube_persistentvolumeclaim_info\n  and on(volumename)\n  label_replace(\n    kube_persistentvolume_info{csi_driver="rook-ceph.cephfs.csi.ceph.com"},\n    "volumename", "$1",\n    "persistentvolume", "(.*)"\n  )\n)\n"""
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
     del resource["data"]["CSI_PROVISIONER_REPLICAS"]
   if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
