@@ -105,19 +105,27 @@ resources: prometheusrules: monitoring: "my-rules": spec: groups: [{
 	name: "scheduling-sanity",
 	rules: [{
 		alert: "ContainerWithoutCPURequest"
-		expr: "kube_pod_container_info unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"cpu\"}"
+		expr: """
+			kube_pod_container_info
+			unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"cpu\"}
+			"""
 		labels: severity: "warning"
 		annotations: summary: "Container does not define a CPU resource request."
 		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} does not define a CPU resource request, so it may be scheduled onto a node with insufficient available CPU time."
 	}, {
 		alert: "ContainerWithoutMemoryRequest"
-		expr: "kube_pod_container_info unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"memory\"}"
+		expr: """
+			kube_pod_container_info
+			unless on(namespace, pod, container) kube_pod_container_resource_requests{resource=\"memory\"}
+			"""
 		labels: severity: "warning"
 		annotations: summary: "Container does not define a memory resource request."
 		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} does not define a memory resource request, so it may be scheduled onto a node with insufficient available memory."
 	}, {
 		alert: "ContainerWithResourceLimit"
-		expr: "kube_pod_container_resource_limits"
+		expr: """
+			kube_pod_container_resource_limits
+			"""
 		labels: severity: "warning"
 		annotations: summary: "Container defines a resource limit."
 		annotations: description: "Container {{$labels.container}} in pod {{$labels.pod}} in namespace {{$labels.namespace}} defines a resource limit. Assuming all containers define appropriate resource requests, there's generally no reason to use limits since they introduce pointless CPU throttling or OOM killing. The kernel will still throttle/kill offending processes when it's short on resources."
