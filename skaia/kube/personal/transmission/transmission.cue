@@ -248,6 +248,7 @@ resources: backupconfigurations: "personal": "transmission-state": spec: {
 		runAsGroup: rookceph.sharedFilesystemUid
 	}
 	schedule: "0 2 * * 0"
+	target: exclude: ["lost+found"]  // sharedFilesystemUid doesn't have permission to access this dir
 	target: ref: {
 		apiVersion: "v1"
 		kind: "PersistentVolumeClaim"
