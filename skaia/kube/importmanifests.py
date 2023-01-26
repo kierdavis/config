@@ -54,6 +54,9 @@ components = {
 }
 
 def patch_resource(resource):
+  if resource["kind"] in ("DaemonSet", "Deployment", "StatefulSet"):
+    for container in resource["spec"]["template"]["spec"]["containers"]:
+      container.get("resources", {}).pop("limits", None)
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "calico-node":
     assert resource["spec"]["template"]["spec"]["initContainers"][0]["name"] == "upgrade-ipam"
     del resource["spec"]["template"]["spec"]["initContainers"][0]

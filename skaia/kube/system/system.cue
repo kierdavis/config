@@ -21,7 +21,6 @@ resources: daemonsets: "kube-system": "kube-proxy": spec: template: spec: contai
 	name: "kube-proxy"  // assert we're operating on the expected element of the list
 	resources: requests: cpu: "1m"
 	resources: requests: memory: "30Mi"
-	resources: limits: memory: "45Mi"
 }, ...]
 
 resources: namespaces: "": "talos-system": {}

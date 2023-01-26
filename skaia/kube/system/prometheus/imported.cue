@@ -65263,15 +65263,9 @@ resources: {
 						]
 						image: "quay.io/prometheus/node-exporter:v1.3.1"
 						name:  "node-exporter"
-						resources: {
-							limits: {
-								cpu:    "250m"
-								memory: "180Mi"
-							}
-							requests: {
-								cpu:    "102m"
-								memory: "180Mi"
-							}
+						resources: requests: {
+							cpu:    "102m"
+							memory: "180Mi"
 						}
 						securityContext: {
 							allowPrivilegeEscalation: false
@@ -65310,15 +65304,9 @@ resources: {
 							hostPort:      9100
 							name:          "https"
 						}]
-						resources: {
-							limits: {
-								cpu:    "20m"
-								memory: "40Mi"
-							}
-							requests: {
-								cpu:    "10m"
-								memory: "20Mi"
-							}
+						resources: requests: {
+							cpu:    "10m"
+							memory: "20Mi"
 						}
 						securityContext: {
 							allowPrivilegeEscalation: false
@@ -65398,15 +65386,9 @@ resources: {
 								containerPort: 19115
 								name:          "http"
 							}]
-							resources: {
-								limits: {
-									cpu:    "20m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65427,15 +65409,9 @@ resources: {
 							]
 							image: "jimmidyson/configmap-reload:v0.5.0"
 							name:  "module-configmap-reloader"
-							resources: {
-								limits: {
-									cpu:    "20m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65464,15 +65440,9 @@ resources: {
 								containerPort: 9115
 								name:          "https"
 							}]
-							resources: {
-								limits: {
-									cpu:    "20m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65541,15 +65511,9 @@ resources: {
 								path: "/api/health"
 								port: "http"
 							}
-							resources: {
-								limits: {
-									cpu:    "200m"
-									memory: "200Mi"
-								}
-								requests: {
-									cpu:    "100m"
-									memory: "100Mi"
-								}
+							resources: requests: {
+								cpu:    "100m"
+								memory: "100Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65814,15 +65778,9 @@ resources: {
 							]
 							image: "k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.5.0"
 							name:  "kube-state-metrics"
-							resources: {
-								limits: {
-									cpu:    "100m"
-									memory: "250Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "190Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "190Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65843,15 +65801,9 @@ resources: {
 								containerPort: 8443
 								name:          "https-main"
 							}]
-							resources: {
-								limits: {
-									cpu:    "40m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "20m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "20m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65874,15 +65826,9 @@ resources: {
 								containerPort: 9443
 								name:          "https-self"
 							}]
-							resources: {
-								limits: {
-									cpu:    "20m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -65966,15 +65912,9 @@ resources: {
 								initialDelaySeconds: 30
 								periodSeconds:       5
 							}
-							resources: {
-								limits: {
-									cpu:    "250m"
-									memory: "180Mi"
-								}
-								requests: {
-									cpu:    "102m"
-									memory: "180Mi"
-								}
+							resources: requests: {
+								cpu:    "102m"
+								memory: "180Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -66054,15 +65994,9 @@ resources: {
 								containerPort: 8080
 								name:          "http"
 							}]
-							resources: {
-								limits: {
-									cpu:    "200m"
-									memory: "200Mi"
-								}
-								requests: {
-									cpu:    "100m"
-									memory: "100Mi"
-								}
+							resources: requests: {
+								cpu:    "100m"
+								memory: "100Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
@@ -66082,15 +66016,9 @@ resources: {
 								containerPort: 8443
 								name:          "https"
 							}]
-							resources: {
-								limits: {
-									cpu:    "20m"
-									memory: "40Mi"
-								}
-								requests: {
-									cpu:    "10m"
-									memory: "20Mi"
-								}
+							resources: requests: {
+								cpu:    "10m"
+								memory: "20Mi"
 							}
 							securityContext: {
 								allowPrivilegeEscalation: false
