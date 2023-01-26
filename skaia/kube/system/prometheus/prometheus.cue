@@ -125,6 +125,8 @@ resources: prometheusrules: monitoring: "my-rules": spec: groups: [{
 		alert: "ContainerWithResourceLimit"
 		expr: """
 			kube_pod_container_resource_limits
+			# Talos manages a memory limit on the coredns pods; it can't be removed without patching & recompiling Talos.
+			unless kube_pod_container_resource_limits{namespace=\"kube-system\", container=\"coredns\"}
 			"""
 		labels: severity: "warning"
 		annotations: summary: "Container defines a resource limit."
