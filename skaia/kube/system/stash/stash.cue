@@ -33,3 +33,14 @@ repositoryTemplate: {
 	}
 	resources: backuprepositories: "stash": "\(namespace)-\(name)-b2": repository
 }
+
+resources: prometheusrules: stash: "my-rules": spec: groups: [{
+	name: "backups",
+	rules: [{
+		alert: "BackupFailed"
+		expr: "stash_backup_session_success == 0"
+		labels: severity: "warning"
+		annotations: summary: "Backup failed."
+		annotations: description: "The last session for {{$labels.invoker_kind}} {{$labels.invoker_name}} in namespace {{$labels.namespace}} was unsuccessful."
+	}]
+}]

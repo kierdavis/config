@@ -1137,6 +1137,43 @@ resources: {
 			}
 		}
 	}
+	servicemonitors: stash: stash: {
+		// Source: stash/charts/stash-community/templates/servicemonitor.yaml
+		apiVersion: "monitoring.coreos.com/v1"
+		kind:       "ServiceMonitor"
+		metadata: {
+			name:      "stash"
+			namespace: "stash"
+			labels: {
+				"app.kubernetes.io/name":     "stash"
+				"app.kubernetes.io/instance": "stash"
+			}
+		}
+		spec: {
+			namespaceSelector: matchNames: [
+				"stash",
+			]
+			selector: matchLabels: {
+				"app.kubernetes.io/name":     "stash"
+				"app.kubernetes.io/instance": "stash"
+			}
+			endpoints: [{
+				port:        "pushgateway"
+				honorLabels: true
+			}, {
+				port:            "api"
+				bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+				scheme:          "https"
+				tlsConfig: {
+					ca: secret: {
+						name: "stash-apiserver-cert"
+						key:  "tls.crt"
+					}
+					serverName: "stash.stash.svc"
+				}
+			}]
+		}
+	}
 	services: stash: stash: {
 		// Source: stash/charts/stash-community/templates/service.yaml
 		apiVersion: "v1"
