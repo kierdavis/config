@@ -236,8 +236,11 @@ resources: backupconfigurations: "personal": "transmission-state": spec: {
 	}
 	retentionPolicy: {
 		name: "personal-transmission-state-b2"
-		prune: false
-		dryRun: true
+		keepDaily: 7
+		keepWeekly: 5
+		keepMonthly: 12
+		keepYearly: 1000
+		prune: true
 	}
 	runtimeSettings: pod: priorityClassName: "personal-critical"
 	runtimeSettings: container: securityContext: {

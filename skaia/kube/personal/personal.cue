@@ -32,8 +32,11 @@ resources: backupconfigurations: "personal": "media": spec: {
 	}
 	retentionPolicy: {
 		name: "personal-media-b2"
-		prune: false
-		dryRun: true
+		keepDaily: 7
+		keepWeekly: 5
+		keepMonthly: 12
+		keepYearly: 1000
+		prune: true
 	}
 	runtimeSettings: pod: priorityClassName: "personal-critical"
 	schedule: "0 2 * * 2"
