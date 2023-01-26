@@ -69,6 +69,38 @@ resources: alertmanagers: monitoring: main: spec: {
 
 resources: deployments: monitoring: "prometheus-adapter": spec: replicas: 1
 
+// By default, prometheus is only allowed to auto-discover endpoints in a few namespaces (default, kube-system, monitoring).
+// Allow any namespace.
+resources: clusterroles: "": "prometheus-k8s-any-ns": rules: [
+	{
+		apiGroups: [""]
+		resources: ["endpoints", "pods", "services"]
+		verbs: ["get", "list", "watch"]
+	},
+	{
+		apiGroups: ["extensions"]
+		resources: ["ingresses"]
+		verbs: ["get", "list", "watch"]
+	},
+	{
+		apiGroups: ["networking.k8s.io"]
+		resources: ["ingresses"]
+		verbs: ["get", "list", "watch"]
+	},
+]
+resources: clusterrolebindings: "": "prometheus-k8s-any-ns": {
+	roleRef: {
+		apiGroup: "rbac.authorization.k8s.io"
+		kind: "ClusterRole"
+		name: "prometheus-k8s-any-ns"
+	}
+	subjects: [{
+		kind: "ServiceAccount"
+		name: "prometheus-k8s"
+		namespace: "monitoring"
+	}]
+}
+
 resources: prometheusrules: monitoring: "my-rules": spec: groups: [{
 	name: "scheduling-sanity",
 	rules: [{
