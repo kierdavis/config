@@ -67675,40 +67675,10 @@ resources: {
 				}]
 			}, {
 				name:
-					"kubernetes-system-scheduler", rules: [{
-					alert: "KubeSchedulerDown"
-					annotations: {
-						description: "KubeScheduler has disappeared from Prometheus target discovery."
-
-						runbook_url: "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerdown"
-						summary:     "Target disappeared from Prometheus target discovery."
-					}
-					expr: """
-						absent(up{job=\"kube-scheduler\"} == 1)
-
-						"""
-
-					for: "15m"
-					labels: severity: "critical"
-				}]
+					"kubernetes-system-scheduler", rules: []
 			}, {
 				name:
-					"kubernetes-system-controller-manager", rules: [{
-					alert: "KubeControllerManagerDown"
-					annotations: {
-						description: "KubeControllerManager has disappeared from Prometheus target discovery."
-
-						runbook_url: "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubecontrollermanagerdown"
-						summary:     "Target disappeared from Prometheus target discovery."
-					}
-					expr: """
-						absent(up{job=\"kube-controller-manager\"} == 1)
-
-						"""
-
-					for: "15m"
-					labels: severity: "critical"
-				}]
+					"kubernetes-system-controller-manager", rules: []
 			}, {
 				name:
 					"kube-apiserver-burnrate.rules", rules: [{

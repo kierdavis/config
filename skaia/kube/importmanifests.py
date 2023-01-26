@@ -87,6 +87,13 @@ def patch_resource(resource):
     del resource["spec"]["replicas"]
   if resource["kind"] == "DaemonSet" and resource["metadata"]["name"] == "node-exporter":
     del resource["spec"]["template"]["spec"]["priorityClassName"]
+  if resource["kind"] == "PrometheusRule":
+    for group in resource["spec"]["groups"]:
+      # The Talos distribution doesn't create Endpoints resources for control plane components,
+      # so the out-of-the-box Prometheus configuration generates bogus KubeControllerManagerDown
+      # and KubeSchedulerDown alerts.
+      # Some day I might create a microservice that manages Endpoints resources like these.
+      group["rules"] = [rule for rule in group["rules"] if rule.get("alert") not in ("KubeControllerManagerDown", "KubeSchedulerDown")]
   if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "rook-ceph-operator-config":
     del resource["data"]["CSI_PROVISIONER_REPLICAS"]
   if resource["kind"] == "Secret" and resource["metadata"]["name"] == "stash-license":
