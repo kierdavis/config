@@ -54,6 +54,8 @@ components = {
 }
 
 def patch_resource(resource):
+  if resource["kind"] == "NetworkPolicy":
+    return None
   if resource["kind"] in ("DaemonSet", "Deployment", "StatefulSet"):
     for container in resource["spec"]["template"]["spec"]["containers"]:
       container.get("resources", {}).pop("limits", None)
@@ -77,8 +79,6 @@ def patch_resource(resource):
     # Unfortunately Talos doesn't seem to have an option to add SANs to the kubelet's certificate.
     assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "metrics-server"
     resource["spec"]["template"]["spec"]["containers"][0]["args"].append("--kubelet-insecure-tls")
-  if resource["kind"] == "NetworkPolicy":
-    return None
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]
