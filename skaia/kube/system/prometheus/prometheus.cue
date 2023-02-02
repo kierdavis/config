@@ -45,11 +45,11 @@ resources: prometheuses: monitoring: k8s: spec: {
 		requests: cpu: "250m"
 		requests: memory: "1Gi"
 	}
-	retentionSize: "3GiB"
+	retentionSize: "15GiB"
 	storage: volumeClaimTemplate: spec: {
 		storageClassName: "ceph-blk-replicated"
 		accessModes: ["ReadWriteOnce"]
-		resources: requests: storage: "4Gi"
+		resources: requests: storage: "16Gi"
 	}
 }
 
