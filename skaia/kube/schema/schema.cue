@@ -12,6 +12,7 @@ import (
 	k8srbacv1 "k8s.io/api/rbac/v1"
 	k8sschedulingv1 "k8s.io/api/scheduling/v1"
 	k8sstoragev1 "k8s.io/api/storage/v1"
+	objectbucketv1alpha1 "github.com/kube-object-storage/lib-bucket-provisioner/pkg/apis/objectbucket.io/v1alpha1"
 	prometheusv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	rookcephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
 	stashv1alpha1 "stash.appscode.dev/apimachinery/apis/stash/v1alpha1"
@@ -111,6 +112,12 @@ resources: close({
 		metadata: name: Name
 		metadata: namespace: Namespace
 	}
+	cephobjectstores: [Namespace=string]: [Name=string]: rookcephv1.#CephObjectStore & {
+		apiVersion: "ceph.rook.io/v1"
+		kind: "CephObjectStore"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	clusterrolebindings: [""]: [Name=string]: k8srbacv1.#ClusterRoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "ClusterRoleBinding"
@@ -170,6 +177,12 @@ resources: close({
 		apiVersion: "v1"
 		kind:       "Node"
 		metadata: name: Name
+	}
+	objectbucketclaims: [Namespace=string]: [Name=string]: objectbucketv1alpha1.#ObjectBucketClaim & {
+		apiVersion: "objectbucket.io/v1alpha1"
+		kind: "ObjectBucketClaim"
+		metadata: name: Name
+		metadata: namespace: Namespace
 	}
 	persistentvolumeclaims: [Namespace=string]: [Name=string]: k8scorev1.#PersistentVolumeClaim & {
 		apiVersion: "v1"

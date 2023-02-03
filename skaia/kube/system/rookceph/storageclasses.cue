@@ -78,3 +78,21 @@ resources: storageclasses: "": "ceph-fs-replicated": {
 		"csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
 	}
 }
+
+resources: cephobjectstores: "rook-ceph": "archive": spec: {
+	metadataPool: poolTemplates.nonBulk
+	dataPool: poolTemplates.bulk
+	preservePoolsOnDelete: true
+	gateway: {
+		port: 80
+		instances: 1
+	}
+}
+resources: storageclasses: "": "ceph-obj-archive": {
+	provisioner: "rook-ceph.ceph.rook.io/bucket"
+	reclaimPolicy: "Delete"
+	parameters: {
+		objectStoreName: "archive"
+		objectStoreNamespace: "rook-ceph"
+	}
+}

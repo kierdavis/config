@@ -55,3 +55,8 @@ resources: persistentvolumeclaims: "personal": "archive-tmp": spec: {
 	accessModes: ["ReadWriteMany"]
 	resources: requests: storage: "250G"
 }
+
+resources: objectbucketclaims: "personal": "archive": spec: {
+	bucketName: "archive"
+	storageClassName: "ceph-obj-archive"
+}
