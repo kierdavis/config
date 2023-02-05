@@ -145,8 +145,8 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 		allowMultiplePerNode: false
 	}
 	mgr: {
-		count: 2
-		allowMultiplePerNode: false
+		count: 1
+		allowMultiplePerNode: true
 		modules: [
 			{ name: "pg_autoscaler", enabled: true },
 			{ name: "prometheus", enabled: true },
