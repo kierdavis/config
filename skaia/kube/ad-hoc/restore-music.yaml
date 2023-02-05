@@ -30,7 +30,7 @@ spec:
         command:
         - bash
         - -c
-        - 'rm -rf /dest/music/data && mkdir -p /dest/music/{cache,tmp,data} && nix-env -i -A nixpkgs.duplicity -A nixpkgs.gnupg23 && gpg --batch --import /gpgkey/publickeys.gpg && gpg --batch --import /gpgkey/secretkey.gpg && echo "trusted-key 0x8139C5FCEDA73ABF" >> ~/.gnupg/gpg.conf && gpg --list-keys && gpg --list-secret-keys && exec duplicity restore --verbosity 6 --archive-dir /dest/music/cache --tempdir /dest/music/tmp b2://$B2_ACCOUNT_ID:$B2_ACCOUNT_KEY@KierBackup/duplicity-0/music-0 /dest/music/data'
+        - 'rm -rf /dest/.nobackup/music && mkdir -p /dest/.nobackup/{cache,tmp,music} && nix-env -i -A nixpkgs.duplicity -A nixpkgs.gnupg23 && gpg --batch --import /gpgkey/publickeys.gpg && gpg --batch --import /gpgkey/secretkey.gpg && echo "trusted-key 0x8139C5FCEDA73ABF" >> ~/.gnupg/gpg.conf && gpg --list-keys && gpg --list-secret-keys && exec duplicity restore --verbosity 6 --archive-dir /dest/.nobackup/cache --tempdir /dest/.nobackup/tmp b2://$B2_ACCOUNT_ID:$B2_ACCOUNT_KEY@KierBackup/duplicity-0/music-0 /dest/.nobackup/music'
         envFrom:
         - secretRef:
             name: old-backblaze

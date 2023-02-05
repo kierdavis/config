@@ -40,6 +40,7 @@ resources: backupconfigurations: "personal": "media": spec: {
 	}
 	runtimeSettings: pod: priorityClassName: "personal-critical"
 	schedule: "0 2 * * 2"
+	target: exclude: [".nobackup"]
 	target: ref: {
 		apiVersion: "v1"
 		kind: "PersistentVolumeClaim"
