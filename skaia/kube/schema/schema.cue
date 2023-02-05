@@ -213,15 +213,17 @@ resources: close({
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
-	rolebindings: [""]: [Name=string]: k8srbacv1.#RoleBinding & {
+	rolebindings: [Namespace=string]: [Name=string]: k8srbacv1.#RoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "RoleBinding"
 		metadata: name: Name
+		metadata: namespace: Namespace
 	}
-	roles: [""]: [Name=string]: k8srbacv1.#Role & {
+	roles: [Namespace=string]: [Name=string]: k8srbacv1.#Role & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "Role"
 		metadata: name: Name
+		metadata: namespace: Namespace
 	}
 	secrets: [Namespace=string]: [Name=string]: k8scorev1.#Secret & {
 		apiVersion: "v1"

@@ -93,6 +93,44 @@ resources: configmaps: "rook-ceph": "rook-config-override": data: config: """
 
 	"""
 
+resources: serviceaccounts: "rook-ceph": "imperative-config": {}
+resources: roles: "rook-ceph": "imperative-config": rules: [
+	{ apiGroups: [""], resources: ["pods"], verbs: ["get", "list"] },
+	{ apiGroups: [""], resources: ["pods/exec"], verbs: ["create"] },
+]
+resources: rolebindings: "rook-ceph": "imperative-config": {
+	subjects: [{
+		kind: "ServiceAccount"
+		name: "imperative-config"
+		namespace: "rook-ceph"
+	}]
+	roleRef: {
+		apiGroup: "rbac.authorization.k8s.io"
+		kind: "Role"
+		name: "imperative-config"
+	}
+}
+resources: jobs: "rook-ceph": "imperative-config": spec: {
+	backoffLimit: 0
+	template: {
+		metadata: labels: app: "imperative-config"
+		spec: {
+			restartPolicy: "Never"
+			serviceAccountName: "imperative-config"
+			containers: [{
+				name: "main"
+				image: "bitnami/kubectl"
+				command: ["/bin/bash", "-c"]
+				args: ["""
+					set -o errexit -o nounset -o pipefail -o xtrace
+					tools_pod=$(kubectl -n rook-ceph get pod -l app=rook-ceph-tools -o name)
+					kubectl -n rook-ceph exec $tools_pod -- ceph dashboard set-grafana-api-url http://grafana.monitoring.svc.kube.skaia:3000
+					"""]
+			}]
+		}
+	}
+}
+
 resources: cephclusters: "rook-ceph": "default": spec: {
 	cephVersion: {
 		image: "quay.io/ceph/ceph:v17.2.5"
