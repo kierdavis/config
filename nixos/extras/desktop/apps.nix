@@ -34,6 +34,7 @@ in {
     terminator
     tor-browser-bundle-bin
     vlc
+    xfce.thunar
     zoom-us
   ];
 

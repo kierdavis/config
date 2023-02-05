@@ -56,7 +56,9 @@
     pigz
     psmisc  # provides killall
     pv
+    rclone
     ripgrep
+    rsync
     screen
     tree
     umountext
