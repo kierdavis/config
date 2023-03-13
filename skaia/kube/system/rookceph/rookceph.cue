@@ -90,6 +90,8 @@ resources: deployments: "rook-ceph": "rook-ceph-tools": spec: template: spec: {
 resources: configmaps: "rook-ceph": "rook-config-override": data: config: """
 	[global]
 	osd_pool_default_size = 2
+	osd_scrub_min_interval = 1209600
+	osd_scrub_max_interval = 2592000
 
 	"""
 
