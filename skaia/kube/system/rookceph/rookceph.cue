@@ -153,6 +153,7 @@ resources: cephclusters: "rook-ceph": "default": spec: {
 			{ name: "pg_autoscaler", enabled: true },
 			{ name: "prometheus", enabled: true },
 			{ name: "rook", enabled: true },
+			{ name: "stats", enabled: true },
 		]
 	}
 	dashboard: {
