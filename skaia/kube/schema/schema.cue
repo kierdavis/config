@@ -157,6 +157,11 @@ resources: close({
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
+	ingressclasses: [""]: [Name=string]: k8snetworkingv1.#IngressClass & {
+		apiVersion: "networking.k8s.io/v1"
+		kind:       "IngressClass"
+		metadata: name: Name
+	}
 	jobs: [Namespace=string]: [Name=string]: k8sbatchv1.#Job & {
 		apiVersion: "batch/v1"
 		kind: "Job"

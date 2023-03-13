@@ -17,6 +17,11 @@ components = {
     "yaml_url": "https://github.com/projectcalico/calico/raw/v{version}/manifests/calico.yaml",
     "dest_dir": "system/calico",
   },
+  "ingress-nginx": {
+    "version": "1.6.4",
+    "yaml_url": "https://github.com/kubernetes/ingress-nginx/raw/controller-v1.6.4/deploy/static/provider/baremetal/deploy.yaml",
+    "dest_dir": "system/ingressnginx",
+  },
   "prometheus": {
     "version": "0.11.0",
     "tar_url": "https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v{version}.tar.gz",
@@ -69,6 +74,15 @@ def patch_resource(resource):
     set_env(node_container, "IP_AUTODETECTION_METHOD", "kubernetes-internal-ip")
     set_env(node_container, "IP6_AUTODETECTION_METHOD", "kubernetes-internal-ip")
     setup_dynamic_env(node_container, "CALICO_IPV4POOL_CIDR", desired_index=0)
+  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "ingress-nginx-controller":
+    resource["kind"] = "DaemonSet"
+    resource["spec"]["template"]["spec"]["hostNetwork"] = True
+    [container] = resource["spec"]["template"]["spec"]["containers"]
+    del container["ports"]
+    container["args"] += [
+      "--tcp-services-configmap=ingress-nginx/tcp-services",
+      "--udp-services-configmap=ingress-nginx/udp-services",
+    ]
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]

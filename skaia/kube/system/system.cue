@@ -3,6 +3,7 @@ package system
 import (
 	"cue.skaia/kube/system/calico"
 	"cue.skaia/kube/system/debug"
+	"cue.skaia/kube/system/ingressnginx"
 	"cue.skaia/kube/system/prometheus"
 	"cue.skaia/kube/system/rookceph"
 	"cue.skaia/kube/system/stash"
@@ -12,6 +13,7 @@ import (
 
 resources: calico.resources
 resources: debug.resources
+resources: ingressnginx.resources
 resources: prometheus.resources
 resources: rookceph.resources
 resources: stash.resources
