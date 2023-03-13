@@ -10,8 +10,8 @@ import (
 // UDP protocol
 openvpn: {
 	address: "81.92.203.57"
-	port: 1194
-	config: """
+	port:    1194
+	config:  """
 		client
 		dev tun
 		proto udp
@@ -127,13 +127,13 @@ resources: statefulsets: personal: transmission: {
 	spec: {
 		selector: matchLabels: app: "transmission"
 		serviceName: "transmission"
-		replicas: 1
+		replicas:    1
 		template: {
 			metadata: labels: app: "transmission"
 			spec: {
 				priorityClassName: "best-effort"
 				initContainers: [{
-					name: "setup-routes-to-cluster"
+					name:  "setup-routes-to-cluster"
 					image: "alpine"
 					command: [
 						"/bin/sh",
@@ -146,36 +146,36 @@ resources: statefulsets: personal: transmission: {
 					securityContext: capabilities: add: ["NET_ADMIN"]
 				}]
 				containers: [{
-					name: "openvpn"
+					name:  "openvpn"
 					image: "docker.io/kierdavis/openvpn@sha256:6fc92c92d887942b967dd3bfcec3c9cbb7d3c1d94d010de924f444b2f836e079"
 					args: ["--config", "/config/openvpn.conf", "--auth-user-pass", "/secret/auth-user-pass"]
 					volumeMounts: [
-						{ name: "dev-net-tun", mountPath: "/dev/net/tun" },
-						{ name: "openvpn-config", mountPath: "/config", readOnly: true },
-						{ name: "openvpn-secret", mountPath: "/secret", readOnly: true },
+						{name: "dev-net-tun", mountPath:    "/dev/net/tun"},
+						{name: "openvpn-config", mountPath: "/config", readOnly: true},
+						{name: "openvpn-secret", mountPath: "/secret", readOnly: true},
 					]
 					securityContext: capabilities: add: ["NET_ADMIN"]
 					resources: requests: {
-						cpu: "50m"
+						cpu:    "50m"
 						memory: "5Mi"
 					}
 				}, {
-					name: "transmission"
+					name:  "transmission"
 					image: "docker.io/linuxserver/transmission"
 					env: [
-						{ name: "TZ", value: "Europe/London" },
-						{ name: "PUID", value: "\(rookceph.sharedFilesystemUid)" },
-						{ name: "PGID", value: "\(rookceph.sharedFilesystemUid)" },
+						{name: "TZ", value:   "Europe/London"},
+						{name: "PUID", value: "\(rookceph.sharedFilesystemUid)"},
+						{name: "PGID", value: "\(rookceph.sharedFilesystemUid)"},
 					]
 					volumeMounts: [
-						{ name: "state", mountPath: "/config" },
-						{ name: "downloads", mountPath: "/downloads" },
+						{name: "state", mountPath:     "/config"},
+						{name: "downloads", mountPath: "/downloads"},
 					]
 					ports: [
-						{ name: "ui", containerPort: 9091, protocol: "TCP" },
+						{name: "ui", containerPort: 9091, protocol: "TCP"},
 					]
 					resources: requests: {
-						cpu: "50m"
+						cpu:    "50m"
 						memory: "700Mi"
 					}
 				}]
@@ -219,9 +219,9 @@ resources: services: personal: transmission: {
 		selector: app: "transmission"
 		ports: [
 			{
-				name: "ui"
-				port: 80
-				targetPort: "ui"
+				name:        "ui"
+				port:        80
+				targetPort:  "ui"
 				appProtocol: "http"
 			},
 		]
@@ -231,31 +231,31 @@ resources: services: personal: transmission: {
 resources: backupconfigurations: "personal": "transmission-state": spec: {
 	driver: "Restic"
 	repository: {
-		name: "personal-transmission-state-b2"
+		name:      "personal-transmission-state-b2"
 		namespace: "stash"
 	}
 	retentionPolicy: {
-		name: "personal-transmission-state-b2"
-		keepDaily: 7
-		keepWeekly: 5
+		name:        "personal-transmission-state-b2"
+		keepDaily:   7
+		keepWeekly:  5
 		keepMonthly: 12
-		keepYearly: 1000
-		prune: true
+		keepYearly:  1000
+		prune:       true
 	}
 	runtimeSettings: pod: priorityClassName: "personal-critical"
 	runtimeSettings: container: securityContext: {
-		runAsUser: rookceph.sharedFilesystemUid
+		runAsUser:  rookceph.sharedFilesystemUid
 		runAsGroup: rookceph.sharedFilesystemUid
 	}
 	schedule: "0 2 * * 0"
-	target: exclude: ["lost+found"]  // sharedFilesystemUid doesn't have permission to access this dir
+	target: exclude: ["lost+found"] // sharedFilesystemUid doesn't have permission to access this dir
 	target: ref: {
 		apiVersion: "v1"
-		kind: "PersistentVolumeClaim"
-		name: "state-transmission-0"
+		kind:       "PersistentVolumeClaim"
+		name:       "state-transmission-0"
 	}
 	task: name: "pvc-backup"
 	timeOut: "6h"
 }
 
-resources: (stash.repositoryTemplate & { namespace: "personal", name: "transmission-state" }).resources
+resources: (stash.repositoryTemplate & {namespace: "personal", name: "transmission-state"}).resources

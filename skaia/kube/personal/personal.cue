@@ -29,51 +29,51 @@ resources: persistentvolumeclaims: "personal": "media": spec: {
 resources: backupconfigurations: "personal": "media": spec: {
 	driver: "Restic"
 	repository: {
-		name: "personal-media-b2"
+		name:      "personal-media-b2"
 		namespace: "stash"
 	}
 	retentionPolicy: {
-		name: "personal-media-b2"
-		keepDaily: 7
-		keepWeekly: 5
+		name:        "personal-media-b2"
+		keepDaily:   7
+		keepWeekly:  5
 		keepMonthly: 12
-		keepYearly: 1000
-		prune: true
+		keepYearly:  1000
+		prune:       true
 	}
 	runtimeSettings: pod: priorityClassName: "personal-critical"
 	schedule: "0 2 * * 2"
 	target: exclude: [".nobackup"]
 	target: ref: {
 		apiVersion: "v1"
-		kind: "PersistentVolumeClaim"
-		name: "media"
+		kind:       "PersistentVolumeClaim"
+		name:       "media"
 	}
 	task: name: "pvc-backup"
 	timeOut: "6h"
 }
-resources: (stash.repositoryTemplate & { namespace: "personal", name: "media" }).resources
+resources: (stash.repositoryTemplate & {namespace: "personal", name: "media"}).resources
 
 resources: objectbucketclaims: "personal": "archive": spec: {
-	bucketName: "archive"
+	bucketName:       "archive"
 	storageClassName: "ceph-obj-archive"
 }
 resources: cronjobs: "personal": "archive-backup": spec: {
-	concurrencyPolicy: "Forbid"
-	failedJobsHistoryLimit: 1
-	schedule: "0 2 * * 6"
+	concurrencyPolicy:          "Forbid"
+	failedJobsHistoryLimit:     1
+	schedule:                   "0 2 * * 6"
 	successfulJobsHistoryLimit: 3
 	jobTemplate: spec: {
 		backoffLimit: 0
 		template: spec: {
-			restartPolicy: "Never"
+			restartPolicy:     "Never"
 			priorityClassName: "personal-critical"
 			volumes: [{name: "config", configMap: name: "archive-backup"}]
 			containers: [{
-				name: "main"
+				name:  "main"
 				image: "rclone/rclone"
 				args: ["copy", "--verbose", "src:archive", "dest:KierArchive"]
 				envFrom: [
-					{secretRef: name: "archive"}, // AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY for src
+					{secretRef: name: "archive"},        // AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY for src
 					{secretRef: name: "archive-backup"}, // RCLONE_B2_ACCOUNT & RCLONE_B2_KEY for dest
 				]
 				volumeMounts: [{name: "config", mountPath: "/config/rclone", readOnly: true}]

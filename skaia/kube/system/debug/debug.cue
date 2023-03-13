@@ -23,7 +23,7 @@ resources: daemonsets: "talos-system": "host-shell": {
 						readOnly:  true
 					}]
 					resources: requests: {
-						cpu: "1m"
+						cpu:    "1m"
 						memory: "1Mi"
 					}
 				}]

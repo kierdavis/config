@@ -18,21 +18,21 @@ resources: statefulsets: "personal": "git": {
 	spec: {
 		selector: matchLabels: labels
 		serviceName: "git"
-		replicas: 1
+		replicas:    1
 		template: {
 			metadata: "labels": labels
 			spec: {
 				priorityClassName: "personal-critical"
 				containers: [{
-					name: "main"
+					name:  "main"
 					image: "docker.io/jkarlos/git-server-docker"
-					ports: [{ name: "ssh", containerPort: 22 }]
+					ports: [{name: "ssh", containerPort: 22}]
 					volumeMounts: [
-						{ name: "repositories", mountPath: "/git-server/repos" },
-						{ name: "keys", mountPath: "/git-server/keys", readOnly: true },
+						{name: "repositories", mountPath: "/git-server/repos"},
+						{name: "keys", mountPath:         "/git-server/keys", readOnly: true},
 					]
 				}]
-				volumes: [{ name: "keys", configMap: name: "git-authorized-keys" }]
+				volumes: [{name: "keys", configMap: name: "git-authorized-keys"}]
 			}
 		}
 		volumeClaimTemplates: [{
@@ -50,6 +50,6 @@ resources: services: "personal": "git": {
 	metadata: "labels": labels
 	spec: {
 		selector: labels
-		ports: [{ name: "ssh", port: 22, targetPort: "ssh" }]
+		ports: [{name: "ssh", port: 22, targetPort: "ssh"}]
 	}
 }

@@ -22,7 +22,7 @@ import (
 resources: close({
 	alertmanagers: [Namespace=string]: [Name=string]: prometheusv1.#Alertmanager & {
 		apiVersion: "monitoring.coreos.com/v1"
-		kind: "Alertmanager"
+		kind:       "Alertmanager"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
@@ -33,14 +33,14 @@ resources: close({
 	}
 	backupconfigurations: [Namespace=string]: [Name=string]: stashv1beta1.#BackupConfiguration & {
 		apiVersion: "stash.appscode.com/v1beta1"
-		kind: "BackupConfiguration"
-		metadata: name: Name
+		kind:       "BackupConfiguration"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	backuprepositories: [Namespace=string]: [Name=string]: stashv1alpha1.#Repository & {
 		apiVersion: "stash.appscode.com/v1alpha1"
-		kind: "Repository"
-		metadata: name: Name
+		kind:       "Repository"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	bgpconfigurations: [""]: [Name=string]: close({
@@ -96,26 +96,26 @@ resources: close({
 	})
 	cephblockpools: [Namespace=string]: [Name=string]: rookcephv1.#CephBlockPool & {
 		apiVersion: "ceph.rook.io/v1"
-		kind: "CephBlockPool"
-		metadata: name: Name
+		kind:       "CephBlockPool"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	cephclusters: [Namespace=string]: [Name=string]: rookcephv1.#CephCluster & {
 		apiVersion: "ceph.rook.io/v1"
-		kind: "CephCluster"
-		metadata: name: Name
+		kind:       "CephCluster"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	cephfilesystems: [Namespace=string]: [Name=string]: rookcephv1.#CephFilesystem & {
 		apiVersion: "ceph.rook.io/v1"
-		kind: "CephFilesystem"
-		metadata: name: Name
+		kind:       "CephFilesystem"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	cephobjectstores: [Namespace=string]: [Name=string]: rookcephv1.#CephObjectStore & {
 		apiVersion: "ceph.rook.io/v1"
-		kind: "CephObjectStore"
-		metadata: name: Name
+		kind:       "CephObjectStore"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	clusterrolebindings: [""]: [Name=string]: k8srbacv1.#ClusterRoleBinding & {
@@ -136,8 +136,8 @@ resources: close({
 	}
 	cronjobs: [Namespace=string]: [Name=string]: k8sbatchv1.#CronJob & {
 		apiVersion: "batch/v1"
-		kind: "CronJob"
-		metadata: name: Name
+		kind:       "CronJob"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	customresourcedefinitions: [""]: [Name=string]: k8sapiextensionsv1.#CustomResourceDefinition & {
@@ -164,13 +164,13 @@ resources: close({
 	}
 	jobs: [Namespace=string]: [Name=string]: k8sbatchv1.#Job & {
 		apiVersion: "batch/v1"
-		kind: "Job"
-		metadata: name: Name
+		kind:       "Job"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	mutatingwebhookconfigurations: [""]: [Name=string]: k8sadmissionregistrationv1.#MutatingWebhookConfiguration & {
 		apiVersion: "admissionregistration.k8s.io/v1"
-		kind: "MutatingWebhookConfiguration"
+		kind:       "MutatingWebhookConfiguration"
 		metadata: name: Name
 	}
 	namespaces: [""]: [Name=string]: k8scorev1.#Namespace & {
@@ -180,8 +180,8 @@ resources: close({
 	}
 	networkpolicies: [Namespace=string]: [Name=string]: k8snetworkingv1.#NetworkPolicy & {
 		apiVersion: "networking.k8s.io/v1"
-		kind: "NetworkPolicy"
-		metadata: name: Name
+		kind:       "NetworkPolicy"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	nodes: [""]: [Name=string]: k8scorev1.#Node & {
@@ -191,14 +191,14 @@ resources: close({
 	}
 	objectbucketclaims: [Namespace=string]: [Name=string]: objectbucketv1alpha1.#ObjectBucketClaim & {
 		apiVersion: "objectbucket.io/v1alpha1"
-		kind: "ObjectBucketClaim"
-		metadata: name: Name
+		kind:       "ObjectBucketClaim"
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	persistentvolumeclaims: [Namespace=string]: [Name=string]: k8scorev1.#PersistentVolumeClaim & {
 		apiVersion: "v1"
 		kind:       "PersistentVolumeClaim"
-		metadata: name: Name
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	poddisruptionbudgets: [Namespace=string]: [Name=string]: k8spolicyv1.#PodDisruptionBudget & {
@@ -209,31 +209,31 @@ resources: close({
 	}
 	priorityclasses: [""]: [Name=string]: k8sschedulingv1.#PriorityClass & {
 		apiVersion: "scheduling.k8s.io/v1"
-		kind: "PriorityClass"
+		kind:       "PriorityClass"
 		metadata: name: Name
 	}
 	prometheuses: [Namespace=string]: [Name=string]: prometheusv1.#Prometheus & {
 		apiVersion: "monitoring.coreos.com/v1"
-		kind: "Prometheus"
+		kind:       "Prometheus"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	prometheusrules: [Namespace=string]: [Name=string]: prometheusv1.#PrometheusRule & {
 		apiVersion: "monitoring.coreos.com/v1"
-		kind: "PrometheusRule"
+		kind:       "PrometheusRule"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	rolebindings: [Namespace=string]: [Name=string]: k8srbacv1.#RoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "RoleBinding"
-		metadata: name: Name
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	roles: [Namespace=string]: [Name=string]: k8srbacv1.#Role & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "Role"
-		metadata: name: Name
+		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
 	secrets: [Namespace=string]: [Name=string]: k8scorev1.#Secret & {
@@ -250,7 +250,7 @@ resources: close({
 	}
 	servicemonitors: [Namespace=string]: [Name=string]: prometheusv1.#ServiceMonitor & {
 		apiVersion: "monitoring.coreos.com/v1"
-		kind: "ServiceMonitor"
+		kind:       "ServiceMonitor"
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
@@ -268,7 +268,7 @@ resources: close({
 	}
 	storageclasses: [""]: [Name=string]: k8sstoragev1.#StorageClass & {
 		apiVersion: "storage.k8s.io/v1"
-		kind: "StorageClass"
+		kind:       "StorageClass"
 		metadata: name: Name
 	}
 	talosserviceaccounts: [Namespace=string]: [Name=string]: {
@@ -282,7 +282,7 @@ resources: close({
 	}
 	validatingwebhookconfigurations: [""]: [Name=string]: k8sadmissionregistrationv1.#ValidatingWebhookConfiguration & {
 		apiVersion: "admissionregistration.k8s.io/v1"
-		kind: "ValidatingWebhookConfiguration"
+		kind:       "ValidatingWebhookConfiguration"
 		metadata: name: Name
 	}
 })

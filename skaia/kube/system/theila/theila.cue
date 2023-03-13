@@ -34,7 +34,7 @@ resources: deployments: "talos-system": "theila": {
 						mountPath: "/var/run/secrets/talos.dev"
 					}]
 					resources: requests: {
-						cpu: "1m"
+						cpu:    "1m"
 						memory: "22Mi"
 					}
 				}]

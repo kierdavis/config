@@ -7,7 +7,7 @@ import (
 labels: app: "nameserver"
 
 config: util.HashedConfigMap & {
-	namespace: "personal"
+	namespace:  "personal"
 	namePrefix: "nameserver"
 	metadata: "labels": labels
 	data: "Corefile": """
@@ -81,53 +81,53 @@ resources: deployments: personal: nameserver: spec: {
 		spec: {
 			priorityClassName: "personal-critical"
 			containers: [{
-				name: "coredns"
+				name:  "coredns"
 				image: "docker.io/coredns/coredns:1.9.3"
 				args: ["-conf", "/etc/coredns/Corefile"]
 				ports: [
-					{ name: "dns-tcp", containerPort: 53, protocol: "TCP" },
-					{ name: "dns-udp", containerPort: 53, protocol: "UDP" },
-					{ name: "metrics", containerPort: 9153, protocol: "TCP" },
+					{name: "dns-tcp", containerPort: 53, protocol:   "TCP"},
+					{name: "dns-udp", containerPort: 53, protocol:   "UDP"},
+					{name: "metrics", containerPort: 9153, protocol: "TCP"},
 				]
 				volumeMounts: [
-					{ name: "config", mountPath: "/etc/coredns", readOnly: true },
+					{name: "config", mountPath: "/etc/coredns", readOnly: true},
 				]
 				resources: requests: {
-					cpu: "5m"
+					cpu:    "5m"
 					memory: "22Mi"
 				}
 				securityContext: {
 					allowPrivilegeEscalation: false
-					readOnlyRootFilesystem: true
+					readOnlyRootFilesystem:   true
 					capabilities: add: ["NET_BIND_SERVICE"]
 					capabilities: drop: ["all"]
 				}
 				livenessProbe: {
 					httpGet: {
-						path: "/health"
-						port: 8080
+						path:   "/health"
+						port:   8080
 						scheme: "HTTP"
 					}
 					initialDelaySeconds: 60
-					periodSeconds: 10
-					timeoutSeconds: 5
-					successThreshold: 1
-					failureThreshold: 5
+					periodSeconds:       10
+					timeoutSeconds:      5
+					successThreshold:    1
+					failureThreshold:    5
 				}
 				readinessProbe: {
 					httpGet: {
-						path: "/ready",
-						port: 8181
+						path:   "/ready"
+						port:   8181
 						scheme: "HTTP"
 					}
-					periodSeconds: 10
+					periodSeconds:    10
 					failureThreshold: 3
 					successThreshold: 1
-					timeoutSeconds: 1
+					timeoutSeconds:   1
 				}
 			}]
 			volumes: [
-				{ name: "config", configMap: name: config.computedName },
+				{name: "config", configMap: name: config.computedName},
 			]
 		}
 	}
@@ -137,13 +137,13 @@ resources: services: personal: nameserver: metadata: "labels": labels
 resources: services: personal: nameserver: spec: {
 	selector: labels
 	ports: [
-		{ name: "dns-tcp", port: 53, protocol: "TCP", targetPort: "dns-tcp" },
-		{ name: "dns-udp", port: 53, protocol: "UDP", targetPort: "dns-udp" },
+		{name: "dns-tcp", port: 53, protocol: "TCP", targetPort: "dns-tcp"},
+		{name: "dns-udp", port: 53, protocol: "UDP", targetPort: "dns-udp"},
 	]
 }
 
 resources: servicemonitors: personal: nameserver: metadata: "labels": labels
 resources: servicemonitors: personal: nameserver: spec: {
 	selector: matchLabels: labels
-	endpoints: [{ port: "metrics" }]
+	endpoints: [{port: "metrics"}]
 }

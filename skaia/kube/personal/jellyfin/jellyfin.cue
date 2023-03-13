@@ -7,35 +7,35 @@ resources: statefulsets: personal: jellyfin: {
 	spec: {
 		selector: matchLabels: labels
 		serviceName: "jellyfin"
-		replicas: 1
+		replicas:    1
 		template: {
 			metadata: "labels": labels
 			spec: {
-				nodeName: "maryam"
+				nodeName:          "maryam"
 				priorityClassName: "personal-critical"
 				containers: [{
-					name: "jellyfin"
+					name:  "jellyfin"
 					image: "linuxserver/jellyfin"
 					env: [
-						{ name: "TZ", value: "Europe/London" },
+						{name: "TZ", value: "Europe/London"},
 					]
 					ports: [
-						{ name: "ui", containerPort: 8096 },
+						{name: "ui", containerPort: 8096},
 					]
 					volumeMounts: [
-						{ name: "database", mountPath: "/config", readOnly: false },
-						{ name: "transcodes", mountPath: "/config/data/transcodes", readOnly: false },
-						{ name: "media", mountPath: "/net/skaia/media", readOnly: true },
-						{ name: "torrent-downloads", mountPath: "/net/skaia/torrent-downloads", readOnly: true },
+						{name: "database", mountPath:          "/config", readOnly:                      false},
+						{name: "transcodes", mountPath:        "/config/data/transcodes", readOnly:      false},
+						{name: "media", mountPath:             "/net/skaia/media", readOnly:             true},
+						{name: "torrent-downloads", mountPath: "/net/skaia/torrent-downloads", readOnly: true},
 					]
 					resources: requests: {
-						cpu: "500m"
+						cpu:    "500m"
 						memory: "2.5Gi"
 					}
 				}]
 				volumes: [
-					{ name: "media", persistentVolumeClaim: { claimName: "media", readOnly: true } },
-					{ name: "torrent-downloads", persistentVolumeClaim: { claimName: "torrent-downloads", readOnly: true } },
+					{name: "media", persistentVolumeClaim: {claimName:             "media", readOnly:             true}},
+					{name: "torrent-downloads", persistentVolumeClaim: {claimName: "torrent-downloads", readOnly: true}},
 				]
 			}
 		}
@@ -66,9 +66,9 @@ resources: services: personal: jellyfin: {
 		selector: labels
 		ports: [
 			{
-				name: "ui"
-				port: 80
-				targetPort: "ui"
+				name:        "ui"
+				port:        80
+				targetPort:  "ui"
 				appProtocol: "http"
 			},
 		]

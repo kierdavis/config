@@ -13,20 +13,20 @@ resources: secrets: "stash": "b2": {}
 resources: deployments: "stash": "stash": spec: template: spec: containers: [{
 	name: "operator"
 	resources: requests: {
-		cpu: "10m"
+		cpu:    "10m"
 		memory: "60Mi"
 	}
 }, {
 	name: "pushgateway"
 	resources: requests: {
-		cpu: "10m"
+		cpu:    "10m"
 		memory: "20Mi"
 	}
 }, ...]
 
 repositoryTemplate: {
 	namespace: string
-	name: string
+	name:      string
 	repository: spec: {
 		backend: {
 			b2: {
@@ -39,7 +39,7 @@ repositoryTemplate: {
 		usagePolicy: allowedNamespaces: {
 			from: "Selector"
 			selector: matchExpressions: [{
-				key: "kubernetes.io/metadata.name"
+				key:      "kubernetes.io/metadata.name"
 				operator: "In"
 				values: [namespace]
 			}]
@@ -49,12 +49,12 @@ repositoryTemplate: {
 }
 
 resources: prometheusrules: stash: "my-rules": spec: groups: [{
-	name: "backups",
+	name: "backups"
 	rules: [{
 		alert: "BackupFailed"
-		expr: "stash_backup_session_success == 0"
-		labels: severity: "warning"
-		annotations: summary: "Backup failed."
+		expr:  "stash_backup_session_success == 0"
+		labels: severity:         "warning"
+		annotations: summary:     "Backup failed."
 		annotations: description: "The last session for {{$labels.invoker_kind}} {{$labels.invoker_name}} in namespace {{$labels.namespace}} was unsuccessful."
 	}]
 }]
