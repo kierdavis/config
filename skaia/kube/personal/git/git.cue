@@ -1,5 +1,9 @@
 package git
 
+import (
+	"cue.skaia/kube/system/stash"
+)
+
 labels: app: "git"
 
 resources: configmaps: "personal": "git-authorized-keys": {
@@ -53,3 +57,33 @@ resources: services: "personal": "git": {
 		ports: [{name: "ssh", port: 22, targetPort: "ssh"}]
 	}
 }
+
+resources: backupconfigurations: "personal": "git-repositories": spec: {
+	driver: "Restic"
+	repository: {
+		name:      "personal-git-repositories-b2"
+		namespace: "stash"
+	}
+	retentionPolicy: {
+		name:        "personal-git-repositories-b2"
+		keepDaily:   7
+		keepWeekly:  5
+		keepMonthly: 12
+		keepYearly:  1000
+		prune:       true
+	}
+	schedule: "0 2 * * 4"
+	target: {
+		ref: {
+			apiVersion: "apps/v1"
+			kind:       "StatefulSet"
+			name:       "git"
+		}
+		volumeMounts: [{name: "repositories", mountPath: "/repositories"}]
+		paths: ["/repositories"]
+		exclude: ["lost+found"]
+	}
+	timeOut: "6h"
+}
+
+resources: (stash.repositoryTemplate & {namespace: "personal", name: "git-repositories"}).resources
