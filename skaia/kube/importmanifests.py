@@ -17,11 +17,6 @@ components = {
     "yaml_url": "https://github.com/projectcalico/calico/raw/v{version}/manifests/calico.yaml",
     "dest_dir": "system/calico",
   },
-  "metrics-server": {
-    "version": "0.6.1",
-    "yaml_url": "https://github.com/kubernetes-sigs/metrics-server/releases/download/v{version}/components.yaml",
-    "dest_dir": "system/metricsserver",
-  },
   "prometheus": {
     "version": "0.11.0",
     "tar_url": "https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v{version}.tar.gz",
@@ -74,11 +69,6 @@ def patch_resource(resource):
     set_env(node_container, "IP_AUTODETECTION_METHOD", "kubernetes-internal-ip")
     set_env(node_container, "IP6_AUTODETECTION_METHOD", "kubernetes-internal-ip")
     setup_dynamic_env(node_container, "CALICO_IPV4POOL_CIDR", desired_index=0)
-  if resource["kind"] == "Deployment" and resource["metadata"]["name"] == "metrics-server":
-    # x509: cannot validate certificate for 10.88.1.2 because it doesn't contain any IP SANs
-    # Unfortunately Talos doesn't seem to have an option to add SANs to the kubelet's certificate.
-    assert resource["spec"]["template"]["spec"]["containers"][0]["name"] == "metrics-server"
-    resource["spec"]["template"]["spec"]["containers"][0]["args"].append("--kubelet-insecure-tls")
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]
