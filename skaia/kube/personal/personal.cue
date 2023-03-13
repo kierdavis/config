@@ -1,12 +1,14 @@
 package personal
 
 import (
+	"cue.skaia/kube/personal/git"
 	"cue.skaia/kube/personal/jellyfin"
 	"cue.skaia/kube/personal/nameserver"
 	"cue.skaia/kube/personal/transmission"
 	"cue.skaia/kube/system/stash"
 )
 
+resources: git.resources
 resources: jellyfin.resources
 resources: nameserver.resources
 resources: transmission.resources
