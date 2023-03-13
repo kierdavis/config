@@ -14,6 +14,9 @@ kind: BackupSession
 metadata:
   name: $configname-$(date +%s)-manual
   namespace: $namespace
+  labels:
+    stash.appscode.com/invoker-type: BackupConfiguration
+    stash.appscode.com/invoker-name: $configname
 spec:
   invoker:
     apiGroup: stash.appscode.com
