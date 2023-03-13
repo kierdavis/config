@@ -134,6 +134,12 @@ resources: close({
 		metadata: name:      Name
 		metadata: namespace: Namespace
 	}
+	cronjobs: [Namespace=string]: [Name=string]: k8sbatchv1.#CronJob & {
+		apiVersion: "batch/v1"
+		kind: "CronJob"
+		metadata: name: Name
+		metadata: namespace: Namespace
+	}
 	customresourcedefinitions: [""]: [Name=string]: k8sapiextensionsv1.#CustomResourceDefinition & {
 		apiVersion: "apiextensions.k8s.io/v1"
 		kind:       "CustomResourceDefinition"
