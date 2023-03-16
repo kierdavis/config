@@ -83,6 +83,8 @@ def patch_resource(resource):
       "--tcp-services-configmap=ingress-nginx/tcp-services",
       "--udp-services-configmap=ingress-nginx/udp-services",
     ]
+  if resource["kind"] == "Service" and resource["metadata"]["name"] == "ingress-nginx-controller":
+    return None
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]

@@ -715,75 +715,33 @@ resources: {
 			}
 		}
 	}
-	services: "ingress-nginx": {
-		"ingress-nginx-controller": {
-			apiVersion: "v1"
-			kind:       "Service"
-			metadata: {
-				labels: {
-					"app.kubernetes.io/component": "controller"
-					"app.kubernetes.io/instance":  "ingress-nginx"
-					"app.kubernetes.io/name":      "ingress-nginx"
-					"app.kubernetes.io/part-of":   "ingress-nginx"
-					"app.kubernetes.io/version":   "1.6.4"
-				}
-				name:      "ingress-nginx-controller"
-				namespace: "ingress-nginx"
+	services: "ingress-nginx": "ingress-nginx-controller-admission": {
+		apiVersion: "v1"
+		kind:       "Service"
+		metadata: {
+			labels: {
+				"app.kubernetes.io/component": "controller"
+				"app.kubernetes.io/instance":  "ingress-nginx"
+				"app.kubernetes.io/name":      "ingress-nginx"
+				"app.kubernetes.io/part-of":   "ingress-nginx"
+				"app.kubernetes.io/version":   "1.6.4"
 			}
-			spec: {
-				ipFamilies: [
-					"IPv4",
-				]
-				ipFamilyPolicy: "SingleStack"
-				ports: [{
-					appProtocol: "http"
-					name:        "http"
-					port:        80
-					protocol:    "TCP"
-					targetPort:  "http"
-				}, {
-					appProtocol: "https"
-					name:        "https"
-					port:        443
-					protocol:    "TCP"
-					targetPort:  "https"
-				}]
-				selector: {
-					"app.kubernetes.io/component": "controller"
-					"app.kubernetes.io/instance":  "ingress-nginx"
-					"app.kubernetes.io/name":      "ingress-nginx"
-				}
-				type: "NodePort"
-			}
+			name:      "ingress-nginx-controller-admission"
+			namespace: "ingress-nginx"
 		}
-		"ingress-nginx-controller-admission": {
-			apiVersion: "v1"
-			kind:       "Service"
-			metadata: {
-				labels: {
-					"app.kubernetes.io/component": "controller"
-					"app.kubernetes.io/instance":  "ingress-nginx"
-					"app.kubernetes.io/name":      "ingress-nginx"
-					"app.kubernetes.io/part-of":   "ingress-nginx"
-					"app.kubernetes.io/version":   "1.6.4"
-				}
-				name:      "ingress-nginx-controller-admission"
-				namespace: "ingress-nginx"
+		spec: {
+			ports: [{
+				appProtocol: "https"
+				name:        "https-webhook"
+				port:        443
+				targetPort:  "webhook"
+			}]
+			selector: {
+				"app.kubernetes.io/component": "controller"
+				"app.kubernetes.io/instance":  "ingress-nginx"
+				"app.kubernetes.io/name":      "ingress-nginx"
 			}
-			spec: {
-				ports: [{
-					appProtocol: "https"
-					name:        "https-webhook"
-					port:        443
-					targetPort:  "webhook"
-				}]
-				selector: {
-					"app.kubernetes.io/component": "controller"
-					"app.kubernetes.io/instance":  "ingress-nginx"
-					"app.kubernetes.io/name":      "ingress-nginx"
-				}
-				type: "ClusterIP"
-			}
+			type: "ClusterIP"
 		}
 	}
 	validatingwebhookconfigurations: "": "ingress-nginx-admission": {
