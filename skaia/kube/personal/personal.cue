@@ -65,6 +65,7 @@ resources: cronjobs: "personal": "archive-backup": spec: {
 	jobTemplate: spec: {
 		backoffLimit: 0
 		template: spec: {
+			nodeName:          "maryam"
 			restartPolicy:     "Never"
 			priorityClassName: "personal-critical"
 			volumes: [{name: "config", configMap: name: "archive-backup"}]
