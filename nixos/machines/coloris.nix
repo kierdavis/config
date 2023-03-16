@@ -3,6 +3,10 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  passwords = import ../../secret/passwords.nix;
+in
+
 {
   imports = [
     ../common
@@ -80,11 +84,11 @@
       allowedIPsAsRoutes = false;
       ips = ["10.88.3.1/32"];
       listenPort = 5350;
-      privateKey = REDACTED;
+      privateKey = passwords.skaia-wg.coloris.facing.megido.privateKey;
       peers = [{
         allowedIPs = ["0.0.0.0/0"];
         endpoint = "151.236.219.214:5350";
-        publicKey = REDACTED;
+        publicKey = passwords.skaia-wg.megido.facing.coloris.publicKey;
         persistentKeepalive = 59;
       }];
     };
@@ -92,11 +96,11 @@
       allowedIPsAsRoutes = false;
       ips = ["10.88.3.1/32"];
       listenPort = 5351;
-      privateKey = REDACTED;
+      privateKey = passwords.skaia-wg.coloris.facing.captor.privateKey;
       peers = [{
         allowedIPs = ["0.0.0.0/0"];
         endpoint = "172.105.133.104:5351";
-        publicKey = REDACTED;
+        publicKey = passwords.skaia-wg.captor.facing.coloris.publicKey;
         persistentKeepalive = 59;
       }];
     };
