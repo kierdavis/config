@@ -45,30 +45,6 @@ storageClassTemplates: {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-///////////////////////// ceph-blk-replicated: legacy /////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-resources: cephblockpools: "rook-ceph": "blk-replicated-metadata": spec: poolTemplates.nonBulk
-resources: cephblockpools: "rook-ceph": "blk-replicated-data": spec:     poolTemplates.bulk
-resources: storageclasses: "": "ceph-blk-replicated": {
-	provisioner:          "rook-ceph.rbd.csi.ceph.com"
-	reclaimPolicy:        "Delete"
-	allowVolumeExpansion: true
-	parameters: {
-		clusterID:                                               "rook-ceph"
-		pool:                                                    "blk-replicated-metadata"
-		dataPool:                                                "blk-replicated-data"
-		"csi.storage.k8s.io/fstype":                             "ext4"
-		"csi.storage.k8s.io/provisioner-secret-name":            "rook-csi-rbd-provisioner"
-		"csi.storage.k8s.io/provisioner-secret-namespace":       "rook-ceph"
-		"csi.storage.k8s.io/controller-expand-secret-name":      "rook-csi-rbd-provisioner"
-		"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
-		"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-rbd-node"
-		"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
 ///////////////// ceph-blk-gp0: general-purpose block storage /////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
