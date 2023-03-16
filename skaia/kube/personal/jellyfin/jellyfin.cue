@@ -44,7 +44,7 @@ resources: statefulsets: personal: jellyfin: {
 				metadata: name: "database"
 				spec: {
 					accessModes: ["ReadWriteOnce"]
-					storageClassName: "ceph-blk-replicated"
+					storageClassName: "ceph-blk-gp0"
 					resources: requests: storage: "2Gi"
 				}
 			},
@@ -52,7 +52,7 @@ resources: statefulsets: personal: jellyfin: {
 				metadata: name: "transcodes"
 				spec: {
 					accessModes: ["ReadWriteOnce"]
-					storageClassName: "ceph-blk-replicated"
+					storageClassName: "ceph-blk-media0"
 					resources: requests: storage: "20Gi"
 				}
 			},

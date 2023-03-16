@@ -47,7 +47,7 @@ resources: prometheuses: monitoring: k8s: spec: {
 	}
 	retentionSize: "15GiB"
 	storage: volumeClaimTemplate: spec: {
-		storageClassName: "ceph-blk-replicated"
+		storageClassName: "ceph-blk-gp0"
 		accessModes: ["ReadWriteOnce"]
 		resources: requests: storage: "16Gi"
 	}
@@ -61,7 +61,7 @@ resources: alertmanagers: monitoring: main: spec: {
 		requests: memory: "25Mi"
 	}
 	storage: volumeClaimTemplate: spec: {
-		storageClassName: "ceph-blk-replicated"
+		storageClassName: "ceph-blk-gp0"
 		accessModes: ["ReadWriteOnce"]
 		resources: requests: storage: "2Gi"
 	}

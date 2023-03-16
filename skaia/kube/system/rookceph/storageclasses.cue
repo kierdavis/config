@@ -80,6 +80,20 @@ resources: storageclasses: "": "ceph-blk-gp0": storageClassTemplates.blk & {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+////////// ceph-blk-media0: block storage for entertainment & media ///////////
+///////////////////////////////////////////////////////////////////////////////
+
+// Identical to ceph-blk-gp0 for now, but it's a candidate for pinning to
+// storage that's physically located at home for better playback latency.
+
+resources: cephblockpools: "rook-ceph": "blk-media0-metadata": spec: poolTemplates.nonBulk
+resources: cephblockpools: "rook-ceph": "blk-media0-data": spec:     poolTemplates.bulk
+resources: storageclasses: "": "ceph-blk-media0": storageClassTemplates.blk & {
+	parameters: pool:     "blk-media0-metadata"
+	parameters: dataPool: "blk-media0-data"
+}
+
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////// ceph-fs-replicated: legacy //////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
