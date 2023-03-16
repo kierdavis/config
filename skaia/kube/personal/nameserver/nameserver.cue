@@ -57,6 +57,8 @@ config: util.HashedConfigMap & {
 		@ 3600 IN SOA nameserver.personal.svc.kube.skaia. me.kierdavis.com. 2022112300 7200 3600 1209600 3600
 		@ 3600 IN NS nameserver.personal.svc.kube.skaia.
 		alerts IN CNAME alertmanager-main-ui.monitoring.svc.kube.skaia.
+		beagle2 IN A 176.9.121.81
+		beagle2 IN AAAA 2a01:4f8:151:8047::2
 		captor IN A 172.105.133.104
 		captor IN AAAA 2a01:7e00::f03c:93ff:fe36:8f02
 		ceph IN CNAME rook-ceph-mgr-dashboard.rook-ceph.svc.kube.skaia.
