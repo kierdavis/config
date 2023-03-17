@@ -49,7 +49,7 @@ in {
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", GROUP="dialout", MODE="0666"
   '';
 
-  nix.trustedUsers = [ "root" "kier" ];
+  nix.settings.trusted-users = [ "root" "kier" ];
 
   # sudo
   security.sudo = {
