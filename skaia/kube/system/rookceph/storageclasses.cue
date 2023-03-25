@@ -27,6 +27,19 @@ poolTemplates: {
 	}
 }
 
+filesystemTemplate: spec: {
+	metadataPool: poolTemplates.nonBulk
+	dataPools: [{name: "data"} & poolTemplates.bulk & poolTemplates.listElement]
+	metadataServer: {
+		activeCount:       1 // Controls sharding, not redundancy.
+		priorityClassName: "system-cluster-critical"
+		resources: {
+			requests: cpu:    "80m"
+			requests: memory: "80Mi"
+		}
+	}
+}
+
 storageClassTemplates: {
 	blk: {
 		provisioner:          "rook-ceph.rbd.csi.ceph.com"
@@ -42,6 +55,22 @@ storageClassTemplates: {
 			"csi.storage.k8s.io/controller-expand-secret-name":      "rook-csi-rbd-provisioner"
 			"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
 			"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-rbd-node"
+			"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
+		}
+	}
+	fs: {
+		provisioner:          "rook-ceph.cephfs.csi.ceph.com"
+		reclaimPolicy:        "Delete"
+		allowVolumeExpansion: true
+		parameters: {
+			clusterID:                                               "rook-ceph"
+			fsName:                                                  string
+			pool:                                                    "\(fsName)-data"
+			"csi.storage.k8s.io/provisioner-secret-name":            "rook-csi-cephfs-provisioner"
+			"csi.storage.k8s.io/provisioner-secret-namespace":       "rook-ceph"
+			"csi.storage.k8s.io/controller-expand-secret-name":      "rook-csi-cephfs-provisioner"
+			"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
+			"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-cephfs-node"
 			"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
 		}
 	}
@@ -120,6 +149,18 @@ resources: storageclasses: "": "ceph-fs-replicated": {
 		"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-cephfs-node"
 		"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////// ceph-fs-media0: shared filesystem for entertainment & media /////////
+///////////////////////////////////////////////////////////////////////////////
+
+// Identical to ceph-fs-gp0 for now, but it's a candidate for pinning to
+// storage that's physically located at home for better playback latency.
+
+resources: cephfilesystems: "rook-ceph": "fs-media0": filesystemTemplate
+resources: storageclasses: "": "ceph-fs-media0":      storageClassTemplates.fs & {
+	parameters: fsName: "fs-media0"
 }
 
 ///////////////////////////////////////////////////////////////////////////////
