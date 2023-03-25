@@ -1,7 +1,6 @@
 package transmission
 
 import (
-	"secret.cue.skaia:secret"
 	"cue.skaia/kube/system/rookceph"
 	"cue.skaia/kube/system/stash"
 )
@@ -104,10 +103,6 @@ resources: configmaps: personal: "transmission-openvpn": {
 
 resources: secrets: personal: "transmission-openvpn": {
 	metadata: labels: app: "transmission"
-	stringData: "auth-user-pass": """
-		\(secret.nordvpn.username)
-		\(secret.nordvpn.password)
-		"""
 }
 
 resources: networkpolicies: personal: transmission: {
