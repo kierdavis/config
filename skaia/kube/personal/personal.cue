@@ -72,7 +72,7 @@ resources: cronjobs: "personal": "archive-backup": spec: {
 			containers: [{
 				name:  "main"
 				image: "rclone/rclone"
-				args: ["copy", "--verbose", "--transfers=1", "src:archive", "dest:KierArchive"]
+				args: ["copy", "--verbose", "--verbose", "--transfers=1", "--b2-chunk-size=16Mi", "src:archive", "dest:KierArchive"]
 				envFrom: [
 					{secretRef: name: "archive"},        // AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY for src
 					{secretRef: name: "archive-backup"}, // RCLONE_B2_ACCOUNT & RCLONE_B2_KEY for dest
