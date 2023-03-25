@@ -5,6 +5,8 @@ import (
 	"cue.skaia/kube/system/stash"
 )
 
+labels: app: "transmission"
+
 // https://nordvpn.com/servers/tools/
 // UDP protocol
 openvpn: {
@@ -97,18 +99,18 @@ openvpn: {
 }
 
 resources: configmaps: personal: "transmission-openvpn": {
-	metadata: labels: app: "transmission"
+	metadata: "labels": labels
 	data: "openvpn.conf": openvpn.config
 }
 
 resources: secrets: personal: "transmission-openvpn": {
-	metadata: labels: app: "transmission"
+	metadata: "labels": labels
 }
 
 resources: networkpolicies: personal: transmission: {
-	metadata: labels: app: "transmission"
+	metadata: "labels": labels
 	spec: {
-		podSelector: matchLabels: app: "transmission"
+		podSelector: matchLabels: labels
 		policyTypes: ["Egress"]
 		egress: [{
 			to: [{ipBlock: cidr: "\(openvpn.address)/32"}]
@@ -118,13 +120,13 @@ resources: networkpolicies: personal: transmission: {
 }
 
 resources: statefulsets: personal: transmission: {
-	metadata: labels: app: "transmission"
+	metadata: "labels": labels
 	spec: {
-		selector: matchLabels: app: "transmission"
+		selector: matchLabels: labels
 		serviceName: "transmission"
 		replicas:    1
 		template: {
-			metadata: labels: app: "transmission"
+			metadata: "labels": labels
 			spec: {
 				priorityClassName: "best-effort"
 				initContainers: [{
@@ -209,9 +211,9 @@ resources: statefulsets: personal: transmission: {
 }
 
 resources: services: personal: transmission: {
-	metadata: labels: app: "transmission"
+	metadata: "labels": labels
 	spec: {
-		selector: app: "transmission"
+		selector: labels
 		ports: [
 			{
 				name:        "ui"
