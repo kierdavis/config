@@ -12,6 +12,9 @@ poolTemplates: {
 	bulk: base & {
 		parameters: bulk: "1"
 	}
+	onlySSD: base & {
+		deviceClass: "ssd"
+	}
 	listElement: base & {
 		// When pool specs are put in a list (e.g. in CephFilesystem's dataPools),
 		// server-side apply gets a bit confused, and we need to manage a bunch of
@@ -53,6 +56,17 @@ resources: cephblockpools: "rook-ceph": "blk-gp0-data": spec:     poolTemplates.
 resources: storageclasses: "": "ceph-blk-gp0": storageClassTemplates.blk & {
 	parameters: pool:     "blk-gp0-metadata"
 	parameters: dataPool: "blk-gp0-data"
+}
+
+///////////////////////////////////////////////////////////////////////////////
+////////////////// ceph-blk-hot0: low-latency block storage ///////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+resources: cephblockpools: "rook-ceph": "blk-hot0-metadata": spec: poolTemplates.nonBulk & poolTemplates.onlySSD
+resources: cephblockpools: "rook-ceph": "blk-hot0-data": spec:     poolTemplates.bulk & poolTemplates.onlySSD
+resources: storageclasses: "": "ceph-blk-hot0": storageClassTemplates.blk & {
+	parameters: pool:     "blk-hot0-metadata"
+	parameters: dataPool: "blk-hot0-data"
 }
 
 ///////////////////////////////////////////////////////////////////////////////

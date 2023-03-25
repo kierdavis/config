@@ -5,6 +5,7 @@ import (
 	"cue.skaia/kube/personal/jellyfin"
 	"cue.skaia/kube/personal/nameserver"
 	"cue.skaia/kube/personal/transmission"
+	"cue.skaia/kube/personal/valheim"
 	"cue.skaia/kube/system/stash"
 )
 
@@ -12,6 +13,7 @@ resources: git.resources
 resources: jellyfin.resources
 resources: nameserver.resources
 resources: transmission.resources
+resources: valheim.resources
 
 resources: namespaces: "": "personal": {}
 
