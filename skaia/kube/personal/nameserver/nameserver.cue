@@ -29,7 +29,8 @@ config: util.HashedConfigMap & {
 
 		. {
 			import common
-			forward . 1.1.1.1 1.0.0.1
+			#forward . 1.1.1.1 1.0.0.1
+			forward . 10.88.217.32  # pihole.personal.svc.kube.skaia
 		}
 
 		skaia {
