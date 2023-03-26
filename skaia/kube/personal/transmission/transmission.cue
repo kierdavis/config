@@ -99,7 +99,7 @@ openvpn: {
 }
 
 resources: configmaps: personal: "transmission-openvpn": {
-	metadata: "labels": labels
+	metadata: "labels":   labels
 	data: "openvpn.conf": openvpn.config
 }
 
