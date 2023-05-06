@@ -1,6 +1,7 @@
 package schema
 
 import (
+	acidzalandov1 "github.com/zalando/postgres-operator/pkg/apis/acid.zalan.do/v1"
 	k8sadmissionregistrationv1 "k8s.io/api/admissionregistration/v1"
 	k8sapiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	k8sapiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
@@ -205,6 +206,12 @@ resources: close({
 		apiVersion: "policy/v1"
 		kind:       "PodDisruptionBudget"
 		metadata: name:      Name
+		metadata: namespace: Namespace
+	}
+	postgresqls: [Namespace=string]: [Name=string]: acidzalandov1.#Postgresql & {
+		apiVersion: "acid.zalan.do/v1"
+		kind: "postgresql"
+		metadata: name: Name
 		metadata: namespace: Namespace
 	}
 	priorityclasses: [""]: [Name=string]: k8sschedulingv1.#PriorityClass & {

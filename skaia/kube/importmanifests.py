@@ -22,6 +22,12 @@ components = {
     "yaml_url": "https://github.com/kubernetes/ingress-nginx/raw/controller-v1.6.4/deploy/static/provider/baremetal/deploy.yaml",
     "dest_dir": "system/ingressnginx",
   },
+  "postgres-operator": {
+    "version": "1.10.0",
+    "tar_url": "https://github.com/zalando/postgres-operator/archive/refs/tags/v{version}.tar.gz",
+    "tar_member_regexp": r"^[^/]*/manifests/(configmap|operator-service-account-rbac|postgres-operator|api-service)\.yaml$",
+    "dest_dir": "system/postgresoperator",
+  },
   "prometheus": {
     "version": "0.11.0",
     "tar_url": "https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v{version}.tar.gz",
@@ -53,7 +59,7 @@ components = {
   },
 }
 
-def patch_resource(resource):
+def patch_resource(resource, component_name):
   if resource["kind"] == "NetworkPolicy":
     return None
   if resource["kind"] in ("DaemonSet", "Deployment", "StatefulSet"):
@@ -85,6 +91,12 @@ def patch_resource(resource):
     ]
   if resource["kind"] == "Service" and resource["metadata"]["name"] == "ingress-nginx-controller":
     return None
+  if component_name == "postgres-operator":
+    resource["metadata"]["namespace"] = "postgres-operator"
+  if resource["kind"] == "ClusterRoleBinding" and resource["metadata"]["name"] == "postgres-operator":
+    resource["subjects"][0]["namespace"] = "postgres-operator"
+  if resource["kind"] == "ConfigMap" and resource["metadata"]["name"] == "postgres-operator":
+    resource["data"]["cluster_domain"] = "kube.skaia"
   if resource["kind"] == "Prometheus":
     # I want to override these fields.
     del resource["spec"]["replicas"]
@@ -154,7 +166,7 @@ def main():
       resources = {}
       print("fetch...", file=sys.stderr)
       for resource in flatten_resource_lists(fetch_resources(component, yaml)):
-        resource = patch_resource(resource)
+        resource = patch_resource(resource, component_name)
         if resource is None:
           continue
         kind = kind_to_plural(resource["kind"])
