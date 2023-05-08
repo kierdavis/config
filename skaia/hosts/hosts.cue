@@ -24,6 +24,7 @@ hosts: {
 		isKubeMaster: true
 		nodeLabels: {
 			"topology.rook.io/chassis": "chassis-megido"
+			"topology.rook.io/zone": "zone-linode-london"
 			"topology.kubernetes.io/zone": "zone-linode-london"
 		}
 	}
@@ -40,6 +41,7 @@ hosts: {
 		isKubeMaster: true
 		nodeLabels: {
 			"topology.rook.io/chassis": "chassis-captor"
+			"topology.rook.io/zone": "zone-linode-london"
 			"topology.kubernetes.io/zone": "zone-linode-london"
 		}
 	}
@@ -55,6 +57,7 @@ hosts: {
 		isKubeMaster: true
 		nodeLabels: {
 			"topology.rook.io/chassis": "chassis-maryam"
+			"topology.rook.io/zone": "zone-advent-way"
 			"topology.kubernetes.io/zone": "zone-advent-way"
 		}
 	}
