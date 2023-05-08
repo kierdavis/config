@@ -42,8 +42,8 @@ resources: statefulsets: personal: valheim: {
 						{name: "gamedata", mountPath: "/gamedata", readOnly: false},
 					]
 					resources: requests: {
-						cpu:    "1"
-						memory: "4Gi"
+						cpu:    "750m"
+						memory: "3328Mi"
 					}
 					securityContext: runAsUser:  0
 					securityContext: runAsGroup: 0

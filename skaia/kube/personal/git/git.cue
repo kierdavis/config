@@ -35,6 +35,10 @@ resources: statefulsets: "personal": "git": {
 						{name: "repositories", mountPath: "/git-server/repos"},
 						{name: "keys", mountPath:         "/git-server/keys", readOnly: true},
 					]
+					resources: requests: {
+						cpu:    "1m"
+						memory: "5Mi"
+					}
 				}]
 				volumes: [{name: "keys", configMap: name: "git-authorized-keys"}]
 			}
