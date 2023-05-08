@@ -57,9 +57,9 @@ resources: backupconfigurations: "personal": "media": spec: {
 }
 resources: (stash.repositoryTemplate & {namespace: "personal", name: "media"}).resources
 
-resources: objectbucketclaims: "personal": "archive": spec: {
+resources: objectbucketclaims: "personal": "archive1": spec: {
 	bucketName:       "archive"
-	storageClassName: "ceph-obj-archive"
+	storageClassName: "ceph-obj-gp0"
 }
 resources: cronjobs: "personal": "archive-backup": spec: {
 	concurrencyPolicy:          "Forbid"
@@ -78,7 +78,7 @@ resources: cronjobs: "personal": "archive-backup": spec: {
 				image: "rclone/rclone"
 				args: ["copy", "--verbose", "--verbose", "--transfers=1", "--b2-chunk-size=16Mi", "src:archive", "dest:KierArchive"]
 				envFrom: [
-					{secretRef: name: "archive"},        // AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY for src
+					{secretRef: name: "archive1"},       // AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY for src
 					{secretRef: name: "archive-backup"}, // RCLONE_B2_ACCOUNT & RCLONE_B2_KEY for dest
 				]
 				volumeMounts: [{name: "config", mountPath: "/config/rclone", readOnly: true}]
@@ -91,7 +91,7 @@ resources: configmaps: "personal": "archive-backup": data: "rclone.conf": """
 	type = s3
 	provider = Ceph
 	env_auth = true
-	endpoint = http://rook-ceph-rgw-archive.rook-ceph.svc.kube.skaia
+	endpoint = http://rook-ceph-rgw-obj-gp0.rook-ceph.svc.kube.skaia
 	region =
 	location_constraint =
 	acl =

@@ -40,6 +40,18 @@ filesystemTemplate: spec: {
 	}
 }
 
+objectStoreTemplate: spec: {
+	metadataPool:          poolTemplates.nonBulk
+	dataPool:              poolTemplates.bulk
+	gateway: {
+		port:      80
+		instances: 1
+		placement: nodeAffinity: requiredDuringSchedulingIgnoredDuringExecution: nodeSelectorTerms: [{
+			matchExpressions: [{key: "topology.kubernetes.io/zone", operator: "In", values: ["zone-advent-way"]}]
+		}]
+	}
+}
+
 storageClassTemplates: {
 	blk: {
 		provisioner:          "rook-ceph.rbd.csi.ceph.com"
@@ -72,6 +84,14 @@ storageClassTemplates: {
 			"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
 			"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-cephfs-node"
 			"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
+		}
+	}
+	obj: {
+		provisioner:   "rook-ceph.ceph.rook.io/bucket"
+		reclaimPolicy: "Delete"
+		parameters: {
+			objectStoreName:      string
+			objectStoreNamespace: "rook-ceph"
 		}
 	}
 }
@@ -164,23 +184,10 @@ resources: storageclasses: "": "ceph-fs-media0":      storageClassTemplates.fs &
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-////////////////////////// ceph-obj-archive: legacy ///////////////////////////
+//////////////// ceph-obj-gp0: general-purpose object storage /////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-resources: cephobjectstores: "rook-ceph": "archive": spec: {
-	metadataPool:          poolTemplates.nonBulk
-	dataPool:              poolTemplates.bulk
-	preservePoolsOnDelete: true
-	gateway: {
-		port:      80
-		instances: 1
-	}
-}
-resources: storageclasses: "": "ceph-obj-archive": {
-	provisioner:   "rook-ceph.ceph.rook.io/bucket"
-	reclaimPolicy: "Delete"
-	parameters: {
-		objectStoreName:      "archive"
-		objectStoreNamespace: "rook-ceph"
-	}
+resources: cephobjectstores: "rook-ceph": "obj-gp0": objectStoreTemplate
+resources: storageclasses: "": "ceph-obj-gp0": storageClassTemplates.obj & {
+	parameters: objectStoreName: "obj-gp0"
 }
