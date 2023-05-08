@@ -42,7 +42,10 @@
   programs.traceroute.enable = true;
   environment.systemPackages = with pkgs; [
     # Utilities
+    backblaze-b2
     bc
+    ceph-client
+    cryptsetup
     file
     fzf
     gptfdisk
