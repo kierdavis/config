@@ -18,9 +18,8 @@ resources: statefulsets: personal: valheim: {
 			metadata: "labels": labels
 			spec: {
 				priorityClassName: "personal-critical"
-				affinity: nodeAffinity: preferredDuringSchedulingIgnoredDuringExecution: [{
-					preference: matchExpressions: [{key: "topology.kubernetes.io/zone", operator: "In", values: ["zone-linode-london"]}]
-					weight: 50
+				affinity: nodeAffinity: requiredDuringSchedulingIgnoredDuringExecution: nodeSelectorTerms: [{
+					matchExpressions: [{key: "topology.kubernetes.io/zone", operator: "NotIn", values: ["zone-advent-way"]}]
 				}]
 				containers: [{
 					name:  "main"
@@ -69,6 +68,11 @@ resources: statefulsets: personal: valheim: {
 			},
 		]
 	}
+}
+
+resources: poddisruptionbudgets: "personal": "valheim": spec: {
+	selector: matchLabels: labels
+	maxUnavailable: 0
 }
 
 resources: backupconfigurations: "personal": "valheim": spec: {
