@@ -188,7 +188,7 @@ resources: statefulsets: personal: transmission: {
 					secret: secretName: "transmission-openvpn"
 				}, {
 					name: "downloads"
-					persistentVolumeClaim: claimName: "torrent-downloads"
+					persistentVolumeClaim: claimName: "torrent-downloads1"
 				}]
 				// No access to the rest of the kubernetes cluster, including our coredns.
 				dnsPolicy: "None"
@@ -203,7 +203,7 @@ resources: statefulsets: personal: transmission: {
 				// since it needs access to the rest of the cluster (without going through openvpn etc).
 				// So we use cephfs, allowing it to be mounted in two pods simultaneously.
 				accessModes: ["ReadWriteMany"]
-				storageClassName: "ceph-fs-replicated"
+				storageClassName: "ceph-fs-gp0"
 				resources: requests: storage: "100Mi"
 			}
 		}]

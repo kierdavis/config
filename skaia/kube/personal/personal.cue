@@ -19,16 +19,16 @@ resources: valheim.resources
 
 resources: namespaces: "": "personal": {}
 
-resources: persistentvolumeclaims: "personal": "torrent-downloads": spec: {
-	storageClassName: "ceph-fs-replicated"
+resources: persistentvolumeclaims: "personal": "torrent-downloads1": spec: {
+	storageClassName: "ceph-fs-media0"
 	accessModes: ["ReadWriteMany"]
 	resources: requests: storage: "750Gi"
 }
 
-resources: persistentvolumeclaims: "personal": "media": spec: {
-	storageClassName: "ceph-fs-replicated"
+resources: persistentvolumeclaims: "personal": "media1": spec: {
+	storageClassName: "ceph-fs-media0"
 	accessModes: ["ReadWriteMany"]
-	resources: requests: storage: "150Gi"
+	resources: requests: storage: "100Gi"
 }
 resources: backupconfigurations: "personal": "media": spec: {
 	driver: "Restic"
@@ -50,7 +50,7 @@ resources: backupconfigurations: "personal": "media": spec: {
 	target: ref: {
 		apiVersion: "v1"
 		kind:       "PersistentVolumeClaim"
-		name:       "media"
+		name:       "media1"
 	}
 	task: name: "pvc-backup"
 	timeOut: "6h"

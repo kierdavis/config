@@ -32,20 +32,20 @@
   boot.supportedFilesystems = ["ceph"];
   systemd.mounts = [
     {
-      what = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-a1eb5fea-8788-11ed-96c1-aaf4d0a0d0ed/4321c932-e5cd-4b2b-ad0f-56d57379f7c6";
+      what = "10.88.231.188,10.88.217.59,10.88.229.207:/volumes/csi/csi-vol-23cf9906-f0f6-11ed-b9cc-3e0e69dd55bf/1f476827-8983-451a-af71-3b7a29e1b6be";
       where = "/net/skaia/media";
       type = "ceph";
-      options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
+      options = "fs=fs-media0,name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
       requires = ["skaia-connectivity-test.service"];
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
       before = ["remote-fs.target"];
     }
     {
-      what = "10.88.227.116,10.88.231.188,10.88.214.239:/volumes/csi/csi-vol-cafbb089-9385-11ed-8c0c-aabb135b14ca/bc3d7cd7-1f6d-447b-b659-53dc9f0f401a";
+      what = "10.88.231.188,10.88.217.59,10.88.229.207:/volumes/csi/csi-vol-e75ccde2-f0ba-11ed-b9cc-3e0e69dd55bf/2cbd7c57-2bcc-45b8-bef2-cd5092a302ee";
       where = "/net/skaia/torrent-downloads";
       type = "ceph";
-      options = "name=${config.networking.hostName},secretfile=/etc/ceph-client-secret,ro";
+      options = "fs=fs-media0,name=${config.networking.hostName},secretfile=/etc/ceph-client-secret,ro";
       requires = ["skaia-connectivity-test.service"];
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];

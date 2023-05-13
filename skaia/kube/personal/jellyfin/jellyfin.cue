@@ -34,8 +34,8 @@ resources: statefulsets: personal: jellyfin: {
 					}
 				}]
 				volumes: [
-					{name: "media", persistentVolumeClaim: {claimName:             "media", readOnly:             true}},
-					{name: "torrent-downloads", persistentVolumeClaim: {claimName: "torrent-downloads", readOnly: true}},
+					{name: "media", persistentVolumeClaim: {claimName:             "media1", readOnly:             true}},
+					{name: "torrent-downloads", persistentVolumeClaim: {claimName: "torrent-downloads1", readOnly: true}},
 				]
 			}
 		}
