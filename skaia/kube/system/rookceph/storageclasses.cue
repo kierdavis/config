@@ -133,42 +133,12 @@ resources: storageclasses: "": "ceph-blk-media0": storageClassTemplates.blk & {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-///////////////////////// ceph-fs-replicated: legacy //////////////////////////
+/////////////// ceph-fs-gp0: general-purpose shared filesystem ////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-resources: cephfilesystems: "rook-ceph": "fs-replicated": spec: {
-	metadataPool: poolTemplates.nonBulk
-	dataPools: [
-		// https://tracker.ceph.com/issues/42450
-		// The first (default) pool contains gluey inode backtrace stuff and must be replicated.
-		// All the file contents will actually be stored in the second pool.
-		{name: "inode-backtraces"} & poolTemplates.nonBulk & poolTemplates.listElement,
-		{name: "data"} & poolTemplates.bulk & poolTemplates.listElement,
-	]
-	metadataServer: {
-		activeCount:       1 // Controls sharding, not redundancy.
-		priorityClassName: "system-cluster-critical"
-		resources: {
-			requests: cpu:    "80m"
-			requests: memory: "80Mi"
-		}
-	}
-}
-resources: storageclasses: "": "ceph-fs-replicated": {
-	provisioner:          "rook-ceph.cephfs.csi.ceph.com"
-	reclaimPolicy:        "Delete"
-	allowVolumeExpansion: true
-	parameters: {
-		clusterID:                                               "rook-ceph"
-		fsName:                                                  "fs-replicated"
-		pool:                                                    "fs-replicated-data"
-		"csi.storage.k8s.io/provisioner-secret-name":            "rook-csi-cephfs-provisioner"
-		"csi.storage.k8s.io/provisioner-secret-namespace":       "rook-ceph"
-		"csi.storage.k8s.io/controller-expand-secret-name":      "rook-csi-cephfs-provisioner"
-		"csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
-		"csi.storage.k8s.io/node-stage-secret-name":             "rook-csi-cephfs-node"
-		"csi.storage.k8s.io/node-stage-secret-namespace":        "rook-ceph"
-	}
+resources: cephfilesystems: "rook-ceph": "fs-gp0": filesystemTemplate
+resources: storageclasses: "": "ceph-fs-gp0":      storageClassTemplates.fs & {
+	parameters: fsName: "fs-gp0"
 }
 
 ///////////////////////////////////////////////////////////////////////////////
