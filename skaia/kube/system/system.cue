@@ -39,3 +39,26 @@ resources: nodes: "": {
 		"\(hostName)": metadata: labels: host.nodeLabels
 	}
 }
+
+resources: daemonsets: "talos-system": "tuning": {
+	metadata: labels: app: "tuning"
+	spec: {
+		updateStrategy: {
+			type: "RollingUpdate"
+			rollingUpdate: maxUnavailable: "100%"
+		}
+		selector: matchLabels: app: "tuning"
+		template: {
+			metadata: labels: app: "tuning"
+			spec: {
+				hostNetwork: true
+				containers: [{
+					name: "main"
+					image: "busybox"
+					command: ["sh", "-c", "for i in /sys/class/block/sd*/queue/scheduler; do echo $i; echo none > $i; done; exec sleep infinity"]
+					securityContext: privileged: true
+				}]
+			}
+		}
+	}
+}
