@@ -40,6 +40,7 @@
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
       before = ["remote-fs.target"];
+      mountConfig.TimeoutSec = 10;
     }
     {
       what = "10.88.231.188,10.88.217.59,10.88.229.207:/volumes/csi/csi-vol-e75ccde2-f0ba-11ed-b9cc-3e0e69dd55bf/2cbd7c57-2bcc-45b8-bef2-cd5092a302ee";
@@ -50,6 +51,7 @@
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
       before = ["remote-fs.target"];
+      mountConfig.TimeoutSec = 10;
     }
   ];
 
