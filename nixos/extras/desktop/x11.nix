@@ -13,7 +13,7 @@
   services.xserver.dpi = 84;
 
   # SSH X11 forwarding
-  services.openssh.forwardX11 = true;
+  services.openssh.settings.X11Forwarding = true;
 
   environment.systemPackages = [ pkgs.dconf ];
 

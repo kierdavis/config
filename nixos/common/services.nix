@@ -14,8 +14,8 @@
   # ssh server
   services.openssh = {
     enable = true;
-    passwordAuthentication = true;
-    permitRootLogin = "without-password";
+    settings.PasswordAuthentication = true;
+    settings.PermitRootLogin = "without-password";
   };
 
   programs.gnupg.agent.enable = true;
