@@ -13,7 +13,7 @@ resources: statefulsets: personal: valheim: {
 	spec: {
 		selector: matchLabels: labels
 		serviceName: "valheim"
-		replicas:    1
+		replicas:    0
 		template: {
 			metadata: "labels": labels
 			spec: {
@@ -75,35 +75,35 @@ resources: poddisruptionbudgets: "personal": "valheim": spec: {
 	maxUnavailable: 0
 }
 
-resources: backupconfigurations: "personal": "valheim": spec: {
-	driver: "Restic"
-	repository: {
-		name:      "personal-valheim-b2"
-		namespace: "stash"
-	}
-	retentionPolicy: {
-		name:        "personal-valheim-b2"
-		keepDaily:   7
-		keepWeekly:  5
-		keepMonthly: 12
-		keepYearly:  1000
-		prune:       true
-	}
-	schedule: "0 4 * * *"
-	target: {
-		ref: {
-			apiVersion: "apps/v1"
-			kind:       "StatefulSet"
-			name:       "valheim"
-		}
-		volumeMounts: [
-			{name: "install", mountPath:  "/install"},
-			{name: "gamedata", mountPath: "/gamedata"},
-		]
-		paths: ["/install", "/gamedata"]
-		exclude: ["lost+found"]
-	}
-	timeOut: "6h"
-}
+//resources: backupconfigurations: "personal": "valheim": spec: {
+//	driver: "Restic"
+//	repository: {
+//		name:      "personal-valheim-b2"
+//		namespace: "stash"
+//	}
+//	retentionPolicy: {
+//		name:        "personal-valheim-b2"
+//		keepDaily:   7
+//		keepWeekly:  5
+//		keepMonthly: 12
+//		keepYearly:  1000
+//		prune:       true
+//	}
+//	schedule: "0 4 * * *"
+//	target: {
+//		ref: {
+//			apiVersion: "apps/v1"
+//			kind:       "StatefulSet"
+//			name:       "valheim"
+//		}
+//		volumeMounts: [
+//			{name: "install", mountPath:  "/install"},
+//			{name: "gamedata", mountPath: "/gamedata"},
+//		]
+//		paths: ["/install", "/gamedata"]
+//		exclude: ["lost+found"]
+//	}
+//	timeOut: "6h"
+//}
 
 resources: (stash.repositoryTemplate & {namespace: "personal", name: "valheim"}).resources
