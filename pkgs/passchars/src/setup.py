@@ -6,6 +6,7 @@ setup(
     author="Kier Davis",
     author_email="kierdavis@gmail.com",
     platforms="ALL",
+    python_requires=">=3",
 
     packages=["passchars"],
     entry_points={

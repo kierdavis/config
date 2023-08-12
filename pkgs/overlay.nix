@@ -22,7 +22,7 @@ self: super: {
   netbootxyz = super.callPackage ./netbootxyz { };
   ntopng5 = super.callPackage ./ntopng5 { inherit (self.nodePackages) uglify-js; };
   openttd_1_10_2 = super.callPackage ./openttd-1.10.2 { };
-  passchars = super.callPackage ./passchars { pythonPackages = self.python27Packages; };
+  passchars = super.callPackage ./passchars { };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   petrify = super.callPackage ./petrify { };
   pout = super.callPackage ./pout { };

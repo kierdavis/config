@@ -1,6 +1,6 @@
-{ pythonPackages, pass }:
+{ python3Packages, pass }:
 
-pythonPackages.buildPythonApplication rec {
+python3Packages.buildPythonApplication rec {
   name = "passchars-${version}";
   version = "0.1";
 
