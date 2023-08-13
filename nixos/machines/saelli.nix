@@ -58,4 +58,51 @@
   powerManagement.cpuFreqGovernor = "powersave";
 
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
+
+  services.bird2.enable = true;
+  services.bird2.config = ''
+    log syslog all;
+    router id 10.88.3.2;
+    debug protocols { states, routes, filters, interfaces, events };
+    protocol device {}
+    protocol direct {
+      ipv4;
+      ipv6;
+    }
+    protocol kernel kernelipv4 {
+      ipv4 { export all; };
+    }
+    protocol kernel kernelipv6 {
+      ipv6 { export all; };
+    }
+    protocol static {
+      ipv4;
+      route 10.88.1.9/32 via "wg-megido";
+      route 10.88.1.10/32 via "wg-captor";
+    }
+    protocol bgp bgpmegido {
+      description "BGP with megido";
+      local 10.88.3.2 as 64603;
+      neighbor 10.88.1.9 as 64605;
+      multihop;
+      hold time 10;
+      ipv4 {
+        import all;
+        export none;
+      };
+    }
+    protocol bgp bgpcaptor {
+      description "BGP with captor";
+      local 10.88.3.2 as 64603;
+      neighbor 10.88.1.10 as 64606;
+      multihop;
+      hold time 10;
+      ipv4 {
+        import all;
+        export none;
+      };
+    }
+  '';
+  systemd.services.skaia-connectivity-test.requires = ["bird2.service"];
+  systemd.services.skaia-connectivity-test.after = ["bird2.service"];
 }

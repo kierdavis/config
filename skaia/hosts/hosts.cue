@@ -69,4 +69,11 @@ hosts: {
 		}
 		bgpASNumber: 64604
 	}
+	saelli: {
+		addresses: {
+			peerHosts: "10.88.3.2"
+			bgp: peerHosts
+		}:
+		bgpASNumber: 64603
+	}
 }
