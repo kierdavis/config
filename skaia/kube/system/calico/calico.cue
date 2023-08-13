@@ -51,3 +51,8 @@ resources: bgppeers: "": "coloris": spec: {
 	peerIP:   hosts.hosts.coloris.addresses.bgp
 	asNumber: hosts.hosts.coloris.bgpASNumber
 }
+
+resources: bgppeers: "": "saelli": spec: {
+	peerIP:   hosts.hosts.saelli.addresses.bgp
+	asNumber: hosts.hosts.saelli.bgpASNumber
+}

@@ -3,6 +3,10 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  passwords = import ../../secret/passwords.nix;
+in
+
 {
   imports = [
     ../common
@@ -58,6 +62,34 @@
   powerManagement.cpuFreqGovernor = "powersave";
 
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg-megido = {
+      allowedIPsAsRoutes = false;
+      ips = ["10.88.3.2/32"];
+      listenPort = 5354;
+      privateKey = passwords.skaia-wg.saelli.facing.megido.privateKey;
+      peers = [{
+        allowedIPs = ["0.0.0.0/0"];
+        endpoint = "151.236.219.214:5354";
+        publicKey = passwords.skaia-wg.megido.facing.saelli.publicKey;
+        persistentKeepalive = 59;
+      }];
+    };
+    interfaces.wg-captor = {
+      allowedIPsAsRoutes = false;
+      ips = ["10.88.3.2/32"];
+      listenPort = 5355;
+      privateKey = passwords.skaia-wg.saelli.facing.captor.privateKey;
+      peers = [{
+        allowedIPs = ["0.0.0.0/0"];
+        endpoint = "172.105.133.104:5355";
+        publicKey = passwords.skaia-wg.captor.facing.saelli.publicKey;
+        persistentKeepalive = 59;
+      }];
+    };
+  };
 
   services.bird2.enable = true;
   services.bird2.config = ''

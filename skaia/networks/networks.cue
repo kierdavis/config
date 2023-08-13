@@ -37,3 +37,5 @@ wireguard: colorisAndMegido: listenPort: 5350
 wireguard: captorAndColoris: listenPort: 5351
 wireguard: maryamAndMegido: listenPort: 5352
 wireguard: captorAndMaryam: listenPort: 5353
+wireguard: megidoAndSaelli: listenPort: 5354
+wireguard: captorAndSaelli: listenPort: 5355

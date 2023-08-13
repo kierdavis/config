@@ -49,6 +49,22 @@ import (
 				{ network: "\(hosts.hosts.coloris.addresses.peerHosts)/32" },
 			]
 		},
+		{
+			interface: "wg-saelli"
+			addresses: ["\(hosts.hosts.megido.addresses.kubeHosts)/32"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.megido.facing.saelli.private
+				listenPort: networks.wireguard.megidoAndSaelli.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.saelli.facing.megido.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.saelli.addresses.peerHosts)/32" },
+			]
+		},
 	]
 	captor: [
 		{
@@ -90,6 +106,22 @@ import (
 			}
 			routes: [
 				{ network: "\(hosts.hosts.coloris.addresses.peerHosts)/32" },
+			]
+		},
+		{
+			interface: "wg-saelli"
+			addresses: ["\(hosts.hosts.captor.addresses.kubeHosts)/32"]
+			wireguard: {
+				privateKey: secret.wireguardKeys.captor.facing.saelli.private
+				listenPort: networks.wireguard.captorAndSaelli.listenPort
+				peers: [{
+					publicKey: secret.wireguardKeys.saelli.facing.captor.public
+					persistentKeepaliveInterval: "59s"
+					allowedIPs: ["0.0.0.0/0"]
+				}]
+			}
+			routes: [
+				{ network: "\(hosts.hosts.saelli.addresses.peerHosts)/32" },
 			]
 		},
 	]
