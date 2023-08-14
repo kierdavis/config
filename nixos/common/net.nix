@@ -53,7 +53,7 @@
     serviceConfig.Type = "oneshot";
     serviceConfig.RemainAfterExit = true;
     script = ''
-      for i in $(${pkgs.coreutils}/bin/seq 30); do
+      for i in $(${pkgs.coreutils}/bin/seq 5); do
         if ${pkgs.curl}/bin/curl --connect-timeout 2 --insecure https://10.88.192.1/; then
           exit 0
         fi

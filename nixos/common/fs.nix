@@ -43,7 +43,7 @@ in
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
       before = ["remote-fs.target"];
-      mountConfig.TimeoutSec = 10;
+      mountConfig.TimeoutSec = 5;
     }
     {
       what = "${skaiaCephMonIPs}:/volumes/csi/csi-vol-e75ccde2-f0ba-11ed-b9cc-3e0e69dd55bf/2cbd7c57-2bcc-45b8-bef2-cd5092a302ee";
@@ -54,7 +54,7 @@ in
       after = ["skaia-connectivity-test.service"];
       wantedBy = ["remote-fs.target"];
       before = ["remote-fs.target"];
-      mountConfig.TimeoutSec = 10;
+      mountConfig.TimeoutSec = 5;
     }
   ];
 
