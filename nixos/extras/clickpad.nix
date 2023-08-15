@@ -4,6 +4,11 @@
 { config, lib, pkgs, ... }:
 
 {
+  services.xserver.libinput.touchpad = {
+    tapping = false;
+  };
+
+  /*
   services.xserver.synaptics = {
     enable = true;
     additionalOptions = ''
@@ -39,4 +44,5 @@
     minSpeed = "0.2";
     maxSpeed = "1.5";
   };
+  */
 }
