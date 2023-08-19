@@ -13,7 +13,7 @@ from ruamel.yaml import YAML
 
 components = {
   "calico": {
-    "version": "3.26.1",
+    "version": "3.24.3",
     "yaml_url": "https://github.com/projectcalico/calico/raw/v{version}/manifests/calico.yaml",
     "dest_dir": "system/calico",
   },
