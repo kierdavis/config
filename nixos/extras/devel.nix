@@ -19,9 +19,6 @@ in {
     kubesh
     talosctl
     terraform
-
-    # Other
-    sr-tools
   ];
 
   documentation.dev.enable = lib.mkOverride 500 true;
