@@ -3,13 +3,13 @@
 #
 #   SUBSYSTEM=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0666"
 
-{ buildFHSUserEnv
-, fetchurl
+{ fetchurl
+, fetchzip
 , lib
 , stdenv
 , writeShellScript
 , withModelsim ? true
-, withHelp ? false
+, withHelp ? true
 , withArriaSupport ? false
 , withCycloneVSupport ? false
 , withCycloneLegacySupport ? true
@@ -21,6 +21,13 @@ let
   revision = "232";
   version = "13.0.1.${revision}";
   name = "quartus-${version}";
+
+  # This derivation no longer works with the latest nixpkgs.
+  oldNixpkgs = import (fetchzip {
+    name = "${name}-nixpkgs";
+    url = "https://releases.nixos.org/nixos/22.11/nixos-22.11.4773.ea4c80b39be4/nixexprs.tar.xz";
+    hash = "sha256-wZ8ktcD7KUPzOMSQXbbuvM2/YS5+sihPqnNymFQ58Mg=";
+  }) {};
 
   attrs = rec {
     # Download the installer tarball.
@@ -53,7 +60,7 @@ let
     };
 
     # Create a wrapper around the installer that runs it in an FHS-compatible environment.
-    installerWrapper = buildFHSUserEnv {
+    installerWrapper = oldNixpkgs.buildFHSUserEnv {
       name = "${name}-installer-wrapper";
       runScript = "${extracted}/QuartusSetupWeb-${version}.run";
     };
@@ -71,7 +78,7 @@ let
     installationBinDir = "${installation}/quartus/bin";
 
     # Create a wrapper around the Quartus executables.
-    quartusWrapper = buildFHSUserEnv {
+    quartusWrapper = oldNixpkgs.buildFHSUserEnv {
       name = "${name}-wrapper";
       multiPkgs = pkgs: with pkgs; [
         fontconfig
@@ -84,7 +91,7 @@ let
         xorg.libXrender
         zlib
       ];
-      runScript = writeShellScript "${name}-entrypoint" ''
+      runScript = oldNixpkgs.writeShellScript "${name}-entrypoint" ''
         prog_name=$1
         shift
         exec "${installationBinDir}/$prog_name" "$@"

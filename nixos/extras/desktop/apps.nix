@@ -29,6 +29,7 @@ in {
     pavucontrol
     pinentry-gnome
     # polymc  # multimc successor
+    quartus
     screenshot
     spotify
     terminator
