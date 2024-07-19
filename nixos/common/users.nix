@@ -13,6 +13,9 @@ in {
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
   };
 
+  users.groups.kier = {
+    gid = 1001;
+  };
   users.users.kier = {
     createHome = false; # so that other users can read ~kier/config/nixpkgs
     description = "Kier Davis";
@@ -24,6 +27,7 @@ in {
       "wheel"           # Permission to 'sudo' as root
       "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
+    group = "kier";
     hashedPassword = passwords.user.kier.hashed;
     home = "/home/kier";
     isNormalUser = true;
