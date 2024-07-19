@@ -75,8 +75,12 @@ in
       where = "/net/skaia/projects";
     })
     (cephMount // {
-      what = "${cephMons}:/volumes/csi/csi-vol-ae56574b-380c-44e3-86e3-cf3656cb5351/2be25b47-ffda-40f0-b183-48b18b97ff53";
-      where = "/net/skaia/transmission-state";
+      what = "${cephMons}:/volumes/csi/csi-vol-c8f70936-1f61-4532-a391-e4557af8d50e/2daff418-bd86-461d-8de0-ba84fa0abaa3";
+      where = "/net/skaia/documents";
     })
+    #(cephMount // {
+    #  what = "${cephMons}:/volumes/csi/csi-vol-ae56574b-380c-44e3-86e3-cf3656cb5351/2be25b47-ffda-40f0-b183-48b18b97ff53";
+    #  where = "/net/skaia/transmission-state";
+    #})
   ];
 }
