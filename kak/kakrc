@@ -1,23 +1,23 @@
 # Complete using tab key.
 hook global InsertCompletionShow .* %{
-    try %{
-        # this command temporarily removes cursors preceded by whitespace;
-        # if there are no cursors left, it raises an error, does not
-        # continue to execute the mapping commands, and the error is eaten
-        # by the `try` command so no warning appears.
-        execute-keys -draft 'h<a-K>\h<ret>'
-        map window insert <tab> <c-n>
-        map window insert <s-tab> <c-p>
-    }
+  try %{
+    # this command temporarily removes cursors preceded by whitespace;
+    # if there are no cursors left, it raises an error, does not
+    # continue to execute the mapping commands, and the error is eaten
+    # by the `try` command so no warning appears.
+    execute-keys -draft 'h<a-K>\h<ret>'
+    map window insert <tab> <c-n>
+    map window insert <s-tab> <c-p>
+  }
 }
 hook global InsertCompletionHide .* %{
-    unmap window insert <tab> <c-n>
-    unmap window insert <s-tab> <c-p>
+  unmap window insert <tab> <c-n>
+  unmap window insert <s-tab> <c-p>
 }
 
 # Indent using tab key.
 hook global InsertChar \t %{ try %{
-      execute-keys -draft "hd<a-gt>"
+  execute-keys -draft "hd<a-gt>"
 }}
 
 # Key binding for duplicating current line.
@@ -60,6 +60,28 @@ hook global BufCreate .*\.pyi %{
 hook global WinSetOption filetype=lua %{
   remove-hooks window lua-insert
 }
+
+# Terraform: copy previous line's indentation on new line
+# (based on /usr/share/kak/rc/filetype/go.kak).
+define-command -hidden terraform-indent-on-new-line %<
+  evaluate-commands -draft -itersel %<
+    # Preserve previous line indent.
+    try %{ execute-keys -draft <semicolon>K<a-&> }
+    # Indent after line with an unclosed (, [ or {
+    try %< execute-keys -draft [c[(\[{],[)\]}] <ret> <a-k> \A[(\[{][^\n]*\n[^\n]*\n?\z <ret> j<a-gt> >
+    # Deindent closing brace/bracket when after cursor.
+    try %< execute-keys -draft x <a-k> ^\h*[)\]}] <ret> gh / [)\]}] <ret> m <a-S> 1<a-&> >
+  >
+>
+define-command -hidden terraform-indent-on-closing-delim %<
+  # align to opening delimeter when alone on a line
+  try %< execute-keys -itersel -draft <a-h><a-k>^\h+[)\]}]$<ret>hms\A|.\z<ret>1<a-&> >
+>
+hook global WinSetOption filetype=terraform %<
+  hook window InsertChar \n -group terraform-indent terraform-indent-on-new-line
+  hook window InsertChar \} -group terraform-indent terraform-indent-on-closing-delim
+  hook -once -always window WinSetOption filetype=.* %{ remove-hooks window terraform-.+ }
+>
 
 # fzf (fuzzy finder) plugin.
 source "%val{config}/thirdparty/fzf.kak/rc/fzf.kak"
