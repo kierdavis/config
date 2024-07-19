@@ -16,7 +16,9 @@ in {
     buildah
     cue
     kubectl
+    kubernetes-helm
     kubesh
+    restic
     talosctl
     terraform
   ];
