@@ -15,7 +15,7 @@ in
     ../extras/wifi.nix
     ../extras/audio.nix
     ../extras/low-power.nix
-    # ../extras/clickpad.nix
+    ../extras/clickpad.nix
     ../extras/devel.nix
   ];
 
