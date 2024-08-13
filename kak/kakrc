@@ -49,6 +49,9 @@ define-command -override tidy-ws %{
 }
 
 # Additional filetype detection rules.
+hook global BufCreate (.*/)?Containerfile(\..+)?$ %{
+  set-option buffer filetype dockerfile
+}
 hook global BufCreate (.*/)?[mM]akefile\.[^/]+ %{
   set-option buffer filetype makefile
 }

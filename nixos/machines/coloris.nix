@@ -13,7 +13,6 @@ in
     ../extras/platform/efi.nix
     # ../extras/boinc.nix
     ../extras/desktop
-    ../extras/wifi.nix
     ../extras/audio.nix
     ../extras/devel.nix
   ];
@@ -32,7 +31,6 @@ in
     i3blocks = {
       cpuThermalZone = "thermal_zone2";
       ethInterface = "enp4s0";
-      wlanInterface = "wlp3s0";
     };
   };
 
