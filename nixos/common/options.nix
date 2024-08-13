@@ -48,6 +48,7 @@ with lib;
 
     machine.i3blocks.wlanInterface = mkOption {
       type = types.str;
+      default = "";
       example = "wlp3s0";
       description = ''Name of the WiFi network interface.'';
     };

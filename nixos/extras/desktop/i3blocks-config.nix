@@ -1,6 +1,12 @@
 { config, lib, pkgs, ... }:
 
 let
+  wlanConfig = if config.machine.i3blocks.wlanInterface != "" then ''
+    [wlan]
+    interval=10
+    instance=${config.machine.i3blocks.wlanInterface}
+  '' else "";
+
   nvidiaGpuConfig = if config.machine.gpu.nvidia then ''
     [vram]
     interval=5
@@ -31,9 +37,7 @@ in {
     interval=10
     instance=${config.machine.i3blocks.ethInterface}
 
-    [wlan]
-    interval=10
-    instance=${config.machine.i3blocks.wlanInterface}
+    ${wlanConfig}
 
     [mem]
     interval=5
