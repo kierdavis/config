@@ -6,9 +6,9 @@ let
     type = "ceph";
     options = "fs=fs,name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
     wantedBy = ["skaia.target"];
-    requires = ["tailscaled.service"];
+    requires = ["tailscaled.service" "tailscaled-autoconnect.service"];
     after = ["tailscaled.service" "tailscaled-autoconnect.service"];
-    mountConfig.TimeoutSec = 5;
+    mountConfig.TimeoutSec = 10;
   };
 in
 
@@ -26,8 +26,13 @@ in
       "--login-server=https://headscale.skaia.cloud/"
     ];
   };
-  systemd.services.tailscaled.wantedBy = lib.mkForce ["skaia.target"];
-  systemd.services.tailscaled-autoconnect.wantedBy = lib.mkForce ["skaia.target"];
+  systemd.services.tailscaled = {
+    wantedBy = lib.mkForce ["skaia.target"];
+  };
+  systemd.services.tailscaled-autoconnect = {
+    wantedBy = lib.mkForce ["skaia.target"];
+    serviceConfig.TimeoutStartSec = 20;
+  };
 
   systemd.services.skaia-dns-config = {
     wantedBy = ["skaia.target"];
