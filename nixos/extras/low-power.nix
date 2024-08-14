@@ -9,9 +9,15 @@
     options snd_hda_intel power_save=1
 
     # Wi-fi power saving (Intel hardware).
-    options iwlwifi power_save=1 d0i3_disable=0 uapsd_disable=0
+    options iwlwifi power_save=1 uapsd_disable=0
+    options iwlmvm power_scheme=3
     options iwldvm force_cam=0
   '';
+
+  boot.kernelParams = [
+    # Enable PCIe Active State Power Management (shuts down the link when there's no traffic across it).
+    "pcie_aspm.policy=powersave"
+  ];
 
   boot.kernel.sysctl = {
     # Disable NMI watchdog (generates lots of interrupts, mainly a debugging feature).
@@ -26,16 +32,9 @@
   };
 
   services.udev.extraRules = ''
-    # PCI runtime power management.
-    ACTION=="add", SUBSYSTEM=="pci", ATTR(power/control)="auto"
-
     # USB autosuspend blacklist
     # Tecknet wireless mouse
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="062a", ATTR{idProduct}=="5918", GOTO="power_usb_rules_end"
-    # Corsair Strafe keyboard
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b15", GOTO="power_usb_rules_end"
-    # Moto G5 phone
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", ATTR{idProduct}=="2e82", GOTO="power_usb_rules_end"
 
     # Enable USB autosuspend by default for all other devices.
     #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
