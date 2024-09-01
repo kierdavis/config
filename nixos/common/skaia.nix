@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  cephMons = "10.143.226.46,10.143.175.154,10.143.215.140";
+  cephMons = "10.143.215.140,10.143.255.123,10.143.254.226";
   cephMount = {
     type = "ceph";
     options = "fs=fs,name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
