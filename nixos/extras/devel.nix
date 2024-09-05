@@ -10,6 +10,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     # Software
+    cargo
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
     # Infrastructure
