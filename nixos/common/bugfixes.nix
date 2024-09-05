@@ -52,7 +52,7 @@
   # If podman detects its storage is backed by zfs, it will try to use the
   # zfs admin commands to manage container volumes. These aren't in
   # podman's PATH by default.
-  virtualisation.podman.extraPackages = lib.optional (builtins.elem "zfs" config.boot.supportedFilesystems) pkgs.zfs;
+  virtualisation.podman.extraPackages = lib.optional (config.boot.supportedFilesystems.zfs or false) pkgs.zfs;
 
   # The intention of restartIfChanged=false is to avoid killing user sessions when restarting the service.
   # But, xrdp-sesman already handles this safely - upon receiving SIGINT it waits for all sessions to be terminated before exiting.
@@ -65,5 +65,5 @@
   # Default value of "pause:latest" doesn't exist on Docker Hub???
   virtualisation.containerd.settings.plugins."io.containerd.grpc.v1.cri".sandbox_image = "kubernetes/pause";
 
-  system.fsPackages = lib.optional (builtins.elem "ceph" config.boot.supportedFilesystems) pkgs.ceph-client;
+  system.fsPackages = lib.optional (config.boot.supportedFilesystems.ceph or false) pkgs.ceph-client;
 }

@@ -27,7 +27,7 @@ in {
     i3blocks-scripts
     i3lock
     pavucontrol
-    pinentry-gnome
+    pinentry-gnome3
     # polymc  # multimc successor
     quartus
     screenshot
