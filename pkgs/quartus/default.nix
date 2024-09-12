@@ -72,6 +72,7 @@ let
       installPhase = ''
         runHook preInstall
         ${installerWrapper}/bin/${installerWrapper.name} --unattendedmodeui minimal --mode unattended --installdir $out
+        rm -rf $out/logs
         runHook postInstall
       '';
     };
