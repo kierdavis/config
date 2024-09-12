@@ -55,6 +55,8 @@
     man-pages
     mountext
     ncdu
+    ntfs3g
+    parted
     pbzip2
     pigz
     psmisc  # provides killall
