@@ -24,6 +24,7 @@ in
     cpu = {
       cores = 4;
       intel = true;
+      hwp = true;
     };
     gpu = {
       nvidia = true;
@@ -59,7 +60,6 @@ in
 
   # From nixos-generate-config.
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
-  powerManagement.cpuFreqGovernor = "ondemand";
 
   services.printing = {
     enable = true;

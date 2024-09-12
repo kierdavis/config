@@ -27,6 +27,12 @@ with lib;
       description = ''Whether the machine has an Intel CPU, and so should enable Intel microcode updates.'';
     };
 
+    machine.cpu.hwp = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''Whether the CPU offers hardware-controlled P-state management, aka Intel Speed Shift Technology. This is true on Skylake and newer processors.'';
+    };
+
     machine.gpu.nvidia = mkOption {
       type = types.bool;
       default = false;
