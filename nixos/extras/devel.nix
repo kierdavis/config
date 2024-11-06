@@ -11,6 +11,7 @@ in {
   environment.systemPackages = with pkgs; [
     # Software
     cargo
+    gcc
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
     # Infrastructure
