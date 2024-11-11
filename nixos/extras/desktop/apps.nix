@@ -30,6 +30,7 @@ in {
     pavucontrol
     pinentry-gnome3
     # polymc  # multimc successor
+    prusa-slicer
     quartus
     screenshot
     spotify
