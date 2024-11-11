@@ -14,6 +14,7 @@ in {
   programs.chromium.enable = true;
   programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
+    autorandr
     (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     citrix_workspace
     cups  # client
