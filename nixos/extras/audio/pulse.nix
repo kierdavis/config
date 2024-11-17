@@ -14,6 +14,8 @@ in {
   hardware.pulseaudio.configFile = pulseConfig;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
 
+  environment.systemPackages = [ pkgs.pavucontrol ];
+
   # required for fluidsynth
   security.pam.loginLimits = [
     { domain = "@audio"; type = "-"; item = "rtprio"; value = "90"; }

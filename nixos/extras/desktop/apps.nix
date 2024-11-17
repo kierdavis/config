@@ -14,6 +14,7 @@ in {
   programs.chromium.enable = true;
   programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
+    audacity
     autorandr
     (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     citrix_workspace
@@ -27,11 +28,11 @@ in {
     i3blocks
     i3blocks-scripts
     i3lock
-    pavucontrol
     pinentry-gnome3
     # polymc  # multimc successor
     prusa-slicer
     quartus
+    renoise
     screenshot
     spotify
     terminator

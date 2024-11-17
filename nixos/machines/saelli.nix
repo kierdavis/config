@@ -13,7 +13,7 @@ in
     ../extras/platform/efi.nix
     ../extras/desktop
     ../extras/wifi.nix
-    ../extras/audio.nix
+    ../extras/audio/pulse.nix
     ../extras/low-power.nix
     ../extras/clickpad.nix
     ../extras/devel.nix

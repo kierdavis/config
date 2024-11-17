@@ -13,7 +13,7 @@ in
     ../extras/platform/efi.nix
     # ../extras/boinc.nix
     ../extras/desktop
-    ../extras/audio.nix
+    ../extras/audio/jack.nix
     ../extras/devel.nix
   ];
 
@@ -33,6 +33,7 @@ in
       cpuThermalZone = "thermal_zone2";
       ethInterface = "enp4s0";
     };
+    jackDevice = "hw:Device"; # USB headphones
   };
 
   # Filesystems.
