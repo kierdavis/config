@@ -7,6 +7,7 @@ let
     options = "fs=fs,name=${config.networking.hostName},secretfile=/etc/ceph-client-secret";
     wantedBy = ["skaia.target"];
     requires = ["tailscaled.service" "tailscaled-autoconnect.service"];
+    before = ["skaia.target"];
     after = ["tailscaled.service" "tailscaled-autoconnect.service"];
     mountConfig.TimeoutSec = 10;
   };
@@ -15,6 +16,7 @@ in
 {
   systemd.targets.skaia = {
     wantedBy = ["multi-user.target"];
+    before = ["multi-user.target"];
   };
 
   services.tailscale = {
@@ -28,15 +30,18 @@ in
   };
   systemd.services.tailscaled = {
     wantedBy = lib.mkForce ["skaia.target"];
+    before = ["skaia.target"];
   };
   systemd.services.tailscaled-autoconnect = {
     wantedBy = lib.mkForce ["skaia.target"];
+    before = ["skaia.target"];
     serviceConfig.TimeoutStartSec = 20;
   };
 
-  systemd.services.skaia-dns-config = {
+  systemd.services.skaia-dns = {
     wantedBy = ["skaia.target"];
-    requires = ["tailscaled.service"];
+    wants = ["tailscaled.service" "tailscaled-autoconnect.service"];
+    before = ["skaia.target"];
     after = ["tailscaled.service" "tailscaled-autoconnect.service"];
     path = [pkgs.bind.host pkgs.openresolv];
     environment = {

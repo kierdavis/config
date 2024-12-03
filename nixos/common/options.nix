@@ -65,5 +65,12 @@ with lib;
       example = ''[ "BAT0" "BAT1" ]'';
       description = ''Subdirectories of /sys/class/power_supply representing batteries whose charge level should be displayed.'';
     };
+
+    machine.jackDevice = mkOption {
+      type = types.str;
+      default = null;
+      example = "hw:Device";
+      description = ''Which audio device should back the JACK server. Open qjackctl -> Setup to see valid values.'';
+    };
   };
 }
