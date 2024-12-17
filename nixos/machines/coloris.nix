@@ -33,7 +33,8 @@ in
       cpuThermalZone = "thermal_zone2";
       ethInterface = "enp4s0";
     };
-    jackDevice = "hw:Device"; # USB headphones
+    #jackDevice = "hw:Device,0"; # USB headphones
+    jackDevice = "hw:PCH,0"; # Motherboard audio
   };
 
   # Filesystems.
