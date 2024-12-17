@@ -13,7 +13,7 @@ in
     ../extras/platform/efi.nix
     # ../extras/boinc.nix
     ../extras/desktop
-    ../extras/audio/jack.nix
+    ../extras/audio/pulse.nix
     ../extras/devel.nix
   ];
 
