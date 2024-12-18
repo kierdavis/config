@@ -1,8 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  # mount a tmpfs on /tmp
-  boot.tmp.useTmpfs = lib.mkDefault true;
+  # Don't mount a tmpfs on /tmp, so that Nix builds have sufficient working space.
+  # If you want a tmpfs, use /dev/shm.
+  boot.tmp.useTmpfs = false;
 
   # Don't forcibly import ZFS pools during boot.
   boot.zfs = {
