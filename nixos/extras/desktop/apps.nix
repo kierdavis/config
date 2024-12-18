@@ -19,6 +19,7 @@ in {
     (blender.override { cudaSupport = config.machine.gpu.nvidia; })
     citrix_workspace
     cups  # client
+    darktable
     dmenu
     evince
     freecad
