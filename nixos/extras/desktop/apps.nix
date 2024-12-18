@@ -32,7 +32,7 @@ in {
     # polymc  # multimc successor
     prusa-slicer
     quartus
-    renoise
+    # renoise
     screenshot
     spotify
     terminator
