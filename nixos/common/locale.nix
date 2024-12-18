@@ -9,7 +9,7 @@
 
   # Keyboard layout.
   console.keyMap = "uk";
-  services.xserver.layout = "gb";
+  services.xserver.xkb.layout = "gb";
 
   # Time zone.
   time.timeZone = "Europe/London";

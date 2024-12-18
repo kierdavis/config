@@ -4,7 +4,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.xserver.libinput.touchpad = {
+  services.libinput.touchpad = {
     tapping = false;
   };
 
