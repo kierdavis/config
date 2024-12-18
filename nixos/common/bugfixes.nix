@@ -15,23 +15,6 @@
       NIX_CFLAGS_COMPILE = (if oldAttrs ? NIX_CFLAGS_COMPILE then oldAttrs.NIX_CFLAGS_COMPILE else []) ++ [ "-w" ];
     });
 
-    # https://discourse.nixos.org/t/while-mounting-ceph-filesystem-got-a-modprobe-not-found/23465
-    ceph-client = self.stdenv.mkDerivation {
-      name = "${super.ceph-client.name}-with-modprobe-fix";
-      phases = "buildPhase";
-      buildPhase = ''
-        cp -rs ${super.ceph-client} $out
-        chmod +w $out/bin
-        rm -f $out/bin/mount.ceph
-        cat > $out/bin/mount.ceph <<EOF
-        #!${self.stdenv.shell}
-        export PATH=${self.kmod}/bin:\$PATH
-        exec ${super.ceph-client}/bin/mount.ceph "\$@"
-        EOF
-        chmod +x $out/bin/mount.ceph
-      '';
-    };
-
     # Fix hardcoded filenames, and expectation of xinit being on PATH.
     tigervnc = super.tigervnc.overrideDerivation (oldAttrs: {
       preFixup = ''
