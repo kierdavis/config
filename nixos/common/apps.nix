@@ -46,6 +46,7 @@
     bc
     ceph-client
     cryptsetup
+    dmidecode
     file
     fzf
     gptfdisk
