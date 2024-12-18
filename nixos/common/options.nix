@@ -33,6 +33,19 @@ with lib;
       description = ''Whether the CPU offers hardware-controlled P-state management, aka Intel Speed Shift Technology. This is true on Skylake and newer processors.'';
     };
 
+    machine.gpu.intel = mkOption {
+      type = types.bool;
+      default = false;
+      example = true;
+      description = ''Whether the machine has an Intel graphics card, and so should enable the corresponding graphics driver.'';
+    };
+
+    machine.gpu.neo = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''Whether the Intel GPU is new enough to be supported by Intel's Neo OpenCL runtime. This is true on Broadwell and newer processors.'';
+    };
+
     machine.gpu.nvidia = mkOption {
       type = types.bool;
       default = false;

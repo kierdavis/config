@@ -28,6 +28,10 @@ in
       intel = true;
       hwp = false;
     };
+    gpu = {
+      intel = true;
+      neo = false;
+    };
     i3blocks = {
       cpuThermalZone = "thermal_zone0";
       ethInterface = "enp4s25";

@@ -18,4 +18,12 @@
   #   https://www.kernel.org/doc/html/v6.1/admin-guide/pm/intel_pstate.html
   #   https://www.reddit.com/r/linux/comments/ihdozd/linux_kernel_58_defaults_to_passive_mode_for/
   powerManagement.cpuFreqGovernor = if config.machine.cpu.intel && config.machine.cpu.hwp then "powersave" else "schedutil";
+
+  hardware.opengl.extraPackages =
+    if config.machine.gpu.intel && config.machine.gpu.neo
+    then [ pkgs.intel-compute-runtime ]
+    else if config.machine.cpu.intel || config.machine.gpu.intel
+    then [ pkgs.intel-ocl ]
+    else [];
+  environment.systemPackages = lib.optional config.machine.gpu.intel pkgs.intel-gpu-tools;
 }
