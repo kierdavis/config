@@ -65,6 +65,7 @@ in
     enable = true;
     drivers = with pkgs; [ hplip ];
   };
+  environment.variables.PRINTER = "HPEnvy4527";
 
   services.autorandr = {
     enable = true;
