@@ -49,8 +49,6 @@ in
     options = ["noatime" "nodiratime"];
   };
   fileSystems.efi.device = "/dev/disk/by-uuid/05BB-9C39";
-  systemd.services.boinc.after = [ "var-lib-boinc.mount" ];
-  systemd.services.boinc.requires = [ "var-lib-boinc.mount" ];
 
   # Networking.
   networking.wireless.interfaces = [ "wlp3s0" ];
