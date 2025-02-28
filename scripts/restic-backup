@@ -1,0 +1,31 @@
+#!/bin/bash
+set -o errexit -o nounset -o pipefail
+
+if [[ -z "${src:-}" || -z "${virtpath:-}" ]]; then
+  echo >&2 "usage: src=./foo/bar virtpath=/data/foo/bar [time='2012-11-01 22:08:41'] restic-backup"
+  exit 1
+fi
+
+if [[ -t 0 ]]; then
+  interactive=true
+fi
+
+set -o xtrace
+exec podman run \
+  --env-file=<(kubectl -n personal get secret archive -o json | jq -r '.data|to_entries[]|"\(.key)=\(.value|@base64d)"') \
+  ${interactive:+--interactive --tty} \
+  --log-driver=none \
+  --rm \
+  --volume="$(realpath "$src"):$virtpath:ro" \
+  --volume="$HOME/.cache/restic:/root/.cache/restic" \
+  docker.io/restic/restic@sha256:157243d77bc38be75a7b62b0c00453683251310eca414b9389ae3d49ea426c16 \
+  backup \
+  --exclude=lost+found \
+  --exclude=.nobackup \
+  --host=generic \
+  --one-file-system \
+  --read-concurrency=4 \
+  --repo="b2:KierArchive:/personal-restic" \
+  ${time:+--time="$time"} \
+  --verbose \
+  "$virtpath"
