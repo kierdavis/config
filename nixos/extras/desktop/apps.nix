@@ -29,6 +29,7 @@ in {
     i3blocks
     i3blocks-scripts
     i3lock
+    inkscape
     librecad
     pinentry-gnome3
     # polymc  # multimc successor
