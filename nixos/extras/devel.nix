@@ -23,6 +23,10 @@ in {
     restic
     talosctl
     terraform
+
+    # Media
+    beets
+    ffmpeg
   ];
 
   documentation.dev.enable = lib.mkOverride 500 true;
