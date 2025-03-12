@@ -3,10 +3,6 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  passwords = import ../../secret/passwords.nix;
-in
-
 {
   imports = [
     ../common
