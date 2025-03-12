@@ -33,7 +33,7 @@ in {
     pinentry-gnome3
     # polymc  # multimc successor
     prusa-slicer
-    quartus
+    # quartus
     # renoise
     screenshot
     spotify
