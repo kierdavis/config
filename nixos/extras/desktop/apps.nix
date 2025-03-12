@@ -16,7 +16,16 @@ in {
   environment.systemPackages = with pkgs; [
     audacity
     autorandr
-    (blender.override { cudaSupport = config.machine.gpu.nvidia; })
+    ((blender.override {
+      cudaSupport = config.machine.gpu.nvidia;
+    }).overrideDerivation ({ preBuild ? "", ... }: {
+      # Needs more than 2GB memory per active CPU core.
+      # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
+      preBuild = ''
+        export NIX_BUILD_CORES=3
+        ${preBuild}
+      '';
+    }))
     cups  # client
     darktable
     dmenu
