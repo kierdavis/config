@@ -19,10 +19,10 @@ in {
     ((blender.override {
       cudaSupport = config.machine.gpu.nvidia;
     }).overrideDerivation ({ preBuild ? "", ... }: {
-      # Needs more than 2GB memory per active CPU core.
+      # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
       # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
       preBuild = ''
-        export NIX_BUILD_CORES=3
+        export NIX_BUILD_CORES=2
         ${preBuild}
       '';
     }))
