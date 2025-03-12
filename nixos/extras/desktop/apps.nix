@@ -17,7 +17,6 @@ in {
     audacity
     autorandr
     (blender.override { cudaSupport = config.machine.gpu.nvidia; })
-    citrix_workspace
     cups  # client
     darktable
     dmenu
