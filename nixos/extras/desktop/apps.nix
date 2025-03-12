@@ -42,6 +42,14 @@ in {
     vlc
     xfce.thunar
     zoom-us
+
+    # Lots of apps assume that Google Chrome, if installed, will be discoverable
+    # on $PATH as 'google-chrome'. Not really sure why NixOS needs to give it a
+    # silly name.
+    (pkgs.runCommand "google-chrome" {} ''
+      mkdir -p "$out/bin"
+      ln -sfT "${pkgs.google-chrome}/bin/google-chrome-stable" "$out/bin/google-chrome"
+    '')
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:
