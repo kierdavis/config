@@ -20,10 +20,10 @@ in {
     cups  # client
     darktable
     dmenu
+    eog
     evince
     freecad
     gimp
-    gnome3.eog
     google-chrome
     i3blocks
     i3blocks-scripts

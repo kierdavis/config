@@ -7,8 +7,12 @@ let
   '';
 
 in {
-  # Enable pulseaudio.
-  sound.enable = true;
+  # TODO: PipeWire is the NixOS default as of 24.11, and appears to be
+  # able to emulate both a PulseAudio server and a Jack server.
+  # Consider switching to it?
+
+  services.pipewire.enable = false;
+  services.pipewire.audio.enable = false;
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true; # Might be necessary for some Steam games.
   hardware.pulseaudio.configFile = pulseConfig;
