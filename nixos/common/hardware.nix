@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  services.udev.packages = with pkgs; [ android-udev-rules ];
   services.udev.extraRules = ''
     # Teensy stuff from https://www.pjrc.com/teensy/00-teensy.rules
     ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04*", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
