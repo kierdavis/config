@@ -7,6 +7,7 @@
   services.xserver.desktopManager.xterm.enable = false;  # creates unnecessary session types "xterm" and "xterm + i3"
   services.displayManager.defaultSession = "none+i3";
   services.xserver.videoDrivers = lib.optional config.machine.gpu.nvidia "nvidia";
+  hardware.nvidia.open = false; # drivers that work plzz
 
   fonts.fontconfig.enable = true;
   services.xserver.dpi = 84;

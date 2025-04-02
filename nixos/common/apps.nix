@@ -2,7 +2,7 @@
 
 {
   # bash completion
-  programs.bash.enableCompletion = true;
+  programs.bash.completion.enable = true;
 
   # documentation
   documentation = {

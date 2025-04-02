@@ -3,7 +3,10 @@
 {
   # Don't mount a tmpfs on /tmp, so that Nix builds have sufficient working space.
   # If you want a tmpfs, use /dev/shm.
-  boot.tmp.useTmpfs = false;
+  boot.tmp = {
+    useTmpfs = false;
+    cleanOnBoot = true;
+  };
 
   # Don't forcibly import ZFS pools during boot.
   boot.zfs = {

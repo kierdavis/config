@@ -24,15 +24,23 @@ in {
   environment.systemPackages = with pkgs; [
     audacity
     autorandr
-    (blender.override { cudaSupport = config.machine.gpu.nvidia; })
-    citrix_workspace
+    ((blender.override {
+      cudaSupport = config.machine.gpu.nvidia;
+    }).overrideDerivation ({ preBuild ? "", ... }: {
+      # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
+      # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
+      preBuild = ''
+        export NIX_BUILD_CORES=2
+        ${preBuild}
+      '';
+    }))
     cups  # client
     darktable
     dmenu
+    eog
     evince
     freecad
     gimp
-    gnome3.eog
     google-chrome
     i3blocks
     i3blocks-scripts
@@ -42,7 +50,7 @@ in {
     pinentry-gnome3
     # polymc  # multimc successor
     prusa-slicer
-    quartus
+    # quartus
     # renoise
     screenshot
     spotify
@@ -51,6 +59,14 @@ in {
     vlc
     xfce.thunar
     zoom-us
+
+    # Lots of apps assume that Google Chrome, if installed, will be discoverable
+    # on $PATH as 'google-chrome'. Not really sure why NixOS needs to give it a
+    # silly name.
+    (pkgs.runCommand "google-chrome" {} ''
+      mkdir -p "$out/bin"
+      ln -sfT "${pkgs.google-chrome}/bin/google-chrome-stable" "$out/bin/google-chrome"
+    '')
   ];
 
   # For spotify to sync local files to other devices on the LAN via uPnP:
