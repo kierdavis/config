@@ -74,9 +74,9 @@
       ] ++ options;
     };
   in {
-    #"/net/skaia/torrent-downloads" = f {
-    #  path = "/volumes/csi/csi-vol-d8583d63-3083-4a4f-8707-0420c65c4893/5f9b0a16-dc06-47bc-bb77-8bb34915bcd6";
-    #};
+    "/net/skaia/torrent-downloads" = f {
+      path = "/volumes/csi/csi-vol-d8583d63-3083-4a4f-8707-0420c65c4893/5f9b0a16-dc06-47bc-bb77-8bb34915bcd6";
+    };
     "/net/skaia/media" = f {
       path = "/volumes/csi/csi-vol-c8f02543-bf22-4fb2-b6b3-f400d4836e1b/1e0f38a6-d9d1-4425-9aa4-bb6ea87da949";
     };
