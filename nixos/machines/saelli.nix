@@ -34,7 +34,7 @@ in
     };
     i3blocks = {
       cpuThermalZone = "thermal_zone0";
-      ethInterface = "enp4s25";
+      ethInterface = "enp0s25";
       wlanInterface = "wlp3s0";
       batteries = [ "BAT0" "BAT1" ];
     };
