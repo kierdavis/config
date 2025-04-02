@@ -11,7 +11,8 @@
     interfaceName = "skaia";
     authKeyFile = "/etc/skaia-headscale-auth-key";
     extraUpFlags = [
-      "--accept-routes"
+      "--accept-dns=false"
+      "--accept-routes=true"
       "--login-server=https://headscale.skaia.cloud/"
     ];
   };
