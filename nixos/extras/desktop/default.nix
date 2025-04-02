@@ -4,6 +4,7 @@
   imports = [
     ./apps.nix
     ./i3blocks-config.nix
+    ./printing.nix
     ./x11.nix
   ];
 

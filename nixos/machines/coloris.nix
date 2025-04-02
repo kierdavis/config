@@ -61,12 +61,6 @@ in
   # From nixos-generate-config.
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbcore" "sd_mod" "sr_mod" ];
 
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [ hplip ];
-  };
-  environment.variables.PRINTER = "HPEnvy4527";
-
   services.autorandr = {
     enable = true;
     profiles.main = {
