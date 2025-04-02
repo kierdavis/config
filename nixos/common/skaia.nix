@@ -63,7 +63,7 @@
       device = "10.143.215.140,10.143.255.123,10.143.254.226:${path}";
       fsType = "ceph";
       options = [
-        "fs=fs"
+        "fs=cephfs"
         "name=${config.networking.hostName}"
         "secretfile=/etc/ceph-client-secret"
         "x-systemd.wanted-by=skaia.target"
@@ -74,20 +74,23 @@
       ] ++ options;
     };
   in {
+    #"/net/skaia/torrent-downloads" = f {
+    #  path = "/volumes/csi/csi-vol-d8583d63-3083-4a4f-8707-0420c65c4893/5f9b0a16-dc06-47bc-bb77-8bb34915bcd6";
+    #};
     "/net/skaia/media" = f {
-      path = "/volumes/csi/csi-vol-1ee62c83-b2fd-4bfd-aa6d-b76d743f17a0/70d38789-3f69-4a78-a44a-b14e68521b83";
+      path = "/volumes/csi/csi-vol-c8f02543-bf22-4fb2-b6b3-f400d4836e1b/1e0f38a6-d9d1-4425-9aa4-bb6ea87da949";
     };
-    "/net/skaia/torrent-downloads" = f {
-      path = "/volumes/csi/csi-vol-180c05bf-2c66-4c9a-8b8f-015c1ec9fafd/59cb7613-1b2e-4167-8d22-7a1a31ed41c2";
+    "/net/skaia/music" = f {
+      path = "/volumes/csi/csi-vol-54a4ce26-5a39-4229-bd0d-47270f7aee0a/abe4fb2b-c2ed-4afc-81d1-9818b808cf4a";
     };
     "/net/skaia/projects" = f {
-      path = "/volumes/csi/csi-vol-4d62c833-ed79-4e50-8a73-d1097a759dc3/e7bad2c3-2fc2-4439-972a-d939d24c7fbe";
+      path = "/volumes/csi/csi-vol-1d50ce19-2828-4237-a36e-57389f09cf4a/ed285016-c098-4b9f-a261-472e81fc2979";
     };
     "/net/skaia/documents" = f {
-      path = "/volumes/csi/csi-vol-c8f70936-1f61-4532-a391-e4557af8d50e/2daff418-bd86-461d-8de0-ba84fa0abaa3";
+      path = "/volumes/csi/csi-vol-afba2d2b-2a40-457a-9aa7-2208c7360caa/012b5be3-27da-49aa-84c6-ddd1573da931";
     };
     "/net/skaia/transmission-state" = f {
-      path = "/volumes/csi/csi-vol-ae56574b-380c-44e3-86e3-cf3656cb5351/2be25b47-ffda-40f0-b183-48b18b97ff53";
+      path = "/volumes/csi/csi-vol-7a599792-b24e-423b-a3f5-57edaeddcc0b/55bc5ef0-2240-4f68-8d95-aeb2b3ab75d0";
       options = ["ro"];
     };
   };
