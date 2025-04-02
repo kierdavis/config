@@ -10,6 +10,14 @@ in {
   # Backlight control
   programs.light.enable = true;
 
+  # Thumbnailer daemon (needed if you want to see thumbnails of image files in thunar, etc).
+  services.tumbler.enable = true;
+  # If a package provides any $out/share/thumbnailers/*.thumbnailer files,
+  # add $out/share to the list below and tumbler will make use of it.
+  environment.sessionVariables.XDG_DATA_DIRS = [
+    "${pkgs.ffmpegthumbnailer}/share"
+  ];
+
   # Other programs
   programs.chromium.enable = true;
   programs.steam.enable = true;
