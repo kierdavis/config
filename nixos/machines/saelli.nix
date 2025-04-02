@@ -66,4 +66,10 @@ in
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
 
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+  services.blueman.enable = true;
 }
