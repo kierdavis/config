@@ -45,7 +45,7 @@ in {
     gimp
     google-chrome
     i3blocks
-    i3blocks-scripts
+    (i3blocks-scripts.override { withNvidiaSupport = config.machine.gpu.nvidia; })
     i3lock
     inkscape
     librecad
