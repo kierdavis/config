@@ -48,6 +48,7 @@ in {
     i3blocks-scripts
     i3lock
     inkscape
+    kdenlive
     librecad
     pinentry-gnome3
     # polymc  # multimc successor
