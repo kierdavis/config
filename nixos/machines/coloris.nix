@@ -27,7 +27,7 @@
     };
     i3blocks = {
       cpuThermalZone = "thermal_zone2";
-      ethInterface = "enp4s0";
+      ethInterface = "enp3s0";
     };
     #jackDevice = "hw:Device,0"; # USB headphones
     jackDevice = "hw:PCH,0"; # Motherboard audio
