@@ -10,6 +10,8 @@ in {
   # Backlight control
   programs.light.enable = true;
 
+  programs.thunar.enable = true;
+
   # Thumbnailer daemon (needed if you want to see thumbnails of image files in thunar, etc).
   services.tumbler.enable = true;
   # If a package provides any $out/share/thumbnailers/*.thumbnailer files,
@@ -57,7 +59,6 @@ in {
     terminator
     tor-browser-bundle-bin
     vlc
-    xfce.thunar
     zoom-us
 
     # Lots of apps assume that Google Chrome, if installed, will be discoverable
