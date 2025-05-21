@@ -27,6 +27,8 @@ in {
     # Media
     beets
     ffmpeg
+
+    git-filter-repo
   ];
 
   documentation.dev.enable = lib.mkOverride 500 true;
