@@ -93,5 +93,8 @@
       path = "/volumes/csi/csi-vol-7a599792-b24e-423b-a3f5-57edaeddcc0b/55bc5ef0-2240-4f68-8d95-aeb2b3ab75d0";
       options = ["ro"];
     };
+    "/net/skaia/tfstate" = f {
+      path = "/volumes/csi/csi-vol-3a69a873-2b0b-43db-aa3d-cc1d98a43431/539810b6-2e17-408b-98f8-d44bbffba2bf";
+    };
   };
 }
