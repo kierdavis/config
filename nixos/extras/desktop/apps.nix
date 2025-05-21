@@ -3,6 +3,17 @@
 let
   hostname = config.machine.name;
 
+  blenderCuda = (pkgs.blender.override {
+    cudaSupport = true;
+  }).overrideDerivation ({ preBuild ? "", ... }: {
+    # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
+    # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
+    preBuild = ''
+      export NIX_BUILD_CORES=2
+      ${preBuild}
+    '';
+  });
+
 in {
   # redshift (adjusts colour temperature of displays at night)
   services.redshift.enable = true;
@@ -26,16 +37,7 @@ in {
   environment.systemPackages = with pkgs; [
     audacity
     autorandr
-    ((blender.override {
-      cudaSupport = config.machine.gpu.nvidia;
-    }).overrideDerivation ({ preBuild ? "", ... }: {
-      # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
-      # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
-      preBuild = ''
-        export NIX_BUILD_CORES=2
-        ${preBuild}
-      '';
-    }))
+    (if config.machine.gpu.nvidia then blenderCuda else blender)
     cups  # client
     darktable
     dmenu
@@ -45,7 +47,7 @@ in {
     gimp
     google-chrome
     i3blocks
-    i3blocks-scripts
+    (i3blocks-scripts.override { withNvidiaSupport = config.machine.gpu.nvidia; })
     i3lock
     inkscape
     kdenlive
