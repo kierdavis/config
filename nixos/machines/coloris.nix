@@ -45,6 +45,7 @@
     options = ["noatime" "nodiratime"];
   };
   fileSystems.efi.device = "/dev/disk/by-uuid/05BB-9C39";
+  swapDevices = [{ device = "/dev/disk/by-uuid/30a2081b-5372-43ec-8346-bc89e3503792"; }];
 
   # Networking.
   networking.wireless.interfaces = [ "wlp3s0" ];
