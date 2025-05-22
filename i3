@@ -30,7 +30,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec /run/current-system/sw/bin/dmenu_run
-bindsym $mod+p exec /run/current-system/sw/bin/passmenu
+bindsym $mod+p exec /run/current-system/sw/bin/passmenu -i
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
