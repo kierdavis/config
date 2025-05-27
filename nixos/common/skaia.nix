@@ -83,6 +83,9 @@
     "/net/skaia/music" = f {
       path = "/volumes/csi/csi-vol-54a4ce26-5a39-4229-bd0d-47270f7aee0a/abe4fb2b-c2ed-4afc-81d1-9818b808cf4a";
     };
+    "/net/skaia/photography" = f {
+      path = "/volumes/csi/csi-vol-24c8ce5d-a4be-4102-8e77-bffe92814b48/8b59a182-01dd-4b9d-b84f-1c3bab9df3f3";
+    };
     "/net/skaia/projects" = f {
       path = "/volumes/csi/csi-vol-1d50ce19-2828-4237-a36e-57389f09cf4a/ed285016-c098-4b9f-a261-472e81fc2979";
     };
