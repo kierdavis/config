@@ -35,4 +35,8 @@ self: super: {
   sv2v = super.callPackage ./sv2v { };
   xrdp = super.callPackage ./xrdp-glamor { };
   umountext = super.callPackage ./umountext { };
+
+  kdenlive = super.kdenlive.overrideDerivation (oldAttrs: {
+    patches = (oldAttrs.patches or []) ++ [ ./kdenlive-avoid-crash.patch ];
+  });
 }
