@@ -57,6 +57,7 @@
     mountext
     ncdu
     ntfs3g
+    parallel
     parted
     pbzip2
     pigz
