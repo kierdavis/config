@@ -26,7 +26,7 @@ in {
 
     # Media
     beets
-    ffmpeg
+    (ffmpeg.override { withNpp = true; withUnfree = true; })
 
     git-filter-repo
   ];
