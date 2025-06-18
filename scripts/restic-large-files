@@ -1,0 +1,11 @@
+#!/bin/bash
+set -o errexit -o nounset -o pipefail
+
+eval $(kubectl --namespace=personal get secret archive --output=json | jq --raw-output '.data|to_entries[]|"export \(.key|@sh)=\(.value|@base64d|@sh)"')
+
+restic snapshots --json \
+  | jq --raw-output '.[].id' \
+  | while read snap_id; do
+      restic ls --json "$snap_id" | jq --raw-output --arg snap_id "$snap_id" 'select((.size//0)>=100*1000*1000)|"\(.size) \($snap_id) \(.path)"'
+    done \
+  | sort -nk1
