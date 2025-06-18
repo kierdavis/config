@@ -25,7 +25,6 @@ exec podman run \
   --host=generic \
   --one-file-system \
   --read-concurrency=4 \
-  --repo="b2:KierArchive:/personal-restic" \
   ${time:+--time="$time"} \
   --verbose \
   "$virtpath"
