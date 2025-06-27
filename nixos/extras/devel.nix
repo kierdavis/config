@@ -5,6 +5,8 @@ let
     exec ${pkgs.kubectl}/bin/kubectl --namespace kier-dev run --rm --stdin --tty --image=nixos/nix --restart=Never kubesh -- /bin/sh
   '';
 
+  ffmpegNvidia = pkgs.ffmpeg.override { withNpp = true; withUnfree = true; };
+
 in {
   virtualisation.podman.enable = true;
 
@@ -26,7 +28,7 @@ in {
 
     # Media
     beets
-    (ffmpeg.override { withNpp = true; withUnfree = true; })
+    (if config.machine.gpu.nvidia then ffmpegNvidia else ffmpeg)
 
     git-filter-repo
   ];
