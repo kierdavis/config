@@ -26,6 +26,38 @@
     serviceConfig.TimeoutStartSec = 20;
   };
 
+  systemd.services.tailscale-dns = {
+    wantedBy = ["skaia.target"];
+    wants = ["tailscaled.service" "tailscaled-autoconnect.service"];
+    before = ["skaia.target"];
+    after = ["tailscaled.service" "tailscaled-autoconnect.service"];
+    path = [pkgs.bind.host pkgs.openresolv];
+    environment = {
+      server = "100.100.100.100";
+      testHost = "coloris.tail.skaia.cloud";
+      resolvconfName = "tailscale";
+      resolvconfMetric = "600";
+    };
+    script = ''
+      while true; do
+        if host "$testHost" "$server" &>/dev/null; then
+          if [[ ! -e "/run/resolvconf/interfaces/$resolvconfName" ]]; then
+            echo nameserver "$server" | resolvconf -a "$resolvconfName" -m "$resolvconfMetric"
+          fi
+        else
+          if [[ -e "/run/resolvconf/interfaces/$resolvconfName" ]]; then
+            resolvconf -d "$resolvconfName"
+          fi
+        fi
+        sleep 15
+      done
+    '';
+    preStop = ''
+      resolvconf -d "$resolvconfName"
+    '';
+    serviceConfig.Restart = "always";
+  };
+
   systemd.services.skaia-dns = {
     wantedBy = ["skaia.target"];
     wants = ["tailscaled.service" "tailscaled-autoconnect.service"];
