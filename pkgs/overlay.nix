@@ -33,6 +33,7 @@ self: super: {
   screenshot = super.callPackage ./screenshot { };
   sr-tools = super.callPackage ./sr-tools { };
   sv2v = super.callPackage ./sv2v { };
+  tfreveal = super.callPackage ./tfreveal { };
   xrdp = super.callPackage ./xrdp-glamor { };
   umountext = super.callPackage ./umountext { };
 

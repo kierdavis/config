@@ -25,6 +25,7 @@ in {
     restic
     talosctl
     terraform
+    tfreveal
 
     # Media
     beets
