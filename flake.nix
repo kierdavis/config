@@ -6,7 +6,7 @@
       type = "github";
       owner = "kierdavis";
       repo = "nixpkgs";
-      rev = "b43c397f6c213918d6cfe6e3550abfe79b5d1c51";
+      ref = "config";
     };
   };
 
