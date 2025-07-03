@@ -10,7 +10,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixosConfigurations, ... }: {
+  outputs = { self, nixpkgs, ... }: rec {
     nixosConfigurations = {
       coloris = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
