@@ -14,11 +14,11 @@
     nixosConfigurations = {
       coloris = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ machines/coloris.nix ];
+        modules = [ ./nixos/machines/coloris.nix ];
       };
       saelli = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ machines/saelli.nix ];
+        modules = [ ./nixos/machines/saelli.nix ];
       };
     };
   };
