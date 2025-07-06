@@ -2,7 +2,7 @@
 
 let
   # https://wiki.archlinux.org/index.php/PulseAudio/Troubleshooting#No_sound_below_a_volume_cutoff
-  pulseConfig = pkgs.runCommand "default.pa" { pulseaudio = config.hardware.pulseaudio.package; } ''
+  pulseConfig = pkgs.runCommand "default.pa" { pulseaudio = config.services.pulseaudio.package; } ''
     substitute $pulseaudio/etc/pulse/default.pa $out --replace 'load-module module-udev-detect' 'load-module module-udev-detect ignore_dB=1'
   '';
 
@@ -13,10 +13,10 @@ in {
 
   services.pipewire.enable = false;
   services.pipewire.audio.enable = false;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true; # Might be necessary for some Steam games.
-  hardware.pulseaudio.configFile = pulseConfig;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  services.pulseaudio.enable = true;
+  services.pulseaudio.support32Bit = true; # Might be necessary for some Steam games.
+  services.pulseaudio.configFile = pulseConfig;
+  services.pulseaudio.package = pkgs.pulseaudioFull;
 
   environment.systemPackages = [ pkgs.pavucontrol ];
 

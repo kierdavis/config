@@ -50,7 +50,7 @@ in {
     (i3blocks-scripts.override { withNvidiaSupport = config.machine.gpu.nvidia; })
     i3lock
     inkscape
-    kdenlive
+    kdePackages.kdenlive
     librecad
     pinentry-gnome3
     # polymc  # multimc successor
