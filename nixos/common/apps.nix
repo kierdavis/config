@@ -91,14 +91,4 @@
     passchars
     pinentry-curses
   ];
-
-  programs.command-not-found = {
-    enable = true;
-    dbPath = pkgs.runCommandLocal "programs.sqlite" {
-      channelTarball = builtins.fetchurl "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
-    } ''
-      tar --wildcards -xJf $channelTarball '*/programs.sqlite'
-      install -m 0644 */programs.sqlite $out
-    '';
-  };
 }
