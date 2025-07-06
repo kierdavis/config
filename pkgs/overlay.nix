@@ -3,9 +3,7 @@ self: super: {
   balsa = super.callPackage ./balsa { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
   circleci = super.callPackage ./circleci { };
-  dalle-playground = super.callPackage ./dalle-playground { };
   espresso = super.callPackage ./espresso { };
-  fina = super.callPackage ./fina { };
   ftb-launcher = super.callPackage ./ftb-launcher { };
   gds2svg = super.callPackage ./gds2svg { };
   hartmaster = super.callPackage ./hartmaster { };
@@ -15,8 +13,6 @@ self: super: {
   libkoki = super.callPackage ./libkoki { };
   lock = super.callPackage ./lock { };
   magic = super.callPackage ./magic { };
-  marionette = super.callPackage ./marionette { };
-  mountext = super.callPackage ./mountext { };
   mstream = super.callPackage ./mstream { nodejs = self."nodejs-8_x"; };
   ndpi4 = super.callPackage ./ndpi4 { };
   netbootxyz = super.callPackage ./netbootxyz { };
@@ -25,7 +21,6 @@ self: super: {
   passchars = super.callPackage ./passchars { };
   pcb-rnd = super.callPackage ./pcb-rnd { };
   petrify = super.callPackage ./petrify { };
-  pout = super.callPackage ./pout { };
   quartus = super.callPackage ./quartus { };
   redstore = super.callPackage ./redstore { };
   repetier-host = super.callPackage ./repetier-host { };
@@ -35,7 +30,6 @@ self: super: {
   sv2v = super.callPackage ./sv2v { };
   tfreveal = super.callPackage ./tfreveal { };
   xrdp = super.callPackage ./xrdp-glamor { };
-  umountext = super.callPackage ./umountext { };
 
   kdenlive = super.kdenlive.overrideDerivation (oldAttrs: {
     patches = (oldAttrs.patches or []) ++ [ ./kdenlive-avoid-crash.patch ];
