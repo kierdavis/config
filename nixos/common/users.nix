@@ -1,15 +1,11 @@
 { config, lib, pkgs, ... }:
 
-let
-  passwords = import ../../secret/passwords.nix;
-
-in {
+{
   # Force live user info to match what's declared in this file.
   users.mutableUsers = false;
 
   users.users.root = {
-    # TODO: remove this
-    hashedPassword = passwords.user.root.hashed;
+    # hashedPassword defined in config-secret#nixosModules.common
     openssh.authorizedKeys.keyFiles = [ ../../ssh-keys ];
   };
 
@@ -28,7 +24,7 @@ in {
       "video"           # Permission to access video devices (including hardware acceleration of video processing)
     ];
     group = "kier";
-    hashedPassword = passwords.user.kier.hashed;
+    # hashedPassword defined in config-secret#nixosModules.common
     home = "/home/kier";
     isNormalUser = true;
     name = "kier";

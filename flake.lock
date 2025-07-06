@@ -18,7 +18,24 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "secret": "secret"
+      }
+    },
+    "secret": {
+      "locked": {
+        "lastModified": 1751816008,
+        "narHash": "sha256-8PllBB0mc8ZwNHwmIVFMYmQz6aDhieGf2wJPpD6nAPI=",
+        "ref": "master",
+        "rev": "2049431ca7711032a5ee2286ef93023b4b95b717",
+        "revCount": 96,
+        "type": "git",
+        "url": "git+ssh://git@git.personal.svc.kube.skaia.cloud/git-server/repos/config-secret"
+      },
+      "original": {
+        "ref": "master",
+        "type": "git",
+        "url": "git+ssh://git@git.personal.svc.kube.skaia.cloud/git-server/repos/config-secret"
       }
     }
   },

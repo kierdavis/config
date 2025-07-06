@@ -4,7 +4,7 @@
   networking.wireless = {
     enable = true;
     userControlled.enable = true;
-    networks = import ../../secret/wifi-networks.nix;
+    # networks defined in config-secret#nixosModules.common
   };
   environment.systemPackages = [ pkgs.wpa_supplicant_gui ];
 }
