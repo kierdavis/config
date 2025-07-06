@@ -4,9 +4,12 @@
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "18.09";
 
-  nix.settings.sandbox = true;
-  nix.settings.cores = config.machine.cpu.cores;
-  nix.settings.max-jobs = 2;
+  nix.settings = {
+    sandbox = true;
+    cores = config.machine.cpu.cores;
+    max-jobs = 2;
+    experimental-features = [ "nix-command" "flakes" ];
+  };
 
   nixpkgs.config.allowUnfree = true;
 
