@@ -60,7 +60,7 @@
 
   fileSystems = let
     f = { path, options ? [] }: {
-      device = "10.143.215.140,10.143.238.176,10.143.243.204:${path}";
+      device = "10.143.215.140,10.143.238.176,10.143.231.128:${path}";
       fsType = "ceph";
       options = [
         "fs=cephfs"
