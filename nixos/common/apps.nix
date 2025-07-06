@@ -54,7 +54,6 @@
     jq
     kakoune
     man-pages
-    mountext
     ncdu
     ntfs3g
     parallel
@@ -68,7 +67,6 @@
     rsync
     screen
     tree
-    umountext
     unzip
     wget
     zip
