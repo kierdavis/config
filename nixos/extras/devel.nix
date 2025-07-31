@@ -18,7 +18,7 @@ in {
 
     # Infrastructure
     buildah
-    cue
+    crane
     kubectl
     kubernetes-helm
     kubesh
