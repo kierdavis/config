@@ -9,6 +9,7 @@
     cores = config.machine.cpu.cores;
     max-jobs = 2;
     experimental-features = [ "nix-command" "flakes" ];
+    extra-trusted-public-keys = [ "hydra.personal.svc.kube.skaia.cloud-1:SFVF30Hf3FSqd3VX8nHhymQN9HkFL1PdLHQLmdMbDwE=" ];
   };
 
   nixpkgs.config.allowUnfree = true;

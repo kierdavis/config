@@ -85,5 +85,12 @@ with lib;
       example = "hw:Device";
       description = ''Which audio device should back the JACK server. Open qjackctl -> Setup to see valid values.'';
     };
+
+    services.tailscale.advertiseTags = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      example = ''["nix-builder"]'';
+      description = ''Node tags to advertise to other nodes. Can be referenced by headscale ACLs.'';
+    };
   };
 }

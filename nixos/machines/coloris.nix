@@ -11,6 +11,7 @@
     ../extras/desktop
     ../extras/audio/pulse.nix
     ../extras/devel.nix
+    ../extras/nix-builder.nix
   ];
 
   # High-level configuration used by nixos/common/*.nix.

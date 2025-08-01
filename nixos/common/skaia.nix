@@ -13,6 +13,8 @@
     extraUpFlags = [
       "--accept-dns=false"
       "--accept-routes=true"
+      # XXX: this option appears to have no effect? `tailscale debug prefs` reports AdvertiseTags is still null?
+      ("--advertise-tags=" + lib.concatMapStringsSep "," (t: "tag:" + t) config.services.tailscale.advertiseTags)
       "--login-server=https://headscale.skaia.cloud/"
     ];
   };
