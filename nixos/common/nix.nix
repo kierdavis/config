@@ -9,6 +9,7 @@
     cores = config.machine.cpu.cores;
     max-jobs = 2;
     experimental-features = [ "nix-command" "flakes" ];
+    extra-substituters = [ "s3://nix-cache-4032b8ce-fa30-422f-8992-94f9c5cb1b3d?endpoint=http://rook-ceph-rgw-nix0.rook-ceph.svc.kube.skaia.cloud&profile=skaia-nix-cache" ];
     extra-trusted-public-keys = [ "hydra.personal.svc.kube.skaia.cloud-1:SFVF30Hf3FSqd3VX8nHhymQN9HkFL1PdLHQLmdMbDwE=" ];
   };
 
