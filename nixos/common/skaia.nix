@@ -85,6 +85,9 @@
     "/net/skaia/music" = f {
       path = "/volumes/csi/csi-vol-54a4ce26-5a39-4229-bd0d-47270f7aee0a/abe4fb2b-c2ed-4afc-81d1-9818b808cf4a";
     };
+    "/net/skaia/books" = f {
+      path = "/volumes/csi/csi-vol-beede305-63ff-4d24-bf73-01b53f81d6f5/b988b2e0-4221-4921-8bdb-50a0e9036ffa";
+    };
     "/net/skaia/photography" = f {
       path = "/volumes/csi/csi-vol-24c8ce5d-a4be-4102-8e77-bffe92814b48/8b59a182-01dd-4b9d-b84f-1c3bab9df3f3";
     };
