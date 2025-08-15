@@ -38,6 +38,7 @@ in {
     audacity
     autorandr
     (if config.machine.gpu.nvidia then blenderCuda else blender)
+    calibre
     cups  # client
     darktable
     dmenu
