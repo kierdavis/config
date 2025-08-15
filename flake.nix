@@ -4,9 +4,9 @@
   inputs = {
     nixpkgs = {
       type = "github";
-      owner = "kierdavis";
+      owner = "NixOS";
       repo = "nixpkgs";
-      ref = "config";
+      ref = "nixos-25.05";
     };
     nix-index-database = {
       type = "github";
