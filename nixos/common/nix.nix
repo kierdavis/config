@@ -18,7 +18,7 @@
   nix.gc = {
     automatic = lib.mkDefault true;
     dates = "Sat 03:00";
-    options = "--delete-older-than 14d";
+    options = "--delete-older-than 7d";
   };
   systemd.timers.nix-gc.timerConfig.Persistent = true;
 
