@@ -46,11 +46,11 @@
     },
     "secret": {
       "locked": {
-        "lastModified": 1751816008,
-        "narHash": "sha256-8PllBB0mc8ZwNHwmIVFMYmQz6aDhieGf2wJPpD6nAPI=",
+        "lastModified": 1756344039,
+        "narHash": "sha256-ilZs4v+criXTxqhtsJeSZ02efp8fng6KV85+CB9EQmk=",
         "ref": "master",
-        "rev": "2049431ca7711032a5ee2286ef93023b4b95b717",
-        "revCount": 96,
+        "rev": "387b39adf6e2fc221d5e062e19fedc92f785da44",
+        "revCount": 97,
         "type": "git",
         "url": "git+ssh://git@git.personal.svc.kube.skaia.cloud/git-server/repos/config-secret"
       },
