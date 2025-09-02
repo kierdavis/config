@@ -2,6 +2,7 @@ self: super: {
   admesh = super.callPackage ./admesh { };
   balsa = super.callPackage ./balsa { };
   boincgpuctl = super.callPackage ./boincgpuctl { };
+  boundary-first-flattening = super.callPackage ./boundary-first-flattening { };
   circleci = super.callPackage ./circleci { };
   espresso = super.callPackage ./espresso { };
   ftb-launcher = super.callPackage ./ftb-launcher { };

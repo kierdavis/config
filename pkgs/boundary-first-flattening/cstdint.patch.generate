@@ -1,0 +1,12 @@
+#!/bin/bash
+set -o errexit -o nounset -o pipefail
+
+rg -l '\bu?int\d+_t\b' include src | xargs sed -i '
+/^#include/! bout
+x
+s/./&/
+g
+tout
+i#include <cstdint>
+:out
+'

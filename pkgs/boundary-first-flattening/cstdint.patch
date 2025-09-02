@@ -1,0 +1,100 @@
+diff --git a/include/bff/mesh/MeshIO.h b/include/bff/mesh/MeshIO.h
+index 941c5c6..fd4de1d 100644
+--- a/include/bff/mesh/MeshIO.h
++++ b/include/bff/mesh/MeshIO.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdint>
+ #include <fstream>
+ #include <sstream>
+ #include "bff/mesh/PolygonSoup.h"
+diff --git a/include/bff/mesh/PolygonSoup.h b/include/bff/mesh/PolygonSoup.h
+index 4af6903..af0983f 100644
+--- a/include/bff/mesh/PolygonSoup.h
++++ b/include/bff/mesh/PolygonSoup.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdint>
+ #include <stdlib.h>
+ #include <vector>
+ #include <unordered_map>
+diff --git a/include/bff/project/BinPacking.h b/include/bff/project/BinPacking.h
+index 314407f..ade11fb 100644
+--- a/include/bff/project/BinPacking.h
++++ b/include/bff/project/BinPacking.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdint>
+ #include "bff/mesh/Mesh.h"
+ 
+ namespace bff {
+diff --git a/include/bff/project/ConePlacement.h b/include/bff/project/ConePlacement.h
+index c921388..240583b 100644
+--- a/include/bff/project/ConePlacement.h
++++ b/include/bff/project/ConePlacement.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdint>
+ #include "bff/project/Bff.h"
+ 
+ namespace bff {
+diff --git a/include/bff/project/DisjointSets.h b/include/bff/project/DisjointSets.h
+index b96ee48..cc1bc99 100644
+--- a/include/bff/project/DisjointSets.h
++++ b/include/bff/project/DisjointSets.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdint>
+ #include <vector>
+ 
+ namespace bff {
+diff --git a/src/mesh/MeshIO.cpp b/src/mesh/MeshIO.cpp
+index f1cfba9..d5ce0ca 100644
+--- a/src/mesh/MeshIO.cpp
++++ b/src/mesh/MeshIO.cpp
+@@ -1,3 +1,4 @@
++#include <cstdint>
+ #include "bff/mesh/MeshIO.h"
+ #include "bff/project/BinPacking.h"
+ #include <unordered_set>
+diff --git a/src/mesh/PolygonSoup.cpp b/src/mesh/PolygonSoup.cpp
+index 7281195..ea9f95a 100644
+--- a/src/mesh/PolygonSoup.cpp
++++ b/src/mesh/PolygonSoup.cpp
+@@ -1,3 +1,4 @@
++#include <cstdint>
+ #include "bff/mesh/PolygonSoup.h"
+ #include <queue>
+ #include <array>
+diff --git a/src/project/BinPacking.cpp b/src/project/BinPacking.cpp
+index f1c16ea..3c5f7ce 100644
+--- a/src/project/BinPacking.cpp
++++ b/src/project/BinPacking.cpp
+@@ -1,3 +1,4 @@
++#include <cstdint>
+ #include "bff/project/BinPacking.h"
+ #include "Rect.h"
+ #include "SkylineBinPack.h"
+diff --git a/src/project/ConePlacement.cpp b/src/project/ConePlacement.cpp
+index 884aeb2..346b1cb 100644
+--- a/src/project/ConePlacement.cpp
++++ b/src/project/ConePlacement.cpp
+@@ -1,3 +1,4 @@
++#include <cstdint>
+ #include "bff/project/ConePlacement.h"
+ #include <limits>
+ 
+diff --git a/src/project/Generators.cpp b/src/project/Generators.cpp
+index 74ebae0..ab76a95 100644
+--- a/src/project/Generators.cpp
++++ b/src/project/Generators.cpp
+@@ -1,3 +1,4 @@
++#include <cstdint>
+ #include "bff/project/Generators.h"
+ #include <queue>
+ #include <unordered_set>
