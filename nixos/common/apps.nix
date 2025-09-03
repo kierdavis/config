@@ -55,6 +55,7 @@
     kakoune
     man-pages
     ncdu
+    nftables
     ntfs3g
     parallel
     parted
