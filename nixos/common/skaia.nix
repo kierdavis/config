@@ -61,8 +61,13 @@
   };
 
   fileSystems = let
+    monAddrs = lib.concatStringsSep "," [
+      "10.143.224.147" # rook-ceph-mon-y
+      "10.143.249.135" # rook-ceph-mon-z
+      "10.143.148.251" # rook-ceph-mon-aa
+    ];
     f = { path, options ? [] }: {
-      device = "10.143.181.211,10.143.132.229,10.143.224.147:${path}";
+      device = "${monAddrs}:${path}";
       fsType = "ceph";
       options = [
         "fs=cephfs"
