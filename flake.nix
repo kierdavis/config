@@ -8,6 +8,12 @@
       repo = "nixpkgs";
       ref = "nixos-25.05";
     };
+    nixpkgsNextRelease = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixpkgs";
+      ref = "nixos-25.11";
+    };
     nix-index-database = {
       type = "github";
       owner = "nix-community";
@@ -22,24 +28,29 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-index-database, secret, ... }: rec {
+  outputs = { self, nixpkgs, nixpkgsNextRelease, nix-index-database, secret, ... }: let
+    pkgsNextRelease = import nixpkgsNextRelease {
+      system = "x86_64-linux";
+    };
+    commonModules = [
+      nix-index-database.nixosModules.nix-index
+      secret.nixosModules.common
+      {
+        nixpkgs.overlays = [(self: super: {
+          kdePackages.kdenlive = pkgsNextRelease.kdePackages.kdenlive;
+        })];
+      }
+    ];
+  in rec {
     nixosConfigurations = {
       coloris = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ./nixos/machines/coloris.nix
-          nix-index-database.nixosModules.nix-index
-          secret.nixosModules.common
-        ];
+        modules = [ ./nixos/machines/coloris.nix ] ++ commonModules;
       };
 
       saelli = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ./nixos/machines/saelli.nix
-          nix-index-database.nixosModules.nix-index
-          secret.nixosModules.common
-        ];
+        modules = [ ./nixos/machines/saelli.nix ] ++ commonModules;
       };
     };
 
