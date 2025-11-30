@@ -62,7 +62,7 @@ in {
     screenshot
     spotify
     terminator
-    tor-browser-bundle-bin
+    tor-browser
     vlc
     zoom-us
 

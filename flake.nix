@@ -6,12 +6,6 @@
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
-      ref = "nixos-25.05";
-    };
-    nixpkgsNextRelease = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
       ref = "nixos-25.11";
     };
     nix-index-database = {
@@ -28,18 +22,10 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgsNextRelease, nix-index-database, secret, ... }: let
-    pkgsNextRelease = import nixpkgsNextRelease {
-      system = "x86_64-linux";
-    };
+  outputs = { self, nixpkgs, nix-index-database, secret, ... }: let
     commonModules = [
       nix-index-database.nixosModules.nix-index
       secret.nixosModules.common
-      {
-        nixpkgs.overlays = [(self: super: {
-          kdePackages.kdenlive = pkgsNextRelease.kdePackages.kdenlive;
-        })];
-      }
     ];
   in rec {
     nixosConfigurations = {
