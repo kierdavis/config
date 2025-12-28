@@ -31,6 +31,7 @@
   outputs = { self, nixpkgs, nixpkgsNextRelease, nix-index-database, secret, ... }: let
     pkgsNextRelease = import nixpkgsNextRelease {
       system = "x86_64-linux";
+      config.allowUnfree = true; # for google-chrome
     };
     commonModules = [
       nix-index-database.nixosModules.nix-index
