@@ -37,6 +37,7 @@
       secret.nixosModules.common
       {
         nixpkgs.overlays = [(self: super: {
+          google-chrome = pkgsNextRelease.google-chrome;
           kdePackages.kdenlive = pkgsNextRelease.kdePackages.kdenlive;
         })];
       }
