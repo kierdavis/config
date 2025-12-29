@@ -168,7 +168,6 @@ set $APPMODE "Web Signal Volume_control | cancel(Q)"
 bindsym $mod+q mode $APPMODE
 mode $APPMODE {
   bindsym w exec google-chrome-stable, mode default
-  bindsym $mod+w exec env HOME=/home/kier/.rosebud google-chrome-stable, mode default
   bindsym s exec signal-desktop, mode default
   bindsym v exec pavucontrol, mode default
   bindsym q mode default
