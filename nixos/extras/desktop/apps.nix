@@ -9,7 +9,7 @@ let
     # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
     # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
     preBuild = ''
-      export NIX_BUILD_CORES=2
+      export NIX_BUILD_CORES=1
       ${preBuild}
     '';
   });
