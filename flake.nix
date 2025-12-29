@@ -6,7 +6,7 @@
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
-      ref = "nixos-25.05";
+      ref = "nixos-25.11";
     };
     nix-index-database = {
       type = "github";
@@ -22,24 +22,21 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-index-database, secret, ... }: rec {
+  outputs = { self, nixpkgs, nix-index-database, secret, ... }: let
+    commonModules = [
+      nix-index-database.nixosModules.nix-index
+      secret.nixosModules.common
+    ];
+  in rec {
     nixosConfigurations = {
       coloris = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ./nixos/machines/coloris.nix
-          nix-index-database.nixosModules.nix-index
-          secret.nixosModules.common
-        ];
+        modules = [ ./nixos/machines/coloris.nix ] ++ commonModules;
       };
 
       saelli = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ./nixos/machines/saelli.nix
-          nix-index-database.nixosModules.nix-index
-          secret.nixosModules.common
-        ];
+        modules = [ ./nixos/machines/saelli.nix ] ++ commonModules;
       };
     };
 

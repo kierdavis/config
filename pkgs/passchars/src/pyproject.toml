@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "passchars"
+version = "0.1"
+authors = [{name = "Kier Davis", email = "me@kierdavis.com"}]
+requires-python = ">=3"
+
+[project.scripts]
+passchars = "passchars:main"
