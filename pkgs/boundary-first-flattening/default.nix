@@ -47,6 +47,6 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/bff-viewer --prefix PATH : "$viewerBinPath"
   '';
   viewerBinPath = lib.makeBinPath [ glib zenity ];
-  cmakeFlags = ["-DCMAKE_SKIP_BUILD_RPATH=ON" "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"];
+  cmakeFlags = ["-DCMAKE_SKIP_BUILD_RPATH=ON"];
   enableParallelBuilding = true;
 }
