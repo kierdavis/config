@@ -38,7 +38,7 @@ in {
     audacity
     autorandr
     (if config.machine.gpu.nvidia then blenderCuda else blender)
-    boundary-first-flattening
+    # boundary-first-flattening broken on nixpkgs 25.11
     calibre
     cups  # client
     darktable
@@ -62,7 +62,7 @@ in {
     screenshot
     spotify
     terminator
-    tor-browser-bundle-bin
+    tor-browser
     vlc
     zoom-us
 

@@ -61,7 +61,7 @@
   # From nixos-generate-config.
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
 
-  hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];  # wifi driver
+  hardware.firmware = with pkgs; [ linux-firmware ];  # wifi driver
 
   hardware.bluetooth = {
     enable = true;
