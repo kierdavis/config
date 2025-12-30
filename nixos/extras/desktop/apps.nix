@@ -5,7 +5,7 @@ let
 
   blenderCuda = (pkgs.blender.override {
     cudaSupport = true;
-  }).overrideDerivation ({ preBuild ? "", ... }: {
+  }).overrideAttrs ({ preBuild ? "", ... }: {
     # NIX_BUILD_CORES >= 3 requires more than 8GB memory.
     # TODO: compute min(num cores, GB memory / 3) at runtime rather than hardcoding a value.
     preBuild = ''
