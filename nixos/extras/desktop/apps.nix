@@ -12,6 +12,7 @@ let
       export NIX_BUILD_CORES=1
       ${preBuild}
     '';
+    meta.timeout = 24*60*60;
   });
 
 in {
