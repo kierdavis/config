@@ -13,7 +13,9 @@
     extra-trusted-public-keys = [ "hydra.personal.svc.kube.skaia.cloud-1:SFVF30Hf3FSqd3VX8nHhymQN9HkFL1PdLHQLmdMbDwE=" ];
   };
 
-  nix.envVars.http_proxy = "http://nix-cache-proxy.personal.svc.kube.skaia.cloud:80";
+  # Can't use nix.envVars because that adds the variable to /etc/pam/environment,
+  # which breaks other things (like websockets in google chrome).
+  systemd.services.nix-daemon.environment.http_proxy = "http://nix-cache-proxy.personal.svc.kube.skaia.cloud:80";
 
   nixpkgs.config.allowUnfree = true;
 
