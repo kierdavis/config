@@ -62,9 +62,9 @@
 
   fileSystems = let
     monAddrs = lib.concatStringsSep "," [
-      "10.143.148.251" # rook-ceph-mon-aa
-      "10.143.223.58"  # rook-ceph-mon-ab
       "10.143.155.77"  # rook-ceph-mon-ac
+      "10.143.234.103" # rook-ceph-mon-ad
+      "10.143.252.212" # rook-ceph-mon-ae
     ];
     f = { path, options ? [] }: {
       device = "${monAddrs}:${path}";
