@@ -64,7 +64,7 @@
     monAddrs = lib.concatStringsSep "," [
       "10.143.155.77"  # rook-ceph-mon-ac
       "10.143.252.212" # rook-ceph-mon-ae
-      "10.143.164.22"  # rook-ceph-mon-af
+      "10.143.224.125" # rook-ceph-mon-ag
     ];
     f = { path, options ? [] }: {
       device = "${monAddrs}:${path}";
