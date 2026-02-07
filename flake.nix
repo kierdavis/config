@@ -40,9 +40,12 @@
       };
     };
 
-    hydraJobs = {
-      coloris = nixosConfigurations.coloris.config.system.build.toplevel;
-      saelli = nixosConfigurations.saelli.config.system.build.toplevel;
-    };
+    hydraJobs =
+      builtins.mapAttrs (_: nixosCfg: nixosCfg.config.system.build.toplevel) nixosConfigurations
+      // {
+        installables = builtins.mapAttrs (_: nixosCfg: {
+          inherit (nixosCfg.pkgs) arduino;
+        }) nixosConfigurations;
+      };
   };
 }
