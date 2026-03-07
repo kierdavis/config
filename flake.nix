@@ -8,6 +8,12 @@
       repo = "nixpkgs";
       ref = "nixos-25.11";
     };
+    nixpkgs-bleeding-edge = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixpkgs";
+      ref = "staging-next";
+    };
     nix-index-database = {
       type = "github";
       owner = "nix-community";
@@ -22,10 +28,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-index-database, secret, ... }: let
+  outputs = { self, nixpkgs, nixpkgs-bleeding-edge, nix-index-database, secret, ... }: let
+    pkgs-bleeding-edge = import nixpkgs-bleeding-edge {
+      system = "x86_64-linux";
+    };
     commonModules = [
       nix-index-database.nixosModules.nix-index
       secret.nixosModules.common
+      ({
+        nixpkgs.overlays = [(self: super: {
+          inherit (pkgs-bleeding-edge) talosctl;
+        })];
+      })
     ];
   in rec {
     nixosConfigurations = {
