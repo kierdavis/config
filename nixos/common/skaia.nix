@@ -109,6 +109,9 @@
     "/net/skaia/tfstate" = f {
       path = "/volumes/csi/csi-vol-3a69a873-2b0b-43db-aa3d-cc1d98a43431/539810b6-2e17-408b-98f8-d44bbffba2bf";
     };
+    "/net/skaia/accounts" = f {
+      path = "/volumes/csi/csi-vol-6d3e5d2d-8e3b-4170-8848-e1a420b5e4f6/22c49b9f-4ec5-4f2e-8c4f-33e3b48415cd";
+    };
     "/net/skaia/scratch" = f {
       path = "/volumes/csi/csi-vol-b1a6d580-681f-4623-b2a7-a4b97f2df235/952ef11a-5836-4909-954e-8afdcf18dbd5";
     };
