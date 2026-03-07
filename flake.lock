@@ -37,10 +37,27 @@
         "type": "github"
       }
     },
+    "nixpkgs-bleeding-edge": {
+      "locked": {
+        "lastModified": 1770142762,
+        "narHash": "sha256-yD4K/vRHPwXbJf5CK3JkptBA6nFWUKNX/jlFp2eKEQc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "1127aae2d22228107e239c26371f0cc9601b1f9c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "staging-next",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-bleeding-edge": "nixpkgs-bleeding-edge",
         "secret": "secret"
       }
     },

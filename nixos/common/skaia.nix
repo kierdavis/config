@@ -116,4 +116,11 @@
       path = "/volumes/csi/csi-vol-b1a6d580-681f-4623-b2a7-a4b97f2df235/952ef11a-5836-4909-954e-8afdcf18dbd5";
     };
   };
+
+  # Uncomment (and double-check) for `talosctl upgrade-k8s` ONLY.
+  #networking.hosts = {
+  #  "100.88.1.10" = [ "pyrope" "pyrope.skaia.cloud" "kubeapi.skaia.cloud" ];
+  #  "100.88.1.5"  = [ "serket" "serket.skaia.cloud" "kubeapi.skaia.cloud" ];
+  #  "100.88.1.9"  = [ "vantas" "vantas.skaia.cloud" "kubeapi.skaia.cloud" ];
+  #};
 }
