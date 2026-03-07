@@ -55,6 +55,7 @@ in {
     inkscape
     kdePackages.kdenlive
     librecad
+    openscad
     pinentry-gnome3
     # polymc  # multimc successor
     prusa-slicer
