@@ -14,6 +14,7 @@ in {
     # Software
     cargo
     gcc  # provides linker for cargo
+    git-filter-repo
     (python3.withPackages (pyPkgs: with pyPkgs; [ virtualenv ]))
 
     # Infrastructure
@@ -22,7 +23,6 @@ in {
     kubectl
     kubernetes-helm
     kubesh
-    ledger
     restic
     talosctl
     terraform
@@ -32,7 +32,7 @@ in {
     beets
     (if config.machine.gpu.nvidia then ffmpegNvidia else ffmpeg)
 
-    git-filter-repo
+    ledger
   ];
 
   documentation.dev.enable = lib.mkOverride 500 true;
