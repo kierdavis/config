@@ -22,6 +22,7 @@ in {
     kubectl
     kubernetes-helm
     kubesh
+    ledger
     restic
     talosctl
     terraform
