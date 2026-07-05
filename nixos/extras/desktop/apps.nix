@@ -35,6 +35,7 @@ in {
   programs.chromium.enable = true;
   programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
+    arduino
     audacity
     autorandr
     (if config.machine.gpu.nvidia then blenderCuda else blender)
