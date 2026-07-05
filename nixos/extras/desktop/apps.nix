@@ -54,6 +54,7 @@ in {
     (i3blocks-scripts.override { withNvidiaSupport = config.machine.gpu.nvidia; })
     i3lock
     inkscape
+    kdePackages.kdenlive
     librecad
     (if config.machine.gpu.nvidia then obs-studio-cuda else obs-studio)
     openscad
