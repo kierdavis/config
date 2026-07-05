@@ -25,7 +25,10 @@
   # DHCP interfaces have a default metric of 1000 + if_nametoindex(3), but this can be overridden in dhcpcd.conf.
   networking.resolvconf.enable = true;
   systemd.services.fallback-dns-config = {
-    inherit (config.systemd.services.network-setup) before wants partOf conflicts wantedBy;
+    wants = ["network.target"];
+    conflicts = ["shutdown.target"];
+    wantedBy = ["multi-user.target"];
+    before = ["network.target" "shutdown.target"];
     after = ["network-pre.target"];
     serviceConfig.Type = "oneshot";
     serviceConfig.RemainAfterExit = true;
