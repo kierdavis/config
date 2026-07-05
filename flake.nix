@@ -29,8 +29,9 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-bleeding-edge, nix-index-database, secret, ... }: let
+    system = "x86_64-linux";
     pkgs-bleeding-edge = import nixpkgs-bleeding-edge {
-      system = "x86_64-linux";
+      inherit system;
     };
     commonModules = [
       nix-index-database.nixosModules.nix-index
@@ -44,12 +45,12 @@
   in rec {
     nixosConfigurations = {
       coloris = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [ ./nixos/machines/coloris.nix ] ++ commonModules;
       };
 
       saelli = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [ ./nixos/machines/saelli.nix ] ++ commonModules;
       };
     };
