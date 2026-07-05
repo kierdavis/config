@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754800038,
-        "narHash": "sha256-UbLO8/0pVBXLJuyRizYOJigtzQAj8Z2bTnbKSec/wN0=",
+        "lastModified": 1783233851,
+        "narHash": "sha256-jzisD+3wWZPC4QvAsKtYguiGsmlH2SN3Mjx5LWd68Ok=",
         "owner": "nix-community",
         "repo": "nix-index-database",
-        "rev": "b65f8d80656f9fcbd1fecc4b7f0730f468333142",
+        "rev": "fab14c7b63499d57cb6673d5690168c3ec42b99a",
         "type": "github"
       },
       "original": {
@@ -23,32 +23,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1766736597,
-        "narHash": "sha256-BASnpCLodmgiVn0M1MU2Pqyoz0aHwar/0qLkp7CjvSQ=",
+        "lastModified": 1783148766,
+        "narHash": "sha256-uslt2pqShTIXDdAHRHv2QkYLsVdY8Oqwz0EA48/RSM8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f560ccec6b1116b22e6ed15f4c510997d99d5852",
+        "rev": "a50de1b7d8a586adc18d2395c19de7d6058e6030",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-25.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-bleeding-edge": {
-      "locked": {
-        "lastModified": 1770142762,
-        "narHash": "sha256-yD4K/vRHPwXbJf5CK3JkptBA6nFWUKNX/jlFp2eKEQc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "1127aae2d22228107e239c26371f0cc9601b1f9c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "staging-next",
+        "ref": "nixos-26.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -57,17 +41,16 @@
       "inputs": {
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-bleeding-edge": "nixpkgs-bleeding-edge",
         "secret": "secret"
       }
     },
     "secret": {
       "locked": {
-        "lastModified": 1756344039,
-        "narHash": "sha256-ilZs4v+criXTxqhtsJeSZ02efp8fng6KV85+CB9EQmk=",
+        "lastModified": 1782775781,
+        "narHash": "sha256-odjwGlSJPNi787ZACQnDqqz0+pmWXa09MCaSoh1Po7Q=",
         "ref": "master",
-        "rev": "387b39adf6e2fc221d5e062e19fedc92f785da44",
-        "revCount": 97,
+        "rev": "7767cbd1ffc0b9ea5977c99e552fdd5534122465",
+        "revCount": 101,
         "type": "git",
         "url": "git+ssh://git@git.personal.svc.kube.skaia.cloud/git-server/repos/config-secret"
       },
