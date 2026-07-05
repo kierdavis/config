@@ -115,6 +115,9 @@
     "/net/skaia/scratch" = f {
       path = "/volumes/csi/csi-vol-b1a6d580-681f-4623-b2a7-a4b97f2df235/952ef11a-5836-4909-954e-8afdcf18dbd5";
     };
+    "/net/skaia/mhmedia" = f {
+      path = "/volumes/csi/csi-vol-c1e4b722-d31f-4536-94f2-ca5fe6697f9e/72201308-c97d-4cca-866e-7b3762d17c66";
+    };
   };
 
   # Uncomment (and double-check) for `talosctl upgrade-k8s` ONLY.
