@@ -21,9 +21,6 @@ in {
   # redshift (adjusts colour temperature of displays at night)
   services.redshift.enable = true;
 
-  # Backlight control
-  programs.light.enable = true;
-
   programs.thunar.enable = true;
 
   # Thumbnailer daemon (needed if you want to see thumbnails of image files in thunar, etc).
@@ -41,6 +38,7 @@ in {
     audacity
     autorandr
     (if config.machine.gpu.nvidia then blenderCuda else blender)
+    brightnessctl
     calibre
     cups  # client
     darktable
