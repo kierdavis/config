@@ -15,6 +15,8 @@ let
     meta.timeout = 24*60*60;
   });
 
+  obs-studio-cuda = pkgs.obs-studio.override { cudaSupport = true; };
+
 in {
   # redshift (adjusts colour temperature of displays at night)
   services.redshift.enable = true;
@@ -54,6 +56,7 @@ in {
     i3lock
     inkscape
     librecad
+    (if config.machine.gpu.nvidia then obs-studio-cuda else obs-studio)
     openscad
     pinentry-gnome3
     # polymc  # multimc successor
